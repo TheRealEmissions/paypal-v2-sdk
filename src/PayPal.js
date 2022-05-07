@@ -2,8 +2,9 @@ const BasePayPal = require("./BasePayPal");
 
 const Token = require("./API/Authentication/Token");
 
+// handlers
 const invoices = {
-  invoiceNumber: require("./Types/Invoices/InvoiceNumber"),
+  invoiceNumber: require("./Handlers/Invoices/InvoiceNumber"),
 };
 
 class PayPal extends BasePayPal {
