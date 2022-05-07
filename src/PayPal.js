@@ -2,11 +2,9 @@ const BasePayPal = require("./BasePayPal");
 
 const Token = require("./API/Authentication/Token");
 
-class PayPal extends BasePayPal {
-  token = null;
-  clientId = null;
-  clientSecret = null;
+const Axios = require("axios").default;
 
+class PayPal extends BasePayPal {
   constructor() {
     super();
   }
@@ -26,6 +24,8 @@ class PayPal extends BasePayPal {
     } catch (e) {
       throw e;
     }
+
+    Axios.defaults.baseURL = "https://api.paypal.com/";
   }
 
   on(event, callback) {

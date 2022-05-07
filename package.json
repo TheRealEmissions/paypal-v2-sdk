@@ -6,7 +6,6 @@
   "version": "1.0.3",
   "description": "Unofficial SDK for PayPal API v2",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

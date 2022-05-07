@@ -34,10 +34,16 @@ class Token {
       .setScope(response.data.scope)
       .setTokenType(response.data.token_type);
 
+    this.setAxiosDefaults();
+
     setTimeout(() => {
       this.eventHandler.emit("debug", "Requesting new Access Token!");
       this.requestNewToken(clientId, clientSecret);
     }, this.expiry);
+  }
+
+  setAxiosDefaults() {
+    Axios.defaults.headers.common["Authorization"] = `Bearer ${this.token}`;
   }
 
   setScope(scope) {
