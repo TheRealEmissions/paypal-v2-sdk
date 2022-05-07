@@ -19,7 +19,7 @@ class Token {
         responseType: "json",
       }
     );
-    console.log(JSON.stringify(response));
+    console.log(JSON.stringify(response.data));
     this.setAccessToken(response.data.access_token)
       .setAppId(response.data.app_id)
       .setExpiry(response.data.expires_in)
