@@ -4,12 +4,18 @@ const Token = require("./API/Authentication/Token");
 
 const Axios = require("axios").default;
 
+const types = {
+  invoices: {
+    invoiceNumber: require("./Types/Invoices/InvoiceNumber"),
+  },
+};
+
 class PayPal extends BasePayPal {
   constructor() {
     super();
 
     this.invoices = {
-      invoiceNumber: new (require("./Types/Invoices/InvoiceNumber"))(this),
+      invoiceNumber: new types.invoices.invoiceNumber(this),
     };
   }
 
