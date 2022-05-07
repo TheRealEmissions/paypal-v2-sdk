@@ -6,9 +6,7 @@ class Token {
   requestNewToken(clientId, clientSecret) {
     const response = Axios.post(
       "https://api.paypal.com/v1/oauth2/token",
-      {
-        grant_type: "client_credentials",
-      },
+      "grant_type=client_credentials",
       {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         auth: {
