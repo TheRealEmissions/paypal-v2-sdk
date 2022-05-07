@@ -3,8 +3,8 @@ const Axios = require("axios").default;
 class Token {
   constructor() {}
 
-  requestNewToken(clientId, clientSecret) {
-    const response = Axios.post(
+  async requestNewToken(clientId, clientSecret) {
+    const response = await Axios.post(
       "https://api.paypal.com/v1/oauth2/token",
       "grant_type=client_credentials",
       {
