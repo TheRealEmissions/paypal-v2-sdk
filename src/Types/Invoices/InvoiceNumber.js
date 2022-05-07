@@ -8,15 +8,13 @@ class InvoiceNumber {
    */
   constructor(PayPal) {
     this.PayPal = PayPal;
-    this.number = 0;
   }
 
   async generate() {
     const invoiceNumber = await new InvoiceNumberAPI(
       this.PayPal.token
     ).request();
-    this.number = invoiceNumber.number;
-    return this;
+    return invoiceNumber.number;
   }
 }
 

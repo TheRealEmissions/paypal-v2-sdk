@@ -7,6 +7,10 @@ const Axios = require("axios").default;
 class PayPal extends BasePayPal {
   constructor() {
     super();
+
+    this.invoices = {
+      invoiceNumber: new (require("./Types/Invoices/InvoiceNumber"))(this),
+    };
   }
 
   async authenticate() {
