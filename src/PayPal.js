@@ -2,12 +2,8 @@ const BasePayPal = require("./BasePayPal");
 
 const Token = require("./API/Authentication/Token");
 
-const Axios = require("axios").default;
-
-const types = {
-  invoices: {
-    invoiceNumber: require("./Types/Invoices/InvoiceNumber"),
-  },
+const invoices = {
+  invoiceNumber: require("./Types/Invoices/InvoiceNumber"),
 };
 
 class PayPal extends BasePayPal {
@@ -15,7 +11,7 @@ class PayPal extends BasePayPal {
     super();
 
     this.invoices = {
-      invoiceNumber: new types.invoices.invoiceNumber(this),
+      invoiceNumber: new invoices.invoiceNumber(this),
     };
   }
 
@@ -35,7 +31,7 @@ class PayPal extends BasePayPal {
       throw e;
     }
 
-    Axios.defaults.baseURL = "https://api.paypal.com/";
+    this.setDefaultAuthorizationHeader(this.token);
   }
 
   on(event, callback) {

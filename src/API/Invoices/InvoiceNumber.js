@@ -1,13 +1,11 @@
-const Axios = require("axios").default;
-
 class InvoiceNumber {
   constructor() {
     this.number = 0;
   }
 
   async request() {
-    const response = await Axios.post(
-      "/v2/invoicing/generate-next-invoice-number",
+    const response = await this.Axios.post(
+      "https://api.paypal.com/v2/invoicing/generate-next-invoice-number",
       null,
       {
         headers: {

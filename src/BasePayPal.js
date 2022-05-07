@@ -1,7 +1,10 @@
 const Events = require("events");
 
-class BasePayPal {
+const API = require("./API/Axios");
+
+class BasePayPal extends API {
   constructor() {
+    super();
     /**
      * Client details
      */
