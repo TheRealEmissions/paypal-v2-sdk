@@ -4,15 +4,23 @@ class Token {
   constructor() {}
 
   requestNewToken(clientId, clientSecret) {
-    const response = Axios.post("https://api.paypal.com/v1/oauth2/token", {
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      auth: {
-        username: clientId,
-        password: clientSecret,
+    const response = Axios.post(
+      "https://api.paypal.com/v1/oauth2/token",
+      {
+        grant_type: "client_credentials",
       },
-      data: "grant_type=client_credentials",
-      responseType: "json",
-    });
+      {
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        auth: {
+          username: clientId,
+          password: clientSecret,
+        },
+        data: {
+          grant_type: "client_credentials",
+        },
+        responseType: "json",
+      }
+    );
     this.setAccessToken(response.data.access_token)
       .setAppId(response.data.app_id)
       .setExpiry(response.data.expires_in)
