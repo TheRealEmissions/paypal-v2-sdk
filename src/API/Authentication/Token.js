@@ -1,7 +1,9 @@
 const Axios = require("axios").default;
 
 class Token {
-  constructor() {}
+  constructor(eventHandler) {
+    this.eventHandler = eventHandler;
+  }
 
   async requestNewToken(clientId, clientSecret) {
     const response = await Axios.post(
@@ -19,7 +21,12 @@ class Token {
         responseType: "json",
       }
     );
-    console.log(JSON.stringify(response.data));
+
+    this.eventHandler.emit(
+      "debug",
+      "Response from new token request: " + JSON.stringify(response.data)
+    );
+
     this.setAccessToken(response.data.access_token)
       .setAppId(response.data.app_id)
       .setExpiry(response.data.expires_in)
@@ -28,6 +35,7 @@ class Token {
       .setTokenType(response.data.token_type);
 
     setTimeout(() => {
+      this.eventHandler.emit("debug", "Requesting new Access Token!");
       this.requestNewToken(clientId, clientSecret);
     }, this.expiry);
   }

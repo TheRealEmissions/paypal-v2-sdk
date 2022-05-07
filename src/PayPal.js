@@ -14,10 +14,22 @@ class PayPal extends BasePayPal {
       );
     }
 
-    this.token = await new Token().requestNewToken(
-      this.clientId,
-      this.clientSecret
-    );
+    try {
+      this.token = await new Token(this.eventHandler).requestNewToken(
+        this.clientId,
+        this.clientSecret
+      );
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  on(event, callback) {
+    return this.eventHandler.on(event, callback);
+  }
+
+  once(event, callback) {
+    return this.eventHandler.once(event, callback);
   }
 }
 
