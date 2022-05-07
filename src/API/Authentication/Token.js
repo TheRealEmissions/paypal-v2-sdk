@@ -1,8 +1,13 @@
 const Axios = require("axios").default;
+const PayPalClass = require("../../PayPal");
 
 class Token {
-  constructor(eventHandler) {
-    this.eventHandler = eventHandler;
+  /**
+   *
+   * @param {PayPalClass} PayPal
+   */
+  constructor(PayPal) {
+    this.PayPal = PayPal;
   }
 
   async requestNewToken(clientId, clientSecret) {
@@ -22,7 +27,7 @@ class Token {
       }
     );
 
-    this.eventHandler.emit(
+    this.PayPal.eventHandler.emit(
       "debug",
       "Response from new token request: " + JSON.stringify(response.data)
     );
@@ -43,7 +48,7 @@ class Token {
   }
 
   setAxiosDefaults() {
-    Axios.defaults.headers.common["Authorization"] = `Bearer ${this.token}`;
+    this.PayPal.setDefaultAuthorizationHeader(this.token);
   }
 
   setScope(scope) {

@@ -23,15 +23,13 @@ class PayPal extends BasePayPal {
     }
 
     try {
-      this.token = await new Token(this.eventHandler).requestNewToken(
+      this.token = await new Token(this).requestNewToken(
         this.clientId,
         this.clientSecret
       );
     } catch (e) {
       throw e;
     }
-
-    this.setDefaultAuthorizationHeader(this.token);
   }
 
   on(event, callback) {
