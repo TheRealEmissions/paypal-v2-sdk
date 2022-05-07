@@ -1,20 +1,19 @@
 const PayPalClass = require("../../PayPal");
 const InvoiceNumberAPI = require("../../API/Invoices/InvoiceNumber");
 
-class InvoiceNumber {
+class InvoiceNumber extends InvoiceNumberAPI {
   /**
    *
    * @param {PayPalClass} PayPal
    */
   constructor(PayPal) {
+    super(PayPal.token);
     this.PayPal = PayPal;
   }
 
   async generate() {
-    const invoiceNumber = await new InvoiceNumberAPI(
-      this.PayPal.token
-    ).request();
-    return invoiceNumber.number;
+    const response = await this.request();
+    return response.number;
   }
 }
 
