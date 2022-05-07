@@ -1,10 +1,17 @@
+const PayPalClass = require("../../PayPal");
+
 class InvoiceNumber {
-  constructor() {
+  /**
+   *
+   * @param {PayPalClass} PayPal
+   */
+  constructor(PayPal) {
+    this.PayPal = PayPal;
     this.number = 0;
   }
 
   async request() {
-    const response = await this.Axios.post(
+    const response = await this.PayPal.Axios.post(
       "https://api.paypal.com/v2/invoicing/generate-next-invoice-number",
       null,
       {
