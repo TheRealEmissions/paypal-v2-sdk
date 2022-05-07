@@ -3,6 +3,10 @@ const BasePayPal = require("./BasePayPal");
 const Token = require("./API/Authentication/Token");
 
 class PayPal extends BasePayPal {
+  token = null;
+  clientId = null;
+  clientSecret = null;
+
   constructor() {
     super();
   }
