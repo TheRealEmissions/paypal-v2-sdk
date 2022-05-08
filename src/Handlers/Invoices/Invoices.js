@@ -48,13 +48,13 @@ class Invoices extends InvoicesAPI {
       .setStatus(data.status)
       .setDetail(
         new InvoiceDetail(this.PayPal)
-          .setReference(data.detail.reference)
-          .setCurrencyCode(data.detail.currency_code)
-          .setNote(data.detail.note)
-          .setTermsAndConditions(data.detail.terms_and_conditions)
-          .setMemo(data.detail.memo)
+          .setReference(data.detail?.reference)
+          .setCurrencyCode(data.detail?.currency_code)
+          .setNote(data.detail?.note)
+          .setTermsAndConditions(data.detail?.terms_and_conditions)
+          .setMemo(data.detail?.memo)
           .setAttachments(
-            data.detail.attachments.map((x) =>
+            data.detail?.attachments?.map((x) =>
               new FileReference(this.PayPal)
                 .setId(x.id)
                 .setReferenceUrl(x.reference_url)
@@ -63,34 +63,34 @@ class Invoices extends InvoicesAPI {
                 .setSize(x.size)
             )
           )
-          .setInvoiceNumber(data.detail.invoice_number)
-          .setInvoiceDate(data.detail.invoice_date)
+          .setInvoiceNumber(data.detail?.invoice_number)
+          .setInvoiceDate(data.detail?.invoice_date)
           .setPaymentTerm(
             new InvoicePaymentTerm(this.PayPal)
-              .setTermType(data.detail.payment_term.term_type)
-              .setDueDate(data.detail.payment_term.due_date)
+              .setTermType(data.detail?.payment_term.term_type)
+              .setDueDate(data.detail?.payment_term.due_date)
           )
           .setMetadata(
             new Metadata(this.PayPal)
-              .setCreateTime(data.detail.metadata.create_time)
-              .setCreatedBy(data.detail.metadata.created_by)
-              .setLastUpdateTime(data.detail.metadata.last_update_time)
-              .setLastUpdatedBy(data.detail.metadata.last_updated_by)
-              .setCancelTime(data.detail.metadata.cancel_time)
-              .setCancelledBy(data.detail.metadata.cancelled_by)
-              .setFirstTimeSent(data.detail.metadata.first_sent_time)
-              .setLastTimeSent(data.detail.metadata.last_sent_time)
-              .setLastSentBy(data.detail.metadata.last_sent_by)
-              .setCreatedByFlow(data.detail.metadata.created_by_flow)
-              .setRecipientViewUrl(data.detail.metadata.recipient_view_url)
-              .setInvoicerViewUrl(data.detail.metadata.invoicer_view_url)
+              .setCreateTime(data.detail?.metadata?.create_time)
+              .setCreatedBy(data.detail?.metadata?.created_by)
+              .setLastUpdateTime(data.detail?.metadata?.last_update_time)
+              .setLastUpdatedBy(data.detail?.metadata?.last_updated_by)
+              .setCancelTime(data.detail?.metadata?.cancel_time)
+              .setCancelledBy(data.detail?.metadata?.cancelled_by)
+              .setFirstTimeSent(data.detail?.metadata?.first_sent_time)
+              .setLastTimeSent(data.detail?.metadata?.last_sent_time)
+              .setLastSentBy(data.detail?.metadata?.last_sent_by)
+              .setCreatedByFlow(data.detail?.metadata?.created_by_flow)
+              .setRecipientViewUrl(data.detail?.metadata?.recipient_view_url)
+              .setInvoicerViewUrl(data.detail?.metadata?.invoicer_view_url)
           )
       )
       .setInvoicer(
         new InvoiceInvoicerInfo(this.PayPal)
           .setEmailAddress(data.invoicer.email_address)
           .setPhones(
-            data.invoicer.phones.map((x) =>
+            data.invoicer.phones?.map((x) =>
               new PhoneDetail(this.PayPal)
                 .setCountryCode(x.country_code)
                 .setNationalNumber(x.national_numer)
@@ -105,13 +105,13 @@ class Invoices extends InvoicesAPI {
       )
       // data.primary_recipients
       .setPrimaryRecipients(
-        data.primary_recipients.map((x) =>
+        data.primary_recipients?.map((x) =>
           new RecipientInfo(this.PayPal)
             .setBillingInfo(
               new BillingInfo(this.PayPal)
-                .setEmailAddress(x.billing_info.email_address)
+                .setEmailAddress(x.billing_info?.email_address)
                 .setPhones(
-                  x.phones.map((y) =>
+                  x.phones?.map((y) =>
                     new PhoneDetail()
                       .setCountryCode(y.country_code)
                       .setNationalNumber(y.national_number)
@@ -124,51 +124,54 @@ class Invoices extends InvoicesAPI {
             )
             .setShippingInfo(
               new ContactInfo(this.PayPal)
-                .setBusinessName(x.shipping_info.business_name)
+                .setBusinessName(x.shipping_info?.business_name)
                 .setName(
                   new Name(this.PayPal)
-                    .setPrefix(x.shipping_info.name.prefix)
-                    .setGivenName(x.shipping_info.name.given_name)
-                    .setSurname(x.shipping_info.name.surname)
-                    .setMiddleName(x.shipping_info.name.middle_name)
-                    .setSuffix(x.shipping_info.name.suffix)
-                    .setFullName(x.shipping_info.name.full_name)
+                    .setPrefix(x.shipping_info?.name?.prefix)
+                    .setGivenName(x.shipping_info?.name?.given_name)
+                    .setSurname(x.shipping_info?.name?.surname)
+                    .setMiddleName(x.shipping_info?.name?.middle_name)
+                    .setSuffix(x.shipping_info?.name?.suffix)
+                    .setFullName(x.shipping_info?.name?.full_name)
                 )
                 .setAddress(
                   new AddressPortable(this.PayPal)
                     .setAddressLines([
-                      x.shipping_info.address.address_line_1,
-                      x.shipping_info.address.address_line_2,
-                      x.shipping_info.address.address_line_3,
+                      x.shipping_info?.address?.address_line_1,
+                      x.shipping_info?.address?.address_line_2,
+                      x.shipping_info?.address?.address_line_3,
                     ])
                     .setAdminArea([
-                      x.shipping_info.address.admin_area_4,
-                      x.shipping_info.address.admin_area_3,
-                      x.shipping_info.address.admin_area_2,
-                      x.shipping_info.address.admin_area_1,
+                      x.shipping_info?.address?.admin_area_4,
+                      x.shipping_info?.address?.admin_area_3,
+                      x.shipping_info?.address?.admin_area_2,
+                      x.shipping_info?.address?.admin_area_1,
                     ])
-                    .setPostalCode(x.shipping_info.address.postal_code)
-                    .setCountryCode(x.shipping_info.address.country_code)
+                    .setPostalCode(x.shipping_info?.address?.postal_code)
+                    .setCountryCode(x.shipping_info?.address?.country_code)
                     .setAddressDetails(
                       new AddressDetails(this.PayPal)
                         .setStreetNumber(
-                          x.shipping_info.address.address_details.street_number
+                          x.shipping_info?.address?.address_details
+                            ?.street_number
                         )
                         .setStreetName(
-                          x.shipping_info.address.address_details.street_name
+                          x.shipping_info?.address?.address_details?.street_name
                         )
                         .setStreetType(
-                          x.shipping_info.address.address_details.street_type
+                          x.shipping_info?.address?.address_details?.street_type
                         )
                         .setDeliveryService(
-                          x.shipping_info.address.address_details
-                            .delivery_service
+                          x.shipping_info?.address?.address_details
+                            ?.delivery_service
                         )
                         .setBuildingName(
-                          x.shipping_info.address.address_details.building_name
+                          x.shipping_info?.address?.address_details
+                            ?.building_name
                         )
                         .setSubBuilding(
-                          x.shipping_info.address.address_details.sub_building
+                          x.shipping_info?.address?.address_details
+                            ?.sub_building
                         )
                     )
                 )
@@ -176,10 +179,10 @@ class Invoices extends InvoicesAPI {
         )
       )
       .setAdditionalRecipients(
-        data.additional_recipients.map((x) => x.email_address)
+        data.additional_recipients?.map((x) => x.email_address)
       )
       .setItems(
-        data.items.map((x) =>
+        data.items?.map((x) =>
           new Item(this.PayPal)
             .setId(x.id)
             .setName(x.name)
@@ -192,22 +195,22 @@ class Invoices extends InvoicesAPI {
             )
             .setTax(
               new Tax(this.PayPal)
-                .setName(x.tax.name)
-                .setPercent(x.tax.percent)
+                .setName(x.tax?.name)
+                .setPercent(x.tax?.percent)
                 .setAmount(
                   new Money(this.PayPal)
-                    .setCurrencyCode(x.tax.amount.currency_code)
-                    .setValue(x.tax.amount.value)
+                    .setCurrencyCode(x.tax?.amount?.currency_code)
+                    .setValue(x.tax?.amount?.value)
                 )
             )
             .setItemDate(x.item_date)
             .setDiscount(
               new Discount(this.PayPal)
-                .setPercent(x.discount.percent)
+                .setPercent(x.discount?.percent)
                 .setAmount(
                   new Money(this.PayPal)
-                    .setCurrencyCode(x.discount.amount.currency_code)
-                    .setValue(x.discount.amount.value)
+                    .setCurrencyCode(x.discount?.amount?.currency_code)
+                    .setValue(x.discount?.amount?.value)
                 )
             )
             .setUnitOfMeasure(x.unit_of_measure)
@@ -216,112 +219,116 @@ class Invoices extends InvoicesAPI {
       .setConfiguration(
         new Configuration(this.PayPal)
           .setTaxCalculatedAfterDiscount(
-            data.configuration.tax_calculated_after_discount
+            data.configuration?.tax_calculated_after_discount
           )
-          .setTaxInclusive(data.configuration.tax_inclusive)
-          .setAllowTip(data.configuration.allow_tip)
+          .setTaxInclusive(data.configuration?.tax_inclusive)
+          .setAllowTip(data.configuration?.allow_tip)
           .setPartialPayment(
             new PartialPayment(this.PayPal)
               .setAllowPartialPayment(
-                data.configuration.partial_payment.allow_partial_payment
+                data.configuration?.partial_payment?.allow_partial_payment
               )
               .setMinimumAmountDue(
                 new Money(this.PayPal)
                   .setCurrencyCode(
-                    data.configuration.partial_payment.minimum_amount_due
-                      .currency_code
+                    data.configuration?.partial_payment?.minimum_amount_due
+                      ?.currency_code
                   )
                   .setValue(
-                    data.configuration.partial_payment.minimum_amount_due.value
+                    data.configuration?.partial_payment?.minimum_amount_due
+                      ?.value
                   )
               )
           )
-          .setTemplateId(data.configuration.template_id)
+          .setTemplateId(data.configuration?.template_id)
       )
       .setAmount(
         new AmountSummaryDetail(this.PayPal)
-          .setCurrencyCode(data.amount.currency_code)
-          .setValue(data.amount.value)
+          .setCurrencyCode(data.amount?.currency_code)
+          .setValue(data.amount?.value)
           .setBreakdown(
             new AmountWithBreakdown(this.PayPal)
               .setItemTotal(
                 new Money(this.PayPal)
                   .setCurrencyCode(
-                    data.amount.breakdown.item_total.currency_code
+                    data.amount?.breakdown?.item_total?.currency_code
                   )
-                  .setValue(data.amount.breakdown.item_total.value)
+                  .setValue(data.amount?.breakdown?.item_total?.value)
               )
               .setDiscount(
                 new AggregatedDiscount(this.PayPal)
                   .setInvoiceDiscount(
                     new Discount(this.PayPal)
                       .setPercent(
-                        data.amount.breakdown.discount.invoice_discount.percent
+                        data.amount?.breakdown?.discount?.invoice_discount
+                          ?.percent
                       )
                       .setAmount(
                         new Money(this.PayPal)
                           .setCurrencyCode(
-                            data.amount.breakdown.discount.invoice_discount
-                              .amount.currency_code
+                            data.amount?.breakdown?.discount?.invoice_discount
+                              ?.amount.currency_code
                           )
                           .setValue(
-                            data.amount.breakdown.discount.invoice_discount
-                              .amount.value
+                            data.amount?.breakdown?.discount?.invoice_discount
+                              ?.amount?.value
                           )
                       )
                   )
                   .setItemDiscount(
                     new Money(this.PayPal)
                       .setCurrencyCode(
-                        data.amount.breakdown.discount.item_discount
-                          .currency_code
+                        data.amount?.breakdown?.discount?.item_discount
+                          ?.currency_code
                       )
                       .setValue(
-                        data.amount.breakdown.discount.item_discount.value
+                        data.amount?.breakdown?.discount?.item_discount?.value
                       )
                   )
               )
               .setTaxTotal(
                 new Money(this.PayPal)
                   .setCurrencyCode(
-                    data.amount.breakdown.tax_total.currency_code
+                    data.amount?.breakdown?.tax_total?.currency_code
                   )
-                  .setValue(data.amount.breakdown.tax_total.value)
+                  .setValue(data.amount?.breakdown?.tax_total?.value)
               )
               .setShipping(
                 new ShippingCost(this.PayPal)
                   .setAmount(
                     new Money(this.PayPal)
                       .setCurrencyCode(
-                        data.amount.breakdown.shipping.amount.currency_code
+                        data.amount?.breakdown?.shipping?.amount?.currency_code
                       )
-                      .setValue(data.amount.breakdown.shipping.amount.value)
+                      .setValue(data.amount?.breakdown?.shipping?.amount?.value)
                   )
                   .setTax(
                     new Tax(this.PayPal)
-                      .setName(data.amount.breakdown.shipping.tax.name)
-                      .setPercent(data.amount.breakdown.shipping.tax.percent)
+                      .setName(data.amount?.breakdown?.shipping?.tax?.name)
+                      .setPercent(
+                        data.amount?.breakdown?.shipping?.tax?.percent
+                      )
                       .setAmount(
                         new Money(this.PayPal)
                           .setCurrencyCode(
-                            data.amount.breakdown.shipping.tax.amount
+                            data.amount?.breakdown?.shipping?.tax?.amount
                               .currency_code
                           )
                           .setValue(
-                            data.amount.breakdown.shipping.tax.amount.value
+                            data.amount?.breakdown?.shipping?.tax?.amount.value
                           )
                       )
                   )
               )
               .setCustom(
                 new CustomAmount(this.PayPal)
-                  .setLabel(data.amount.breakdown.custom.label)
+                  .setLabel(data.amount?.breakdown?.custom?.label)
                   .setAmount(
                     new Money(this.PayPal)
                       .setCurrencyCode(
-                        data.amount.breakdown.custom.amount.currency_code
+                        data.amount?.breakdown?.custom?.amount.currency_code
                       )
-                      .setValue(data.amount.breakdown.custom.amount.value)
+                      .setValue(data.amount?.breakdown?.custom?.amount.value)
                   )
               )
           )
@@ -333,18 +340,18 @@ class Invoices extends InvoicesAPI {
       )
       .setGratuity(
         new Money(this.PayPal)
-          .setCurrencyCode(data.gratuity.currency_code)
-          .setValue(data.gratuity.value)
+          .setCurrencyCode(data.gratuity?.currency_code)
+          .setValue(data.gratuity?.value)
       )
       .setPayments(
         new Payments(this.PayPal)
           .setPaidAmount(
             new Money(this.PayPal)
-              .setCurrencyCode(data.payments.paid_amount.currency_code)
-              .setValue(data.payments.paid_amount.value)
+              .setCurrencyCode(data.payments?.paid_amount?.currency_code)
+              .setValue(data.payments?.paid_amount?.value)
           )
           .setTransactions(
-            data.payments.transactions.map((x) =>
+            data.payments?.transactions?.map((x) =>
               new PaymentDetail(this.PayPal)
                 .setType(x.type)
                 .setPaymentId(x.payment_id)
@@ -358,56 +365,56 @@ class Invoices extends InvoicesAPI {
                 )
                 .setShippingInfo(
                   new ContactInfo(this.PayPal)
-                    .setBusinessName(x.shipping_info.business_name)
+                    .setBusinessName(x.shipping_info?.business_name)
                     .setName(
                       new Name(this.PayPal)
-                        .setPrefix(x.shipping_info.name.prefix)
-                        .setGivenName(x.shipping_info.name.given_name)
-                        .setSurname(x.shipping_info.name.surname)
-                        .setMiddleName(x.shipping_info.name.middle_name)
-                        .setSuffix(x.shipping_info.name.suffix)
-                        .setFullName(x.shipping_info.name.full_name)
+                        .setPrefix(x.shipping_info?.name?.prefix)
+                        .setGivenName(x.shipping_info?.name?.given_name)
+                        .setSurname(x.shipping_info?.name?.surname)
+                        .setMiddleName(x.shipping_info?.name?.middle_name)
+                        .setSuffix(x.shipping_info?.name?.suffix)
+                        .setFullName(x.shipping_info?.name?.full_name)
                     )
                     .setAddress(
                       new AddressPortable(this.PayPal)
                         .setAddressLines([
-                          x.shipping_info.address.address_line_1,
-                          x.shipping_info.address.address_line_2,
-                          x.shipping_info.address.address_line_3,
+                          x.shipping_info?.address?.address_line_1,
+                          x.shipping_info?.address?.address_line_2,
+                          x.shipping_info?.address?.address_line_3,
                         ])
                         .setAdminArea([
-                          x.shipping_info.address.admin_area_4,
-                          x.shipping_info.address.admin_area_3,
-                          x.shipping_info.address.admin_area_2,
-                          x.shipping_info.address.admin_area_1,
+                          x.shipping_info?.address?.admin_area_4,
+                          x.shipping_info?.address?.admin_area_3,
+                          x.shipping_info?.address?.admin_area_2,
+                          x.shipping_info?.address?.admin_area_1,
                         ])
-                        .setPostalCode(x.shipping_info.address.postal_code)
-                        .setCountryCode(x.shipping_info.address.country_code)
+                        .setPostalCode(x.shipping_info?.address?.postal_code)
+                        .setCountryCode(x.shipping_info?.address?.country_code)
                         .setAddressDetails(
                           new AddressDetails(this.PayPal)
                             .setStreetNumber(
-                              x.shipping_info.address.address_details
-                                .street_number
+                              x.shipping_info?.address?.address_details
+                                ?.street_number
                             )
                             .setStreetName(
-                              x.shipping_info.address.address_details
-                                .street_name
+                              x.shipping_info?.address?.address_details
+                                ?.street_name
                             )
                             .setStreetType(
-                              x.shipping_info.address.address_details
-                                .street_type
+                              x.shipping_info?.address?.address_details
+                                ?.street_type
                             )
                             .setDeliveryService(
-                              x.shipping_info.address.address_details
-                                .delivery_service
+                              x.shipping_info?.address?.address_details
+                                ?.delivery_service
                             )
                             .setBuildingName(
-                              x.shipping_info.address.address_details
-                                .building_name
+                              x.shipping_info?.address?.address_details
+                                ?.building_name
                             )
                             .setSubBuilding(
-                              x.shipping_info.address.address_details
-                                .sub_building
+                              x.shipping_info?.address?.address_details
+                                ?.sub_building
                             )
                         )
                     )
@@ -419,26 +426,26 @@ class Invoices extends InvoicesAPI {
         new Refunds(this.PayPal)
           .setRefundAmount(
             new Money(this.PayPal)
-              .setCurrencyCode(data.refunds.refund_amount.currency_code)
-              .setValue(data.refunds.refund_amount.value)
+              .setCurrencyCode(data.refunds?.refund_amount?.currency_code)
+              .setValue(data.refunds?.refund_amount?.value)
           )
           .setTransactions(
-            data.refunds.transactions.map((x) =>
+            data.refunds?.transactions?.map((x) =>
               new RefundDetail(this.PayPal)
                 .setType(x.type)
                 .setRefundId(x.refund_id)
                 .setRefundDate(x.refund_date)
                 .setAmount(
                   new Money(this.PayPal)
-                    .setCurrencyCode(x.amount.currency_code)
-                    .setValue(x.amount.value)
+                    .setCurrencyCode(x.amount?.currency_code)
+                    .setValue(x.amount?.value)
                 )
                 .setMethod(x.method)
             )
           )
       )
       .setLinks(
-        data.links.map((x) =>
+        data.links?.map((x) =>
           new LinkDescription(this.PayPal)
             .setHref(x.href)
             .setRel(x.rel)
