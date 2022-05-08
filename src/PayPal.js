@@ -5,6 +5,7 @@ const Token = require("./API/Authentication/Token");
 // handlers
 const invoices = {
   invoiceNumber: require("./Handlers/Invoices/InvoiceNumber"),
+  invoices: require("./Handlers/Invoices/Invoices"),
 };
 
 class PayPal extends BasePayPal {
@@ -13,6 +14,7 @@ class PayPal extends BasePayPal {
 
     this.invoices = {
       invoiceNumber: new invoices.invoiceNumber(this),
+      invoices: new invoices.invoices(this),
     };
   }
 
