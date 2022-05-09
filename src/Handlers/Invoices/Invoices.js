@@ -470,10 +470,31 @@ class Invoices extends InvoicesAPI {
 
   // create new invoice
   // returns invoice object (type)
-  async create() {}
+  /**
+   *
+   * @param {Invoice} invoiceBuilder
+   * @returns {Invoice}
+   */
+  async create(invoiceBuilder) {
+    const data = await super.create(invoiceBuilder.toJson());
+    const invoice = this.constructInvoice(data);
+    return invoice;
+  }
 
   // delete an invoice BY ID (can also delete via invoice object)
-  async delete() {}
+  /**
+   *
+   * @param {String} id
+   * @returns {Boolean}
+   */
+  async delete(id) {
+    try {
+      var deleted = await super.delete(id);
+    } catch (e) {
+      throw e;
+    }
+    return deleted;
+  }
 
   // uses same builder as create BY ID (can also update via invoice object)
   async fullUpdate() {}

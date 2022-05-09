@@ -11,6 +11,8 @@ const Payments = require("../General/Payments");
 const Refunds = require("../General/Refunds");
 const LinkDescription = require("../General/LinkDescription");
 
+const InvoiceAPI = require("../../API/Invoices/Invoices");
+
 class Invoice {
   /**
    *
@@ -18,6 +20,46 @@ class Invoice {
    */
   constructor(PayPal) {
     this.PayPal = PayPal;
+  }
+
+  /*
+
+  Invoice methods
+
+  */
+
+  async delete() {
+    if (!["DRAFT", "SCHEDULED"].includes(this.status)) {
+      throw new Error(
+        "You can only cancel invoices in Draft or Scheduled state"
+      );
+    }
+
+    const api = new InvoiceAPI(this.PayPal);
+    const deleted = await api.delete(this.id);
+
+    return deleted;
+  }
+
+  /*
+
+  Invoice methods
+
+  */
+
+  toJson() {
+    return JSON.stringify(this.toAttributeObject());
+  }
+
+  toAttributeObject() {
+    const obj = {};
+    for (const entry of Object.keys(this)) {
+      obj[entry.replace(/[A-Z]/g, (x) => `_${x.toLowerCase()}`)] =
+        this[entry] instanceof Object
+          ? this[entry].toAttributeObject()
+          : this[entry];
+    }
+    return obj;
   }
 
   /**
