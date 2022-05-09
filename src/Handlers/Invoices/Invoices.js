@@ -472,11 +472,15 @@ class Invoices extends InvoicesAPI {
   // returns invoice object (type)
   /**
    *
-   * @param {Invoice} invoiceBuilder
+   * @param {Invoice|object} invoiceBuilder
    * @returns {Invoice}
    */
   async create(invoiceBuilder) {
-    const data = await super.create(invoiceBuilder.toJson());
+    const data = await super.create(
+      invoiceBuilder instanceof Invoice
+        ? invoiceBuilder.toJson()
+        : invoiceBuilder
+    );
     const invoice = this.constructInvoice(data);
     return invoice;
   }
