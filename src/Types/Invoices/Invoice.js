@@ -14,7 +14,7 @@ const LinkDescription = require("../General/LinkDescription");
 const QrCodeQuery = require("../Queries/QRCode");
 const RecordPaymentQuery = require("../Queries/RecordPayment");
 const RecordPaymentResponse = require("../Responses/RecordPayment");
-const DeleteExternalPaymentQuery = require("../Queries/DeleteExternalPayment");
+const NotificationQuery = require("../Queries/NotificationQuery");
 
 class Invoice {
   /**
@@ -43,8 +43,13 @@ class Invoice {
     return deleted;
   }
 
-  async cancel() {
-    const cancelled = await this.PayPal.invoices.invoices.cancel(this.id);
+  /**
+   *
+   * @param {NotificationQuery} body
+   * @returns
+   */
+  async cancel(body) {
+    const cancelled = await this.PayPal.invoices.invoices.cancel(this.id, body);
 
     return cancelled;
   }
@@ -77,12 +82,18 @@ class Invoice {
 
   /**
    *
-   * @param {DeleteExternalPaymentQuery} body
+   * @param {NotificationQuery} body
    */
-  async deleteExternalPayment(body) {
-    const response = await this.PayPal.invoices.invoices.deleteExternalPayment(
+  async sendReminder(body) {
+    const response = await this.PayPal.invoices.invoices.sendReminder(
+      this.id,
       body
     );
+    return response;
+  }
+
+  async send(body) {
+    const response = await this.PayPal.invoices.invoices.send(this.id, body);
     return response;
   }
 

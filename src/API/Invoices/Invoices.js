@@ -75,7 +75,7 @@ class Invoices {
         },
       }
     );
-    return response.status === 204 ? true : false;
+    return response.status === 204;
   }
 
   /**
@@ -94,7 +94,7 @@ class Invoices {
         data: query,
       }
     );
-    return response.status === 204 ? true : false;
+    return response.status === 204;
   }
 
   /**
@@ -126,8 +126,27 @@ class Invoices {
       {
         headers: {
           "Content-Type": "application/json",
-          data: query,
         },
+        data: query,
+      }
+    );
+    return response.data;
+  }
+
+  /**
+   *
+   * @param {String} id
+   * @param {Object} query
+   * @returns
+   */
+  async recordRefund(id, query) {
+    const response = await this.PayPal.Axios.post(
+      `https://api.paypal.com/v2/invoicing/invoices/${id}/refunds`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: query,
       }
     );
     return response.data;
@@ -143,6 +162,69 @@ class Invoices {
       }
     );
     return response.status === 204 ? true : false;
+  }
+
+  async deleteExternalRefund(invoiceId, transactionId) {
+    const response = await this.PayPal.Axios.delete(
+      `https://api.paypal.com/v2/invoicing/invoices/${invoiceId}/refunds/${transactionId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.status === 204;
+  }
+
+  /**
+   *
+   * @param {String} id
+   * @param {Object} query
+   */
+  async sendReminder(id, query) {
+    const response = await this.PayPal.Axios.post(
+      `https://api.paypal.com/v2/invoicing/invoices/${id}/remind`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: query,
+      }
+    );
+    return response.status === 204;
+  }
+
+  async send(id, query) {
+    const response = await this.PayPal.Axios.post(
+      `https://api.paypal.com/v2/invoicing/invoices/${id}/send`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        data: query,
+      }
+    );
+    return response.data;
+  }
+
+  async find(query) {
+    const response = await this.PayPal.Axios.post(
+      "https://api.paypal.com/v2/invoicing/search-invoices",
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        params: {
+          page: query.page,
+          page_size: query.pageSize,
+          total_required: query.totalRequired,
+        },
+        data: Object.keys(query)
+          .filter((x) => !["page", "pageSize", "totalRequired"].includes(x))
+          .reduce((a, b) => Object.assign(a, { b: query[b] }), {}),
+      }
+    );
+    return response.data;
   }
 }
 

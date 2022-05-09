@@ -32,11 +32,15 @@ const RefundDetail = require("../../Types/General/RefundDetail");
 const LinkDescription = require("../../Types/General/LinkDescription");
 const ListInvoicesQuery = require("../../Types/Queries/ListInvoices");
 const ListInvoicesResponse = require("../../Types/Responses/ListInvoices");
-const CancelInvoiceQuery = require("../../Types/Queries/CancelInvoice");
 const QrCodeQuery = require("../../Types/Queries/QRCode");
 const RecordPaymentQuery = require("../../Types/Queries/RecordPayment");
 const RecordPaymentResponse = require("../../Types/Responses/RecordPayment");
-const DeleteExternalPaymentQuery = require("../../Types/Queries/DeleteExternalPayment");
+const DeleteExternalQuery = require("../../Types/Queries/DeleteExternal");
+const RecordRefundResponse = require("../../Types/Responses/RecordRefund");
+const RecordRefundQuery = require("../../Types/Queries/RecordRefund");
+const NotificationQuery = require("../../Types/Queries/NotificationQuery");
+const SendInvoiceResponse = require("../../Types/Responses/SendInvoice");
+const SearchInvoicesQuery = require("../../Types/Queries/SearchInvoices");
 
 class Invoices extends InvoicesAPI {
   /**
@@ -119,7 +123,7 @@ class Invoices extends InvoicesAPI {
                 .setEmailAddress(x.billing_info?.email_address)
                 .setPhones(
                   x.phones?.map((y) =>
-                    new PhoneDetail()
+                    new PhoneDetail(this.PayPal)
                       .setCountryCode(y.country_code)
                       .setNationalNumber(y.national_number)
                       .setExtensionNumber(y.extension_number)
@@ -467,7 +471,7 @@ class Invoices extends InvoicesAPI {
   /**
    *
    * @param {String} id
-   * @returns {Invoice}
+   * @returns {Promise<Invoice>}
    */
   async get(id) {
     const data = await super.get(id);
@@ -478,15 +482,22 @@ class Invoices extends InvoicesAPI {
   /**
    *
    * @param {ListInvoicesQuery} query
-   * @returns {ListInvoicesResponse}
+   * @returns {Promise<ListInvoicesResponse>}
    */
   async list(query) {
     const data = await super.list(query.toAttributeObject());
-    const listInvoicesResponse = new ListInvoicesResponse(this)
+    const listInvoicesResponse = new ListInvoicesResponse(this.PayPal)
       .setItems(data.items?.map((x) => this.constructInvoice(x)))
       .setTotalItems(x.total_items)
       .setTotalPages(x.total_pages)
-      .setLinks(x.links);
+      .setLinks(
+        x.links?.map((x) =>
+          new LinkDescription(this.PayPal)
+            .setHref(x.href)
+            .setMethod(x.method)
+            .setRel(x.rel)
+        )
+      );
     return listInvoicesResponse;
   }
 
@@ -495,7 +506,7 @@ class Invoices extends InvoicesAPI {
   /**
    *
    * @param {Invoice|object} invoiceBuilder
-   * @returns {Invoice}
+   * @returns {Promise<Invoice>}
    */
   async create(invoiceBuilder) {
     const data = await super.create(
@@ -511,7 +522,7 @@ class Invoices extends InvoicesAPI {
   /**
    *
    * @param {String} id
-   * @returns {Boolean}
+   * @returns {Promise<Boolean>}
    */
   async delete(id) {
     try {
@@ -526,7 +537,7 @@ class Invoices extends InvoicesAPI {
   /**
    *
    * @param {Invoice|object} invoiceBuilder
-   * @returns {Invoice}
+   * @returns {Promise<Invoice>}
    */
   async fullUpdate(invoiceBuilder) {
     const data = await super.create(
@@ -542,8 +553,8 @@ class Invoices extends InvoicesAPI {
   /**
    *
    * @param {String} id
-   * @param {CancelInvoiceQuery} body
-   * @returns
+   * @param {NotificationQuery} body
+   * @returns {Promise<Boolean>}
    */
   async cancel(id, body) {
     const cancelled = await super.cancel(id, body.toAttributeObject());
@@ -565,15 +576,19 @@ class Invoices extends InvoicesAPI {
    *
    * @param {String} id
    * @param {RecordPaymentQuery} body
+   * @returns {Promise<RecordPaymentResponse>}
    */
   async recordPayment(id, body) {
     const response = await super.recordPayment(id, body.toAttributeObject());
-    return new RecordPaymentResponse(this).setPaymentId(response.payment_id);
+    return new RecordPaymentResponse(this.PayPal).setPaymentId(
+      response.payment_id
+    );
   }
 
   /**
    *
-   * @param {DeleteExternalPaymentQuery} body
+   * @param {DeleteExternalQuery} body
+   * @returns {Promise<Boolean>}
    */
   async deleteExternalPayment(body) {
     const response = await super.deleteExternalPayment(
@@ -581,6 +596,74 @@ class Invoices extends InvoicesAPI {
       body.transactionId
     );
     return response;
+  }
+
+  /**
+   *
+   * @param {DeleteExternalQuery} body
+   * @returns {Promise<Boolean>}
+   */
+  async deleteExternalRefund(body) {
+    const response = await super.deleteExternalRefund(
+      body.invoiceId,
+      body.transactionId
+    );
+    return response;
+  }
+
+  /**
+   *
+   * @param {String} id
+   * @param {RecordRefundQuery} body
+   * @returns {Promise<RecordPaymentResponse>}
+   */
+  async recordRefund(id, body) {
+    const response = await super.recordRefund(id, body.toAttributeObject());
+    return new RecordRefundResponse(this.PayPal).setRefundId(
+      response.refund_id
+    );
+  }
+
+  /**
+   *
+   * @param {String} id
+   * @param {NotificationQuery} body
+   * @returns {Promise<Boolean>}
+   */
+  async sendReminder(id, body) {
+    const response = await super.sendReminder(id, body.toAttributeObject());
+    return response;
+  }
+
+  /**
+   *
+   * @param {String} id
+   * @param {NotificationQuery} body
+   * @returns {Promise<SendInvoiceResponse>}
+   */
+  async send(id, body) {
+    const response = await super.send(id, body.toAttributeObject());
+    return new SendInvoiceResponse(this.PayPal).setLinks(response.links);
+  }
+
+  /**
+   *
+   * @param {SearchInvoicesQuery} body
+   */
+  async find(body) {
+    const response = await super.find(body.toAttributeObject());
+    return new ListInvoicesResponse(this.PayPal)
+      .setTotalPages(response.total_pages)
+      .setTotalItems(response.total_items)
+      .setItems(response.items?.map((x) => this.constructInvoice(x)))
+      .setLinks(
+        response.links?.map((x) =>
+          new LinkDescription(this.PayPal)
+            .setHref(x.href)
+            .setMethod(x.method)
+            .setRel(x.rel)
+        )
+      );
   }
 }
 

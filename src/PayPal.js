@@ -32,10 +32,15 @@ const InvoiceInvoicerInfo = require("./Types/Invoices/InvoiceInvoicerInfo");
 const InvoicePaymentTerm = require("./Types/Invoices/InvoicePaymentTerm");
 const ListInvoicesQuery = require("./Types/Queries/ListInvoices");
 const ListInvoicesResponse = require("./Types/Responses/ListInvoices");
-const CancelInvoiceQuery = require("./Types/Queries/CancelInvoice");
 const QrCodeQuery = require("./Types/Queries/QRCode");
 const RecordPaymentQuery = require("./Types/Queries/RecordPayment");
-const DeleteExternalPaymentQuery = require("./Types/Queries/DeleteExternalPayment");
+const DeleteExternalQuery = require("./Types/Queries/DeleteExternal");
+const AmountRange = require("./Types/General/AmountRange");
+const DateRange = require("./Types/General/DateRange");
+const Field = require("./Types/General/Field");
+const NotificationQuery = require("./Types/Queries/NotificationQuery");
+const RecordRefundQuery = require("./Types/Queries/RecordRefund");
+const SearchInvoicesQuery = require("./Types/Queries/SearchInvoices");
 
 // handlers
 const invoices = {
@@ -79,6 +84,9 @@ class PayPal extends BasePayPal {
         Refunds: Refunds.bind(null, this),
         ShippingCost: ShippingCost.bind(null, this),
         Tax: Tax.bind(null, this),
+        AmountRange: AmountRange.bind(null, this),
+        DateRange: DateRange.bind(null, this),
+        Field: Field.bind(null, this),
       },
       invoice: {
         Invoice: Invoice.bind(null, this),
@@ -88,10 +96,12 @@ class PayPal extends BasePayPal {
       },
       queries: {
         ListInvoices: ListInvoicesQuery.bind(null, this),
-        CancelInvoice: CancelInvoiceQuery.bind(null, this),
         QRCode: QrCodeQuery.bind(null, this),
         RecordPayment: RecordPaymentQuery.bind(null, this),
-        DeleteExternalPayment: DeleteExternalPaymentQuery.bind(null, this),
+        DeleteExternal: DeleteExternalQuery.bind(null, this),
+        Notification: NotificationQuery.bind(null, this),
+        RecordRefund: RecordRefundQuery.bind(null, this),
+        SearchInvoices: SearchInvoicesQuery.bind(null, this),
       },
     };
   }

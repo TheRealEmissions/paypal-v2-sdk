@@ -1,6 +1,7 @@
 const PayPalClass = require("../../PayPal");
+const Money = require("../General/Money");
 
-class CancelInvoiceQuery {
+class RecordRefundQuery {
   /**
    *
    * @param {PayPalClass} PayPal
@@ -26,55 +27,53 @@ class CancelInvoiceQuery {
 
   /**
    *
-   * @param {String} subject
+   * @param {String} type
    * @returns
    */
-  setSubject(subject) {
-    this.subject = subject;
+  setType(type) {
+    this.type = type;
     return this;
   }
 
   /**
    *
-   * @param {String} note
+   * @param {String} id
    * @returns
    */
-  setNote(note) {
-    this.note = note;
+  setRefundId(id) {
+    this.refundId = id;
     return this;
   }
 
   /**
    *
-   * @param {Boolean} boolean
+   * @param {String} date
    * @returns
    */
-  setSendToInvoicer(boolean) {
-    this.sendToInvoicer = boolean;
+  setRefundDate(date) {
+    this.refundDate = date;
     return this;
   }
 
   /**
    *
-   * @param {Boolean} boolean
+   * @param {Money} amount
    * @returns
    */
-  setSendToRecipient(boolean) {
-    this.sendToRecipient = boolean;
+  setAmount(amount) {
+    this.amount = amount;
     return this;
   }
 
   /**
    *
-   * @param {Array<String>} emails
+   * @param {String} string
    * @returns
    */
-  setAdditionalRecipients(emails) {
-    this.additionalRecipients = emails.map((x) => {
-      return { email_address: x };
-    });
+  setMethod(string) {
+    this.method = string;
     return this;
   }
 }
 
-module.exports = CancelInvoiceQuery;
+module.exports = RecordRefundQuery;
