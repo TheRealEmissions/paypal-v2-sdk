@@ -62,6 +62,18 @@ class Invoices {
     );
     return response.status === 204 ? true : false;
   }
+
+  async cancel(id) {
+    const response = await this.PayPal.axios.post(
+      `https://api.paypal.com/v2/invoicing/invoices/${id}/cancel`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.status === 204 ? true : false;
+  }
 }
 
 module.exports = Invoices;

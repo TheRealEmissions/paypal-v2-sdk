@@ -534,7 +534,10 @@ class Invoices extends InvoicesAPI {
   }
 
   // cancel a SENT invoice BY ID (can also cancel via invoice object)
-  async cancel() {}
+  async cancel(id) {
+    const cancelled = await super.cancel(id);
+    return cancelled;
+  }
 }
 
 module.exports = Invoices;

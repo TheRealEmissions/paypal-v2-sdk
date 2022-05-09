@@ -41,6 +41,13 @@ class Invoice {
     return deleted;
   }
 
+  async cancel() {
+    const api = new InvoiceAPI(this.PayPal);
+    const cancelled = await api.cancel(this.id);
+
+    return cancelled;
+  }
+
   /*
 
   Invoice methods
