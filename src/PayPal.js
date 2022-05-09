@@ -35,6 +35,7 @@ const ListInvoicesResponse = require("./Types/Responses/ListInvoices");
 const CancelInvoiceQuery = require("./Types/Queries/CancelInvoice");
 const QrCodeQuery = require("./Types/Queries/QRCode");
 const RecordPaymentQuery = require("./Types/Queries/RecordPayment");
+const DeleteExternalPaymentQuery = require("./Types/Queries/DeleteExternalPayment");
 
 // handlers
 const invoices = {
@@ -90,6 +91,7 @@ class PayPal extends BasePayPal {
         CancelInvoice: CancelInvoiceQuery.bind(null, this),
         QRCode: QrCodeQuery.bind(null, this),
         RecordPayment: RecordPaymentQuery.bind(null, this),
+        DeleteExternalPayment: DeleteExternalPaymentQuery.bind(null, this),
       },
     };
   }

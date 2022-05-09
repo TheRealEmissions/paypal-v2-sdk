@@ -36,6 +36,7 @@ const CancelInvoiceQuery = require("../../Types/Queries/CancelInvoice");
 const QrCodeQuery = require("../../Types/Queries/QRCode");
 const RecordPaymentQuery = require("../../Types/Queries/RecordPayment");
 const RecordPaymentResponse = require("../../Types/Responses/RecordPayment");
+const DeleteExternalPaymentQuery = require("../../Types/Queries/DeleteExternalPayment");
 
 class Invoices extends InvoicesAPI {
   /**
@@ -568,6 +569,18 @@ class Invoices extends InvoicesAPI {
   async recordPayment(id, body) {
     const response = await super.recordPayment(id, body.toAttributeObject());
     return new RecordPaymentResponse(this).setPaymentId(response.payment_id);
+  }
+
+  /**
+   *
+   * @param {DeleteExternalPaymentQuery} body
+   */
+  async deleteExternalPayment(body) {
+    const response = await super.deleteExternalPayment(
+      body.invoiceId,
+      body.transactionId
+    );
+    return response;
   }
 }
 

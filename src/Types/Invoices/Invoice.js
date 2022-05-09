@@ -14,6 +14,7 @@ const LinkDescription = require("../General/LinkDescription");
 const QrCodeQuery = require("../Queries/QRCode");
 const RecordPaymentQuery = require("../Queries/RecordPayment");
 const RecordPaymentResponse = require("../Responses/RecordPayment");
+const DeleteExternalPaymentQuery = require("../Queries/DeleteExternalPayment");
 
 class Invoice {
   /**
@@ -74,6 +75,17 @@ class Invoice {
     return response;
   }
 
+  /**
+   *
+   * @param {DeleteExternalPaymentQuery} body
+   */
+  async deleteExternalPayment(body) {
+    const response = await this.PayPal.invoices.invoices.deleteExternalPayment(
+      body
+    );
+    return response;
+  }
+
   /*
 
   Invoice methods
@@ -89,7 +101,11 @@ class Invoice {
     for (const entry of Object.keys(this)) {
       obj[entry.replace(/[A-Z]/g, (x) => `_${x.toLowerCase()}`)] =
         this[entry] instanceof Object
-          ? this[entry].toAttributeObject()
+          ? this[entry] instanceof Array
+            ? this[entry].map((x) =>
+                x instanceof Object ? x.toAttributeObject() : x
+              )
+            : this[entry].toAttributeObject()
           : this[entry];
     }
     return obj;

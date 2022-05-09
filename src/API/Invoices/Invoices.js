@@ -132,6 +132,18 @@ class Invoices {
     );
     return response.data;
   }
+
+  async deleteExternalPayment(invoiceId, transactionId) {
+    const response = await this.PayPal.Axios.delete(
+      `https://api.paypal.com/v2/invoicing/invoices/${invoiceId}/payments/${transactionId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.status === 204 ? true : false;
+  }
 }
 
 module.exports = Invoices;
