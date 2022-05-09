@@ -8,6 +8,7 @@ class InvoicePaymentTerm {
   constructor(PayPal = null) {
     this.PayPal = PayPal;
   }
+
   toJson() {
     return JSON.stringify(this.toAttributeObject());
   }
