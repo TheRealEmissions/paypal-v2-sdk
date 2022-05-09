@@ -11,7 +11,9 @@ const Payments = require("../General/Payments");
 const Refunds = require("../General/Refunds");
 const LinkDescription = require("../General/LinkDescription");
 
-const InvoiceAPI = require("../../API/Invoices/Invoices");
+const QrCodeQuery = require("../Queries/QRCode");
+const RecordPaymentQuery = require("../Queries/RecordPayment");
+const RecordPaymentResponse = require("../Responses/RecordPayment");
 
 class Invoice {
   /**
@@ -35,17 +37,41 @@ class Invoice {
       );
     }
 
-    const api = new InvoiceAPI(this.PayPal);
-    const deleted = await api.delete(this.id);
+    const deleted = await this.PayPal.invoices.invoices.delete(this.id);
 
     return deleted;
   }
 
   async cancel() {
-    const api = new InvoiceAPI(this.PayPal);
-    const cancelled = await api.cancel(this.id);
+    const cancelled = await this.PayPal.invoices.invoices.cancel(this.id);
 
     return cancelled;
+  }
+
+  /**
+   *
+   * @param {QrCodeQuery} body
+   * @returns {String}
+   */
+  async generateQrCode(body) {
+    const qrCode = await this.PayPal.invoices.invoices.generateQrCode(
+      this.id,
+      body
+    );
+    return qrCode;
+  }
+
+  /**
+   *
+   * @param {RecordPaymentQuery} body
+   * @returns {RecordPaymentResponse}
+   */
+  async recordPayment(body) {
+    const response = await this.PayPal.invoices.invoices.recordPayment(
+      this.id,
+      body
+    );
+    return response;
   }
 
   /*

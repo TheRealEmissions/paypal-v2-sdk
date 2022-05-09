@@ -33,6 +33,8 @@ const InvoicePaymentTerm = require("./Types/Invoices/InvoicePaymentTerm");
 const ListInvoicesQuery = require("./Types/Queries/ListInvoices");
 const ListInvoicesResponse = require("./Types/Responses/ListInvoices");
 const CancelInvoiceQuery = require("./Types/Queries/CancelInvoice");
+const QrCodeQuery = require("./Types/Queries/QRCode");
+const RecordPaymentQuery = require("./Types/Queries/RecordPayment");
 
 // handlers
 const invoices = {
@@ -86,9 +88,8 @@ class PayPal extends BasePayPal {
       queries: {
         ListInvoices: ListInvoicesQuery.bind(null, this),
         CancelInvoice: CancelInvoiceQuery.bind(null, this),
-      },
-      responses: {
-        ListInvoices: ListInvoicesResponse.bind(null, this),
+        QRCode: QrCodeQuery.bind(null, this),
+        RecordPayment: RecordPaymentQuery.bind(null, this),
       },
     };
   }

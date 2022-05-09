@@ -32,6 +32,10 @@ const RefundDetail = require("../../Types/General/RefundDetail");
 const LinkDescription = require("../../Types/General/LinkDescription");
 const ListInvoicesQuery = require("../../Types/Queries/ListInvoices");
 const ListInvoicesResponse = require("../../Types/Responses/ListInvoices");
+const CancelInvoiceQuery = require("../../Types/Queries/CancelInvoice");
+const QrCodeQuery = require("../../Types/Queries/QRCode");
+const RecordPaymentQuery = require("../../Types/Queries/RecordPayment");
+const RecordPaymentResponse = require("../../Types/Responses/RecordPayment");
 
 class Invoices extends InvoicesAPI {
   /**
@@ -534,9 +538,36 @@ class Invoices extends InvoicesAPI {
   }
 
   // cancel a SENT invoice BY ID (can also cancel via invoice object)
-  async cancel(id) {
-    const cancelled = await super.cancel(id);
+  /**
+   *
+   * @param {String} id
+   * @param {CancelInvoiceQuery} body
+   * @returns
+   */
+  async cancel(id, body) {
+    const cancelled = await super.cancel(id, body.toAttributeObject());
     return cancelled;
+  }
+
+  /**
+   *
+   * @param {String} id
+   * @param {QrCodeQuery} body
+   * @returns
+   */
+  async generateQrCode(id, body) {
+    const qrCode = await super.generateQrCode(id, body.toAttributeObject());
+    return qrCode;
+  }
+
+  /**
+   *
+   * @param {String} id
+   * @param {RecordPaymentQuery} body
+   */
+  async recordPayment(id, body) {
+    const response = await super.recordPayment(id, body.toAttributeObject());
+    return new RecordPaymentResponse(this).setPaymentId(response.payment_id);
   }
 }
 
