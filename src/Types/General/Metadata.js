@@ -5,7 +5,7 @@ class Metadata {
    *
    * @param {PayPal} PayPal
    */
-  constructor(PayPal) {
+  constructor(PayPal = null) {
     this.PayPal = PayPal;
   }
 

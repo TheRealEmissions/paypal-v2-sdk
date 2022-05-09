@@ -7,7 +7,7 @@ class AggregatedDiscount {
    *
    * @param {PayPalClass} PayPal
    */
-  constructor(PayPal) {
+  constructor(PayPal = null) {
     this.PayPal = PayPal;
   }
 

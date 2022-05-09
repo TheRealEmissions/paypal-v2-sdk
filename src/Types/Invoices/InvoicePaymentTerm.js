@@ -5,10 +5,9 @@ class InvoicePaymentTerm {
    *
    * @param {PayPalClass} PayPal
    */
-  constructor(PayPal) {
+  constructor(PayPal = null) {
     this.PayPal = PayPal;
   }
-
   toJson() {
     return JSON.stringify(this.toAttributeObject());
   }

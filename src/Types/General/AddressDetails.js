@@ -3,9 +3,9 @@ const PayPalClass = require("../../PayPal");
 class AddressDetails {
   /**
    *
-   * @param {PayPalClass} PayPal
+   * @param {PayPalClass|null} PayPal
    */
-  constructor(PayPal) {
+  constructor(PayPal = null) {
     this.PayPal = PayPal;
   }
 
