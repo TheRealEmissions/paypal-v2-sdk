@@ -3,7 +3,7 @@
     "axios": "^0.27.2"
   },
   "name": "paypal-v2-sdk",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "Unofficial promise-based PayPal API v2 SDK for node.js",
   "main": "index.js",
   "scripts": {
@@ -18,5 +18,6 @@
   "bugs": {
     "url": "https://github.com/TheRealEmissions/paypal-v2-sdk/issues"
   },
-  "homepage": "https://github.com/TheRealEmissions/paypal-v2-sdk#readme"
+  "homepage": "https://github.com/TheRealEmissions/paypal-v2-sdk#readme",
+  "keywords": ["paypal", "node", "async", "promise", "rest", "sdk", "api", "invoice"]
 }
