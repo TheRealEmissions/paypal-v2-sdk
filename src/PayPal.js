@@ -30,6 +30,8 @@ const Invoice = require("./Types/Invoices/Invoice");
 const InvoiceDetail = require("./Types/Invoices/InvoiceDetail");
 const InvoiceInvoicerInfo = require("./Types/Invoices/InvoiceInvoicerInfo");
 const InvoicePaymentTerm = require("./Types/Invoices/InvoicePaymentTerm");
+const ListInvoicesQuery = require("./Types/Queries/ListInvoices");
+const ListInvoicesResponse = require("./Types/Responses/ListInvoices");
 
 // handlers
 const invoices = {
@@ -79,6 +81,12 @@ class PayPal extends BasePayPal {
         Detail: InvoiceDetail.bind(null, this),
         InvoicerInfo: InvoiceInvoicerInfo.bind(null, this),
         PaymentTerm: InvoicePaymentTerm.bind(null, this),
+      },
+      queries: {
+        ListInvoices: ListInvoicesQuery.bind(null, this),
+      },
+      responses: {
+        ListInvoices: ListInvoicesResponse.bind(null, this),
       },
     };
   }

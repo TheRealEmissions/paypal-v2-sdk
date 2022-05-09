@@ -30,6 +30,8 @@ const PaymentDetail = require("../../Types/General/PaymentDetail");
 const Refunds = require("../../Types/General/Refunds");
 const RefundDetail = require("../../Types/General/RefundDetail");
 const LinkDescription = require("../../Types/General/LinkDescription");
+const ListInvoicesQuery = require("../../Types/Queries/ListInvoices");
+const ListInvoicesResponse = require("../../Types/Responses/ListInvoices");
 
 class Invoices extends InvoicesAPI {
   /**
@@ -468,6 +470,21 @@ class Invoices extends InvoicesAPI {
     return invoice;
   }
 
+  /**
+   *
+   * @param {ListInvoicesQuery} query
+   * @returns {ListInvoicesResponse}
+   */
+  async list(query) {
+    const data = await super.list(query.toAttributeObject());
+    const listInvoicesResponse = new ListInvoicesResponse(this)
+      .setItems(data.items?.map((x) => this.constructInvoice(x)))
+      .setTotalItems(x.total_items)
+      .setTotalPages(x.total_pages)
+      .setLinks(x.links);
+    return listInvoicesResponse;
+  }
+
   // create new invoice
   // returns invoice object (type)
   /**
@@ -501,7 +518,20 @@ class Invoices extends InvoicesAPI {
   }
 
   // uses same builder as create BY ID (can also update via invoice object)
-  async fullUpdate() {}
+  /**
+   *
+   * @param {Invoice|object} invoiceBuilder
+   * @returns {Invoice}
+   */
+  async fullUpdate(invoiceBuilder) {
+    const data = await super.create(
+      invoiceBuilder instanceof Invoice
+        ? invoiceBuilder.toJson()
+        : invoiceBuilder
+    );
+    const invoice = this.constructInvoice(data);
+    return invoice;
+  }
 
   // cancel a SENT invoice BY ID (can also cancel via invoice object)
   async cancel() {}

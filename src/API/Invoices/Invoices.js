@@ -21,6 +21,23 @@ class Invoices {
     return response.data;
   }
 
+  /**
+   *
+   * @param {Object} query
+   */
+  async list(query) {
+    const response = await this.PayPal.Axios.get(
+      "https://api.paypal.com/v2/invoicing/invoices",
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        params: query,
+      }
+    );
+    return response.data;
+  }
+
   async create(json) {
     const response = await this.PayPal.Axios.post(
       `https://api.paypal.com/v2/invoicing/invoices`,
