@@ -33,29 +33,29 @@ Invoices
 - Getting an invoice
 Returns Invoice object
 ```js
-const Invoice = PayPal.invoices.invoices.get("id of invoice");
+const Invoice = PayPal.Handler.invoices.get("id of invoice");
 ```
 
 - Getting an invoice and then deleting it
 ```js
-const Invoice = PayPal.invoices.invoices.get("id of invoice");
+const Invoice = PayPal.Handler.invoices.get("id of invoice");
 const deleted = await Invoice.delete();
 console.log(deleted); // true
 ```
 
 - Getting the next invoice number & then creating an invoice **using the builder** (EXAMPLE)
 ```js
-const nextNumber = await PayPal.invoices.invoiceNumber.generate();
-const Invoice = new PayPal.types.invoice.Invoice()
+const nextNumber = await PayPal.Handler.invoiceNumber.generate();
+const Invoice = new PayPal.Invoice()
   .setDetail(
-    new PayPal.types.invoice.Detail()
+    new PayPal.Detail()
       .setCurrencyCode("USD")
       .setNote("Creating an invoice!")
       .setTermsAndConditions("url here")
       .setInvoiceNumber(nextNumber)
   )
   .setInvoicer(
-    new PayPal.types.invoice.InvoicerInfo()
+    new PayPal.InvoicerInfo()
       .setEmailAddress("test@test.com")
       .setPhones(
         [
@@ -70,23 +70,23 @@ const Invoice = new PayPal.types.invoice.Invoice()
   )
   .setPrimaryRecipients(
     [
-      new PayPal.types.general.RecipientInfo()
+      new PayPal.RecipientInfo()
         .setBillingInfo(
-          new PayPal.types.general.BillingInfo()
+          new PayPal.BillingInfo()
             .setEmailAddress("test@test.com")
             .setAdditionalInfo("additional info")
         )
         .setShippingInfo(
-          new PayPal.types.general.ContactInfo()
+          new PayPal.ContactInfo()
             .setBusinessName("My Cool Business")
             .setName(
-              new PayPal.types.general.Name()
+              new PayPal.Name()
                 .setPrefix("Mr")
                 .setGivenName("Thomas")
                 .setSurname("Whoever")
             )
             .setAddress(
-              new PayPal.types.general.AddressPortable()
+              new PayPal.AddressPortable()
                 .setAddressLines(["12 London Way"])
                 .setAdminArea(["Admin area 4", "Some neighborhood", "Leeds", "East Yorkshire"])
                 .setPostalCode("LE12 AH7")
@@ -98,81 +98,81 @@ const Invoice = new PayPal.types.invoice.Invoice()
   )
   .setItems(
     [
-      new PayPal.types.general.Item()
+      new PayPal.Item()
         .setName("T-Shirt")
         .setDescription("A very cool T-Shirt")
         .setQuantity("1")
         .setUnitAmount(
-          new PayPal.types.general.Money()
+          new PayPal.Money()
             .setCurrencyCode("USD")
             .setValue("25")
         )
         .setTax(
-          new PayPal.types.general.Tax()
+          new PayPal.Tax()
             .setName("VAT")
             .setPercent("20")
         )
         .setDiscount(
-          new PayPal.types.general.Discount()
+          new PayPal.Discount()
             .setPercent("5")
         )
     ],
     [
-      new PayPal.types.general.Item()
+      new PayPal.Item()
         .setName("Hoodie")
         .setDescription("A very very cool Hoodie")
         .setQuantity("3")
         .setUnitAmount(
-          new PayPal.types.general.Money()
+          new PayPal.Money()
             .setCurrencyCode("USD")
             .setValue("40")
         )
         .setTax(
-          new PayPal.types.general.Tax()
+          new PayPal.Tax()
             .setName("VAT")
             .setPercent("20")
         )
         .setDiscount(
-          new PayPal.types.general.Discount()
+          new PayPal.Discount()
             .setPercent("15")
         )
     ]
   )
   .setConfiguration(
-    new PayPal.types.general.Configuration()
+    new PayPal.Configuration()
       .setTaxCalculatedAfterDiscount(true)
       .setTaxInclusive(false)
       .setAllowTip(true)
       .setPartialPayment(
-        new PayPal.types.general.PartialPayment()
+        new PayPal.PartialPayment()
           .setAllowPartialPayment(true)
           .setMinimumAmountDue(
-            new PayPal.types.general.Money()
+            new PayPal.Money()
               .setCurrencyCode("USD")
               .setValue("72.5")
           )
       )
   )
   .setAmount(
-    new PayPal.types.general.AmountSummaryDetail()
+    new PayPal.AmountSummaryDetail()
       .setBreakdown(
-        new PayPal.types.general.AmountWithBreakdown()
+        new PayPal.AmountWithBreakdown()
           .setShipping(
-            new PayPal.types.general.ShippingCost()
+            new PayPal.ShippingCost()
               .setTax(
-                new PayPal.types.general.Tax()
+                new PayPal.Tax()
                   .setName("Shipping Fee")
                   .setAmount(
-                    new PayPal.types.general.Money()
+                    new PayPal.Money()
                       .setCurrencyCode("USD")
                       .setValue("5.99")
                   )
               )
           )
           .setDiscount(
-            new PayPal.types.general.AggregatedDiscount()
+            new PayPal.AggregatedDiscount()
               .setInvoiceDiscount(
-                new PayPal.types.general.Discount()
+                new PayPal.Discount()
                   .setPercent("10")
               )
           )
@@ -184,8 +184,8 @@ const returnedInvoice = await PayPal.invoices.invoices.create(Invoice);
 
 - Getting the next invoice number & creating an invoice **via an object**
 ```js
-const nextNumber = await PayPal.invoices.invoiceNumber.generate();
-const Invoice = PayPal.invoices.invoices.constructInvoice({
+const nextNumber = await PayPal.Handler.invoiceNumber.generate();
+const Invoice = PayPal.Handler.invoices.constructInvoice({
       detail: {
         invoice_number: "#123",
         reference: "deal-ref",
@@ -342,7 +342,7 @@ const Invoice = PayPal.invoices.invoices.constructInvoice({
         },
       },
     });
-const returnedInvoice = await PayPal.invoices.invoices.create(Invoice);
+const returnedInvoice = await PayPal.Handler.invoices.create(Invoice);
 ```
 
 Debugging

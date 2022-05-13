@@ -52,58 +52,53 @@ class PayPal extends BasePayPal {
   constructor() {
     super();
 
-    this.invoices = {
+    this.Handler = {
       invoiceNumber: new invoices.invoiceNumber(this),
       invoices: new invoices.invoices(this),
     };
 
-    this.types = {
-      general: {
-        AddressDetails: AddressDetails.bind(null, this),
-        AddressPortable: AddressPortable.bind(null, this),
-        AggregatedDiscount: AggregatedDiscount.bind(null, this),
-        AmountSummaryDetail: AmountSummaryDetail.bind(null, this),
-        AmountWithBreakDown: AmountWithBreakdown.bind(null, this),
-        BillingInfo: BillingInfo.bind(null, this),
-        Configuration: Configuration.bind(null, this),
-        ContactInfo: ContactInfo.bind(null, this),
-        CustomAmount: CustomAmount.bind(null, this),
-        Discount: Discount.bind(null, this),
-        FileReference: FileReference.bind(null, this),
-        Item: Item.bind(null, this),
-        LinkDescription: LinkDescription.bind(null, this),
-        Metadata: Metadata.bind(null, this),
-        Money: Money.bind(null, this),
-        Name: Name.bind(null, this),
-        PartialPayment: PartialPayment.bind(null, this),
-        PaymentDetail: PaymentDetail.bind(null, this),
-        Payments: Payments.bind(null, this),
-        PhoneDetail: PhoneDetail.bind(null, this),
-        RecipientInfo: RecipientInfo.bind(null, this),
-        RefundDetail: RefundDetail.bind(null, this),
-        Refunds: Refunds.bind(null, this),
-        ShippingCost: ShippingCost.bind(null, this),
-        Tax: Tax.bind(null, this),
-        AmountRange: AmountRange.bind(null, this),
-        DateRange: DateRange.bind(null, this),
-        Field: Field.bind(null, this),
-      },
-      invoice: {
-        Invoice: Invoice.bind(null, this),
-        Detail: InvoiceDetail.bind(null, this),
-        InvoicerInfo: InvoiceInvoicerInfo.bind(null, this),
-        PaymentTerm: InvoicePaymentTerm.bind(null, this),
-      },
-      queries: {
-        ListInvoices: ListInvoicesQuery.bind(null, this),
-        QRCode: QrCodeQuery.bind(null, this),
-        RecordPayment: RecordPaymentQuery.bind(null, this),
-        DeleteExternal: DeleteExternalQuery.bind(null, this),
-        Notification: NotificationQuery.bind(null, this),
-        RecordRefund: RecordRefundQuery.bind(null, this),
-        SearchInvoices: SearchInvoicesQuery.bind(null, this),
-      },
+    this.Queries = {
+      ListInvoices: ListInvoicesQuery.bind(null, this),
+      QRCode: QrCodeQuery.bind(null, this),
+      RecordPayment: RecordPaymentQuery.bind(null, this),
+      DeleteExternal: DeleteExternalQuery.bind(null, this),
+      Notification: NotificationQuery.bind(null, this),
+      RecordRefund: RecordRefundQuery.bind(null, this),
+      SearchInvoices: SearchInvoicesQuery.bind(null, this),
     };
+
+    this.AddressDetails = AddressDetails.bind(null, this);
+    this.AddressPortable = AddressPortable.bind(null, this);
+    this.AggregatedDiscount = AggregatedDiscount.bind(null, this);
+    this.AmountSummaryDetail = AmountSummaryDetail.bind(null, this);
+    this.AmountWithBreakDown = AmountWithBreakdown.bind(null, this);
+    this.BillingInfo = BillingInfo.bind(null, this);
+    this.Configuration = Configuration.bind(null, this);
+    this.ContactInfo = ContactInfo.bind(null, this);
+    this.CustomAmount = CustomAmount.bind(null, this);
+    this.Discount = Discount.bind(null, this);
+    this.FileReference = FileReference.bind(null, this);
+    this.Item = Item.bind(null, this);
+    this.LinkDescription = LinkDescription.bind(null, this);
+    this.Metadata = Metadata.bind(null, this);
+    this.Money = Money.bind(null, this);
+    this.Name = Name.bind(null, this);
+    this.PartialPayment = PartialPayment.bind(null, this);
+    this.PaymentDetail = PaymentDetail.bind(null, this);
+    this.Payments = Payments.bind(null, this);
+    this.PhoneDetail = PhoneDetail.bind(null, this);
+    this.RecipientInfo = RecipientInfo.bind(null, this);
+    this.RefundDetail = RefundDetail.bind(null, this);
+    this.Refunds = Refunds.bind(null, this);
+    this.ShippingCost = ShippingCost.bind(null, this);
+    this.Tax = Tax.bind(null, this);
+    this.AmountRange = AmountRange.bind(null, this);
+    this.DateRange = DateRange.bind(null, this);
+    this.Field = Field.bind(null, this);
+    this.Invoice = Invoice.bind(null, this);
+    this.Detail = InvoiceDetail.bind(null, this);
+    this.InvoicerInfo = InvoiceInvoicerInfo.bind(null, this);
+    this.PaymentTerm = InvoicePaymentTerm.bind(null, this);
   }
 
   async authenticate() {
