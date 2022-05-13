@@ -59,7 +59,7 @@ const Invoice = new PayPal.Invoice()
       .setEmailAddress("test@test.com")
       .setPhones(
         [
-          new PayPal.types.general.PhoneDetail()
+          new PayPal.PhoneDetail()
             .setCountryCode("44")
             .setNationalNumber("123456")
         ]
