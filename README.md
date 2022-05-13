@@ -13,9 +13,9 @@ To write an app using this unofficial PayPal SDK (for v2 api)
 ```js
 const PayPal = require("paypal-v2-sdk");
 ```
-- Configure your PayPal instance
+- Configure your PayPal instance (last param, true = sandbox, false = live)
 ```js
-PayPal.configure("YOUR CLIENT ID", "YOUR CLIENT SECRET");
+PayPal.configure("YOUR CLIENT ID", "YOUR CLIENT SECRET", true);
 ```
 - Authenticate your connection (you only need to do this once)
 ```js

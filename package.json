@@ -3,7 +3,7 @@
     "axios": "^0.27.2"
   },
   "name": "paypal-v2-sdk",
-  "version": "1.1.11",
+  "version": "1.1.12",
   "description": "Unofficial promise-based PayPal API v2 SDK for node.js",
   "main": "index.js",
   "scripts": {
