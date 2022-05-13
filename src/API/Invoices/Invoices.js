@@ -12,7 +12,7 @@ class Invoices {
   /**
    *
    * @param {String} id
-   * @returns
+   * @returns {String}
    */
   async get(id) {
     const response = await this.PayPal.get(`/v2/invoicing/invoices/${id}`, {});
@@ -22,6 +22,7 @@ class Invoices {
   /**
    *
    * @param {Object} query
+   * @returns {String}
    */
   async list(query) {
     const response = await this.PayPal.get("/v2/invoicing/invoices", {
@@ -33,7 +34,7 @@ class Invoices {
   /**
    *
    * @param {Object|JSON} json
-   * @returns
+   * @returns {String}
    */
   async create(json) {
     const response = await this.PayPal.post(`/v2/invoicing/invoices`, {
@@ -45,7 +46,7 @@ class Invoices {
   /**
    *
    * @param {String} id
-   * @returns
+   * @returns {Boolean}
    */
   async delete(id) {
     const response = await this.PayPal.delete(
@@ -59,7 +60,7 @@ class Invoices {
    *
    * @param {String} id
    * @param {Object} query
-   * @returns
+   * @returns {Boolean}
    */
   async cancel(id, query) {
     const response = await this.PayPal.post(
@@ -75,6 +76,7 @@ class Invoices {
    *
    * @param {String} id
    * @param {Object} query
+   * @returns {String}
    */
   async generateQrCode(id, query) {
     const response = await this.PayPal.post(
@@ -90,6 +92,7 @@ class Invoices {
    *
    * @param {String} id
    * @param {Object} query
+   * @returns {String}
    */
   async recordPayment(id, query) {
     const response = await this.PayPal.post(
@@ -105,7 +108,7 @@ class Invoices {
    *
    * @param {String} id
    * @param {Object} query
-   * @returns
+   * @returns {String}
    */
   async recordRefund(id, query) {
     const response = await this.PayPal.post(
@@ -117,14 +120,26 @@ class Invoices {
     return response.data;
   }
 
+  /**
+   *
+   * @param {String} invoiceId
+   * @param {String} transactionId
+   * @returns {Boolean}
+   */
   async deleteExternalPayment(invoiceId, transactionId) {
     const response = await this.PayPal.delete(
       `/v2/invoicing/invoices/${invoiceId}/payments/${transactionId}`,
       {}
     );
-    return response.status === 204 ? true : false;
+    return response.status === 204;
   }
 
+  /**
+   *
+   * @param {String} invoiceId
+   * @param {String} transactionId
+   * @returns {Boolean}
+   */
   async deleteExternalRefund(invoiceId, transactionId) {
     const response = await this.PayPal.delete(
       `/v2/invoicing/invoices/${invoiceId}/refunds/${transactionId}`,
@@ -137,6 +152,7 @@ class Invoices {
    *
    * @param {String} id
    * @param {Object} query
+   * @returns {Boolean}
    */
   async sendReminder(id, query) {
     const response = await this.PayPal.post(
@@ -148,6 +164,12 @@ class Invoices {
     return response.status === 204;
   }
 
+  /**
+   *
+   * @param {String} id
+   * @param {Object} query
+   * @returns {Boolean}
+   */
   async send(id, query) {
     const response = await this.PayPal.post(
       `/v2/invoicing/invoices/${id}/send`,
@@ -158,6 +180,11 @@ class Invoices {
     return response.data;
   }
 
+  /**
+   *
+   * @param {Object} query
+   * @returns {String}
+   */
   async find(query) {
     const response = await this.PayPal.post("/v2/invoicing/search-invoices", {
       params: {

@@ -15,6 +15,7 @@ const QrCodeQuery = require("../Queries/QRCode");
 const RecordPaymentQuery = require("../Queries/RecordPayment");
 const RecordPaymentResponse = require("../Responses/RecordPayment");
 const NotificationQuery = require("../Queries/NotificationQuery");
+const SendInvoiceResponse = require("../Responses/SendInvoice");
 
 class Invoice {
   /**
@@ -42,7 +43,7 @@ class Invoice {
       );
     }
 
-    const deleted = await this.PayPal.invoices.invoices.delete(this.id);
+    const deleted = await this.PayPal.Handler.invoices.delete(this.id);
 
     return deleted;
   }
@@ -53,7 +54,7 @@ class Invoice {
    * @returns {Promise<Boolean>}
    */
   async cancel(body) {
-    const cancelled = await this.PayPal.invoices.invoices.cancel(this.id, body);
+    const cancelled = await this.PayPal.Handler.invoices.cancel(this.id, body);
 
     return cancelled;
   }
@@ -64,7 +65,7 @@ class Invoice {
    * @returns {Promise<String>}
    */
   async generateQrCode(body) {
-    const qrCode = await this.PayPal.invoices.invoices.generateQrCode(
+    const qrCode = await this.PayPal.Handler.invoices.generateQrCode(
       this.id,
       body
     );
@@ -77,7 +78,7 @@ class Invoice {
    * @returns {Promise<RecordPaymentResponse>}
    */
   async recordPayment(body) {
-    const response = await this.PayPal.invoices.invoices.recordPayment(
+    const response = await this.PayPal.Handler.invoices.recordPayment(
       this.id,
       body
     );
@@ -86,10 +87,11 @@ class Invoice {
 
   /**
    *
-   * @param {Promise<NotificationQuery>} body
+   * @param {NotificationQuery} body
+   * @returns {Promise<Boolean>}
    */
   async sendReminder(body) {
-    const response = await this.PayPal.invoices.invoices.sendReminder(
+    const response = await this.PayPal.Handler.invoices.sendReminder(
       this.id,
       body
     );
@@ -99,10 +101,10 @@ class Invoice {
   /**
    *
    * @param {Promise<Boolean>} body
-   * @returns
+   * @returns {Promise<SendInvoiceResponse>}
    */
   async send(body) {
-    const response = await this.PayPal.invoices.invoices.send(this.id, body);
+    const response = await this.PayPal.Handler.invoices.send(this.id, body);
     return response;
   }
 

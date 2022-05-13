@@ -51,7 +51,7 @@ class Metadata {
   /**
    *
    * @param {String} date
-   * @returns
+   * @returns {Metadata}
    */
   setLastUpdateTime(date) {
     this.lastUpdateTime = date;
