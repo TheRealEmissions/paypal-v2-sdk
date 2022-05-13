@@ -34,7 +34,7 @@ class ContactInfo {
   /**
    *
    * @param {String} name
-   * @returns
+   * @returns {ContactInfo}
    */
   setBusinessName(name) {
     this.businessName = name;
@@ -44,7 +44,7 @@ class ContactInfo {
   /**
    *
    * @param {Name} name
-   * @returns
+   * @returns {ContactInfo}
    */
   setName(name) {
     this.name = name;
@@ -54,7 +54,7 @@ class ContactInfo {
   /**
    *
    * @param {AddressPortable} address
-   * @returns
+   * @returns {ContactInfo}
    */
   setAddress(address) {
     this.address = address;

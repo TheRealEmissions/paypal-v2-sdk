@@ -32,7 +32,7 @@ class AmountRange {
   /**
    *
    * @param {Money} amount
-   * @returns
+   * @returns {AmountRange}
    */
   setLowerAmount(amount) {
     this.lowerAmount = amount;
@@ -42,7 +42,7 @@ class AmountRange {
   /**
    *
    * @param {Money} amount
-   * @returns
+   * @returns {AmountRange}
    */
   setUpperAmount(amount) {
     this.upperAmount = amount;

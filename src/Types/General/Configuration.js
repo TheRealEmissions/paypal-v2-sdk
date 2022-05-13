@@ -32,7 +32,7 @@ class Configuration {
   /**
    *
    * @param {Boolean} boolean
-   * @returns
+   * @returns {Configuration}
    */
   setTaxCalculatedAfterDiscount(boolean) {
     this.taxCalculatedAfterDiscount = boolean;
@@ -42,7 +42,7 @@ class Configuration {
   /**
    *
    * @param {Boolean} boolean
-   * @returns
+   * @returns {Configuration}
    */
   setTaxInclusive(boolean) {
     this.taxInclusive = boolean;
@@ -52,7 +52,7 @@ class Configuration {
   /**
    *
    * @param {Boolean} boolean
-   * @returns
+   * @returns {Configuration}
    */
   setAllowTip(boolean) {
     this.allowTip = boolean;
@@ -62,7 +62,7 @@ class Configuration {
   /**
    *
    * @param {PartialPayment} partialPayment
-   * @returns
+   * @returns {Configuration}
    */
   setPartialPayment(partialPayment) {
     this.partialPayment = partialPayment;
@@ -72,7 +72,7 @@ class Configuration {
   /**
    *
    * @param {String} id
-   * @returns
+   * @returns {Configuration}
    */
   setTemplateId(id) {
     this.templateId = id;

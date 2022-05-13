@@ -33,7 +33,7 @@ class AggregatedDiscount {
   /**
    *
    * @param {Discount} invoiceDiscount
-   * @returns
+   * @returns {AggregatedDiscount}
    */
   setInvoiceDiscount(invoiceDiscount) {
     this.invoiceDiscount = invoiceDiscount;
@@ -43,7 +43,7 @@ class AggregatedDiscount {
   /**
    *
    * @param {Money} itemDiscount
-   * @returns
+   * @returns {AggregatedDiscount}
    */
   setItemDiscount(itemDiscount) {
     this.itemDiscount = itemDiscount;

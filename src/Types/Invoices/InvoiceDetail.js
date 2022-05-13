@@ -35,7 +35,7 @@ class InvoiceDetail {
   /**
    *
    * @param {String} ref
-   * @returns
+   * @returns {InvoiceDetail}
    */
   setReference(ref) {
     this.reference = ref;
@@ -45,7 +45,7 @@ class InvoiceDetail {
   /**
    *
    * @param {String} code
-   * @returns
+   * @returns {InvoiceDetail}
    */
   setCurrencyCode(code) {
     this.currencyCode = code;
@@ -55,7 +55,7 @@ class InvoiceDetail {
   /**
    *
    * @param {String} note
-   * @returns
+   * @returns {InvoiceDetail}
    */
   setNote(note) {
     this.note = note;
@@ -65,7 +65,7 @@ class InvoiceDetail {
   /**
    *
    * @param {String} tac
-   * @returns
+   * @returns {InvoiceDetail}
    */
   setTermsAndConditions(tac) {
     this.termsAndConditions = tac;
@@ -75,7 +75,7 @@ class InvoiceDetail {
   /**
    *
    * @param {String} memo
-   * @returns
+   * @returns {InvoiceDetail}
    */
   setMemo(memo) {
     this.memo = memo;
@@ -85,7 +85,7 @@ class InvoiceDetail {
   /**
    *
    * @param {Array<FileReference>} attachments
-   * @returns
+   * @returns {InvoiceDetail}
    */
   setAttachments(attachments) {
     this.attachments = attachments;
@@ -95,26 +95,27 @@ class InvoiceDetail {
   /**
    *
    * @param {Number|String} num
-   * @returns
+   * @returns {InvoiceDetail}
    */
   setInvoiceNumber(num) {
-    this.invoiceNumber = typeof num === "string" ? parseInt(num) : num;
+    this.invoiceNumber = typeof num === "number" ? num.toString() : num;
     return this;
   }
 
   /**
    *
-   * @param {Date|String} date
-   * @returns
+   * @param {String} date
+   * @returns {InvoiceDetail}
    */
   setInvoiceDate(date) {
-    this.invoiceDate = date instanceof Date ? date : new Date(date);
+    this.invoiceDate = date;
     return this;
   }
 
   /**
    *
    * @param {InvoicePaymentTerm} term
+   * @returns {InvoiceDetail}
    */
   setPaymentTerm(term) {
     this.paymentTerm = term;
@@ -124,7 +125,7 @@ class InvoiceDetail {
   /**
    *
    * @param {Metadata} metadata
-   * @returns
+   * @returns {InvoiceDetail}
    */
   setMetadata(metadata) {
     this.metadata = metadata;

@@ -30,18 +30,18 @@ class Metadata {
 
   /**
    *
-   * @param {Date|String} date
-   * @returns
+   * @param {String} date
+   * @returns {Metadata}
    */
   setCreateTime(date) {
-    this.createTime = date instanceof Date ? date : new Date(date);
+    this.createTime = date;
     return this;
   }
 
   /**
    *
    * @param {String} email
-   * @returns
+   * @returns {Metadata}
    */
   setCreatedBy(email) {
     this.createdBy = email;
@@ -50,18 +50,18 @@ class Metadata {
 
   /**
    *
-   * @param {Date|String} date
+   * @param {String} date
    * @returns
    */
   setLastUpdateTime(date) {
-    this.lastUpdateTime = date instanceof Date ? date : new Date(date);
+    this.lastUpdateTime = date;
     return this;
   }
 
   /**
    *
    * @param {String} email
-   * @returns
+   * @returns {Metadata}
    */
   setLastUpdatedBy(email) {
     this.lastUpdatedBy = email;
@@ -70,18 +70,18 @@ class Metadata {
 
   /**
    *
-   * @param {Date|String} date
-   * @returns
+   * @param {String} date
+   * @returns {Metadata}
    */
   setCancelTime(date) {
-    this.cancelTime = date instanceof Date ? date : new Date(date);
+    this.cancelTime = date;
     return this;
   }
 
   /**
    *
    * @param {String} actor
-   * @returns
+   * @returns {Metadata}
    */
   setCancelledBy(actor) {
     this.cancelledBy = actor;
@@ -90,28 +90,28 @@ class Metadata {
 
   /**
    *
-   * @param {Date|String} date
-   * @returns
+   * @param {String} date
+   * @returns {Metadata}
    */
   setFirstTimeSent(date) {
-    this.firstTimeSent = date instanceof Date ? date : new Date(date);
+    this.firstTimeSent = date;
     return this;
   }
 
   /**
    *
-   * @param {Date|String} date
-   * @returns
+   * @param {String} date
+   * @returns {Metadata}
    */
   setLastTimeSent(date) {
-    this.lastTimeSent = date instanceof Date ? date : new Date(date);
+    this.lastTimeSent = date;
     return this;
   }
 
   /**
    *
    * @param {String} email
-   * @returns
+   * @returns {Metadata}
    */
   setLastSentBy(email) {
     this.lastSentBy = email;
@@ -121,7 +121,7 @@ class Metadata {
   /**
    *
    * @param {String} flow
-   * @returns
+   * @returns {Metadata}
    */
   setCreatedByFlow(flow) {
     this.createdByFlow = flow;
@@ -131,13 +131,18 @@ class Metadata {
   /**
    *
    * @param {String} url
-   * @returns
+   * @returns {Metadata}
    */
   setRecipientViewUrl(url) {
     this.recipientViewUrl = url;
     return this;
   }
 
+  /**
+   *
+   * @param {String} url
+   * @returns {Metadata}
+   */
   setInvoicerViewUrl(url) {
     this.invoicerViewUrl = url;
     return this;

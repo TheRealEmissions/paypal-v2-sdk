@@ -29,7 +29,7 @@ class RecordPaymentQuery {
   /**
    *
    * @param {String} type
-   * @returns
+   * @returns {RecordPaymentQuery}
    */
   setType(type) {
     this.type = type;
@@ -39,7 +39,7 @@ class RecordPaymentQuery {
   /**
    *
    * @param {String} id
-   * @returns
+   * @returns {RecordPaymentQuery}
    */
   setPaymentId(id) {
     this.paymentId = id;
@@ -49,7 +49,7 @@ class RecordPaymentQuery {
   /**
    *
    * @param {String} date
-   * @returns
+   * @returns {RecordPaymentQuery}
    */
   setPaymentDate(date) {
     this.paymentDate = date;
@@ -59,7 +59,7 @@ class RecordPaymentQuery {
   /**
    *
    * @param {String} method
-   * @returns
+   * @returns {RecordPaymentQuery}
    */
   setMethod(method) {
     this.method = method;
@@ -69,7 +69,7 @@ class RecordPaymentQuery {
   /**
    *
    * @param {String} note
-   * @returns
+   * @returns {RecordPaymentQuery}
    */
   setNote(note) {
     this.note = note;
@@ -79,7 +79,7 @@ class RecordPaymentQuery {
   /**
    *
    * @param {Money} amount
-   * @returns
+   * @returns {RecordPaymentQuery}
    */
   setAmount(amount) {
     this.amount = amount;
@@ -89,7 +89,7 @@ class RecordPaymentQuery {
   /**
    *
    * @param {ContactInfo} info
-   * @returns
+   * @returns {RecordPaymentQuery}
    */
   setShippingInfo(info) {
     this.shippingInfo = info;

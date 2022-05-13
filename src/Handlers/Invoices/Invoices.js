@@ -52,6 +52,11 @@ class Invoices extends InvoicesAPI {
     this.PayPal = PayPal;
   }
 
+  /**
+   *
+   * @param {String} data
+   * @returns {Invoice}
+   */
   constructInvoice(data) {
     const invoice = new Invoice(this.PayPal)
       .setId(data.id)
@@ -565,7 +570,7 @@ class Invoices extends InvoicesAPI {
    *
    * @param {String} id
    * @param {QrCodeQuery} body
-   * @returns
+   * @returns {Promise<String>}
    */
   async generateQrCode(id, body) {
     const qrCode = await super.generateQrCode(id, body.toAttributeObject());
@@ -649,6 +654,7 @@ class Invoices extends InvoicesAPI {
   /**
    *
    * @param {SearchInvoicesQuery} body
+   * @returns {Promise<ListInvoicesResponse>}
    */
   async find(body) {
     const response = await super.find(body.toAttributeObject());

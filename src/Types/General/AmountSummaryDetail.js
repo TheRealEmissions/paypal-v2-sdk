@@ -32,7 +32,7 @@ class AmountSummaryDetail {
   /**
    *
    * @param {String} code
-   * @returns
+   * @returns {AmountSummaryDetail}
    */
   setCurrencyCode(code) {
     this.currencyCode = code;
@@ -42,7 +42,7 @@ class AmountSummaryDetail {
   /**
    *
    * @param {String} value
-   * @returns
+   * @returns {AmountSummaryDetail}
    */
   setValue(value) {
     this.value = value;
@@ -52,7 +52,7 @@ class AmountSummaryDetail {
   /**
    *
    * @param {AmountWithBreakdown} breakdown
-   * @returns
+   * @returns {AmountSummaryDetail}
    */
   setBreakdown(breakdown) {
     this.breakdown = breakdown;

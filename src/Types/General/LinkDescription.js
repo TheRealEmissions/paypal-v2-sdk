@@ -31,7 +31,7 @@ class LinkDescription {
   /**
    *
    * @param {String} url
-   * @returns
+   * @returns {LinkDescription}
    */
   setHref(url) {
     this.href = url;
@@ -41,7 +41,7 @@ class LinkDescription {
   /**
    *
    * @param {String} rel
-   * @returns
+   * @returns {LinkDescription}
    */
   setRel(rel) {
     this.rel = rel;
@@ -51,7 +51,7 @@ class LinkDescription {
   /**
    *
    * @param {String} method
-   * @returns
+   * @returns {LinkDescription}
    */
   setMethod(method) {
     this.method = method;

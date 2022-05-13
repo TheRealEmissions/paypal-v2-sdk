@@ -28,7 +28,7 @@ class RecordRefundQuery {
   /**
    *
    * @param {String} type
-   * @returns
+   * @returns {RecordRefundQuery}
    */
   setType(type) {
     this.type = type;
@@ -38,7 +38,7 @@ class RecordRefundQuery {
   /**
    *
    * @param {String} id
-   * @returns
+   * @returns {RecordRefundQuery}
    */
   setRefundId(id) {
     this.refundId = id;
@@ -48,7 +48,7 @@ class RecordRefundQuery {
   /**
    *
    * @param {String} date
-   * @returns
+   * @returns {RecordRefundQuery}
    */
   setRefundDate(date) {
     this.refundDate = date;
@@ -58,7 +58,7 @@ class RecordRefundQuery {
   /**
    *
    * @param {Money} amount
-   * @returns
+   * @returns {RecordRefundQuery}
    */
   setAmount(amount) {
     this.amount = amount;
@@ -68,7 +68,7 @@ class RecordRefundQuery {
   /**
    *
    * @param {String} string
-   * @returns
+   * @returns {RecordRefundQuery}
    */
   setMethod(string) {
     this.method = string;

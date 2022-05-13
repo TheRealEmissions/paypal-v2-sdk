@@ -32,7 +32,7 @@ class CustomAmount {
   /**
    *
    * @param {String} label
-   * @returns
+   * @returns {CustomAmount}
    */
   setLabel(label) {
     this.label = label;
@@ -42,7 +42,7 @@ class CustomAmount {
   /**
    *
    * @param {Money} amount
-   * @returns
+   * @returns {CustomAmount}
    */
   setAmount(amount) {
     this.amount = amount;

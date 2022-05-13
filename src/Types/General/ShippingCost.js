@@ -33,7 +33,7 @@ class ShippingCost {
   /**
    *
    * @param {Money} amount
-   * @returns
+   * @returns {ShippingCost}
    */
   setAmount(amount) {
     this.amount = amount;
@@ -43,7 +43,7 @@ class ShippingCost {
   /**
    *
    * @param {Tax} tax
-   * @returns
+   * @returns {ShippingCost}
    */
   setTax(tax) {
     this.tax = tax;

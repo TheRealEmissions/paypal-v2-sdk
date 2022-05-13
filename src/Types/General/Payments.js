@@ -33,7 +33,7 @@ class Payments {
   /**
    *
    * @param {Money} amount
-   * @returns
+   * @returns {Payments}
    */
   setPaidAmount(amount) {
     this.paidAmount = amount;
@@ -43,7 +43,7 @@ class Payments {
   /**
    *
    * @param {Array<PaymentDetail>} transactions
-   * @returns
+   * @returns {Payments}
    */
   setTransactions(transactions) {
     this.transactions = transactions;

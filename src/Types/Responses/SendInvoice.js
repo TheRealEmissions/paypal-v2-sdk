@@ -13,9 +13,11 @@ class SendInvoiceResponse {
   /**
    *
    * @param {Array<LinkDescription>} links
+   * @returns {SendInvoiceResponse}
    */
   setLinks(links) {
     this.links = links;
+    return this;
   }
 }
 

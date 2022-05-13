@@ -31,7 +31,7 @@ class Name {
   /**
    *
    * @param {String} prefix
-   * @returns
+   * @returns {Name}
    */
   setPrefix(prefix) {
     this.prefix = prefix;
@@ -41,7 +41,7 @@ class Name {
   /**
    *
    * @param {String} name
-   * @returns
+   * @returns {Name}
    */
   setGivenName(name) {
     this.givenName = name;
@@ -51,7 +51,7 @@ class Name {
   /**
    *
    * @param {String} surname
-   * @returns
+   * @returns {Name}
    */
   setSurname(surname) {
     this.surname = surname;
@@ -61,7 +61,7 @@ class Name {
   /**
    *
    * @param {String} middleName
-   * @returns
+   * @returns {Name}
    */
   setMiddleName(middleName) {
     this.middleName = middleName;
@@ -71,7 +71,7 @@ class Name {
   /**
    *
    * @param {String} suffix
-   * @returns
+   * @returns {Name}
    */
   setSuffix(suffix) {
     this.suffix = suffix;
@@ -81,7 +81,7 @@ class Name {
   /**
    * @deprecated
    * @param {String} name
-   * @returns
+   * @returns {Name}
    */
   setAlternateFullName(name) {
     this.alternateFullName = name;
@@ -91,7 +91,7 @@ class Name {
   /**
    *
    * @param {String} name
-   * @returns
+   * @returns {Name}
    */
   setFullName(name) {
     this.fullName = name;

@@ -31,6 +31,7 @@ class InvoicePaymentTerm {
   /**
    *
    * @param {String} type
+   * @returns {InvoicePaymentTerm}
    */
   setTermType(type) {
     this.termType = type;
@@ -39,11 +40,11 @@ class InvoicePaymentTerm {
 
   /**
    *
-   * @param {Date|String} date
-   * @returns
+   * @param {String} date
+   * @returns {InvoicePaymentTerm}
    */
   setDueDate(date) {
-    this.dueDate = date instanceof Date ? date : new Date(date);
+    this.dueDate = date;
     return this;
   }
 }

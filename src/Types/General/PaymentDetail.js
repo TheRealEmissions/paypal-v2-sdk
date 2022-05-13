@@ -33,7 +33,7 @@ class PaymentDetail {
   /**
    *
    * @param {String} type
-   * @returns
+   * @returns {PaymentDetail}
    */
   setType(type) {
     this.type = type;
@@ -43,7 +43,7 @@ class PaymentDetail {
   /**
    *
    * @param {String} paymentId
-   * @returns
+   * @returns {PaymentDetail}
    */
   setPaymentId(paymentId) {
     this.paymentId = paymentId;
@@ -52,18 +52,18 @@ class PaymentDetail {
 
   /**
    *
-   * @param {Date|String} date
-   * @returns
+   * @param {String} date
+   * @returns {PaymentDetail}
    */
   setPaymentDate(date) {
-    this.paymentDate = date instanceof Date ? date : new Date(date);
+    this.paymentDate = date;
     return this;
   }
 
   /**
    *
    * @param {String} method
-   * @returns
+   * @returns {PaymentDetail}
    */
   setMethod(method) {
     this.method = method;
@@ -73,7 +73,7 @@ class PaymentDetail {
   /**
    *
    * @param {String} note
-   * @returns
+   * @returns {PaymentDetail}
    */
   setNote(note) {
     this.note = note;
@@ -83,7 +83,7 @@ class PaymentDetail {
   /**
    *
    * @param {Money} amount
-   * @returns
+   * @returns {PaymentDetail}
    */
   setAmount(amount) {
     this.amount = amount;
@@ -93,7 +93,7 @@ class PaymentDetail {
   /**
    *
    * @param {ContactInfo} shippingInfo
-   * @returns
+   * @returns {PaymentDetail}
    */
   setShippingInfo(shippingInfo) {
     this.shippingInfo = shippingInfo;

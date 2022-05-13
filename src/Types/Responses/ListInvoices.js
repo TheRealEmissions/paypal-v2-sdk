@@ -14,13 +14,18 @@ class ListInvoicesResponse {
   /**
    *
    * @param {Number} num
-   * @returns
+   * @returns {ListInvoicesResponse}
    */
   setTotalPages(num) {
     this.totalPages = num;
     return this;
   }
 
+  /**
+   *
+   * @param {Number} num
+   * @returns {ListInvoicesResponse}
+   */
   setTotalItems(num) {
     this.totalItems = num;
     return this;
@@ -29,7 +34,7 @@ class ListInvoicesResponse {
   /**
    *
    * @param {Array<Invoice>} items
-   * @returns
+   * @returns {ListInvoicesResponse}
    */
   setItems(items) {
     this.items = items;
@@ -39,7 +44,7 @@ class ListInvoicesResponse {
   /**
    *
    * @param {LinkDescription} links
-   * @returns
+   * @returns {ListInvoicesResponse}
    */
   setLinks(links) {
     this.links = links;

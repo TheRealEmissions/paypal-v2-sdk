@@ -35,7 +35,7 @@ class Item {
   /**
    *
    * @param {String} id
-   * @returns
+   * @returns {Item}
    */
   setId(id) {
     this.id = id;
@@ -45,7 +45,7 @@ class Item {
   /**
    *
    * @param {String} name
-   * @returns
+   * @returns {Item}
    */
   setName(name) {
     this.name = name;
@@ -55,7 +55,7 @@ class Item {
   /**
    *
    * @param {String} desc
-   * @returns
+   * @returns {Item}
    */
   setDescription(desc) {
     this.description = desc;
@@ -65,7 +65,7 @@ class Item {
   /**
    *
    * @param {String} num
-   * @returns
+   * @returns {Item}
    */
   setQuantity(quantity) {
     this.quantity = quantity;
@@ -75,7 +75,7 @@ class Item {
   /**
    *
    * @param {Money} unitAmount
-   * @returns
+   * @returns {Item}
    */
   setUnitAmount(unitAmount) {
     this.unitAmount = unitAmount;
@@ -85,7 +85,7 @@ class Item {
   /**
    *
    * @param {Tax} tax
-   * @returns
+   * @returns {Item}
    */
   setTax(tax) {
     this.tax = tax;
@@ -94,18 +94,18 @@ class Item {
 
   /**
    *
-   * @param {Date|String} date
-   * @returns
+   * @param {String} date
+   * @returns {Item}
    */
   setItemDate(date) {
-    this.itemDate = date instanceof Date ? date : new Date(date);
+    this.itemDate = date;
     return this;
   }
 
   /**
    *
    * @param {Discount} discount
-   * @returns
+   * @returns {Item}
    */
   setDiscount(discount) {
     this.discount = discount;
@@ -115,7 +115,7 @@ class Item {
   /**
    *
    * @param {String} unit
-   * @returns
+   * @returns {Item}
    */
   setUnitOfMeasure(unit) {
     this.unitOfMeasure = unit;

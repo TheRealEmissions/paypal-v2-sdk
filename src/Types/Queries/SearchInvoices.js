@@ -30,7 +30,7 @@ class SearchInvoicesQuery {
   /**
    *
    * @param {Number} num
-   * @returns
+   * @returns {SearchInvoicesQuery}
    */
   setPage(num) {
     this.page = num;
@@ -40,7 +40,7 @@ class SearchInvoicesQuery {
   /**
    *
    * @param {Number} size
-   * @returns
+   * @returns {SearchInvoicesQuery}
    */
   setPageSize(size) {
     this.pageSize = size;
@@ -50,7 +50,7 @@ class SearchInvoicesQuery {
   /**
    *
    * @param {Boolean} bool
-   * @returns
+   * @returns {SearchInvoicesQuery}
    */
   setTotalRequired(bool) {
     this.totalRequired = bool;
@@ -60,7 +60,7 @@ class SearchInvoicesQuery {
   /**
    *
    * @param {String} email
-   * @returns
+   * @returns {SearchInvoicesQuery}
    */
   setRecipientEmail(email) {
     this.recipientEmail = email;
@@ -70,7 +70,7 @@ class SearchInvoicesQuery {
   /**
    *
    * @param {String} name
-   * @returns
+   * @returns {SearchInvoicesQuery}
    */
   setRecipientFirstName(name) {
     this.recipientFirstName = name;
@@ -80,7 +80,7 @@ class SearchInvoicesQuery {
   /**
    *
    * @param {String} name
-   * @returns
+   * @returns {SearchInvoicesQuery}
    */
   setRecipientLastName(name) {
     this.recipientLastName = name;
@@ -90,7 +90,7 @@ class SearchInvoicesQuery {
   /**
    *
    * @param {String} name
-   * @returns
+   * @returns {SearchInvoicesQuery}
    */
   setRecipientBusinessName(name) {
     this.recipientBusinessName = name;
@@ -100,7 +100,7 @@ class SearchInvoicesQuery {
   /**
    *
    * @param {String} num
-   * @returns
+   * @returns {SearchInvoicesQuery}
    */
   setInvoiceNumber(num) {
     this.invoiceNumber = num;
@@ -110,7 +110,7 @@ class SearchInvoicesQuery {
   /**
    *
    * @param {Array<String>} statuses
-   * @returns
+   * @returns {SearchInvoicesQuery}
    */
   setStatus(statuses) {
     this.status = statuses;
@@ -120,7 +120,7 @@ class SearchInvoicesQuery {
   /**
    *
    * @param {String} ref
-   * @returns
+   * @returns {SearchInvoicesQuery}
    */
   setReference(ref) {
     this.reference = ref;
@@ -130,13 +130,18 @@ class SearchInvoicesQuery {
   /**
    *
    * @param {String} code
-   * @returns
+   * @returns {SearchInvoicesQuery}
    */
   setCurrencyCode(code) {
     this.currencyCode = code;
     return this;
   }
 
+  /**
+   *
+   * @param {String} memo
+   * @returns {SearchInvoicesQuery}
+   */
   setMemo(memo) {
     this.memo = memo;
     return this;
@@ -145,7 +150,7 @@ class SearchInvoicesQuery {
   /**
    *
    * @param {AmountRange} range
-   * @returns
+   * @returns {SearchInvoicesQuery}
    */
   setTotalAmountRange(range) {
     this.totalAmountRange = range;
@@ -155,7 +160,7 @@ class SearchInvoicesQuery {
   /**
    *
    * @param {DateRange} range
-   * @returns
+   * @returns {SearchInvoicesQuery}
    */
   setInvoiceDateRange(range) {
     this.invoiceDateRange = range;
@@ -165,7 +170,7 @@ class SearchInvoicesQuery {
   /**
    *
    * @param {DateRange} range
-   * @returns
+   * @returns {SearchInvoicesQuery}
    */
   setDueDateRange(range) {
     this.dueDateRange = range;
@@ -175,7 +180,7 @@ class SearchInvoicesQuery {
   /**
    *
    * @param {DateRange} range
-   * @returns
+   * @returns {SearchInvoicesQuery}
    */
   setPaymentDateRange(range) {
     this.paymentDateRange = range;
@@ -185,7 +190,7 @@ class SearchInvoicesQuery {
   /**
    *
    * @param {DateRange} range
-   * @returns
+   * @returns {SearchInvoicesQuery}
    */
   setCreationDateRange(range) {
     this.creationDateRange = range;
@@ -195,7 +200,7 @@ class SearchInvoicesQuery {
   /**
    *
    * @param {Boolean} bool
-   * @returns
+   * @returns {SearchInvoicesQuery}
    */
   setArchived(bool) {
     this.archived = bool;
@@ -205,7 +210,7 @@ class SearchInvoicesQuery {
   /**
    *
    * @param {Array<Field>} fields
-   * @returns
+   * @returns {SearchInvoicesQuery}
    */
   setFields(fields) {
     this.fields = fields;

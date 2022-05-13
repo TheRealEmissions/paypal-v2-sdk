@@ -11,6 +11,10 @@ class InvoiceNumber extends InvoiceNumberAPI {
     this.PayPal = PayPal;
   }
 
+  /**
+   *
+   * @returns {Number}
+   */
   async generate() {
     const response = await this.request();
     return response.number;

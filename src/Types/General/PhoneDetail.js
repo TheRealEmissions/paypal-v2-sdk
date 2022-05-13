@@ -31,7 +31,7 @@ class PhoneDetail {
   /**
    *
    * @param {String} code
-   * @returns
+   * @returns {PhoneDetail}
    */
   setCountryCode(code) {
     this.countryCode = code;
@@ -41,7 +41,7 @@ class PhoneDetail {
   /**
    *
    * @param {String} number
-   * @returns
+   * @returns {PhoneDetail}
    */
   setNationalNumber(number) {
     this.nationalNumber = number;
@@ -51,7 +51,7 @@ class PhoneDetail {
   /**
    *
    * @param {String} number
-   * @returns
+   * @returns {PhoneDetail}
    */
   setExtensionNumber(number) {
     this.extensionNumber = number;
@@ -61,7 +61,7 @@ class PhoneDetail {
   /**
    *
    * @param {String} type
-   * @returns
+   * @returns {PhoneDetail}
    */
   setPhoneType(type) {
     this.phoneType = type;

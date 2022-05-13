@@ -33,7 +33,7 @@ class AddressPortable {
   /**
    *
    * @param {Array<String>} address
-   * @returns
+   * @returns {AddressPortable}
    */
   setAddressLines(address) {
     this.addressLines = address;
@@ -43,6 +43,7 @@ class AddressPortable {
   /**
    *
    * @param {String} address
+   * @returns {AddressPortable}
    */
   setAddressLine1(address) {
     if (!this.addressLines) this.addressLines = [];
@@ -50,12 +51,22 @@ class AddressPortable {
     return this;
   }
 
+  /**
+   *
+   * @param {String} address
+   * @returns {AddressPortable}
+   */
   setAddressLine2(address) {
     if (!this.addressLines) this.addressLines = [];
     this.addressLines[1] = address;
     return this;
   }
 
+  /**
+   *
+   * @param {String} address
+   * @returns {AddressPortable}
+   */
   setAddressLine3(address) {
     if (!this.addressLines) this.addressLines = [];
     this.addressLines[2] = address;
@@ -65,7 +76,7 @@ class AddressPortable {
   /**
    *
    * @param {Array<String>} areas
-   * @returns
+   * @returns {AddressPortable}
    */
   setAdminArea(areas) {
     this.adminArea = areas;
@@ -75,6 +86,7 @@ class AddressPortable {
   /**
    *
    * @param {String} area
+   * @returns {AddressPortable}
    */
   setAdminArea4(area) {
     if (!this.adminArea) this.adminArea = [];
@@ -85,7 +97,7 @@ class AddressPortable {
   /**
    *
    * @param {String} area
-   * @returns
+   * @returns {AddressPortable}
    */
   setAdminArea3(area) {
     if (!this.adminArea) this.adminArea = [];
@@ -96,7 +108,7 @@ class AddressPortable {
   /**
    *
    * @param {String} area
-   * @returns
+   * @returns {AddressPortable}
    */
   setAdminArea2(area) {
     if (!this.adminArea) this.adminArea = [];
@@ -107,7 +119,7 @@ class AddressPortable {
   /**
    *
    * @param {String} area
-   * @returns
+   * @returns {AddressPortable}
    */
   setAdminArea1(area) {
     if (!this.adminArea) this.adminArea = [];
@@ -118,7 +130,7 @@ class AddressPortable {
   /**
    *
    * @param {String} code
-   * @returns
+   * @returns {AddressPortable}
    */
   setPostalCode(code) {
     this.postalCode = code;
@@ -128,7 +140,7 @@ class AddressPortable {
   /**
    *
    * @param {String} code
-   * @returns
+   * @returns {AddressPortable}
    */
   setCountryCode(code) {
     this.countryCode = code;
@@ -138,7 +150,7 @@ class AddressPortable {
   /**
    *
    * @param {AddressDetails} addressDetails
-   * @returns
+   * @returns {AddressPortable}
    */
   setAddressDetails(addressDetails) {
     this.addressDetails = addressDetails;

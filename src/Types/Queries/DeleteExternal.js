@@ -27,7 +27,7 @@ class DeleteExternalPaymentQuery {
   /**
    *
    * @param {String} id
-   * @returns
+   * @returns {DeleteExternalPaymentQuery}
    */
   setInvoiceId(id) {
     this.invoiceId = id;
@@ -37,7 +37,7 @@ class DeleteExternalPaymentQuery {
   /**
    *
    * @param {String} id
-   * @returns
+   * @returns {DeleteExternalPaymentQuery}
    */
   setTransactionId(id) {
     this.transactionId = id;

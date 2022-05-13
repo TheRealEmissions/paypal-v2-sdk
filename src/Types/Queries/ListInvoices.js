@@ -27,7 +27,7 @@ class ListInvoicesQuery {
   /**
    *
    * @param {Number} page
-   * @returns
+   * @returns {ListInvoicesQuery}
    */
   setPage(page) {
     this.page = page;
@@ -37,7 +37,7 @@ class ListInvoicesQuery {
   /**
    *
    * @param {Number} size
-   * @returns
+   * @returns {ListInvoicesQuery}
    */
   setPageSize(size) {
     this.pageSize = size;
@@ -47,7 +47,7 @@ class ListInvoicesQuery {
   /**
    *
    * @param {Boolean} boolean
-   * @returns
+   * @returns {ListInvoicesQuery}
    */
   setTotalRequired(boolean) {
     this.totalRequired = boolean;
@@ -57,7 +57,7 @@ class ListInvoicesQuery {
   /**
    *
    * @param {String} fields
-   * @returns
+   * @returns {ListInvoicesQuery}
    */
   setFields(fields) {
     this.fields = fields;

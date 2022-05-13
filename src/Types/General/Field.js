@@ -12,7 +12,7 @@ class Field {
   /**
    *
    * @param {String} name
-   * @returns
+   * @returns {Field}
    */
   setField(name) {
     this.field = name;

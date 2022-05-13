@@ -9,6 +9,11 @@ class RecordRefundResponse {
     this.PayPal = PayPal;
   }
 
+  /**
+   *
+   * @param {String} id
+   * @returns {RecordRefundResponse}
+   */
   setRefundId(id) {
     this.refundId = id;
     return this;

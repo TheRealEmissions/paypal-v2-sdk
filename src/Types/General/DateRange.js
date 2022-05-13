@@ -31,7 +31,7 @@ class DateRange {
   /**
    *
    * @param {String} start
-   * @returns
+   * @returns {DateRange}
    */
   setStart(start) {
     this.start = start;
@@ -41,7 +41,7 @@ class DateRange {
   /**
    *
    * @param {String} end
-   * @returns
+   * @returns {DateRange}
    */
   setEnd(end) {
     this.end = end;

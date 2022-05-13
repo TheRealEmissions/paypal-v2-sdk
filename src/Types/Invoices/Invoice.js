@@ -31,6 +31,10 @@ class Invoice {
 
   */
 
+  /**
+   *
+   * @returns {Promise<Boolean>}
+   */
   async delete() {
     if (!["DRAFT", "SCHEDULED"].includes(this.status)) {
       throw new Error(
@@ -46,7 +50,7 @@ class Invoice {
   /**
    *
    * @param {NotificationQuery} body
-   * @returns
+   * @returns {Promise<Boolean>}
    */
   async cancel(body) {
     const cancelled = await this.PayPal.invoices.invoices.cancel(this.id, body);
@@ -57,7 +61,7 @@ class Invoice {
   /**
    *
    * @param {QrCodeQuery} body
-   * @returns {String}
+   * @returns {Promise<String>}
    */
   async generateQrCode(body) {
     const qrCode = await this.PayPal.invoices.invoices.generateQrCode(
@@ -70,7 +74,7 @@ class Invoice {
   /**
    *
    * @param {RecordPaymentQuery} body
-   * @returns {RecordPaymentResponse}
+   * @returns {Promise<RecordPaymentResponse>}
    */
   async recordPayment(body) {
     const response = await this.PayPal.invoices.invoices.recordPayment(
@@ -82,7 +86,7 @@ class Invoice {
 
   /**
    *
-   * @param {NotificationQuery} body
+   * @param {Promise<NotificationQuery>} body
    */
   async sendReminder(body) {
     const response = await this.PayPal.invoices.invoices.sendReminder(
@@ -92,6 +96,11 @@ class Invoice {
     return response;
   }
 
+  /**
+   *
+   * @param {Promise<Boolean>} body
+   * @returns
+   */
   async send(body) {
     const response = await this.PayPal.invoices.invoices.send(this.id, body);
     return response;
@@ -125,7 +134,7 @@ class Invoice {
   /**
    *
    * @param {String} id
-   * @returns
+   * @returns {Invoice}
    */
   setId(id) {
     this.id = id;
@@ -135,7 +144,7 @@ class Invoice {
   /**
    *
    * @param {String} parentId
-   * @returns
+   * @returns {Invoice}
    */
   setParentId(parentId) {
     this.parentId = parentId;
@@ -145,7 +154,7 @@ class Invoice {
   /**
    *
    * @param {String} status
-   * @returns
+   * @returns {Invoice}
    */
   setStatus(status) {
     this.status = status;
@@ -155,6 +164,7 @@ class Invoice {
   /**
    *
    * @param {InvoiceDetail} detail
+   * @returns {Invoice}
    */
   setDetail(detail) {
     this.detail = detail;
@@ -164,7 +174,7 @@ class Invoice {
   /**
    *
    * @param {InvoiceInvoicerInfo} invoicer
-   * @returns
+   * @returns {Invoice}
    */
   setInvoicer(invoicer) {
     this.invoicer = invoicer;
@@ -174,7 +184,7 @@ class Invoice {
   /**
    *
    * @param {RecipientInfo} recipients
-   * @returns
+   * @returns {Invoice}
    */
   setPrimaryRecipients(recipients) {
     this.primaryRecipients = recipients;
@@ -184,7 +194,7 @@ class Invoice {
   /**
    *
    * @param {Array<String>} recipients - array of email addressses
-   * @returns
+   * @returns {Invoice}
    */
   setAdditionalRecipients(recipients) {
     this.additionalRecipients = recipients;
@@ -194,7 +204,7 @@ class Invoice {
   /**
    *
    * @param {Array<Item>} items
-   * @returns
+   * @returns {Invoice}
    */
   setItems(items) {
     this.items = items;
@@ -204,7 +214,7 @@ class Invoice {
   /**
    *
    * @param {Configuration} config
-   * @returns
+   * @returns {Invoice}
    */
   setConfiguration(config) {
     this.configuration = config;
@@ -214,7 +224,7 @@ class Invoice {
   /**
    *
    * @param {AmountSummaryDetail} amount
-   * @returns
+   * @returns {Invoice}
    */
   setAmount(amount) {
     this.amount = amount;
@@ -224,7 +234,7 @@ class Invoice {
   /**
    *
    * @param {Money} dueAmount
-   * @returns
+   * @returns {Invoice}
    */
   setDueAmount(dueAmount) {
     this.dueAmount = dueAmount;
@@ -234,7 +244,7 @@ class Invoice {
   /**
    *
    * @param {Money} gratuity
-   * @returns
+   * @returns {Invoice}
    */
   setGratuity(gratuity) {
     this.gratuity = gratuity;
@@ -244,7 +254,7 @@ class Invoice {
   /**
    *
    * @param {Payments} payments
-   * @returns
+   * @returns {Invoice}
    */
   setPayments(payments) {
     this.payments = payments;
@@ -254,7 +264,7 @@ class Invoice {
   /**
    *
    * @param {Refunds} refunds
-   * @returns
+   * @returns {Invoice}
    */
   setRefunds(refunds) {
     this.refunds = refunds;
@@ -264,7 +274,7 @@ class Invoice {
   /**
    *
    * @param {Array<LinkDescription>} links
-   * @returns
+   * @returns {Invoice}
    */
   setLinks(links) {
     this.links = links;

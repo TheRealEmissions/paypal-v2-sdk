@@ -32,7 +32,7 @@ class RefundDetail {
   /**
    *
    * @param {String} type
-   * @returns
+   * @returns {RefundDetail}
    */
   setType(type) {
     this.type = type;
@@ -42,7 +42,7 @@ class RefundDetail {
   /**
    *
    * @param {String} id
-   * @returns
+   * @returns {RefundDetail}
    */
   setRefundId(id) {
     this.refundId = id;
@@ -51,18 +51,18 @@ class RefundDetail {
 
   /**
    *
-   * @param {Date|String} date
-   * @returns
+   * @param {String} date
+   * @returns {RefundDetail}
    */
   setRefundDate(date) {
-    this.refundDate = date instanceof Date ? date : new Date(date);
+    this.refundDate = date;
     return this;
   }
 
   /**
    *
    * @param {Money} amount
-   * @returns
+   * @returns {RefundDetail}
    */
   setAmount(amount) {
     this.amount = amount;
@@ -72,7 +72,7 @@ class RefundDetail {
   /**
    *
    * @param {String} method
-   * @returns
+   * @returns {RefundDetail}
    */
   setMethod(method) {
     this.method = method;

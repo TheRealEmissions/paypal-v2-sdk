@@ -33,7 +33,7 @@ class Discount {
   /**
    *
    * @param {String} percent
-   * @returns
+   * @returns {Discount}
    */
   setPercent(percent) {
     this.percent = percent;
@@ -43,7 +43,7 @@ class Discount {
   /**
    *
    * @param {Money} amount
-   * @returns
+   * @returns {Discount}
    */
   setAmount(amount) {
     this.amount = amount;

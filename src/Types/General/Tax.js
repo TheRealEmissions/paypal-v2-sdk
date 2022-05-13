@@ -33,7 +33,7 @@ class Tax {
   /**
    *
    * @param {String} name
-   * @returns
+   * @returns {Tax}
    */
   setName(name) {
     this.name = name;
@@ -43,7 +43,7 @@ class Tax {
   /**
    *
    * @param {String} percent - from 0 to 100
-   * @returns
+   * @returns {Tax}
    */
   setPercent(percent) {
     this.percent = percent;
@@ -53,7 +53,7 @@ class Tax {
   /**
    *
    * @param {Money} amount
-   * @returns
+   * @returns {Tax}
    */
   setAmount(amount) {
     this.amount = amount;

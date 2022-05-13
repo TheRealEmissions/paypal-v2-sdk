@@ -12,7 +12,7 @@ class RecordPaymentResponse {
   /**
    *
    * @param {String} id
-   * @returns
+   * @returns {RecordPaymentResponse}
    */
   setPaymentId(id) {
     this.paymentId = id;

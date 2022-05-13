@@ -33,7 +33,7 @@ class InvoiceInvoicerInfo {
   /**
    *
    * @param {String} email
-   * @returns
+   * @returns {InvoiceInvoicerInfo}
    */
   setEmailAddress(email) {
     this.email = email;
@@ -43,7 +43,7 @@ class InvoiceInvoicerInfo {
   /**
    *
    * @param {Array<PhoneDetail>} phones
-   * @returns
+   * @returns {InvoiceInvoicerInfo}
    */
   setPhones(phones) {
     this.phones = phones;
@@ -53,7 +53,7 @@ class InvoiceInvoicerInfo {
   /**
    *
    * @param {String} url
-   * @returns
+   * @returns {InvoiceInvoicerInfo}
    */
   setWebsite(url) {
     this.website = url;
@@ -63,7 +63,7 @@ class InvoiceInvoicerInfo {
   /**
    *
    * @param {String} id
-   * @returns
+   * @returns {InvoiceInvoicerInfo}
    */
   setTaxId(id) {
     this.taxId = id;
@@ -73,7 +73,7 @@ class InvoiceInvoicerInfo {
   /**
    *
    * @param {String} str
-   * @returns
+   * @returns {InvoiceInvoicerInfo}
    */
   setAdditionalNotes(str) {
     this.additionalNotes = str;
@@ -83,7 +83,7 @@ class InvoiceInvoicerInfo {
   /**
    *
    * @param {String} url
-   * @returns
+   * @returns {InvoiceInvoicerInfo}
    */
   setLogoUrl(url) {
     this.logoUrl = url;

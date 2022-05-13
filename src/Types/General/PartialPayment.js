@@ -32,7 +32,7 @@ class PartialPayment {
   /**
    *
    * @param {Boolean} boolean
-   * @returns
+   * @returns {PartialPayment}
    */
   setAllowPartialPayment(boolean) {
     this.allowPartialPayment = boolean;
@@ -42,7 +42,7 @@ class PartialPayment {
   /**
    *
    * @param {Money} minAmountDue
-   * @returns
+   * @returns {PartialPayment}
    */
   setMinimumAmountDue(minAmountDue) {
     this.minimumAmountDue = minAmountDue;

@@ -19,8 +19,14 @@ class InvoiceNumber {
     return this;
   }
 
+  /**
+   *
+   * @param {Number} number
+   * @returns {InvoiceNumber}
+   */
   setNumber(number) {
     this.number = number;
+    return this;
   }
 }
 

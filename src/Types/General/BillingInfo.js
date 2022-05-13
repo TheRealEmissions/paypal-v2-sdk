@@ -33,7 +33,7 @@ class BillingInfo {
   /**
    *
    * @param {String} email
-   * @returns
+   * @returns {BillingInfo}
    */
   setEmailAddress(email) {
     this.email = email;
@@ -43,7 +43,7 @@ class BillingInfo {
   /**
    *
    * @param {Array<PhoneDetail>} phones
-   * @returns
+   * @returns {BillingInfo}
    */
   setPhones(phones) {
     this.phones = phones;
@@ -53,7 +53,7 @@ class BillingInfo {
   /**
    *
    * @param {String} str
-   * @returns
+   * @returns {BillingInfo}
    */
   setAdditionalInfo(str) {
     this.additionalInfo = str;
@@ -63,7 +63,7 @@ class BillingInfo {
   /**
    *
    * @param {String} lang
-   * @returns
+   * @returns {BillingInfo}
    */
   setLanguage(lang) {
     this.language = lang;

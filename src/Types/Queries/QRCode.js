@@ -37,7 +37,7 @@ class QrCodeQuery {
   /**
    *
    * @param {Number} height
-   * @returns
+   * @returns {QrCodeQuery}
    */
   setHeight(height) {
     this.height = height;
@@ -47,7 +47,7 @@ class QrCodeQuery {
   /**
    *
    * @param {String} type
-   * @returns
+   * @returns {QrCodeQuery}
    */
   setAction(type) {
     this.action = type;

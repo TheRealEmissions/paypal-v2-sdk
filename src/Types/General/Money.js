@@ -31,7 +31,7 @@ class Money {
   /**
    *
    * @param {String} code
-   * @returns
+   * @returns {Money}
    */
   setCurrencyCode(code) {
     this.currencyCode = code;
@@ -41,7 +41,7 @@ class Money {
   /**
    *
    * @param {String} amount
-   * @returns
+   * @returns {Money}
    */
   setValue(amount) {
     this.value = amount;

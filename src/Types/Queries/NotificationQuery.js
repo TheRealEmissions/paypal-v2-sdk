@@ -27,7 +27,7 @@ class NotificationQuery {
   /**
    *
    * @param {String} subject
-   * @returns
+   * @returns {NotificationQuery}
    */
   setSubject(subject) {
     this.subject = subject;
@@ -37,7 +37,7 @@ class NotificationQuery {
   /**
    *
    * @param {String} note
-   * @returns
+   * @returns {NotificationQuery}
    */
   setNote(note) {
     this.note = note;
@@ -47,7 +47,7 @@ class NotificationQuery {
   /**
    *
    * @param {Boolean} boolean
-   * @returns
+   * @returns {NotificationQuery}
    */
   setSendToInvoicer(boolean) {
     this.sendToInvoicer = boolean;
@@ -57,7 +57,7 @@ class NotificationQuery {
   /**
    *
    * @param {Boolean} boolean
-   * @returns
+   * @returns {NotificationQuery}
    */
   setSendToRecipient(boolean) {
     this.sendToRecipient = boolean;
@@ -67,7 +67,7 @@ class NotificationQuery {
   /**
    *
    * @param {Array<String>} emails
-   * @returns
+   * @returns {NotificationQuery}
    */
   setAdditionalRecipients(emails) {
     this.additionalRecipients = emails.map((x) => {

@@ -31,7 +31,7 @@ class AddressDetails {
   /**
    *
    * @param {String} num
-   * @returns
+   * @returns {AddressDetails}
    */
   setStreetNumber(num) {
     this.streetNumber = num;
@@ -41,7 +41,7 @@ class AddressDetails {
   /**
    *
    * @param {String} name
-   * @returns
+   * @returns {AddressDetails}
    */
   setStreetName(name) {
     this.streetName = name;
@@ -51,7 +51,7 @@ class AddressDetails {
   /**
    *
    * @param {String} type
-   * @returns
+   * @returns {AddressDetails}
    */
   setStreetType(type) {
     this.streetType = type;
@@ -61,7 +61,7 @@ class AddressDetails {
   /**
    *
    * @param {String} service
-   * @returns
+   * @returns {AddressDetails}
    */
   setDeliveryService(service) {
     this.deliveryService = service;
@@ -71,7 +71,7 @@ class AddressDetails {
   /**
    *
    * @param {String} name
-   * @returns
+   * @returns {AddressDetails}
    */
   setBuildingName(name) {
     this.buildingName = name;
@@ -81,7 +81,7 @@ class AddressDetails {
   /**
    *
    * @param {String} sub
-   * @returns
+   * @returns {AddressDetails}
    */
   setSubBuilding(sub) {
     this.subBuilding = sub;

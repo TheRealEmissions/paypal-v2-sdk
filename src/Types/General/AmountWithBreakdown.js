@@ -35,7 +35,7 @@ class AmountWithBreakdown {
   /**
    *
    * @param {Money} itemTotal
-   * @returns
+   * @returns {AmountWithBreakdown}
    */
   setItemTotal(itemTotal) {
     this.itemTotal = itemTotal;
@@ -45,7 +45,7 @@ class AmountWithBreakdown {
   /**
    *
    * @param {AggregatedDiscount} discount
-   * @returns
+   * @returns {AmountWithBreakdown}
    */
   setDiscount(discount) {
     this.discount = discount;
@@ -55,7 +55,7 @@ class AmountWithBreakdown {
   /**
    *
    * @param {Money} tax
-   * @returns
+   * @returns {AmountWithBreakdown}
    */
   setTaxTotal(tax) {
     this.taxTotal = tax;
@@ -65,7 +65,7 @@ class AmountWithBreakdown {
   /**
    *
    * @param {ShippingCost} shipping
-   * @returns
+   * @returns {AmountWithBreakdown}
    */
   setShipping(shipping) {
     this.shipping = shipping;
@@ -75,7 +75,7 @@ class AmountWithBreakdown {
   /**
    *
    * @param {CustomAmount} custom
-   * @returns
+   * @returns {AmountWithBreakdown}
    */
   setCustom(custom) {
     this.custom = custom;

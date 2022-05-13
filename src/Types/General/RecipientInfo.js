@@ -34,7 +34,7 @@ class RecipientInfo {
   /**
    *
    * @param {BillingInfo} billingInfo
-   * @returns
+   * @returns {RecipientInfo}
    */
   setBillingInfo(billingInfo) {
     this.billingInfo = billingInfo;
@@ -44,7 +44,7 @@ class RecipientInfo {
   /**
    *
    * @param {ContactInfo} shippingInfo
-   * @returns
+   * @returns {RecipientInfo}
    */
   setShippingInfo(shippingInfo) {
     this.shippingInfo = shippingInfo;

@@ -33,7 +33,7 @@ class Refunds {
   /**
    *
    * @param {Money} amount
-   * @returns
+   * @returns {Refunds}
    */
   setRefundAmount(amount) {
     this.refundAmount = amount;
@@ -43,7 +43,7 @@ class Refunds {
   /**
    *
    * @param {Array<RefundDetail>} transactions
-   * @returns
+   * @returns {Refunds}
    */
   setTransactions(transactions) {
     this.transactions = transactions;
