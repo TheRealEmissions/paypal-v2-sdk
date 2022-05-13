@@ -15,14 +15,7 @@ class Invoices {
    * @returns
    */
   async get(id) {
-    const response = await this.PayPal.Axios.get(
-      `https://api.paypal.com/v2/invoicing/invoices/${id}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await this.PayPal.get(`/v2/invoicing/invoices/${id}`, {});
     return response.data;
   }
 
@@ -31,15 +24,9 @@ class Invoices {
    * @param {Object} query
    */
   async list(query) {
-    const response = await this.PayPal.Axios.get(
-      "https://api.paypal.com/v2/invoicing/invoices",
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        params: query,
-      }
-    );
+    const response = await this.PayPal.get("/v2/invoicing/invoices", {
+      params: query,
+    });
     return response.data;
   }
 
@@ -49,15 +36,9 @@ class Invoices {
    * @returns
    */
   async create(json) {
-    const response = await this.PayPal.Axios.post(
-      `https://api.paypal.com/v2/invoicing/invoices`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: json,
-      }
-    );
+    const response = await this.PayPal.post(`/v2/invoicing/invoices`, {
+      data: json,
+    });
     return response.data;
   }
 
@@ -67,13 +48,9 @@ class Invoices {
    * @returns
    */
   async delete(id) {
-    const response = await this.PayPal.Axios.delete(
-      `https://api.paypal.com/v2/invoicing/invoices/${id}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
+    const response = await this.PayPal.delete(
+      `/v2/invoicing/invoices/${id}`,
+      {}
     );
     return response.status === 204;
   }
@@ -85,12 +62,9 @@ class Invoices {
    * @returns
    */
   async cancel(id, query) {
-    const response = await this.PayPal.Axios.post(
-      `https://api.paypal.com/v2/invoicing/invoices/${id}/cancel`,
+    const response = await this.PayPal.post(
+      `/v2/invoicing/invoices/${id}/cancel`,
       {
-        headers: {
-          "Content-Type": "application/json",
-        },
         data: query,
       }
     );
@@ -103,12 +77,9 @@ class Invoices {
    * @param {Object} query
    */
   async generateQrCode(id, query) {
-    const response = await this.PayPal.Axios.post(
-      `https://api.paypal.com/v2/invoicing/invoices/${id}/generate-qr-code`,
+    const response = await this.PayPal.post(
+      `/v2/invoicing/invoices/${id}/generate-qr-code`,
       {
-        headers: {
-          "Content-Type": "application/json",
-        },
         data: query,
       }
     );
@@ -121,12 +92,9 @@ class Invoices {
    * @param {Object} query
    */
   async recordPayment(id, query) {
-    const response = await this.PayPal.Axios.post(
-      `https://api.paypal.com/v2/invoicing/invoices/${id}/payments`,
+    const response = await this.PayPal.post(
+      `/v2/invoicing/invoices/${id}/payments`,
       {
-        headers: {
-          "Content-Type": "application/json",
-        },
         data: query,
       }
     );
@@ -140,12 +108,9 @@ class Invoices {
    * @returns
    */
   async recordRefund(id, query) {
-    const response = await this.PayPal.Axios.post(
-      `https://api.paypal.com/v2/invoicing/invoices/${id}/refunds`,
+    const response = await this.PayPal.post(
+      `/v2/invoicing/invoices/${id}/refunds`,
       {
-        headers: {
-          "Content-Type": "application/json",
-        },
         data: query,
       }
     );
@@ -153,25 +118,17 @@ class Invoices {
   }
 
   async deleteExternalPayment(invoiceId, transactionId) {
-    const response = await this.PayPal.Axios.delete(
-      `https://api.paypal.com/v2/invoicing/invoices/${invoiceId}/payments/${transactionId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
+    const response = await this.PayPal.delete(
+      `/v2/invoicing/invoices/${invoiceId}/payments/${transactionId}`,
+      {}
     );
     return response.status === 204 ? true : false;
   }
 
   async deleteExternalRefund(invoiceId, transactionId) {
-    const response = await this.PayPal.Axios.delete(
-      `https://api.paypal.com/v2/invoicing/invoices/${invoiceId}/refunds/${transactionId}`,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
+    const response = await this.PayPal.delete(
+      `/v2/invoicing/invoices/${invoiceId}/refunds/${transactionId}`,
+      {}
     );
     return response.status === 204;
   }
@@ -182,12 +139,9 @@ class Invoices {
    * @param {Object} query
    */
   async sendReminder(id, query) {
-    const response = await this.PayPal.Axios.post(
-      `https://api.paypal.com/v2/invoicing/invoices/${id}/remind`,
+    const response = await this.PayPal.post(
+      `/v2/invoicing/invoices/${id}/remind`,
       {
-        headers: {
-          "Content-Type": "application/json",
-        },
         data: query,
       }
     );
@@ -195,12 +149,9 @@ class Invoices {
   }
 
   async send(id, query) {
-    const response = await this.PayPal.Axios.post(
-      `https://api.paypal.com/v2/invoicing/invoices/${id}/send`,
+    const response = await this.PayPal.post(
+      `/v2/invoicing/invoices/${id}/send`,
       {
-        headers: {
-          "Content-Type": "application/json",
-        },
         data: query,
       }
     );
@@ -208,22 +159,16 @@ class Invoices {
   }
 
   async find(query) {
-    const response = await this.PayPal.Axios.post(
-      "https://api.paypal.com/v2/invoicing/search-invoices",
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        params: {
-          page: query.page,
-          page_size: query.pageSize,
-          total_required: query.totalRequired,
-        },
-        data: Object.keys(query)
-          .filter((x) => !["page", "pageSize", "totalRequired"].includes(x))
-          .reduce((a, b) => Object.assign(a, { b: query[b] }), {}),
-      }
-    );
+    const response = await this.PayPal.post("/v2/invoicing/search-invoices", {
+      params: {
+        page: query.page,
+        page_size: query.pageSize,
+        total_required: query.totalRequired,
+      },
+      data: Object.keys(query)
+        .filter((x) => !["page", "pageSize", "totalRequired"].includes(x))
+        .reduce((a, b) => Object.assign(a, { b: query[b] }), {}),
+    });
     return response.data;
   }
 }

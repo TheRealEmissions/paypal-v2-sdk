@@ -116,7 +116,8 @@ class PayPal extends BasePayPal {
     try {
       this.token = await new Token(this).requestNewToken(
         this.clientId,
-        this.clientSecret
+        this.clientSecret,
+        this.sandbox
       );
     } catch (e) {
       throw e;

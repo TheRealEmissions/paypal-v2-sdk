@@ -5,8 +5,18 @@ class API {
     this.Axios = Axios.create();
   }
 
+  setDefaultBaseUrl(url) {
+    this.Axios.defaults.baseURL = url;
+    return this;
+  }
+
   setDefaultAuthorizationHeader(token) {
     this.Axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    return this;
+  }
+
+  setDefaultHeaders() {
+    this.Axios.defaults.headers.common["Content-Type"] = "application/json";
     return this;
   }
 
@@ -20,6 +30,10 @@ class API {
 
   put(...args) {
     return this.Axios.put(...args);
+  }
+
+  delete(...args) {
+    return this.Axios.delete(...args);
   }
 }
 

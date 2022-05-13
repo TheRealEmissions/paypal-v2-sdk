@@ -11,14 +11,9 @@ class InvoiceNumber {
   }
 
   async request() {
-    const response = await this.PayPal.Axios.post(
-      "https://api.paypal.com/v2/invoicing/generate-next-invoice-number",
-      null,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
+    const response = await this.PayPal.post(
+      "/v2/invoicing/generate-next-invoice-number",
+      {}
     );
     this.setNumber(response.data.invoice_number);
     return this;

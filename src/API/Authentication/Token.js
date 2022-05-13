@@ -10,9 +10,9 @@ class Token {
     this.PayPal = PayPal;
   }
 
-  async requestNewToken(clientId, clientSecret) {
+  async requestNewToken(clientId, clientSecret, sandbox) {
     const response = await Axios.post(
-      "https://api.paypal.com/v1/oauth2/token",
+      `https://${sandbox ? "api-m.sandbox" : "api"}.paypal.com/v1/oauth2/token`,
       "grant_type=client_credentials",
       {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -39,7 +39,7 @@ class Token {
       .setScope(response.data.scope)
       .setTokenType(response.data.token_type);
 
-    this.setAxiosDefaults();
+    this.setAxiosDefaults(sandbox);
 
     setTimeout(() => {
       this.eventHandler.emit("debug", "Requesting new Access Token!");
@@ -47,8 +47,12 @@ class Token {
     }, this.expiry);
   }
 
-  setAxiosDefaults() {
-    this.PayPal.setDefaultAuthorizationHeader(this.token);
+  setAxiosDefaults(sandbox) {
+    this.PayPal.setDefaultAuthorizationHeader(this.token)
+      .setDefaultBaseUrl(
+        sandbox ? "https://api-m.sandbox.paypal.com" : "https://api.paypal.com"
+      )
+      .setDefaultHeaders();
   }
 
   setScope(scope) {
