@@ -3,33 +3,33 @@ const InvoicesAPI = require("../../API/Invoices/Invoices");
 
 const Invoice = require("../../Types/Invoices/Invoice");
 const InvoiceDetail = require("../../Types/Invoices/InvoiceDetail");
-const FileReference = require("../../Types/General/FileReference");
+const FileReference = require("../../Types/Invoices/FileReference");
 const InvoicePaymentTerm = require("../../Types/Invoices/InvoicePaymentTerm");
-const Metadata = require("../../Types/General/Metadata");
+const Metadata = require("../../Types/Invoices/Metadata");
 const InvoiceInvoicerInfo = require("../../Types/Invoices/InvoiceInvoicerInfo");
-const PhoneDetail = require("../../Types/General/PhoneDetail");
-const RecipientInfo = require("../../Types/General/RecipientInfo");
-const BillingInfo = require("../../Types/General/BillingInfo");
+const PhoneDetail = require("../../Types/Invoices/PhoneDetail");
+const RecipientInfo = require("../../Types/Invoices/RecipientInfo");
+const BillingInfo = require("../../Types/Invoices/BillingInfo");
 const ContactInfo = require("../../Types/General/ContactInfo");
-const Name = require("../../Types/General/Name");
-const AddressPortable = require("../../Types/General/AddressPortable");
-const AddressDetails = require("../../Types/General/AddressDetails");
-const Item = require("../../Types/General/Item");
+const Name = require("../../Types/Invoices/Name");
+const AddressPortable = require("../../Types/Invoices/AddressPortable");
+const AddressDetails = require("../../Types/Invoices/AddressDetails");
+const Item = require("../../Types/Invoices/Item");
 const Money = require("../../Types/General/Money");
 const Tax = require("../../Types/General/Tax");
-const Discount = require("../../Types/General/Discount");
-const Configuration = require("../../Types/General/Configuration");
+const Discount = require("../../Types/Invoices/Discount");
+const Configuration = require("../../Types/Invoices/Configuration");
 const PartialPayment = require("../../Types/General/PartialPayment");
-const AmountSummaryDetail = require("../../Types/General/AmountSummaryDetail");
-const AmountWithBreakdown = require("../../Types/General/AmountWithBreakdown");
-const AggregatedDiscount = require("../../Types/General/AggregatedDiscount");
-const ShippingCost = require("../../Types/General/ShippingCost");
-const CustomAmount = require("../../Types/General/CustomAmount");
+const AmountSummaryDetail = require("../../Types/Invoices/AmountSummaryDetail");
+const AmountWithBreakdown = require("../../Types/Invoices/AmountWithBreakdown");
+const AggregatedDiscount = require("../../Types/Invoices/AggregatedDiscount");
+const ShippingCost = require("../../Types/Invoices/ShippingCost");
+const CustomAmount = require("../../Types/Invoices/CustomAmount");
 const Payments = require("../../Types/General/Payments");
 const PaymentDetail = require("../../Types/General/PaymentDetail");
 const Refunds = require("../../Types/General/Refunds");
 const RefundDetail = require("../../Types/General/RefundDetail");
-const LinkDescription = require("../../Types/General/LinkDescription");
+const LinkDescription = require("../../Types/Invoices/LinkDescription");
 const ListInvoicesQuery = require("../../Types/Queries/ListInvoices");
 const ListInvoicesResponse = require("../../Types/Responses/ListInvoices");
 const QrCodeQuery = require("../../Types/Queries/QRCode");
@@ -48,7 +48,7 @@ class Invoices extends InvoicesAPI {
    * @param {PayPalClass} PayPal
    */
   constructor(PayPal) {
-    super(PayPal.token);
+    super(PayPal);
     this.PayPal = PayPal;
   }
 

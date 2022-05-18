@@ -2,27 +2,29 @@ const PayPalClass = require("../../PayPal");
 
 const InvoiceDetail = require("./InvoiceDetail");
 const InvoiceInvoicerInfo = require("./InvoiceInvoicerInfo");
-const RecipientInfo = require("../General/RecipientInfo");
-const Item = require("../General/Item");
-const Configuration = require("../General/Configuration");
-const Money = require("../General/Money");
-const AmountSummaryDetail = require("../General/AmountSummaryDetail");
-const Payments = require("../General/Payments");
-const Refunds = require("../General/Refunds");
-const LinkDescription = require("../General/LinkDescription");
+const RecipientInfo = require("./RecipientInfo");
+const Item = require("./Item");
+const Configuration = require("./Configuration");
+const Money = require(".Money");
+const AmountSummaryDetail = require("./AmountSummaryDetail");
+const Payments = require(".Payments");
+const Refunds = require("./Refunds");
+const LinkDescription = require("./LinkDescription");
 
-const QrCodeQuery = require("../Queries/QRCode");
-const RecordPaymentQuery = require("../Queries/RecordPayment");
-const RecordPaymentResponse = require("../Responses/RecordPayment");
-const NotificationQuery = require("../Queries/NotificationQuery");
-const SendInvoiceResponse = require("../Responses/SendInvoice");
+const QrCodeQuery = require("./Queries/QRCode");
+const RecordPaymentQuery = require("./Queries/RecordPayment");
+const RecordPaymentResponse = require("./Responses/RecordPayment");
+const NotificationQuery = require("./Queries/NotificationQuery");
+const SendInvoiceResponse = require("./Responses/SendInvoice");
+const Types = require("../Types");
 
-class Invoice {
+class Invoice extends Types {
   /**
    *
    * @param {PayPalClass} PayPal
    */
   constructor(PayPal = null) {
+    super();
     this.PayPal = PayPal;
   }
 
@@ -113,25 +115,6 @@ class Invoice {
   Invoice methods
 
   */
-
-  toJson() {
-    return JSON.stringify(this.toAttributeObject());
-  }
-
-  toAttributeObject() {
-    const obj = {};
-    for (const entry of Object.keys(this)) {
-      obj[entry.replace(/[A-Z]/g, (x) => `_${x.toLowerCase()}`)] =
-        this[entry] instanceof Object
-          ? this[entry] instanceof Array
-            ? this[entry].map((x) =>
-                x instanceof Object ? x.toAttributeObject() : x
-              )
-            : this[entry].toAttributeObject()
-          : this[entry];
-    }
-    return obj;
-  }
 
   /**
    *
