@@ -42,7 +42,7 @@ class Token {
     this.setAxiosDefaults(sandbox);
 
     setTimeout(() => {
-      this.eventHandler.emit("debug", "Requesting new Access Token!");
+      this.PayPal.eventHandler.emit("debug", "Requesting new Access Token!");
       this.requestNewToken(clientId, clientSecret);
     }, this.expiry);
   }
