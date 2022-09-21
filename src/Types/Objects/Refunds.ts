@@ -1,0 +1,37 @@
+import PayPal from "../../PayPal";
+import Types from "../Types";
+import Money, { TMoney } from "./Money";
+import RefundDetail, { TRefundDetail } from "./RefundDetail";
+
+export type TRefunds = {
+  refund_amount: TMoney;
+  transactions: TRefundDetail[];
+};
+
+class Refunds extends Types {
+  refundAmount: Money;
+  transactions: RefundDetail[];
+  constructor() {
+    super();
+  }
+
+  setRefundAmount(refundAmount: Money) {
+    this.refundAmount = refundAmount;
+    return this;
+  }
+
+  setTransactions(transactions: RefundDetail[]) {
+    this.transactions = transactions;
+    return this;
+  }
+
+  override fromObject(obj: TRefunds) {
+    this.refundAmount = new Money().fromObject(obj.refund_amount);
+    this.transactions = obj.transactions.map((transaction) =>
+      new RefundDetail().fromObject(transaction)
+    );
+    return this;
+  }
+}
+
+export default Refunds;
