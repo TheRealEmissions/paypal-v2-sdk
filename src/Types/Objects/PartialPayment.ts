@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 import Money, { TMoney } from "./Money";
 
@@ -8,8 +7,8 @@ export type TPartialPayment = {
 };
 
 class PartialPayment extends Types {
-  allowPartialPayment: boolean;
-  minimumAmountDue: Money;
+  allowPartialPayment?: boolean;
+  minimumAmountDue?: Money;
   constructor() {
     super();
   }

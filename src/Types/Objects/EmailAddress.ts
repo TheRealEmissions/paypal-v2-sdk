@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 
 export type TEmailAddress = {
@@ -6,7 +5,7 @@ export type TEmailAddress = {
 };
 
 class EmailAddress extends Types {
-  emailAddress: string;
+  emailAddress?: string;
   constructor() {
     super();
   }

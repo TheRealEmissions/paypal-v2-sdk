@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 import Money, { TMoney } from "./Money";
 
@@ -8,8 +7,8 @@ export type TDiscount = {
 };
 
 class Discount extends Types {
-  amount: Money;
-  percent: string;
+  amount?: Money;
+  percent?: string;
 
   constructor() {
     super();

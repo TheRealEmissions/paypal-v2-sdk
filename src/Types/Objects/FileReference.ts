@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 
 export type TFileReference = {
@@ -10,11 +9,11 @@ export type TFileReference = {
 };
 
 class FileReference extends Types {
-  contentType: string;
-  createTime: string;
-  id: string;
-  referenceUrl: string;
-  size: string;
+  contentType?: string;
+  createTime?: string;
+  id?: string;
+  referenceUrl?: string;
+  size?: string;
   constructor() {
     super();
   }

@@ -8,14 +8,16 @@ abstract class Types {
   toAttributeObject<T>() {
     const obj = {};
     for (const entry of Object.keys(this)) {
-      obj[entry.replace(/[A-Z]/g, (x) => `_${x.toLowerCase()}`)] =
-        this[entry] instanceof Object
-          ? Array.isArray(this[entry])
-            ? this[entry].map((x) =>
-                x instanceof Object ? x.toAttributeObject() : x
-              )
-            : this[entry].toAttributeObject()
-          : this[entry];
+      Object.assign(obj, {
+        [entry.replace(/[A-Z]/g, (x) => `_${x.toLowerCase()}`)]:
+          this[entry as keyof this] instanceof Object
+            ? Array.isArray(this[entry as keyof this])
+              ? (this[entry as keyof this] as Types[]).map((x) =>
+                  x instanceof Object ? x.toAttributeObject() : x
+                )
+              : (this[entry as keyof typeof this] as Types).toAttributeObject()
+            : this[entry as keyof this],
+      });
     }
     return obj as T;
   }

@@ -6,7 +6,7 @@ export type TPaymentTerm = {
 };
 
 class PaymentTerm extends Types {
-  termType: PaymentTermType;
+  termType?: PaymentTermType;
   constructor() {
     super();
   }

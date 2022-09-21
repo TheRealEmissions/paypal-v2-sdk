@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 import Money, { TMoney } from "./Money";
 import PaymentDetail, { TPaymentDetail } from "./PaymentDetail";
@@ -9,8 +8,8 @@ export type TPayments = {
 };
 
 class Payments extends Types {
-  paidAmount: Money;
-  transactions: PaymentDetail[];
+  paidAmount?: Money;
+  transactions?: PaymentDetail[];
   constructor() {
     super();
   }

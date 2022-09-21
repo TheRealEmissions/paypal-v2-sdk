@@ -22,14 +22,14 @@ export type TTemplateInfo = {
 };
 
 class TemplateInfo extends Types {
-  additionalRecipients: EmailAddress[];
-  amount: AmountSummaryDetail;
-  configuration: Configuration;
-  detail: TemplateDetail;
-  dueAmount: Money;
-  invoicer: InvoicerInfo;
-  items: Item[];
-  primaryRecipients: RecipientInfo[];
+  additionalRecipients?: EmailAddress[];
+  amount?: AmountSummaryDetail;
+  configuration?: Configuration;
+  detail?: TemplateDetail;
+  dueAmount?: Money;
+  invoicer?: InvoicerInfo;
+  items?: Item[];
+  primaryRecipients?: RecipientInfo[];
   constructor() {
     super();
   }

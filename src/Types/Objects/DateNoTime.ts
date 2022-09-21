@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 
 export type TDateNoTime = {
@@ -6,7 +5,7 @@ export type TDateNoTime = {
 };
 
 class DateNoTime extends Types {
-  dateNoTime: string;
+  dateNoTime?: string;
   constructor() {
     super();
   }

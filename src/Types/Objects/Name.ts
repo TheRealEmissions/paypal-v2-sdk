@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 
 export type TName = {
@@ -12,13 +11,13 @@ export type TName = {
 };
 
 class Name extends Types {
-  alternateFullName: string;
-  fullName: string;
-  givenName: string;
-  middleName: string;
-  prefix: string;
-  suffix: string;
-  surname: string;
+  alternateFullName?: string;
+  fullName?: string;
+  givenName?: string;
+  middleName?: string;
+  prefix?: string;
+  suffix?: string;
+  surname?: string;
   constructor() {
     super();
   }

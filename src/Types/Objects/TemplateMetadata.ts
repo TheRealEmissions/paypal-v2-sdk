@@ -8,10 +8,10 @@ export type TTemplateMetadata = {
 };
 
 class TemplateMetadata extends Types {
-  createTime: string;
-  createdBy: string;
-  lastUpdateTime: string;
-  lastUpdatedBy: string;
+  createTime?: string;
+  createdBy?: string;
+  lastUpdateTime?: string;
+  lastUpdatedBy?: string;
   constructor() {
     super();
   }

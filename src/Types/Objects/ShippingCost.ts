@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 import Money, { TMoney } from "./Money";
 import Tax, { TTax } from "./Tax";
@@ -9,15 +8,18 @@ export type TShippingCost = {
 };
 
 class ShippingCost extends Types {
-  amount: Money;
-  tax: Tax;
+  amount?: Money;
+  tax?: Tax;
 
   constructor() {
     super();
   }
 
   setAmount(amount: Money) {
-    if (parseFloat(amount.value) < 0 || parseFloat(amount.value) > 1000000) {
+    if (
+      parseFloat(amount.value as string) < 0 ||
+      parseFloat(amount.value as string) > 1000000
+    ) {
       throw new Error(
         "Amount value cannot be less than 0 or greater than 1,000,000"
       );

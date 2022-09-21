@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 import AddressDetails, { TAddressDetails } from "./AddressDetails";
 
@@ -16,16 +15,16 @@ export type TAddressPortable = {
 };
 
 class AddressPortable extends Types {
-  countryCode: string;
-  addressDetails: AddressDetails;
-  addressLine1: string;
-  addressLine2: string;
-  addressLine3: string;
-  adminArea1: string;
-  adminArea2: string;
-  adminArea3: string;
-  adminArea4: string;
-  postalCode: string;
+  countryCode?: string;
+  addressDetails?: AddressDetails;
+  addressLine1?: string;
+  addressLine2?: string;
+  addressLine3?: string;
+  adminArea1?: string;
+  adminArea2?: string;
+  adminArea3?: string;
+  adminArea4?: string;
+  postalCode?: string;
   constructor() {
     super();
   }

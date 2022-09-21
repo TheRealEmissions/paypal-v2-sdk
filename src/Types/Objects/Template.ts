@@ -17,18 +17,19 @@ export type TTemplate = {
 };
 
 class Template extends Types {
-  defaultTemplate: boolean;
-  id: string;
-  links: LinkDescription[];
-  name: string;
-  settings: TemplateSettings;
-  standardTemplate: boolean;
-  templateInfo: TemplateInfo;
-  unitOfMeasure: UnitOfMeasure;
+  defaultTemplate?: boolean;
+  id?: string;
+  links?: LinkDescription[];
+  name?: string;
+  settings?: TemplateSettings;
+  standardTemplate?: boolean;
+  templateInfo?: TemplateInfo;
+  unitOfMeasure?: UnitOfMeasure;
 
   PayPal?: PayPal;
   constructor(PayPal?: PayPal) {
     super();
+    this.PayPal = PayPal;
   }
 
   async create() {

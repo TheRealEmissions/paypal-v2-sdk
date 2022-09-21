@@ -37,21 +37,21 @@ export type TInvoice = {
 };
 
 class Invoice extends Types {
-  detail: InvoiceDetail;
-  additionalRecipients: EmailAddress[];
-  amount: AmountSummaryDetail;
-  configuration: Configuration;
-  dueAmount: Money;
-  gratuity: Money;
-  id: string;
-  invoicer: InvoicerInfo;
-  items: Item[];
-  links: LinkDescription[];
-  parentId: string;
-  payments: Payments;
-  primaryRecipients: RecipientInfo[];
-  refunds: Refunds;
-  status: InvoiceStatus;
+  detail?: InvoiceDetail;
+  additionalRecipients?: EmailAddress[];
+  amount?: AmountSummaryDetail;
+  configuration?: Configuration;
+  dueAmount?: Money;
+  gratuity?: Money;
+  id?: string;
+  invoicer?: InvoicerInfo;
+  items?: Item[];
+  links?: LinkDescription[];
+  parentId?: string;
+  payments?: Payments;
+  primaryRecipients?: RecipientInfo[];
+  refunds?: Refunds;
+  status?: InvoiceStatus;
 
   PayPal?: PayPal;
   constructor(PayPal?: PayPal) {

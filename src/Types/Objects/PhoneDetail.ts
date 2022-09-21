@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 
 export type TPhoneDetail = {
@@ -9,10 +8,10 @@ export type TPhoneDetail = {
 };
 
 class PhoneDetail extends Types {
-  countryCode: string;
-  nationalNumber: string;
-  extensionNumber: string;
-  phoneType: string;
+  countryCode?: string;
+  nationalNumber?: string;
+  extensionNumber?: string;
+  phoneType?: string;
   constructor() {
     super();
   }

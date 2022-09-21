@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 import FileReference, { TFileReference } from "./FileReference";
 import InvoicePaymentTerm, { TInvoicePaymentTerm } from "./InvoicePaymentTerm";
@@ -18,16 +17,16 @@ export type TInvoiceDetail = {
 };
 
 class InvoiceDetail extends Types {
-  currencyCode: string;
-  attachments: FileReference[];
-  memo: string;
-  note: string;
-  reference: string;
-  termsAndConditions: string;
-  invoiceDate: string;
-  invoiceNumber: string;
-  metadata: Metadata;
-  paymentTerm: InvoicePaymentTerm;
+  currencyCode?: string;
+  attachments?: FileReference[];
+  memo?: string;
+  note?: string;
+  reference?: string;
+  termsAndConditions?: string;
+  invoiceDate?: string;
+  invoiceNumber?: string;
+  metadata?: Metadata;
+  paymentTerm?: InvoicePaymentTerm;
   constructor() {
     super();
   }

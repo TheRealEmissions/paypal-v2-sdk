@@ -183,7 +183,14 @@ class Invoicing {
       `/v2/invoicing/invoices/${invoiceId}/generate-qr-code`,
       {
         params: {
-          ...(action ? { action: GenerateQrCodeAction[action] } : {}),
+          ...(action
+            ? {
+                action:
+                  GenerateQrCodeAction[
+                    action.toUpperCase() as keyof typeof GenerateQrCodeAction
+                  ],
+              }
+            : {}),
           height,
           width,
         },
@@ -195,6 +202,9 @@ class Invoicing {
 
   async recordPayment(invoice: Invoice | string, paymentDetail: PaymentDetail) {
     const invoiceId = invoice instanceof Invoice ? invoice.id : invoice;
+    if (!invoiceId) {
+      throw new Error("Invoice id is required");
+    }
     const response = await this.PayPal.API.post<TInvoice>(
       `/v2/invoicing/invoices/${invoiceId}/payments`,
       paymentDetail.toAttributeObject<TPaymentDetail>()
@@ -216,6 +226,10 @@ class Invoicing {
 
   async recordRefund(invoice: Invoice | string, refundDetail: RefundDetail) {
     const invoiceId = invoice instanceof Invoice ? invoice.id : invoice;
+    if (!invoiceId) {
+      throw new Error("Invoice id is required");
+    }
+
     const response = await this.PayPal.API.post<TInvoice>(
       `/v2/invoicing/invoices/${invoiceId}/refunds`,
       refundDetail.toAttributeObject<TRefundDetail>()
@@ -244,6 +258,11 @@ class Invoicing {
     subject?: string
   ) {
     const invoiceId = invoice instanceof Invoice ? invoice.id : invoice;
+
+    if (!invoiceId) {
+      throw new Error("Invoice id is required");
+    }
+
     const response = await this.PayPal.API.post<TInvoice>(
       `/v2/invoicing/invoices/${invoiceId}/remind`,
       {
@@ -267,6 +286,9 @@ class Invoicing {
     subject?: string
   ) {
     const invoiceId = invoice instanceof Invoice ? invoice.id : invoice;
+    if (!invoiceId) {
+      throw new Error("Invoice id is required");
+    }
     const response = await this.PayPal.API.post<TInvoice>(
       `/v2/invoicing/invoices/${invoiceId}/send`,
       {

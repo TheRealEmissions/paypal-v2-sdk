@@ -10,8 +10,8 @@ export type TTemplateItemSetting = {
 };
 
 class TemplateItemSetting extends Types {
-  displayPreference: TemplateDisplayPreference;
-  fieldName: TemplateFieldName;
+  displayPreference?: TemplateDisplayPreference;
+  fieldName?: TemplateFieldName;
   constructor() {
     super();
   }

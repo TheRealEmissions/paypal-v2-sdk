@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 
 export type TInvoicePaymentTerm = {
@@ -7,8 +6,8 @@ export type TInvoicePaymentTerm = {
 };
 
 class InvoicePaymentTerm extends Types {
-  termType: string;
-  dueDate: string;
+  termType?: string;
+  dueDate?: string;
   constructor() {
     super();
   }

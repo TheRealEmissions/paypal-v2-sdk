@@ -2,12 +2,12 @@ import PayPal from "../PayPal";
 
 class Authentication {
   PayPal: PayPal;
-  scope: string;
-  token: string;
-  tokenType: string;
-  appId: string;
-  expiry: number;
-  nonce: string;
+  scope?: string;
+  token?: string;
+  tokenType?: string;
+  appId?: string;
+  expiry?: number;
+  nonce?: string;
   constructor(PayPal: PayPal) {
     this.PayPal = PayPal;
   }
@@ -53,6 +53,10 @@ class Authentication {
   }
 
   setAxiosDefaults(sandbox: boolean) {
+    if (!this.token)
+      throw new Error(
+        "Token not set! Please retry configuration and authentication!"
+      );
     this.PayPal.API.setDefaultAuthorizationHeader(this.token)
       .setDefaultBaseUrl(
         sandbox ? "https://api-m.sandbox.com" : "https://api.paypal.com"

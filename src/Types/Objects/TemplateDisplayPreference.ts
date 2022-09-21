@@ -5,7 +5,7 @@ export type TTemplateDisplayPreference = {
 };
 
 class TemplateDisplayPreference extends Types {
-  hidden: boolean;
+  hidden?: boolean;
   constructor() {
     super();
   }

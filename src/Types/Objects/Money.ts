@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 
 export type TMoney = {
@@ -7,8 +6,8 @@ export type TMoney = {
 };
 
 class Money extends Types {
-  currencyCode: string;
-  value: string;
+  currencyCode?: string;
+  value?: string;
   constructor() {
     super();
   }

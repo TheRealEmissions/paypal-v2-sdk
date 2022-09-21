@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 import PartialPayment, { TPartialPayment } from "./PartialPayment";
 
@@ -11,11 +10,11 @@ export type TConfiguration = {
 };
 
 class Configuration extends Types {
-  allowTip: boolean;
-  partialPayment: PartialPayment;
-  taxCalculatedAfterDiscount: boolean;
-  taxInclusive: boolean;
-  templateId: string;
+  allowTip?: boolean;
+  partialPayment?: PartialPayment;
+  taxCalculatedAfterDiscount?: boolean;
+  taxInclusive?: boolean;
+  templateId?: string;
 
   constructor() {
     super();

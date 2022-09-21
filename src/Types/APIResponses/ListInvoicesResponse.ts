@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Invoice, { TInvoice } from "../Objects/Invoice";
 import LinkDescription, { TLinkDescription } from "../Objects/LinkDescription";
 import TypeResponse from "./TypeResponse";

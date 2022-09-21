@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 import Money, { TMoney } from "./Money";
 import RefundDetail, { TRefundDetail } from "./RefundDetail";
@@ -9,8 +8,8 @@ export type TRefunds = {
 };
 
 class Refunds extends Types {
-  refundAmount: Money;
-  transactions: RefundDetail[];
+  refundAmount?: Money;
+  transactions?: RefundDetail[];
   constructor() {
     super();
   }

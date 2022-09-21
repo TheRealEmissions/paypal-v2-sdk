@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 
 export type TBusinessName = {
@@ -6,7 +5,7 @@ export type TBusinessName = {
 };
 
 class BusinessName extends Types {
-  businessName: string;
+  businessName?: string;
   constructor() {
     super();
   }

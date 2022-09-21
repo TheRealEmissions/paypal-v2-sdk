@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 import Money, { TMoney } from "./Money";
 
@@ -8,8 +7,8 @@ export type TCustomAmount = {
 };
 
 class CustomAmount extends Types {
-  label: string;
-  amount: Money;
+  label?: string;
+  amount?: Money;
   constructor() {
     super();
   }
@@ -20,7 +19,7 @@ class CustomAmount extends Types {
   }
 
   setAmount(amount: Money) {
-    if (Math.abs(parseFloat(amount.value)) > 1000000) {
+    if (Math.abs(parseFloat(amount.value as string)) > 1000000) {
       throw new Error("Amount value cannot be greater than 1,000,000");
     }
     this.amount = amount;

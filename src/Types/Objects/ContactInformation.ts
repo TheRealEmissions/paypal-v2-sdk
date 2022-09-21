@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 import AddressPortable, { TAddressPortable } from "./AddressPortable";
 import Name, { TName } from "./Name";
@@ -10,9 +9,9 @@ export type TContactInformation = {
 };
 
 class ContactInformation extends Types {
-  businessName: string;
-  address: AddressPortable;
-  name: Name;
+  businessName?: string;
+  address?: AddressPortable;
+  name?: Name;
   constructor() {
     super();
   }

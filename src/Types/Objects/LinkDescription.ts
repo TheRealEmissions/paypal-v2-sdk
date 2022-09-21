@@ -1,5 +1,4 @@
 import { HTTPMethod } from "../Enums/HTTPMethod";
-import PayPal from "../../PayPal";
 import Types from "../Types";
 
 export type TLinkDescription = {
@@ -9,9 +8,9 @@ export type TLinkDescription = {
 };
 
 class LinkDescription extends Types {
-  href: string;
-  rel: string;
-  method: HTTPMethod;
+  href?: string;
+  rel?: string;
+  method?: HTTPMethod;
   constructor() {
     super();
   }

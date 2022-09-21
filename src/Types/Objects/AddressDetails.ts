@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 
 export type TAddressDetails = {
@@ -11,12 +10,12 @@ export type TAddressDetails = {
 };
 
 class AddressDetails extends Types {
-  streetNumber: string;
-  streetName: string;
-  streetType: string;
-  deliveryService: string;
-  buildingName: string;
-  subBuilding: string;
+  streetNumber?: string;
+  streetName?: string;
+  streetType?: string;
+  deliveryService?: string;
+  buildingName?: string;
+  subBuilding?: string;
 
   constructor() {
     super();

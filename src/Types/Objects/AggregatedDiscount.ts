@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 import Discount, { TDiscount } from "./Discount";
 import Money, { TMoney } from "./Money";
@@ -9,8 +8,8 @@ export type TAggregatedDiscount = {
 };
 
 class AggregatedDiscount extends Types {
-  invoiceDiscount: Discount;
-  itemDiscount: Money;
+  invoiceDiscount?: Discount;
+  itemDiscount?: Money;
   constructor() {
     super();
   }

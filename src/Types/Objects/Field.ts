@@ -5,7 +5,7 @@ export type TField = {
 };
 
 class Field extends Types {
-  field: string;
+  field?: string;
   constructor() {
     super();
   }

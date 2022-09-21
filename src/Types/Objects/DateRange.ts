@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 
 export type TDateRange = {
@@ -7,8 +6,8 @@ export type TDateRange = {
 };
 
 class DateRange extends Types {
-  end: string;
-  start: string;
+  end?: string;
+  start?: string;
   constructor() {
     super();
   }

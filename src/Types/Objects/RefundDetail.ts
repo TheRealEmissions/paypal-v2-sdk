@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import { PaymentDetailMethod } from "../Enums/PaymentDetailMethod";
 import { PaymentDetailType } from "../Enums/PaymentDetailType";
 import Types from "../Types";
@@ -13,11 +12,11 @@ export type TRefundDetail = {
 };
 
 class RefundDetail extends Types {
-  method: PaymentDetailMethod;
-  amount: Money;
-  refundDate: string;
-  refundId: string;
-  type: PaymentDetailType;
+  method?: PaymentDetailMethod;
+  amount?: Money;
+  refundDate?: string;
+  refundId?: string;
+  type?: PaymentDetailType;
   constructor() {
     super();
   }

@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 import AggregatedDiscount, { TAggregatedDiscount } from "./AggregatedDiscount";
 import CustomAmount, { TCustomAmount } from "./CustomAmount";
@@ -14,11 +13,11 @@ export type TAmountWithBreakdown = {
 };
 
 class AmountWithBreakdown extends Types {
-  custom: CustomAmount;
-  discount: AggregatedDiscount;
-  itemTotal: Money;
-  shipping: ShippingCost;
-  taxTotal: Money;
+  custom?: CustomAmount;
+  discount?: AggregatedDiscount;
+  itemTotal?: Money;
+  shipping?: ShippingCost;
+  taxTotal?: Money;
   constructor() {
     super();
   }

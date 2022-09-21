@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 import LinkDescription, { TLinkDescription } from "./LinkDescription";
 
@@ -7,7 +6,7 @@ type TAcceptedResponse = {
 };
 
 class AcceptedResponse extends Types {
-  links: LinkDescription[];
+  links?: LinkDescription[];
   constructor() {
     super();
   }

@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 import BillingInfo, { TBillingInfo } from "./BillingInfo";
 import ContactInformation, { TContactInformation } from "./ContactInformation";
@@ -9,8 +8,8 @@ export type TRecipientInfo = {
 };
 
 class RecipientInfo extends Types {
-  billingInfo: BillingInfo;
-  shippingInfo: ContactInformation;
+  billingInfo?: BillingInfo;
+  shippingInfo?: ContactInformation;
   constructor() {
     super();
   }

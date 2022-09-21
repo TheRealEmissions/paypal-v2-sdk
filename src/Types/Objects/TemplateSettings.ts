@@ -12,8 +12,8 @@ export type TTemplateSettings = {
 };
 
 class TemplateSettings extends Types {
-  templateItemSettings: TemplateItemSetting[];
-  templateSubtotalSettings: TemplateSubtotalSetting[];
+  templateItemSettings?: TemplateItemSetting[];
+  templateSubtotalSettings?: TemplateSubtotalSetting[];
   constructor() {
     super();
   }

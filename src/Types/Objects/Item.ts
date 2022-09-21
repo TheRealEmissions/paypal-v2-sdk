@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import { UnitOfMeasure } from "../Enums/UnitOfMeasure";
 import Types from "../Types";
 import Discount, { TDiscount } from "./Discount";
@@ -18,15 +17,15 @@ export type TItem = {
 };
 
 class Item extends Types {
-  name: string;
-  quantity: string;
-  unitAmount: Money;
-  description: string;
-  discount: Discount;
-  id: string;
-  itemDate: string;
-  tax: Tax;
-  unitOfMeasure: UnitOfMeasure;
+  name?: string;
+  quantity?: string;
+  unitAmount?: Money;
+  description?: string;
+  discount?: Discount;
+  id?: string;
+  itemDate?: string;
+  tax?: Tax;
+  unitOfMeasure?: UnitOfMeasure;
   constructor() {
     super();
   }

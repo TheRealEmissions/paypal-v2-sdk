@@ -15,14 +15,14 @@ export type TTemplateDetail = {
 };
 
 class TemplateDetail extends Types {
-  currencyCode: string;
-  attachments: FileReference[];
-  memo: string;
-  note: string;
-  reference: string;
-  termsAndConditions: string;
-  metadata: TemplateMetadata;
-  paymentTerm: PaymentTerm;
+  currencyCode?: string;
+  attachments?: FileReference[];
+  memo?: string;
+  note?: string;
+  reference?: string;
+  termsAndConditions?: string;
+  metadata?: TemplateMetadata;
+  paymentTerm?: PaymentTerm;
   constructor() {
     super();
   }

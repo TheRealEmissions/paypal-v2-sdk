@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 
 export type TMetadata = {
@@ -17,18 +16,18 @@ export type TMetadata = {
 };
 
 class Metadata extends Types {
-  createTime: string;
-  createdBy: string;
-  lastUpdateTime: string;
-  lastUpdatedBy: string;
-  cancelTime: string;
-  cancelledBy: string;
-  createdByFlow: string;
-  firstSentTime: string;
-  invoicerViewUrl: string;
-  lastSentBy: string;
-  lastSentTime: string;
-  recipientViewUrl: string;
+  createTime?: string;
+  createdBy?: string;
+  lastUpdateTime?: string;
+  lastUpdatedBy?: string;
+  cancelTime?: string;
+  cancelledBy?: string;
+  createdByFlow?: string;
+  firstSentTime?: string;
+  invoicerViewUrl?: string;
+  lastSentBy?: string;
+  lastSentTime?: string;
+  recipientViewUrl?: string;
   constructor() {
     super();
   }

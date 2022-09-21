@@ -10,8 +10,8 @@ export type TTemplateSubtotalSetting = {
 };
 
 class TemplateSubtotalSetting extends Types {
-  displayPreference: TemplateDisplayPreference;
-  fieldName: TemplateFieldName;
+  displayPreference?: TemplateDisplayPreference;
+  fieldName?: TemplateFieldName;
   constructor() {
     super();
   }

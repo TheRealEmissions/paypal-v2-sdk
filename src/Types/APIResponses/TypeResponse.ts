@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 
 class TypeResponse extends Types {
@@ -6,7 +5,7 @@ class TypeResponse extends Types {
     super();
   }
 
-  override fromObject(obj: any) {
+  override fromObject() {
     throw new Error(
       "Method not supported for API Responses. Properties are read-only."
     );

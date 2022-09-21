@@ -17,7 +17,7 @@ class PayPal extends BasePayPal {
         this.sandbox
       );
     } catch (e) {
-      throw new Error(e);
+      throw e;
     }
 
     this.emit("debug", "PayPal Authenticated!");

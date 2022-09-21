@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 import AmountWithBreakdown, {
   TAmountWithBreakdown,
@@ -11,9 +10,9 @@ export type TAmountSummaryDetail = {
 };
 
 class AmountSummaryDetail extends Types {
-  breakdown: AmountWithBreakdown;
-  currencyCode: string;
-  value: string;
+  breakdown?: AmountWithBreakdown;
+  currencyCode?: string;
+  value?: string;
 
   constructor() {
     super();

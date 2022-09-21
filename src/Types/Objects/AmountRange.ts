@@ -1,4 +1,3 @@
-import PayPal from "../../PayPal";
 import Types from "../Types";
 import Money, { TMoney } from "./Money";
 
@@ -8,8 +7,8 @@ export type TAmountRange = {
 };
 
 class AmountRange extends Types {
-  lowerAmount: Money;
-  upperAmount: Money;
+  lowerAmount?: Money;
+  upperAmount?: Money;
   constructor() {
     super();
   }
