@@ -5,9 +5,9 @@ import Error, { TError } from "./Error";
 
 export type TBatchTrackerCollection = {
   errors?: TError[];
-  links?: TLinkDescription[];
+  readonly links?: TLinkDescription[];
   tracker_identifiers?: TTrackerIdentifier[];
-}
+};
 
 class BatchTrackerCollection extends Types {
   errors?: Error[];
