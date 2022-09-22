@@ -3,10 +3,10 @@ import LinkDescription, { TLinkDescription } from "../Objects/LinkDescription";
 import TypeResponse from "./TypeResponse";
 
 export type TSearchForInvoicesResponse = {
-  items: TInvoice[];
-  links: TLinkDescription[];
-  total_items: number;
-  total_pages: number;
+  readonly items: TInvoice[];
+  readonly links: TLinkDescription[];
+  readonly total_items: number;
+  readonly total_pages: number;
 };
 
 class SearchForInvoicesResponse extends TypeResponse {

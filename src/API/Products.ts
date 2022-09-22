@@ -1,7 +1,9 @@
+import { TProduct } from "./../Types/Objects/Product";
 import ListProductsResponse, { TListProductsResponse } from "./../Types/APIResponses/ListProducts";
 import PayPal from "../PayPal";
 import LinkDescription from "../Types/Objects/LinkDescription";
 import ProductCollectionElement from "../Types/Objects/ProductCollectionElement";
+import Product from "../Types/Objects/Product";
 
 class Products {
   PayPal: PayPal;
@@ -35,6 +37,22 @@ class Products {
       response.data.total_items,
       response.data.total_pages
     );
+  }
+
+  async create(product: Product, paypalRequestId?: string, prefer?: "minimal" | "representation") {
+    const response = await this.PayPal.API.post<TProduct>(
+      "/v1/catalogs/products",
+      product.toAttributeObject<TProduct>(),
+      {
+        headers: {
+          "Content-Type": "application/json",
+          ...(prefer ? { Prefer: `return=${prefer}` } : {}),
+          ...(paypalRequestId ? { "PayPal-Request-Id": paypalRequestId } : {}),
+        },
+      }
+    );
+
+    return new Product().fromObject(response.data);
   }
 }
 
