@@ -2,12 +2,12 @@ import Types from "../Types";
 import PhoneDetail, { TPhoneDetail } from "./PhoneDetail";
 
 export type TInvoicerInfo = {
-  additional_notes: string;
-  email_address: string;
-  logo_url: string;
-  phones: TPhoneDetail[];
-  tax_id: string;
-  website: string;
+  additional_notes?: string;
+  email_address?: string;
+  logo_url?: string;
+  phones?: TPhoneDetail[];
+  tax_id?: string;
+  website?: string;
 };
 
 class InvoicerInfo extends Types {
@@ -55,7 +55,7 @@ class InvoicerInfo extends Types {
     this.additionalNotes = obj.additional_notes;
     this.emailAddress = obj.email_address;
     this.logoUrl = obj.logo_url;
-    this.phones = obj.phones.map((x) => new PhoneDetail().fromObject(x));
+    this.phones = obj.phones?.map((x) => new PhoneDetail().fromObject(x));
     this.taxId = obj.tax_id;
     this.website = obj.website;
     return this;

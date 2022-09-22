@@ -6,12 +6,12 @@ import Money, { TMoney } from "./Money";
 
 export type TPaymentDetail = {
   method: string;
-  amount: TMoney;
-  note: string;
-  payment_date: string;
-  payment_id: string;
-  shipping_info: TContactInformation;
-  type: string;
+  amount?: TMoney;
+  note?: string;
+  payment_date?: string;
+  payment_id?: string;
+  shipping_info?: TContactInformation;
+  readonly type?: string;
 };
 
 class PaymentDetail extends Types {
@@ -62,13 +62,12 @@ class PaymentDetail extends Types {
   }
 
   override fromObject(obj: TPaymentDetail) {
-    this.method =
-      PaymentDetailMethod[obj.method as keyof typeof PaymentDetailMethod];
-    this.amount = new Money().fromObject(obj.amount);
+    this.method = PaymentDetailMethod[obj.method as keyof typeof PaymentDetailMethod];
+    this.amount = obj.amount ? new Money().fromObject(obj.amount) : undefined;
     this.note = obj.note;
     this.paymentDate = obj.payment_date;
     this.paymentId = obj.payment_id;
-    this.shippingInfo = new ContactInformation().fromObject(obj.shipping_info);
+    this.shippingInfo = obj.shipping_info ? new ContactInformation().fromObject(obj.shipping_info) : undefined;
     this.type = PaymentDetailType[obj.type as keyof typeof PaymentDetailType];
     return this;
   }

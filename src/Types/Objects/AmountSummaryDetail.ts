@@ -1,12 +1,10 @@
 import Types from "../Types";
-import AmountWithBreakdown, {
-  TAmountWithBreakdown,
-} from "./AmountWithBreakdown";
+import AmountWithBreakdown, { TAmountWithBreakdown } from "./AmountWithBreakdown";
 
 export type TAmountSummaryDetail = {
-  breakdown: TAmountWithBreakdown;
-  currency_code: string;
-  value: string;
+  breakdown?: TAmountWithBreakdown;
+  currency_code?: string;
+  value?: string;
 };
 
 class AmountSummaryDetail extends Types {
@@ -39,7 +37,7 @@ class AmountSummaryDetail extends Types {
   }
 
   override fromObject(obj: TAmountSummaryDetail) {
-    this.breakdown = new AmountWithBreakdown().fromObject(obj.breakdown);
+    this.breakdown = obj.breakdown ? new AmountWithBreakdown().fromObject(obj.breakdown) : undefined;
     this.currencyCode = obj.currency_code;
     this.value = obj.value;
     return this;

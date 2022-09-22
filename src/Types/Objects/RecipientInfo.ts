@@ -3,8 +3,8 @@ import BillingInfo, { TBillingInfo } from "./BillingInfo";
 import ContactInformation, { TContactInformation } from "./ContactInformation";
 
 export type TRecipientInfo = {
-  billing_info: TBillingInfo;
-  shipping_info: TContactInformation;
+  billing_info?: TBillingInfo;
+  shipping_info?: TContactInformation;
 };
 
 class RecipientInfo extends Types {
@@ -25,8 +25,8 @@ class RecipientInfo extends Types {
   }
 
   override fromObject(obj: TRecipientInfo) {
-    this.billingInfo = new BillingInfo().fromObject(obj.billing_info);
-    this.shippingInfo = new ContactInformation().fromObject(obj.shipping_info);
+    this.billingInfo = obj.billing_info ? new BillingInfo().fromObject(obj.billing_info) : undefined;
+    this.shippingInfo = obj.shipping_info ? new ContactInformation().fromObject(obj.shipping_info) : undefined;
     return this;
   }
 }

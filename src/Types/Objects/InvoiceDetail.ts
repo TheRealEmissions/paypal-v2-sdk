@@ -5,15 +5,15 @@ import Metadata, { TMetadata } from "./Metadata";
 
 export type TInvoiceDetail = {
   currency_code: string;
-  attachments: TFileReference[];
-  memo: string;
-  note: string;
-  reference: string;
-  terms_and_conditions: string;
-  invoice_date: string;
-  invoice_number: string;
-  metadata: TMetadata;
-  payment_term: TInvoicePaymentTerm;
+  attachments?: TFileReference[];
+  memo?: string;
+  note?: string;
+  reference?: string;
+  terms_and_conditions?: string;
+  invoice_date?: string;
+  invoice_number?: string;
+  metadata?: TMetadata;
+  payment_term?: TInvoicePaymentTerm;
 };
 
 class InvoiceDetail extends Types {
@@ -83,17 +83,15 @@ class InvoiceDetail extends Types {
 
   override fromObject(obj: TInvoiceDetail) {
     this.currencyCode = obj.currency_code;
-    this.attachments = obj.attachments.map((attachment) =>
-      new FileReference().fromObject(attachment)
-    );
+    this.attachments = obj.attachments?.map((attachment) => new FileReference().fromObject(attachment));
     this.memo = obj.memo;
     this.note = obj.note;
     this.reference = obj.reference;
     this.termsAndConditions = obj.terms_and_conditions;
     this.invoiceDate = obj.invoice_date;
     this.invoiceNumber = obj.invoice_number;
-    this.metadata = new Metadata().fromObject(obj.metadata);
-    this.paymentTerm = new InvoicePaymentTerm().fromObject(obj.payment_term);
+    this.metadata = obj.metadata ? new Metadata().fromObject(obj.metadata) : undefined;
+    this.paymentTerm = obj.payment_term ? new InvoicePaymentTerm().fromObject(obj.payment_term) : undefined;
     return this;
   }
 }

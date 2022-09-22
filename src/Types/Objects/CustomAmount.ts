@@ -3,7 +3,7 @@ import Money, { TMoney } from "./Money";
 
 export type TCustomAmount = {
   label: string;
-  amount: TMoney;
+  amount?: TMoney;
 };
 
 class CustomAmount extends Types {
@@ -28,7 +28,7 @@ class CustomAmount extends Types {
 
   override fromObject(obj: TCustomAmount) {
     this.label = obj.label;
-    this.amount = new Money().fromObject(obj.amount);
+    this.amount = obj.amount ? new Money().fromObject(obj.amount) : undefined;
     return this;
   }
 }

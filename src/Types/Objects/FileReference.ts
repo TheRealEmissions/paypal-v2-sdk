@@ -1,11 +1,11 @@
 import Types from "../Types";
 
 export type TFileReference = {
-  content_type: string;
-  create_time: string;
-  id: string;
-  reference_url: string;
-  size: string;
+  content_type?: string;
+  create_time?: string;
+  id?: string;
+  reference_url?: string;
+  size?: string;
 };
 
 class FileReference extends Types {

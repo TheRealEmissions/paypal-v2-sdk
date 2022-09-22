@@ -6,14 +6,14 @@ import TemplateInfo, { TTemplateInfo } from "./TemplateInfo";
 import TemplateSettings, { TTemplateSettings } from "./TemplateSettings";
 
 export type TTemplate = {
-  default_template: boolean;
-  id: string;
-  links: TLinkDescription[];
-  name: string;
-  settings: TTemplateSettings;
-  standard_template: boolean;
-  template_info: TTemplateInfo;
-  unit_of_measure: string;
+  default_template?: boolean;
+  readonly id?: string;
+  readonly links?: TLinkDescription[];
+  name?: string;
+  settings?: TTemplateSettings;
+  readonly standard_template?: boolean;
+  template_info?: TTemplateInfo;
+  unit_of_measure?: string;
 };
 
 class Template extends Types {
@@ -34,17 +34,13 @@ class Template extends Types {
 
   async create() {
     if (!this.PayPal)
-      throw new Error(
-        "To use in-built methods, please provide PayPal instance when initialising the template"
-      );
+      throw new Error("To use in-built methods, please provide PayPal instance when initialising the template");
     return this.PayPal.Invoicing.createTemplate(this);
   }
 
   async delete() {
     if (!this.PayPal)
-      throw new Error(
-        "To use in-built methods, please provide PayPal instance when initialising the template"
-      );
+      throw new Error("To use in-built methods, please provide PayPal instance when initialising the template");
     if (!this.id) {
       throw new Error("Template ID is required to delete template");
     }
@@ -53,9 +49,7 @@ class Template extends Types {
 
   async fullyUpdate() {
     if (!this.PayPal)
-      throw new Error(
-        "To use in-built methods, please provide PayPal instance when initialising the template"
-      );
+      throw new Error("To use in-built methods, please provide PayPal instance when initialising the template");
     if (!this.id) {
       throw new Error("Template ID is required to update template");
     }
@@ -64,9 +58,7 @@ class Template extends Types {
 
   async get() {
     if (!this.PayPal)
-      throw new Error(
-        "To use in-built methods, please provide PayPal instance when initialising the template"
-      );
+      throw new Error("To use in-built methods, please provide PayPal instance when initialising the template");
     if (!this.id) {
       throw new Error("Template ID is required to get template");
     }
@@ -116,15 +108,14 @@ class Template extends Types {
   override fromObject(obj: TTemplate) {
     this.defaultTemplate = obj.default_template;
     this.id = obj.id;
-    this.links = obj.links.map((item) => {
+    this.links = obj.links?.map((item) => {
       return new LinkDescription().fromObject(item);
     });
     this.name = obj.name;
-    this.settings = new TemplateSettings().fromObject(obj.settings);
+    this.settings = obj.settings ? new TemplateSettings().fromObject(obj.settings) : undefined;
     this.standardTemplate = obj.standard_template;
-    this.templateInfo = new TemplateInfo().fromObject(obj.template_info);
-    this.unitOfMeasure =
-      UnitOfMeasure[obj.unit_of_measure as keyof typeof UnitOfMeasure];
+    this.templateInfo = obj.template_info ? new TemplateInfo().fromObject(obj.template_info) : undefined;
+    this.unitOfMeasure = UnitOfMeasure[obj.unit_of_measure as keyof typeof UnitOfMeasure];
     return this;
   }
 }

@@ -1,12 +1,12 @@
 import Types from "../Types";
 
 export type TAddressDetails = {
-  street_number: string;
-  street_name: string;
-  street_type: string;
-  delivery_service: string;
-  building_name: string;
-  sub_building: string;
+  street_number?: string;
+  street_name?: string;
+  street_type?: string;
+  delivery_service?: string;
+  building_name?: string;
+  sub_building?: string;
 };
 
 class AddressDetails extends Types {

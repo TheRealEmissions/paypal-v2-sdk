@@ -3,9 +3,9 @@ import AddressPortable, { TAddressPortable } from "./AddressPortable";
 import Name, { TName } from "./Name";
 
 export type TContactInformation = {
-  business_name: string;
-  address: TAddressPortable;
-  name: TName;
+  business_name?: string;
+  address?: TAddressPortable;
+  name?: TName;
 };
 
 class ContactInformation extends Types {
@@ -33,8 +33,8 @@ class ContactInformation extends Types {
 
   override fromObject(obj: TContactInformation) {
     this.businessName = obj.business_name;
-    this.address = new AddressPortable().fromObject(obj.address);
-    this.name = new Name().fromObject(obj.name);
+    this.address = obj.address ? new AddressPortable().fromObject(obj.address) : undefined;
+    this.name = obj.name ? new Name().fromObject(obj.name) : undefined;
     return this;
   }
 }

@@ -7,9 +7,9 @@ export type TError = {
   message: string;
   name: string;
   details?: TErrorDetails[];
-  information_link?: string;
-  links?: TLinkDescription[];
-}
+  readonly information_link?: string;
+  readonly links?: TLinkDescription[];
+};
 
 class Error extends Types {
   debugId?: string;
@@ -33,7 +33,6 @@ class Error extends Types {
   }
 
   setName(name: string) {
-
     this.name = name;
     return this;
   }

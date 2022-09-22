@@ -1,7 +1,7 @@
 import Types from "../Types";
 
 export type TBusinessName = {
-  business_name: string;
+  business_name?: string;
 };
 
 class BusinessName extends Types {

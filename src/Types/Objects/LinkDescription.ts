@@ -4,7 +4,7 @@ import Types from "../Types";
 export type TLinkDescription = {
   href: string;
   rel: string;
-  method: string;
+  method?: string;
 };
 
 class LinkDescription extends Types {
@@ -33,7 +33,7 @@ class LinkDescription extends Types {
   override fromObject(obj: TLinkDescription) {
     this.href = obj.href;
     this.rel = obj.rel;
-    this.method = HTTPMethod[obj.method as keyof typeof HTTPMethod];
+    this.method = obj.method ? HTTPMethod[obj.method as keyof typeof HTTPMethod] : undefined;
     return this;
   }
 }

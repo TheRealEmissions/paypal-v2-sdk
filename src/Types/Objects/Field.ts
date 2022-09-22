@@ -1,7 +1,7 @@
 import Types from "../Types";
 
 export type TField = {
-  field: string;
+  field?: string;
 };
 
 class Field extends Types {

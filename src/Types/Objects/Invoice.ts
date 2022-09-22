@@ -18,20 +18,20 @@ import Refunds, { TRefunds } from "./Refunds";
 
 export type TInvoice = {
   detail: TInvoiceDetail;
-  additional_recipients: TEmailAddress[];
-  amount: TAmountSummaryDetail;
-  configuration: TConfiguration;
-  due_amount: TMoney;
-  gratuity: TMoney;
-  id: string;
-  invoicer: TInvoicerInfo;
-  items: TItem[];
-  links: TLinkDescription[];
-  parent_id: string;
-  payments: TPayments;
-  primary_recipients: TRecipientInfo[];
-  refunds: TRefunds;
-  status: string;
+  additional_recipients?: TEmailAddress[];
+  amount?: TAmountSummaryDetail;
+  configuration?: TConfiguration;
+  readonly due_amount?: TMoney;
+  readonly gratuity?: TMoney;
+  readonly id: string;
+  invoicer?: TInvoicerInfo;
+  items?: TItem[];
+  readonly links?: TLinkDescription[];
+  readonly parent_id?: string;
+  payments?: TPayments;
+  primary_recipients?: TRecipientInfo[];
+  refunds?: TRefunds;
+  readonly status: string;
 };
 
 class Invoice extends Types {
@@ -257,19 +257,19 @@ class Invoice extends Types {
 
   override fromObject(obj: TInvoice) {
     this.detail = new InvoiceDetail().fromObject(obj.detail);
-    this.additionalRecipients = obj.additional_recipients.map((x) => new EmailAddress().fromObject(x));
-    this.amount = new AmountSummaryDetail().fromObject(obj.amount);
-    this.configuration = new Configuration().fromObject(obj.configuration);
-    this.dueAmount = new Money().fromObject(obj.due_amount);
-    this.gratuity = new Money().fromObject(obj.gratuity);
+    this.additionalRecipients = obj.additional_recipients?.map((x) => new EmailAddress().fromObject(x));
+    this.amount = obj.amount ? new AmountSummaryDetail().fromObject(obj.amount) : undefined;
+    this.configuration = obj.configuration ? new Configuration().fromObject(obj.configuration) : undefined;
+    this.dueAmount = obj.due_amount ? new Money().fromObject(obj.due_amount) : undefined;
+    this.gratuity = obj.gratuity ? new Money().fromObject(obj.gratuity) : undefined;
     this.id = obj.id;
-    this.invoicer = new InvoicerInfo().fromObject(obj.invoicer);
-    this.items = obj.items.map((x) => new Item().fromObject(x));
-    this.links = obj.links.map((x) => new LinkDescription().fromObject(x));
+    this.invoicer = obj.invoicer ? new InvoicerInfo().fromObject(obj.invoicer) : undefined;
+    this.items = obj.items?.map((x) => new Item().fromObject(x));
+    this.links = obj.links?.map((x) => new LinkDescription().fromObject(x));
     this.parentId = obj.parent_id;
-    this.payments = new Payments().fromObject(obj.payments);
-    this.primaryRecipients = obj.primary_recipients.map((x) => new RecipientInfo().fromObject(x));
-    this.refunds = new Refunds().fromObject(obj.refunds);
+    this.payments = obj.payments ? new Payments().fromObject(obj.payments) : undefined;
+    this.primaryRecipients = obj.primary_recipients?.map((x) => new RecipientInfo().fromObject(x));
+    this.refunds = obj.refunds ? new Refunds().fromObject(obj.refunds) : undefined;
     this.status = InvoiceStatus[obj.status as keyof typeof InvoiceStatus];
     return this;
   }

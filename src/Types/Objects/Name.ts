@@ -1,13 +1,13 @@
 import Types from "../Types";
 
 export type TName = {
-  alternate_full_name: string;
-  full_name: string;
-  given_name: string;
-  middle_name: string;
-  prefix: string;
-  suffix: string;
-  surname: string;
+  alternate_full_name?: string;
+  full_name?: string;
+  given_name?: string;
+  middle_name?: string;
+  prefix?: string;
+  suffix?: string;
+  surname?: string;
 };
 
 class Name extends Types {

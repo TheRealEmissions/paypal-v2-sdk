@@ -5,13 +5,13 @@ import TemplateMetadata, { TTemplateMetadata } from "./TemplateMetadata";
 
 export type TTemplateDetail = {
   currency_code: string;
-  attachments: TFileReference[];
-  memo: string;
-  note: string;
-  reference: string;
-  terms_and_conditions: string;
-  metadata: TTemplateMetadata;
-  payment_term: TPaymentTerm;
+  attachments?: TFileReference[];
+  memo?: string;
+  note?: string;
+  reference?: string;
+  terms_and_conditions?: string;
+  metadata?: TTemplateMetadata;
+  payment_term?: TPaymentTerm;
 };
 
 class TemplateDetail extends Types {
@@ -69,15 +69,15 @@ class TemplateDetail extends Types {
 
   override fromObject(obj: TTemplateDetail) {
     this.currencyCode = obj.currency_code;
-    this.attachments = obj.attachments.map((attachment) => {
+    this.attachments = obj.attachments?.map((attachment) => {
       return new FileReference().fromObject(attachment);
     });
     this.memo = obj.memo;
     this.note = obj.note;
     this.reference = obj.reference;
     this.termsAndConditions = obj.terms_and_conditions;
-    this.metadata = new TemplateMetadata().fromObject(obj.metadata);
-    this.paymentTerm = new PaymentTerm().fromObject(obj.payment_term);
+    this.metadata = obj.metadata ? new TemplateMetadata().fromObject(obj.metadata) : undefined;
+    this.paymentTerm = obj.payment_term ? new PaymentTerm().fromObject(obj.payment_term) : undefined;
     return this;
   }
 }

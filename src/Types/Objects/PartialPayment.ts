@@ -2,8 +2,8 @@ import Types from "../Types";
 import Money, { TMoney } from "./Money";
 
 export type TPartialPayment = {
-  allow_partial_payment: boolean;
-  minimum_amount_due: TMoney;
+  allow_partial_payment?: boolean;
+  minimum_amount_due?: TMoney;
 };
 
 class PartialPayment extends Types {
@@ -25,7 +25,7 @@ class PartialPayment extends Types {
 
   override fromObject(obj: TPartialPayment) {
     this.allowPartialPayment = obj.allow_partial_payment;
-    this.minimumAmountDue = new Money().fromObject(obj.minimum_amount_due);
+    this.minimumAmountDue = obj.minimum_amount_due ? new Money().fromObject(obj.minimum_amount_due) : undefined;
     return this;
   }
 }

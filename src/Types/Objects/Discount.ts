@@ -2,8 +2,8 @@ import Types from "../Types";
 import Money, { TMoney } from "./Money";
 
 export type TDiscount = {
-  amount: TMoney;
-  percent: string;
+  amount?: TMoney;
+  percent?: string;
 };
 
 class Discount extends Types {
@@ -25,7 +25,7 @@ class Discount extends Types {
   }
 
   override fromObject(obj: TDiscount) {
-    this.amount = new Money().fromObject(obj.amount);
+    this.amount = obj.amount ? new Money().fromObject(obj.amount) : undefined;
     this.percent = obj.percent;
     return this;
   }

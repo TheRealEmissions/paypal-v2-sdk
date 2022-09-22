@@ -3,8 +3,8 @@ import Money, { TMoney } from "./Money";
 import PaymentDetail, { TPaymentDetail } from "./PaymentDetail";
 
 export type TPayments = {
-  paid_amount: TMoney;
-  transactions: TPaymentDetail[];
+  readonly paid_amount?: TMoney;
+  readonly transactions?: TPaymentDetail[];
 };
 
 class Payments extends Types {
@@ -25,10 +25,8 @@ class Payments extends Types {
   }
 
   override fromObject(obj: TPayments) {
-    this.paidAmount = new Money().fromObject(obj.paid_amount);
-    this.transactions = obj.transactions.map((transaction) =>
-      new PaymentDetail().fromObject(transaction)
-    );
+    this.paidAmount = obj.paid_amount ? new Money().fromObject(obj.paid_amount) : undefined;
+    this.transactions = obj.transactions?.map((transaction) => new PaymentDetail().fromObject(transaction));
     return this;
   }
 }
