@@ -3,8 +3,8 @@ import Money, { TMoney } from "./Money";
 import RefundDetail, { TRefundDetail } from "./RefundDetail";
 
 export type TRefunds = {
-  refund_amount: TMoney;
-  transactions: TRefundDetail[];
+  readonly refund_amount?: TMoney;
+  readonly transactions?: TRefundDetail[];
 };
 
 class Refunds extends Types {
@@ -25,10 +25,8 @@ class Refunds extends Types {
   }
 
   override fromObject(obj: TRefunds) {
-    this.refundAmount = new Money().fromObject(obj.refund_amount);
-    this.transactions = obj.transactions.map((transaction) =>
-      new RefundDetail().fromObject(transaction)
-    );
+    this.refundAmount = obj.refund_amount ? new Money().fromObject(obj.refund_amount) : undefined;
+    this.transactions = obj.transactions?.map((transaction) => new RefundDetail().fromObject(transaction));
     return this;
   }
 }

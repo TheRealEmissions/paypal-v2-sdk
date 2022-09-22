@@ -3,9 +3,9 @@ import LinkDescription, { TLinkDescription } from "./LinkDescription";
 
 export type TTrackerIdentifier = {
   transaction_id: string;
-  links?: TLinkDescription[];
+  readonly links?: TLinkDescription[];
   tracking_number?: string;
-}
+};
 
 class TrackerIdentifier extends Types {
   transactionId?: string;

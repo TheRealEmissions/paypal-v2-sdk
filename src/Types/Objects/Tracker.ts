@@ -13,11 +13,12 @@ export type TTracker = {
   last_updated_time?: string;
   links?: TLinkDescription[];
   notify_buyer?: boolean;
-  postage_payment_id?: string;
-  quantity?: number;
+  readonly postage_payment_id?: string;
+  readonly quantity?: number;
   shipment_date?: string;
   tracking_number?: string;
   tracking_number_type?: string;
+  readonly tracking_number_validated?: boolean;
 };
 
 class Tracker extends Types {

@@ -1,10 +1,10 @@
 import Types from "../Types";
 
 export type TTemplateMetadata = {
-  create_time: string;
-  created_by: string;
-  last_update_time: string;
-  last_updated_by: string;
+  readonly create_time?: string;
+  readonly created_by?: string;
+  readonly last_update_time?: string;
+  readonly last_updated_by?: string;
 };
 
 class TemplateMetadata extends Types {

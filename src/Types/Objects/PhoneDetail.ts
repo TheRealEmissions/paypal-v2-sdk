@@ -3,8 +3,8 @@ import Types from "../Types";
 export type TPhoneDetail = {
   country_code: string;
   national_number: string;
-  extension_number: string;
-  phone_type: string;
+  extension_number?: string;
+  phone_type?: string;
 };
 
 class PhoneDetail extends Types {

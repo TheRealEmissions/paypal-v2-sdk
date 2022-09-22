@@ -1,7 +1,7 @@
 import Types from "../Types";
 
 export type TEmailAddress = {
-  email_address: string;
+  email_address?: string;
 };
 
 class EmailAddress extends Types {

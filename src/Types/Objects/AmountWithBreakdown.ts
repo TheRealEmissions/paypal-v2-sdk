@@ -5,11 +5,11 @@ import Money, { TMoney } from "./Money";
 import ShippingCost, { TShippingCost } from "./ShippingCost";
 
 export type TAmountWithBreakdown = {
-  custom: TCustomAmount;
-  discount: TAggregatedDiscount;
-  item_total: TMoney;
-  shipping: TShippingCost;
-  tax_total: TMoney;
+  custom?: TCustomAmount;
+  discount?: TAggregatedDiscount;
+  item_total?: TMoney;
+  shipping?: TShippingCost;
+  tax_total?: TMoney;
 };
 
 class AmountWithBreakdown extends Types {
@@ -48,11 +48,11 @@ class AmountWithBreakdown extends Types {
   }
 
   override fromObject(obj: TAmountWithBreakdown) {
-    this.custom = new CustomAmount().fromObject(obj.custom);
-    this.discount = new AggregatedDiscount().fromObject(obj.discount);
-    this.itemTotal = new Money().fromObject(obj.item_total);
-    this.shipping = new ShippingCost().fromObject(obj.shipping);
-    this.taxTotal = new Money().fromObject(obj.tax_total);
+    this.custom = obj.custom ? new CustomAmount().fromObject(obj.custom) : undefined;
+    this.discount = obj.discount ? new AggregatedDiscount().fromObject(obj.discount) : undefined;
+    this.itemTotal = obj.item_total ? new Money().fromObject(obj.item_total) : undefined;
+    this.shipping = obj.shipping ? new ShippingCost().fromObject(obj.shipping) : undefined;
+    this.taxTotal = obj.tax_total ? new Money().fromObject(obj.tax_total) : undefined;
     return this;
   }
 }

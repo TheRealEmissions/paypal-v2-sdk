@@ -2,11 +2,11 @@ import Types from "../Types";
 import PartialPayment, { TPartialPayment } from "./PartialPayment";
 
 export type TConfiguration = {
-  allow_tip: boolean;
-  partial_payment: TPartialPayment;
-  tax_calculated_after_discount: boolean;
-  tax_inclusive: boolean;
-  template_id: string;
+  allow_tip?: boolean;
+  partial_payment?: TPartialPayment;
+  tax_calculated_after_discount?: boolean;
+  tax_inclusive?: boolean;
+  template_id?: string;
 };
 
 class Configuration extends Types {
@@ -47,7 +47,7 @@ class Configuration extends Types {
 
   override fromObject(obj: TConfiguration) {
     this.allowTip = obj.allow_tip;
-    this.partialPayment = new PartialPayment().fromObject(obj.partial_payment);
+    this.partialPayment = obj.partial_payment ? new PartialPayment().fromObject(obj.partial_payment) : undefined;
     this.taxCalculatedAfterDiscount = obj.tax_calculated_after_discount;
     this.taxInclusive = obj.tax_inclusive;
     this.templateId = obj.template_id;

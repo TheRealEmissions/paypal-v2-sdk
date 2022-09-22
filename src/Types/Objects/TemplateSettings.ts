@@ -1,14 +1,10 @@
 import Types from "../Types";
-import TemplateItemSetting, {
-  TTemplateItemSetting,
-} from "./TemplateItemSetting";
-import TemplateSubtotalSetting, {
-  TTemplateSubtotalSetting,
-} from "./TemplateSubtotalSetting";
+import TemplateItemSetting, { TTemplateItemSetting } from "./TemplateItemSetting";
+import TemplateSubtotalSetting, { TTemplateSubtotalSetting } from "./TemplateSubtotalSetting";
 
 export type TTemplateSettings = {
-  template_item_settings: TTemplateItemSetting[];
-  template_subtotal_settings: TTemplateSubtotalSetting[];
+  template_item_settings?: TTemplateItemSetting[];
+  template_subtotal_settings?: TTemplateSubtotalSetting[];
 };
 
 class TemplateSettings extends Types {
@@ -23,22 +19,18 @@ class TemplateSettings extends Types {
     return this;
   }
 
-  setTemplateSubtotalSettings(
-    templateSubtotalSettings: TemplateSubtotalSetting[]
-  ) {
+  setTemplateSubtotalSettings(templateSubtotalSettings: TemplateSubtotalSetting[]) {
     this.templateSubtotalSettings = templateSubtotalSettings;
     return this;
   }
 
   override fromObject(obj: TTemplateSettings) {
-    this.templateItemSettings = obj.template_item_settings.map((item) => {
+    this.templateItemSettings = obj.template_item_settings?.map((item) => {
       return new TemplateItemSetting().fromObject(item);
     });
-    this.templateSubtotalSettings = obj.template_subtotal_settings.map(
-      (item) => {
-        return new TemplateSubtotalSetting().fromObject(item);
-      }
-    );
+    this.templateSubtotalSettings = obj.template_subtotal_settings?.map((item) => {
+      return new TemplateSubtotalSetting().fromObject(item);
+    });
     return this;
   }
 }
