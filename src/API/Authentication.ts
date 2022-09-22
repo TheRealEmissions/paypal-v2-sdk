@@ -12,11 +12,7 @@ class Authentication {
     this.PayPal = PayPal;
   }
 
-  async requestNewToken(
-    clientId: string,
-    clientSecret: string,
-    sandbox: boolean
-  ) {
+  async requestNewToken(clientId: string, clientSecret: string, sandbox: boolean) {
     const response = await this.PayPal.API.post<any>(
       `https://${sandbox ? "api-m.sandbox" : "api"}.paypal.com/v1/oauth2/token`,
       "grant_type=client_credentials",
@@ -33,10 +29,7 @@ class Authentication {
       }
     );
 
-    this.PayPal.emit(
-      "debug",
-      "Requested token!\n" + JSON.stringify(response.data, null, 2)
-    );
+    this.PayPal.emit("debug", "Requested token!\n" + JSON.stringify(response.data, null, 2));
 
     this.setAccessToken(response.data.access_token)
       .setTokenType(response.data.token_type)
@@ -53,14 +46,9 @@ class Authentication {
   }
 
   setAxiosDefaults(sandbox: boolean) {
-    if (!this.token)
-      throw new Error(
-        "Token not set! Please retry configuration and authentication!"
-      );
+    if (!this.token) throw new Error("Token not set! Please retry configuration and authentication!");
     this.PayPal.API.setDefaultAuthorizationHeader(this.token)
-      .setDefaultBaseUrl(
-        sandbox ? "https://api-m.sandbox.com" : "https://api.paypal.com"
-      )
+      .setDefaultBaseUrl(sandbox ? "https://api-m.sandbox.com" : "https://api.paypal.com")
       .setDefaultHeaders();
     return this;
   }

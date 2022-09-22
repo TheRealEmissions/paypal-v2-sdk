@@ -6,7 +6,7 @@ export type TErrorDetails = {
   field?: string;
   location?: string;
   value?: string;
-}
+};
 
 class ErrorDetails extends Types {
   issue?: string;
@@ -17,7 +17,7 @@ class ErrorDetails extends Types {
   constructor() {
     super();
   }
-  
+
   setIssue(issue: string) {
     this.issue = issue;
     return this;
@@ -49,7 +49,7 @@ class ErrorDetails extends Types {
     this.field = obj.field;
     this.location = obj.location;
     this.value = obj.value;
-    return this;        
+    return this;
   }
 }
 

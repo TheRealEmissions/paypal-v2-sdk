@@ -14,12 +14,7 @@ class SearchForInvoicesResponse extends TypeResponse {
   readonly links: LinkDescription[];
   readonly totalItems: number;
   readonly totalPages: number;
-  constructor(
-    items: Invoice[],
-    links: LinkDescription[],
-    totalItems: number,
-    totalPages: number
-  ) {
+  constructor(items: Invoice[], links: LinkDescription[], totalItems: number, totalPages: number) {
     super();
     this.items = items;
     this.links = links;
