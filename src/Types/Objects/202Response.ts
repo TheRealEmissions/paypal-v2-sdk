@@ -1,7 +1,7 @@
 import Types from "../Types";
 import LinkDescription, { TLinkDescription } from "./LinkDescription";
 
-type TAcceptedResponse = {
+export type TAcceptedResponse = {
   readonly links?: TLinkDescription[];
 };
 
