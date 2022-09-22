@@ -3,6 +3,7 @@ import { Carrier } from "./../Enums/Carrier";
 import { ShippingStatus } from "./../Enums/ShippingStatus";
 import Types from "../Types";
 import LinkDescription, { TLinkDescription } from "./LinkDescription";
+import PayPal from "../../PayPal";
 
 export type TTracker = {
   status: string;
@@ -33,8 +34,38 @@ class Tracker extends Types {
   trackingNumber?: string;
   trackingNumberType?: TrackingNumberType;
   trackingNumberValidated?: boolean;
-  constructor() {
+
+  PayPal?: PayPal;
+  constructor(PayPal?: PayPal) {
     super();
+    this.PayPal = PayPal;
+  }
+
+  updateOrCancel() {
+    if (!this.PayPal) {
+      throw new Error("To use in-built methods, please provide PayPal instance when initialising the Tracker");
+    }
+    if (!this.transactionId) {
+      throw new Error("Transaction ID is required");
+    }
+    return this.PayPal.AddTracking.updateOrCancel(this.transactionId, this);
+  }
+
+  get() {
+    if (!this.PayPal) {
+      throw new Error("To use in-built methods, please provide PayPal instance when initialising the Tracker");
+    }
+    if (!this.transactionId) {
+      throw new Error("Transaction ID is required");
+    }
+    return this.PayPal.AddTracking.get(this.transactionId);
+  }
+
+  add(links: LinkDescription[]) {
+    if (!this.PayPal) {
+      throw new Error("To use in-built methods, please provide PayPal instance when initialising the Tracker");
+    }
+    return this.PayPal.AddTracking.add([this], links);
   }
 
   setStatus(status: ShippingStatus): this {
