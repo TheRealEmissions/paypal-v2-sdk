@@ -33,7 +33,15 @@ class Invoicing {
     return new GenerateInvoiceNumberResponse(invoiceNumber);
   }
 
-  async listInvoices(fields?: string, page?: number, pageSize?: number, totalRequired?: boolean) {
+  /**
+   *
+   * @deprecated Use Invoicing#getMany()
+   */
+  listInvoices(fields?: string, page?: number, pageSize?: number, totalRequired?: boolean) {
+    return this.getMany(fields, page, pageSize, totalRequired);
+  }
+
+  async getMany(fields?: string, page?: number, pageSize?: number, totalRequired?: boolean) {
     if (page !== undefined) {
       if (!Number.isInteger(page)) {
         throw new Error("Page must be an integer");
