@@ -1,7 +1,7 @@
 import TypeResponse from "./TypeResponse";
 
 export type TGenerateInvoiceNumberResponse = {
-  invoice_number: string;
+  readonly invoice_number: string;
 };
 
 class GenerateInvoiceNumberResponse extends TypeResponse {

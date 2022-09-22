@@ -4,10 +4,10 @@ import ProductCollectionElement, { TProductCollectionElement } from "../Objects/
 import TypeResponse from "./TypeResponse";
 
 export type TListProductsResponse = {
-  links: TLinkDescription[];
-  products: TProductCollectionElement[];
-  total_items: number;
-  total_pages: number;
+  readonly links: TLinkDescription[];
+  readonly products: TProductCollectionElement[];
+  readonly total_items: number;
+  readonly total_pages: number;
 };
 
 class ListProductsResponse extends TypeResponse {

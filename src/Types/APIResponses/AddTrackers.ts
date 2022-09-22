@@ -6,9 +6,9 @@ import LinkDescription from "../Objects/LinkDescription";
 import TrackerIdentifier, { TTrackerIdentifier } from "../Objects/TrackerIdentifier";
 
 export type TAddTrackersResponse = {
-  errors: TError[];
-  links: TLinkDescription[];
-  tracker_identifiers: TTrackerIdentifier[];
+  readonly errors: TError[];
+  readonly links: TLinkDescription[];
+  readonly tracker_identifiers: TTrackerIdentifier[];
 };
 
 class AddTrackersResponse extends TypeResponse {
