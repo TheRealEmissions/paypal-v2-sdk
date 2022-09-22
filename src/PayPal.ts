@@ -11,11 +11,7 @@ class PayPal extends BasePayPal {
     }
 
     try {
-      await this.Auth.requestNewToken(
-        this.clientId,
-        this.clientSecret,
-        this.sandbox
-      );
+      await this.Auth.requestNewToken(this.clientId, this.clientSecret, this.sandbox);
     } catch (e) {
       throw e;
     }

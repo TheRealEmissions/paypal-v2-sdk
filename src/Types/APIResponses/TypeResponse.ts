@@ -6,9 +6,7 @@ class TypeResponse extends Types {
   }
 
   override fromObject() {
-    throw new Error(
-      "Method not supported for API Responses. Properties are read-only."
-    );
+    throw new Error("Method not supported for API Responses. Properties are read-only.");
     return this;
   }
 }
