@@ -36,6 +36,10 @@ class API {
   delete<T>(url: string, config?: AxiosRequestConfig) {
     return this.Axios.delete<T>(url, config);
   }
+
+  patch<T>(url: string, data?: any, config?: AxiosRequestConfig) {
+    return this.Axios.patch<T>(url, data, config);
+  }
 }
 
 export default API;

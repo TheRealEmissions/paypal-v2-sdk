@@ -254,7 +254,9 @@ class Invoicing {
       subject,
     });
 
-    return response.status === 200 ? this.get(invoiceId) : response.statusText;
+    if (response.status !== 200) throw new Error(response.statusText);
+
+    return await this.get(invoiceId);
   }
 
   async search(page: number, pageSize: number, totalRequired: boolean, data?: TSearch) {
