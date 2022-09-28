@@ -13,6 +13,12 @@ class AddTracking {
     this.PayPal = PayPal;
   }
 
+  /**
+   *
+   * @param transactionIdTrackingNumber
+   * @param tracker
+   * @returns {Promise<Tracker|boolean>} Returns Tracker if Tracker updated, boolean if cancelled
+   */
   async updateOrCancel(transactionIdTrackingNumber: string, tracker: Tracker): Promise<Tracker | boolean> {
     const response = await this.PayPal.API.put(
       `/v1/shipping/trackers/${transactionIdTrackingNumber}`,
