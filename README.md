@@ -325,12 +325,15 @@ let invoice: Invoice = new Invoice(PayPal).fromObject({
   },
 });
 invoice = await invoice.createDraft(true);
-const sentInvoice = await invoice.send(undefined, undefined, true, true, undefined);
-if (typeof sentInvoice === "string") {
-  console.error("invoice failed to send", sentInvoice);
-} else {
-  invoice = sentInvoice;
+
+try {
+  invoice = await invoice.send(undefined, undefined, true, true, undefined);
+} catch (e) {
+  // invoice failed to send, outputs statusText from API
+  console.error(e);
 }
+
+console.log(invoice); // contains all updated details for the invoice
 ```
 
 # Debugging
