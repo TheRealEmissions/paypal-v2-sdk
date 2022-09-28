@@ -5,11 +5,11 @@ import Template, { TTemplate } from "../Objects/Template";
 import TypeResponse from "./TypeResponse";
 
 export type TListTemplatesResponse = {
-  addresses: TAddressPortable[];
-  emails: string;
-  links: TLinkDescription[];
-  phones: TPhoneDetail[];
-  templates: TTemplate[];
+  readonly addresses: TAddressPortable[];
+  readonly emails: string;
+  readonly links: TLinkDescription[];
+  readonly phones: TPhoneDetail[];
+  readonly templates: TTemplate[];
 };
 
 class ListTemplatesResponse extends TypeResponse {

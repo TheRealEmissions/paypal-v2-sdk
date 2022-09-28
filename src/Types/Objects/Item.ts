@@ -8,12 +8,12 @@ export type TItem = {
   name: string;
   quantity: string;
   unit_amount: TMoney;
-  description: string;
-  discount: TDiscount;
-  id: string;
-  item_date: string;
-  tax: TTax;
-  unit_of_measure: string;
+  description?: string;
+  discount?: TDiscount;
+  readonly id?: string;
+  item_date?: string;
+  tax?: TTax;
+  unit_of_measure?: string;
 };
 
 class Item extends Types {
@@ -80,12 +80,11 @@ class Item extends Types {
     this.quantity = obj.quantity;
     this.unitAmount = new Money().fromObject(obj.unit_amount);
     this.description = obj.description;
-    this.discount = new Discount().fromObject(obj.discount);
+    this.discount = obj.discount ? new Discount().fromObject(obj.discount) : undefined;
     this.id = obj.id;
     this.itemDate = obj.item_date;
-    this.tax = new Tax().fromObject(obj.tax);
-    this.unitOfMeasure =
-      UnitOfMeasure[obj.unit_of_measure as keyof typeof UnitOfMeasure];
+    this.tax = obj.tax ? new Tax().fromObject(obj.tax) : undefined;
+    this.unitOfMeasure = UnitOfMeasure[obj.unit_of_measure as keyof typeof UnitOfMeasure];
     return this;
   }
 }

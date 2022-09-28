@@ -1,8 +1,8 @@
 import Types from "../Types";
 import LinkDescription, { TLinkDescription } from "./LinkDescription";
 
-type TAcceptedResponse = {
-  links: TLinkDescription[];
+export type TAcceptedResponse = {
+  readonly links?: TLinkDescription[];
 };
 
 class AcceptedResponse extends Types {
@@ -17,7 +17,7 @@ class AcceptedResponse extends Types {
   }
 
   override fromObject(obj: TAcceptedResponse) {
-    this.links = obj.links.map((x) => new LinkDescription().fromObject(x));
+    this.links = obj.links?.map((x) => new LinkDescription().fromObject(x));
     return this;
   }
 }

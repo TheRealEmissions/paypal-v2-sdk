@@ -3,8 +3,8 @@ import Discount, { TDiscount } from "./Discount";
 import Money, { TMoney } from "./Money";
 
 export type TAggregatedDiscount = {
-  discount: TDiscount;
-  amount: TMoney;
+  invoice_discount: TDiscount;
+  item_discount: TMoney;
 };
 
 class AggregatedDiscount extends Types {
@@ -25,8 +25,8 @@ class AggregatedDiscount extends Types {
   }
 
   override fromObject(obj: TAggregatedDiscount) {
-    this.invoiceDiscount = new Discount().fromObject(obj.discount);
-    this.itemDiscount = new Money().fromObject(obj.amount);
+    this.invoiceDiscount = new Discount().fromObject(obj.invoice_discount);
+    this.itemDiscount = new Money().fromObject(obj.item_discount);
     return this;
   }
 }

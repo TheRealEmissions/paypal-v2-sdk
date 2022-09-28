@@ -1,7 +1,7 @@
 import Types from "../Types";
 
 export type TDateNoTime = {
-  date_no_time: string;
+  date_no_time?: string;
 };
 
 class DateNoTime extends Types {
@@ -15,9 +15,7 @@ class DateNoTime extends Types {
       throw new Error("DateNoTime must be in YYYY-MM-DD format");
     }
 
-    const regex = new RegExp(
-      /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/
-    );
+    const regex = new RegExp(/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/);
     if (!regex.test(dateNoTime)) {
       throw new Error("DateNoTime must be in YYYY-MM-DD format");
     }

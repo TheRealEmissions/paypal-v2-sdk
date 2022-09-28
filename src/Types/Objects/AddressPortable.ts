@@ -3,15 +3,15 @@ import AddressDetails, { TAddressDetails } from "./AddressDetails";
 
 export type TAddressPortable = {
   country_code: string;
-  address_details: TAddressDetails;
-  address_line_1: string;
-  address_line_2: string;
-  address_line_3: string;
-  admin_area_1: string;
-  admin_area_2: string;
-  admin_area_3: string;
-  admin_area_4: string;
-  postal_code: string;
+  address_details?: TAddressDetails;
+  address_line_1?: string;
+  address_line_2?: string;
+  address_line_3?: string;
+  admin_area_1?: string;
+  admin_area_2?: string;
+  admin_area_3?: string;
+  admin_area_4?: string;
+  postal_code?: string;
 };
 
 class AddressPortable extends Types {
@@ -81,9 +81,7 @@ class AddressPortable extends Types {
 
   override fromObject(obj: TAddressPortable): this {
     this.countryCode = obj["country_code"];
-    this.addressDetails = new AddressDetails().fromObject(
-      obj["address_details"]
-    );
+    this.addressDetails = obj.address_details ? new AddressDetails().fromObject(obj["address_details"]) : undefined;
     this.addressLine1 = obj["address_line_1"];
     this.addressLine2 = obj["address_line_2"];
     this.addressLine3 = obj["address_line_3"];

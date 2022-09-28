@@ -4,7 +4,7 @@ import Money, { TMoney } from "./Money";
 export type TTax = {
   name: string;
   percent: string;
-  amount: TMoney;
+  readonly amount?: TMoney;
 };
 
 class Tax extends Types {
@@ -40,7 +40,7 @@ class Tax extends Types {
   override fromObject(obj: TTax) {
     this.name = obj.name;
     this.percent = obj.percent;
-    this.amount = new Money().fromObject(obj.amount);
+    this.amount = obj.amount ? new Money().fromObject(obj.amount) : undefined;
     return this;
   }
 }

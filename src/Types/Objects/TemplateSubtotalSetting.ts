@@ -1,12 +1,10 @@
 import { TemplateFieldName } from "../Enums/TemplateFieldName";
 import Types from "../Types";
-import TemplateDisplayPreference, {
-  TTemplateDisplayPreference,
-} from "./TemplateDisplayPreference";
+import TemplateDisplayPreference, { TTemplateDisplayPreference } from "./TemplateDisplayPreference";
 
 export type TTemplateSubtotalSetting = {
-  display_preference: TTemplateDisplayPreference;
-  field_name: string;
+  display_preference?: TTemplateDisplayPreference;
+  field_name?: string;
 };
 
 class TemplateSubtotalSetting extends Types {
@@ -27,11 +25,10 @@ class TemplateSubtotalSetting extends Types {
   }
 
   override fromObject(obj: TTemplateSubtotalSetting) {
-    this.displayPreference = new TemplateDisplayPreference().fromObject(
-      obj.display_preference
-    );
-    this.fieldName =
-      TemplateFieldName[obj.field_name as keyof typeof TemplateFieldName];
+    this.displayPreference = obj.display_preference
+      ? new TemplateDisplayPreference().fromObject(obj.display_preference)
+      : undefined;
+    this.fieldName = TemplateFieldName[obj.field_name as keyof typeof TemplateFieldName];
     return this;
   }
 }

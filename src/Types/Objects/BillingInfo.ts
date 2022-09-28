@@ -2,10 +2,10 @@ import Types from "../Types";
 import PhoneDetail, { TPhoneDetail } from "./PhoneDetail";
 
 export type TBillingInfo = {
-  additional_info: string;
-  email_address: string;
-  language: string;
-  phones: TPhoneDetail[];
+  additional_info?: string;
+  email_address?: string;
+  language?: string;
+  phones?: TPhoneDetail[];
 };
 
 class BillingInfo extends Types {
@@ -42,7 +42,7 @@ class BillingInfo extends Types {
     this.additionalInfo = obj.additional_info;
     this.emailAddress = obj.email_address;
     this.language = obj.language;
-    this.phones = obj.phones.map((x) => new PhoneDetail().fromObject(x));
+    this.phones = obj.phones ? obj.phones.map((x) => new PhoneDetail().fromObject(x)) : undefined;
     return this;
   }
 }

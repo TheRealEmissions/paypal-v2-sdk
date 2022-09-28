@@ -1,18 +1,18 @@
 import Types from "../Types";
 
 export type TMetadata = {
-  create_time: string;
-  created_by: string;
-  last_update_time: string;
-  last_updated_by: string;
-  cancel_time: string;
-  cancelled_by: string;
-  created_by_flow: string;
-  first_sent_time: string;
-  invoicer_view_url: string;
-  last_sent_by: string;
-  last_sent_time: string;
-  recipient_view_url: string;
+  create_time?: string;
+  created_by?: string;
+  last_update_time?: string;
+  last_updated_by?: string;
+  cancel_time?: string;
+  cancelled_by?: string;
+  created_by_flow?: string;
+  first_sent_time?: string;
+  invoicer_view_url?: string;
+  last_sent_by?: string;
+  last_sent_time?: string;
+  recipient_view_url?: string;
 };
 
 class Metadata extends Types {

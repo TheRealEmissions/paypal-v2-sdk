@@ -2,15 +2,9 @@ import PayPal from "../PayPal";
 import GenerateInvoiceNumberResponse, {
   TGenerateInvoiceNumberResponse,
 } from "../Types/APIResponses/GenerateInvoiceNumber";
-import ListInvoicesResponse, {
-  TListInvoicesResponse,
-} from "../Types/APIResponses/ListInvoicesResponse";
-import ListTemplatesResponse, {
-  TListTemplatesResponse,
-} from "../Types/APIResponses/ListTemplates";
-import SearchForInvoicesResponse, {
-  TSearchForInvoicesResponse,
-} from "../Types/APIResponses/SearchForInvoices";
+import ListInvoicesResponse, { TListInvoicesResponse } from "../Types/APIResponses/ListInvoices";
+import ListTemplatesResponse, { TListTemplatesResponse } from "../Types/APIResponses/ListTemplates";
+import SearchForInvoicesResponse, { TSearchForInvoicesResponse } from "../Types/APIResponses/SearchForInvoices";
 import { GenerateQrCodeAction } from "../Types/Enums/GenerateQrCodeAction";
 import { InvoiceStatus } from "../Types/Enums/InvoiceStatus";
 import AddressPortable from "../Types/Objects/AddressPortable";
@@ -39,12 +33,15 @@ class Invoicing {
     return new GenerateInvoiceNumberResponse(invoiceNumber);
   }
 
-  async listInvoices(
-    fields?: string,
-    page?: number,
-    pageSize?: number,
-    totalRequired?: boolean
-  ) {
+  /**
+   *
+   * @deprecated Use Invoicing#getMany()
+   */
+  listInvoices(fields?: string, page?: number, pageSize?: number, totalRequired?: boolean) {
+    return this.getMany(fields, page, pageSize, totalRequired);
+  }
+
+  async getMany(fields?: string, page?: number, pageSize?: number, totalRequired?: boolean) {
     if (page !== undefined) {
       if (!Number.isInteger(page)) {
         throw new Error("Page must be an integer");
@@ -62,17 +59,14 @@ class Invoicing {
       }
     }
 
-    const response = await this.PayPal.API.get<TListInvoicesResponse>(
-      "/v2/invoicing/invoices",
-      {
-        params: {
-          fields,
-          page,
-          page_size: pageSize,
-          total_required: totalRequired,
-        },
-      }
-    );
+    const response = await this.PayPal.API.get<TListInvoicesResponse>("/v2/invoicing/invoices", {
+      params: {
+        fields,
+        page,
+        page_size: pageSize,
+        total_required: totalRequired,
+      },
+    });
 
     return new ListInvoicesResponse(
       response.data.items.map((x) => new Invoice().fromObject(x)),
@@ -83,68 +77,58 @@ class Invoicing {
   }
 
   async createDraft(invoice: Invoice) {
-    const response = await this.PayPal.API.post<TInvoice>(
-      "/v2/invoicing/invoices",
-      {
-        detail: invoice.detail,
-        additional_recipients: invoice.additionalRecipients,
-        amount: invoice.amount,
-        configuration: invoice.configuration,
-        due_amount: invoice.dueAmount,
-        gratuity: invoice.gratuity,
-        id: invoice.id,
-        invoicer: invoice.invoicer,
-        items: invoice.items,
-        links: invoice.links,
-        parent_id: invoice.parentId,
-        payments: invoice.payments,
-        primary_recipients: invoice.primaryRecipients,
-        refunds: invoice.refunds,
-        ...(invoice.status ? { status: InvoiceStatus[invoice.status] } : {}),
-      }
-    );
+    const response = await this.PayPal.API.post<TInvoice>("/v2/invoicing/invoices", {
+      detail: invoice.detail,
+      additional_recipients: invoice.additionalRecipients,
+      amount: invoice.amount,
+      configuration: invoice.configuration,
+      due_amount: invoice.dueAmount,
+      gratuity: invoice.gratuity,
+      id: invoice.id,
+      invoicer: invoice.invoicer,
+      items: invoice.items,
+      links: invoice.links,
+      parent_id: invoice.parentId,
+      payments: invoice.payments,
+      primary_recipients: invoice.primaryRecipients,
+      refunds: invoice.refunds,
+      ...(invoice.status ? { status: InvoiceStatus[invoice.status] } : {}),
+    });
 
     return new Invoice(this.PayPal).fromObject(response.data);
   }
 
   async delete(invoice: Invoice | string): Promise<boolean> {
     const invoiceId = invoice instanceof Invoice ? invoice.id : invoice;
-    const response = await this.PayPal.API.delete(
-      `/v2/invoicing/invoices/${invoiceId}`
-    );
+    const response = await this.PayPal.API.delete(`/v2/invoicing/invoices/${invoiceId}`);
     return response.status === 204;
   }
 
   async fullyUpdate(invoice: Invoice, invoiceId?: string) {
-    const response = await this.PayPal.API.put<TInvoice>(
-      `/v2/invoicing/invoices/${invoice.id ?? invoiceId}`,
-      {
-        detail: invoice.detail,
-        additional_recipients: invoice.additionalRecipients,
-        amount: invoice.amount,
-        configuration: invoice.configuration,
-        due_amount: invoice.dueAmount,
-        gratuity: invoice.gratuity,
-        id: invoice.id,
-        invoicer: invoice.invoicer,
-        items: invoice.items,
-        links: invoice.links,
-        parent_id: invoice.parentId,
-        payments: invoice.payments,
-        primary_recipients: invoice.primaryRecipients,
-        refunds: invoice.refunds,
-        ...(invoice.status ? { status: InvoiceStatus[invoice.status] } : {}),
-      }
-    );
+    const response = await this.PayPal.API.put<TInvoice>(`/v2/invoicing/invoices/${invoice.id ?? invoiceId}`, {
+      detail: invoice.detail,
+      additional_recipients: invoice.additionalRecipients,
+      amount: invoice.amount,
+      configuration: invoice.configuration,
+      due_amount: invoice.dueAmount,
+      gratuity: invoice.gratuity,
+      id: invoice.id,
+      invoicer: invoice.invoicer,
+      items: invoice.items,
+      links: invoice.links,
+      parent_id: invoice.parentId,
+      payments: invoice.payments,
+      primary_recipients: invoice.primaryRecipients,
+      refunds: invoice.refunds,
+      ...(invoice.status ? { status: InvoiceStatus[invoice.status] } : {}),
+    });
 
     return new Invoice(this.PayPal).fromObject(response.data);
   }
 
   async get(invoice: Invoice | string) {
     const invoiceId = invoice instanceof Invoice ? invoice.id : invoice;
-    const response = await this.PayPal.API.get<TInvoice>(
-      `/v2/invoicing/invoices/${invoiceId}`
-    );
+    const response = await this.PayPal.API.get<TInvoice>(`/v2/invoicing/invoices/${invoiceId}`);
 
     return new Invoice(this.PayPal).fromObject(response.data);
   }
@@ -158,44 +142,30 @@ class Invoicing {
     subject?: string
   ): Promise<boolean> {
     const invoiceId = invoice instanceof Invoice ? invoice.id : invoice;
-    const response = await this.PayPal.API.post<TInvoice>(
-      `/v2/invoicing/invoices/${invoiceId}/cancel`,
-      {
-        additional_recipients: additionalRecipients,
-        note,
-        send_to_invoicer: sendToInvoicer,
-        send_to_recipient: sendToRecipient,
-        subject,
-      }
-    );
+    const response = await this.PayPal.API.post<TInvoice>(`/v2/invoicing/invoices/${invoiceId}/cancel`, {
+      additional_recipients: additionalRecipients,
+      note,
+      send_to_invoicer: sendToInvoicer,
+      send_to_recipient: sendToRecipient,
+      subject,
+    });
 
     return response.status === 204;
   }
 
-  async generateQrCode(
-    invoice: Invoice | string,
-    action?: GenerateQrCodeAction,
-    height?: number,
-    width?: number
-  ) {
+  async generateQrCode(invoice: Invoice | string, action?: GenerateQrCodeAction, height?: number, width?: number) {
     const invoiceId = invoice instanceof Invoice ? invoice.id : invoice;
-    const response = await this.PayPal.API.get<string>(
-      `/v2/invoicing/invoices/${invoiceId}/generate-qr-code`,
-      {
-        params: {
-          ...(action
-            ? {
-                action:
-                  GenerateQrCodeAction[
-                    action.toUpperCase() as keyof typeof GenerateQrCodeAction
-                  ],
-              }
-            : {}),
-          height,
-          width,
-        },
-      }
-    );
+    const response = await this.PayPal.API.get<string>(`/v2/invoicing/invoices/${invoiceId}/generate-qr-code`, {
+      params: {
+        ...(action
+          ? {
+              action: GenerateQrCodeAction[action.toUpperCase() as keyof typeof GenerateQrCodeAction],
+            }
+          : {}),
+        height,
+        width,
+      },
+    });
 
     return response.data;
   }
@@ -213,14 +183,9 @@ class Invoicing {
     return response.status === 200 ? this.get(invoiceId) : response.statusText;
   }
 
-  async deleteExternalPayment(
-    invoice: Invoice | string,
-    transactionId: string
-  ): Promise<boolean> {
+  async deleteExternalPayment(invoice: Invoice | string, transactionId: string): Promise<boolean> {
     const invoiceId = invoice instanceof Invoice ? invoice.id : invoice;
-    const response = await this.PayPal.API.delete(
-      `/v2/invoicing/invoices/${invoiceId}/payments/${transactionId}`
-    );
+    const response = await this.PayPal.API.delete(`/v2/invoicing/invoices/${invoiceId}/payments/${transactionId}`);
     return response.status === 204;
   }
 
@@ -238,14 +203,9 @@ class Invoicing {
     return response.status === 200 ? this.get(invoiceId) : response.statusText;
   }
 
-  async deleteExternalRefund(
-    invoice: Invoice | string,
-    transactionId: string
-  ): Promise<boolean> {
+  async deleteExternalRefund(invoice: Invoice | string, transactionId: string): Promise<boolean> {
     const invoiceId = invoice instanceof Invoice ? invoice.id : invoice;
-    const response = await this.PayPal.API.delete(
-      `/v2/invoicing/invoices/${invoiceId}/refunds/${transactionId}`
-    );
+    const response = await this.PayPal.API.delete(`/v2/invoicing/invoices/${invoiceId}/refunds/${transactionId}`);
     return response.status === 204;
   }
 
@@ -263,16 +223,13 @@ class Invoicing {
       throw new Error("Invoice id is required");
     }
 
-    const response = await this.PayPal.API.post<TInvoice>(
-      `/v2/invoicing/invoices/${invoiceId}/remind`,
-      {
-        additional_recipients: additionalRecipients,
-        note,
-        send_to_invoicer: sendToInvoicer,
-        send_to_recipient: sendToRecipient,
-        subject,
-      }
-    );
+    const response = await this.PayPal.API.post<TInvoice>(`/v2/invoicing/invoices/${invoiceId}/remind`, {
+      additional_recipients: additionalRecipients,
+      note,
+      send_to_invoicer: sendToInvoicer,
+      send_to_recipient: sendToRecipient,
+      subject,
+    });
 
     return response.status === 200 ? this.get(invoiceId) : response.statusText;
   }
@@ -289,26 +246,20 @@ class Invoicing {
     if (!invoiceId) {
       throw new Error("Invoice id is required");
     }
-    const response = await this.PayPal.API.post<TInvoice>(
-      `/v2/invoicing/invoices/${invoiceId}/send`,
-      {
-        additional_recipients: additionalRecipients,
-        note,
-        send_to_invoicer: sendToInvoicer,
-        send_to_recipient: sendToRecipient,
-        subject,
-      }
-    );
+    const response = await this.PayPal.API.post<TInvoice>(`/v2/invoicing/invoices/${invoiceId}/send`, {
+      additional_recipients: additionalRecipients,
+      note,
+      send_to_invoicer: sendToInvoicer,
+      send_to_recipient: sendToRecipient,
+      subject,
+    });
 
-    return response.status === 200 ? this.get(invoiceId) : response.statusText;
+    if (response.status !== 200) throw new Error(response.statusText);
+
+    return await this.get(invoiceId);
   }
 
-  async search(
-    page: number,
-    pageSize: number,
-    totalRequired: boolean,
-    data?: TSearch
-  ) {
+  async search(page: number, pageSize: number, totalRequired: boolean, data?: TSearch) {
     const response = await this.PayPal.API.post<TSearchForInvoicesResponse>(
       `/v2/invoicing/search-invoices`,
       data ?? {},
@@ -330,16 +281,13 @@ class Invoicing {
   }
 
   async listTemplates(fields?: string, page?: number, pageSize?: number) {
-    const response = await this.PayPal.API.get<TListTemplatesResponse>(
-      `/v2/invoicing/templates`,
-      {
-        params: {
-          fields,
-          page,
-          page_size: pageSize,
-        },
-      }
-    );
+    const response = await this.PayPal.API.get<TListTemplatesResponse>(`/v2/invoicing/templates`, {
+      params: {
+        fields,
+        page,
+        page_size: pageSize,
+      },
+    });
 
     return new ListTemplatesResponse(
       response.data.addresses.map((x) => new AddressPortable().fromObject(x)),
@@ -361,9 +309,7 @@ class Invoicing {
 
   async deleteTemplate(template: Template | string) {
     const templateId = template instanceof Template ? template.id : template;
-    const response = await this.PayPal.API.delete(
-      `/v2/invoicing/templates/${templateId}`
-    );
+    const response = await this.PayPal.API.delete(`/v2/invoicing/templates/${templateId}`);
     return response.status === 204;
   }
 
@@ -378,9 +324,7 @@ class Invoicing {
 
   async getTemplate(template: Template | string) {
     const templateId = template instanceof Template ? template.id : template;
-    const response = await this.PayPal.API.get<TTemplate>(
-      `/v2/invoicing/templates/${templateId}`
-    );
+    const response = await this.PayPal.API.get<TTemplate>(`/v2/invoicing/templates/${templateId}`);
 
     return new Template(this.PayPal).fromObject(response.data);
   }

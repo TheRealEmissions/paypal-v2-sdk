@@ -2,7 +2,7 @@ import { PaymentTermType } from "../Enums/PaymentTermType";
 import Types from "../Types";
 
 export type TPaymentTerm = {
-  term_type: string;
+  term_type?: string;
 };
 
 class PaymentTerm extends Types {
@@ -17,8 +17,7 @@ class PaymentTerm extends Types {
   }
 
   override fromObject(obj: TPaymentTerm) {
-    this.termType =
-      PaymentTermType[obj.term_type as keyof typeof PaymentTermType];
+    this.termType = PaymentTermType[obj.term_type as keyof typeof PaymentTermType];
     return this;
   }
 }

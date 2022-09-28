@@ -1,8 +1,8 @@
 import Types from "../Types";
 
 export type TInvoicePaymentTerm = {
-  term_type: string;
-  due_date: string;
+  term_type?: string;
+  due_date?: string;
 };
 
 class InvoicePaymentTerm extends Types {

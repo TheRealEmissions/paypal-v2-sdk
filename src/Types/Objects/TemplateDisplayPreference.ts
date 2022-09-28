@@ -1,7 +1,7 @@
 import Types from "../Types";
 
 export type TTemplateDisplayPreference = {
-  hidden: boolean;
+  hidden?: boolean;
 };
 
 class TemplateDisplayPreference extends Types {

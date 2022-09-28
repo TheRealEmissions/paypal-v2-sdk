@@ -5,10 +5,10 @@ import Money, { TMoney } from "./Money";
 
 export type TRefundDetail = {
   method: string;
-  amount: TMoney;
-  refund_date: string;
-  refund_id: string;
-  type: string;
+  amount?: TMoney;
+  refund_date?: string;
+  readonly refund_id?: string;
+  readonly type?: string;
 };
 
 class RefundDetail extends Types {
@@ -47,9 +47,8 @@ class RefundDetail extends Types {
   }
 
   override fromObject(obj: TRefundDetail) {
-    this.method =
-      PaymentDetailMethod[obj.method as keyof typeof PaymentDetailMethod];
-    this.amount = new Money().fromObject(obj.amount);
+    this.method = PaymentDetailMethod[obj.method as keyof typeof PaymentDetailMethod];
+    this.amount = obj.amount ? new Money().fromObject(obj.amount) : undefined;
     this.refundDate = obj.refund_date;
     this.refundId = obj.refund_id;
     this.type = PaymentDetailType[obj.type as keyof typeof PaymentDetailType];
