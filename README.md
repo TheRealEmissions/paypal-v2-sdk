@@ -40,16 +40,14 @@ try {
   Returns Invoice object
 
 ```ts
-import PayPal from "paypal-v2-sdk";
-import Invoice from "paypal-v2-sdk/dist/src/Types/Objects/Invoice";
+import { default as PayPal, Invoice } from "paypal-v2-sdk";
 const invoice: Invoice = await PayPal.Invoicing.get("id of invoice");
 ```
 
 - Getting an invoice and then deleting it
 
 ```ts
-import PayPal from "paypal-v2-sdk";
-import Invoice from "paypal-v2-sdk/dist/src/Types/Objects/Invoice";
+import { default as PayPal, Invoice } from "paypal-v2-sdk";
 
 const invoice: Invoice = await PayPal.Invoicing.get("id of invoice");
 const deleted = await invoice.delete();
@@ -59,25 +57,27 @@ console.log(deleted); // true if deleted, false if not
 - Creating an invoice object and then creating a draft invoice on PayPal (fetches next invoice number for you)
 
 ```ts
-import PayPal from "paypal-v2-sdk";
-import { UnitOfMeasure } from "paypal-v2-sdk/dist/src/Types/Enums/UnitOfMeasure";
-import AddressDetails from "paypal-v2-sdk/dist/src/Types/Objects/AddressDetails";
-import AddressPortable from "paypal-v2-sdk/dist/src/Types/Objects/AddressPortable";
-import BillingInfo from "paypal-v2-sdk/dist/src/Types/Objects/BillingInfo";
-import Configuration from "paypal-v2-sdk/dist/src/Types/Objects/Configuration";
-import ContactInformation from "paypal-v2-sdk/dist/src/Types/Objects/ContactInformation";
-import EmailAddress from "paypal-v2-sdk/dist/src/Types/Objects/EmailAddress";
-import Invoice from "paypal-v2-sdk/dist/src/Types/Objects/Invoice";
-import InvoiceDetail from "paypal-v2-sdk/dist/src/Types/Objects/InvoiceDetail";
-import InvoicePaymentTerm from "paypal-v2-sdk/dist/src/Types/Objects/InvoicePaymentTerm";
-import InvoicerInfo from "paypal-v2-sdk/dist/src/Types/Objects/InvoicerInfo";
-import Item from "paypal-v2-sdk/dist/src/Types/Objects/Item";
-import Money from "paypal-v2-sdk/dist/src/Types/Objects/Money";
-import Name from "paypal-v2-sdk/dist/src/Types/Objects/Name";
-import PartialPayment from "paypal-v2-sdk/dist/src/Types/Objects/PartialPayment";
-import PhoneDetail from "paypal-v2-sdk/dist/src/Types/Objects/PhoneDetail";
-import RecipientInfo from "paypal-v2-sdk/dist/src/Types/Objects/RecipientInfo";
-import Tax from "paypal-v2-sdk/dist/src/Types/Objects/Tax";
+import {
+  default as PayPal,
+  UnitOfMeasure,
+  AddressDetails,
+  AddressPortable,
+  BillingInfo,
+  Configuration,
+  ContactInformation,
+  EmailAddress,
+  Invoice,
+  InvoiceDetail,
+  InvoicePaymentTerm,
+  InvoicerInfo,
+  Item,
+  Money,
+  Name,
+  PartialPayment,
+  PhoneDetail,
+  RecipientInfo,
+  Tax,
+} from "paypal-v2-sdk";
 
 let invoice: Invoice = new Invoice(PayPal)
   .setAdditionalRecipients([
@@ -165,8 +165,7 @@ if (typeof sentInvoice === "string") {
 - Getting the next invoice number & creating an invoice **via an object**
 
 ```js
-import PayPal from "paypal-v2-sdk";
-import Invoice from "paypal-v2-sdk/dist/src/Types/Objects/Invoice";
+import { default as PayPal, Invoice } from "paypal-v2-sdk";
 
 let invoice: Invoice = new Invoice(PayPal).fromObject({
   detail: {
