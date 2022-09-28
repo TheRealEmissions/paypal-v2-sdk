@@ -93,3 +93,6 @@ export {
 } from "./src/Types/Objects/TemplateSubtotalSetting";
 export { default as Tracker, TTracker } from "./src/Types/Objects/Tracker";
 export { default as TrackerIdentifier, TTrackerIdentifier } from "./src/Types/Objects/TrackerIdentifier";
+export { default as Patch } from "./src/Types/Objects/Patch";
+export { default as PatchRequest } from "./src/Types/Objects/PatchRequest";
+export { PatchOperation } from "./src/Types/Enums/PatchOperation";

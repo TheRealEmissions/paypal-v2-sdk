@@ -4,6 +4,7 @@ import PayPal from "../PayPal";
 import LinkDescription from "../Types/Objects/LinkDescription";
 import ProductCollectionElement from "../Types/Objects/ProductCollectionElement";
 import Product from "../Types/Objects/Product";
+import PatchRequest, { TPatchRequest } from "../Types/Objects/PatchRequest";
 
 class Products {
   PayPal: PayPal;
@@ -50,6 +51,29 @@ class Products {
           ...(paypalRequestId ? { "PayPal-Request-Id": paypalRequestId } : {}),
         },
       }
+    );
+
+    return new Product().fromObject(response.data);
+  }
+
+  async update(product: Product | string, patchRequest: PatchRequest) {
+    const response = await this.PayPal.API.patch(
+      `/v1/catalogs/products/${product instanceof Product ? product.id : product}`,
+      patchRequest.toAttributeObject<TPatchRequest>(),
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (response.status !== 204) throw new Error("Unexpected response status code");
+
+    return await this.get(product);
+  }
+
+  async get(product: Product | string) {
+    const response = await this.PayPal.API.get<TProduct>(
+      `/v1/catalogs/products/${product instanceof Product ? product.id : product}`
     );
 
     return new Product().fromObject(response.data);

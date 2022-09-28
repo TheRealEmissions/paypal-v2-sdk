@@ -3,6 +3,7 @@ import { ProductCategory } from "./../Enums/ProductCategory";
 import Types from "../Types";
 import LinkDescription, { TLinkDescription } from "./LinkDescription";
 import PayPal from "../../PayPal";
+import PatchRequest from "./PatchRequest";
 
 export type TProduct = {
   category?: string;
@@ -40,6 +41,20 @@ class Product extends Types {
       throw new Error("To use in-built methods, you must pass PayPal instance to the constructor");
     }
     return this.PayPal.Products.create(this, paypalRequestId, prefer);
+  }
+
+  update(patchRequest: PatchRequest) {
+    if (!this.PayPal) {
+      throw new Error("To use in-built methods, you must pass PayPal instance to the constructor");
+    }
+    return this.PayPal.Products.update(this, patchRequest);
+  }
+
+  get() {
+    if (!this.PayPal) {
+      throw new Error("To use in-built methods, you must pass PayPal instance to the constructor");
+    }
+    return this.PayPal.Products.get(this);
   }
 
   setCategory(category: ProductCategory) {
