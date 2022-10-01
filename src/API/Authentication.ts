@@ -14,7 +14,7 @@ class Authentication {
 
   async requestNewToken(clientId: string, clientSecret: string, sandbox: boolean) {
     const response = await this.PayPal.API.post<any>(
-      `https://${sandbox ? "api-m.sandbox" : "api"}.paypal.com/v1/oauth2/token`,
+      `https://${sandbox ? "api-m.sandbox" : "api-m"}.paypal.com/v1/oauth2/token`,
       "grant_type=client_credentials",
       {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
