@@ -1,6 +1,6 @@
-import Types from "../Types";
-import TemplateItemSetting, { TTemplateItemSetting } from "./TemplateItemSetting";
-import TemplateSubtotalSetting, { TTemplateSubtotalSetting } from "./TemplateSubtotalSetting";
+import Types from "../Types.js";
+import TemplateItemSetting, { TTemplateItemSetting } from "./TemplateItemSetting.js";
+import TemplateSubtotalSetting, { TTemplateSubtotalSetting } from "./TemplateSubtotalSetting.js";
 
 export type TTemplateSettings = {
   template_item_settings?: TTemplateItemSetting[];

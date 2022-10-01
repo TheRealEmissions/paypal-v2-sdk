@@ -1,4 +1,4 @@
-import Types from "../Types";
+import Types from "../Types.js";
 
 export type TEmailAddress = {
   email_address?: string;

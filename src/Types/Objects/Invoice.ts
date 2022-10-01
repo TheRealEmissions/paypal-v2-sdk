@@ -1,20 +1,20 @@
-import PayPal from "../../PayPal";
-import { GenerateQrCodeAction } from "../Enums/GenerateQrCodeAction";
-import { InvoiceStatus } from "../Enums/InvoiceStatus";
-import Types from "../Types";
-import AmountSummaryDetail, { TAmountSummaryDetail } from "./AmountSummaryDetail";
-import Configuration, { TConfiguration } from "./Configuration";
-import EmailAddress, { TEmailAddress } from "./EmailAddress";
-import InvoiceDetail, { TInvoiceDetail } from "./InvoiceDetail";
-import InvoicerInfo, { TInvoicerInfo } from "./InvoicerInfo";
-import Item, { TItem } from "./Item";
-import LinkDescription, { TLinkDescription } from "./LinkDescription";
-import Money, { TMoney } from "./Money";
-import PaymentDetail from "./PaymentDetail";
-import Payments, { TPayments } from "./Payments";
-import RecipientInfo, { TRecipientInfo } from "./RecipientInfo";
-import RefundDetail from "./RefundDetail";
-import Refunds, { TRefunds } from "./Refunds";
+import PayPal from "../../PayPal.js";
+import { GenerateQrCodeAction } from "../Enums/GenerateQrCodeAction.js";
+import { InvoiceStatus } from "../Enums/InvoiceStatus.js";
+import Types from "../Types.js";
+import AmountSummaryDetail, { TAmountSummaryDetail } from "./AmountSummaryDetail.js";
+import Configuration, { TConfiguration } from "./Configuration.js";
+import EmailAddress, { TEmailAddress } from "./EmailAddress.js";
+import InvoiceDetail, { TInvoiceDetail } from "./InvoiceDetail.js";
+import InvoicerInfo, { TInvoicerInfo } from "./InvoicerInfo.js";
+import Item, { TItem } from "./Item.js";
+import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
+import Money, { TMoney } from "./Money.js";
+import PaymentDetail from "./PaymentDetail.js";
+import Payments, { TPayments } from "./Payments.js";
+import RecipientInfo, { TRecipientInfo } from "./RecipientInfo.js";
+import RefundDetail from "./RefundDetail.js";
+import Refunds, { TRefunds } from "./Refunds.js";
 
 export type TInvoice = {
   detail: TInvoiceDetail;

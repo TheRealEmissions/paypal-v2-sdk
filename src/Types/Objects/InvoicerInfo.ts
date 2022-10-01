@@ -1,5 +1,5 @@
-import Types from "../Types";
-import PhoneDetail, { TPhoneDetail } from "./PhoneDetail";
+import Types from "../Types.js";
+import PhoneDetail, { TPhoneDetail } from "./PhoneDetail.js";
 
 export type TInvoicerInfo = {
   additional_notes?: string;

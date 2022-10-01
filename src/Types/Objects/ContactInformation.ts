@@ -1,6 +1,6 @@
-import Types from "../Types";
-import AddressPortable, { TAddressPortable } from "./AddressPortable";
-import Name, { TName } from "./Name";
+import Types from "../Types.js";
+import AddressPortable, { TAddressPortable } from "./AddressPortable.js";
+import Name, { TName } from "./Name.js";
 
 export type TContactInformation = {
   business_name?: string;

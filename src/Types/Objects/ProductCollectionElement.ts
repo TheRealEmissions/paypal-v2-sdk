@@ -1,5 +1,5 @@
-import Types from "../Types";
-import LinkDescription, { TLinkDescription } from "./LinkDescription";
+import Types from "../Types.js";
+import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
 
 export type TProductCollectionElement = {
   create_time?: string;

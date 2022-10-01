@@ -1,8 +1,8 @@
-import Types from "../Types";
-import AggregatedDiscount, { TAggregatedDiscount } from "./AggregatedDiscount";
-import CustomAmount, { TCustomAmount } from "./CustomAmount";
-import Money, { TMoney } from "./Money";
-import ShippingCost, { TShippingCost } from "./ShippingCost";
+import Types from "../Types.js";
+import AggregatedDiscount, { TAggregatedDiscount } from "./AggregatedDiscount.js";
+import CustomAmount, { TCustomAmount } from "./CustomAmount.js";
+import Money, { TMoney } from "./Money.js";
+import ShippingCost, { TShippingCost } from "./ShippingCost.js";
 
 export type TAmountWithBreakdown = {
   custom?: TCustomAmount;

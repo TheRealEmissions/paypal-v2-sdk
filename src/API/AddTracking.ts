@@ -1,11 +1,11 @@
-import AddTrackersResponse, { TAddTrackersResponse } from "./../Types/APIResponses/AddTrackers";
-import { ShippingStatus } from "./../Types/Enums/ShippingStatus";
-import { TTracker } from "./../Types/Objects/Tracker";
-import PayPal from "../PayPal";
-import Tracker from "../Types/Objects/Tracker";
-import LinkDescription from "../Types/Objects/LinkDescription";
-import TrackerIdentifier from "../Types/Objects/TrackerIdentifier";
-import { default as PayPalError } from "../Types/Objects/Error";
+import AddTrackersResponse, { TAddTrackersResponse } from "./../Types/APIResponses/AddTrackers.js";
+import { ShippingStatus } from "./../Types/Enums/ShippingStatus.js";
+import { TTracker } from "./../Types/Objects/Tracker.js";
+import PayPal from "../PayPal.js";
+import Tracker from "../Types/Objects/Tracker.js";
+import LinkDescription from "../Types/Objects/LinkDescription.js";
+import TrackerIdentifier from "../Types/Objects/TrackerIdentifier.js";
+import { default as PayPalError } from "../Types/Objects/Error.js";
 
 class AddTracking {
   PayPal: PayPal;

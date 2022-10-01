@@ -1,5 +1,5 @@
-import Types from "../Types";
-import PartialPayment, { TPartialPayment } from "./PartialPayment";
+import Types from "../Types.js";
+import PartialPayment, { TPartialPayment } from "./PartialPayment.js";
 
 export type TConfiguration = {
   allow_tip?: boolean;

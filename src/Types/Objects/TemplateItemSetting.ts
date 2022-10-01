@@ -1,6 +1,6 @@
-import { TemplateFieldName } from "../Enums/TemplateFieldName";
-import Types from "../Types";
-import TemplateDisplayPreference, { TTemplateDisplayPreference } from "./TemplateDisplayPreference";
+import { TemplateFieldName } from "../Enums/TemplateFieldName.js";
+import Types from "../Types.js";
+import TemplateDisplayPreference, { TTemplateDisplayPreference } from "./TemplateDisplayPreference.js";
 
 export type TTemplateItemSetting = {
   display_preference?: TTemplateDisplayPreference;

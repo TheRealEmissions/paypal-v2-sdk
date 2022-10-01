@@ -1,5 +1,5 @@
-import Types from "../Types";
-import Money, { TMoney } from "./Money";
+import Types from "../Types.js";
+import Money, { TMoney } from "./Money.js";
 
 export type TAmountRange = {
   lower_amount: TMoney;

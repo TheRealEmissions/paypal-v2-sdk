@@ -1,9 +1,9 @@
-import PayPal from "../../PayPal";
-import { UnitOfMeasure } from "../Enums/UnitOfMeasure";
-import Types from "../Types";
-import LinkDescription, { TLinkDescription } from "./LinkDescription";
-import TemplateInfo, { TTemplateInfo } from "./TemplateInfo";
-import TemplateSettings, { TTemplateSettings } from "./TemplateSettings";
+import PayPal from "../../PayPal.js";
+import { UnitOfMeasure } from "../Enums/UnitOfMeasure.js";
+import Types from "../Types.js";
+import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
+import TemplateInfo, { TTemplateInfo } from "./TemplateInfo.js";
+import TemplateSettings, { TTemplateSettings } from "./TemplateSettings.js";
 
 export type TTemplate = {
   default_template?: boolean;
