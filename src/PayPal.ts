@@ -1,4 +1,4 @@
-import BasePayPal from "./BasePayPal";
+import BasePayPal from "./BasePayPal.js";
 
 class PayPal extends BasePayPal {
   constructor() {

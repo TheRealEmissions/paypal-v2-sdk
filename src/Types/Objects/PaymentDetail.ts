@@ -1,8 +1,8 @@
-import { PaymentDetailMethod } from "../Enums/PaymentDetailMethod";
-import { PaymentDetailType } from "../Enums/PaymentDetailType";
-import Types from "../Types";
-import ContactInformation, { TContactInformation } from "./ContactInformation";
-import Money, { TMoney } from "./Money";
+import { PaymentDetailMethod } from "../Enums/PaymentDetailMethod.js";
+import { PaymentDetailType } from "../Enums/PaymentDetailType.js";
+import Types from "../Types.js";
+import ContactInformation, { TContactInformation } from "./ContactInformation.js";
+import Money, { TMoney } from "./Money.js";
 
 export type TPaymentDetail = {
   method: string;

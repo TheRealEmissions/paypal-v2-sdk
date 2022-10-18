@@ -13,7 +13,7 @@ To write an app using this unofficial PayPal SDK (for v2 api)
 - Import `paypal-v2-sdk` in your file
 
 ```ts
-import PayPal from "paypal-v2-sdk";
+import PayPal from "paypal-v2-sdk.js";
 ```
 
 - Configure your PayPal instance (last param, true = sandbox, false = live)
@@ -40,14 +40,14 @@ try {
   Returns Invoice object
 
 ```ts
-import { default as PayPal, Invoice } from "paypal-v2-sdk";
+import { default as PayPal, Invoice } from "paypal-v2-sdk.js";
 const invoice: Invoice = await PayPal.Invoicing.get("id of invoice");
 ```
 
 - Getting an invoice and then deleting it
 
 ```ts
-import { default as PayPal, Invoice } from "paypal-v2-sdk";
+import { default as PayPal, Invoice } from "paypal-v2-sdk.js";
 
 const invoice: Invoice = await PayPal.Invoicing.get("id of invoice");
 const deleted = await invoice.delete();
@@ -77,7 +77,7 @@ import {
   PhoneDetail,
   RecipientInfo,
   Tax,
-} from "paypal-v2-sdk";
+} from "paypal-v2-sdk.js";
 
 let invoice: Invoice = new Invoice(PayPal)
   .setAdditionalRecipients([
@@ -165,7 +165,7 @@ if (typeof sentInvoice === "string") {
 - Getting the next invoice number & creating an invoice **via an object**
 
 ```js
-import { default as PayPal, Invoice } from "paypal-v2-sdk";
+import { default as PayPal, Invoice } from "paypal-v2-sdk.js";
 
 let invoice: Invoice = new Invoice(PayPal).fromObject({
   detail: {

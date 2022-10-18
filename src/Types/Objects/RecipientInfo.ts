@@ -1,6 +1,6 @@
-import Types from "../Types";
-import BillingInfo, { TBillingInfo } from "./BillingInfo";
-import ContactInformation, { TContactInformation } from "./ContactInformation";
+import Types from "../Types.js";
+import BillingInfo, { TBillingInfo } from "./BillingInfo.js";
+import ContactInformation, { TContactInformation } from "./ContactInformation.js";
 
 export type TRecipientInfo = {
   billing_info?: TBillingInfo;

@@ -1,6 +1,6 @@
-import Types from "../Types";
-import Money, { TMoney } from "./Money";
-import Tax, { TTax } from "./Tax";
+import Types from "../Types.js";
+import Money, { TMoney } from "./Money.js";
+import Tax, { TTax } from "./Tax.js";
 
 export type TShippingCost = {
   amount?: TMoney;

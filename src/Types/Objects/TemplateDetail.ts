@@ -1,7 +1,7 @@
-import Types from "../Types";
-import FileReference, { TFileReference } from "./FileReference";
-import PaymentTerm, { TPaymentTerm } from "./PaymentTerm";
-import TemplateMetadata, { TTemplateMetadata } from "./TemplateMetadata";
+import Types from "../Types.js";
+import FileReference, { TFileReference } from "./FileReference.js";
+import PaymentTerm, { TPaymentTerm } from "./PaymentTerm.js";
+import TemplateMetadata, { TTemplateMetadata } from "./TemplateMetadata.js";
 
 export type TTemplateDetail = {
   currency_code: string;

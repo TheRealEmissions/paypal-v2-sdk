@@ -1,5 +1,5 @@
-import { PaymentTermType } from "../Enums/PaymentTermType";
-import Types from "../Types";
+import { PaymentTermType } from "../Enums/PaymentTermType.js";
+import Types from "../Types.js";
 
 export type TPaymentTerm = {
   term_type?: string;

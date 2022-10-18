@@ -1,5 +1,5 @@
-import Types from "../Types";
-import Patch, { TPatch } from "./Patch";
+import Types from "../Types.js";
+import Patch, { TPatch } from "./Patch.js";
 
 export type TPatchRequest = {
   patch_request: Array<TPatch>;

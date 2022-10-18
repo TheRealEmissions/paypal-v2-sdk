@@ -1,7 +1,7 @@
-import { TLinkDescription } from "./../Objects/LinkDescription";
-import LinkDescription from "../Objects/LinkDescription";
-import ProductCollectionElement, { TProductCollectionElement } from "../Objects/ProductCollectionElement";
-import TypeResponse from "./TypeResponse";
+import { TLinkDescription } from "./../Objects/LinkDescription.js";
+import LinkDescription from "../Objects/LinkDescription.js";
+import ProductCollectionElement, { TProductCollectionElement } from "../Objects/ProductCollectionElement.js";
+import TypeResponse from "./TypeResponse.js";
 
 export type TListProductsResponse = {
   readonly links: TLinkDescription[];

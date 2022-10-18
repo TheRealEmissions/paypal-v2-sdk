@@ -1,5 +1,5 @@
-import Types from "../Types";
-import AmountWithBreakdown, { TAmountWithBreakdown } from "./AmountWithBreakdown";
+import Types from "../Types.js";
+import AmountWithBreakdown, { TAmountWithBreakdown } from "./AmountWithBreakdown.js";
 
 export type TAmountSummaryDetail = {
   breakdown?: TAmountWithBreakdown;

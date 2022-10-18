@@ -1,8 +1,8 @@
-import AddressPortable, { TAddressPortable } from "../Objects/AddressPortable";
-import LinkDescription, { TLinkDescription } from "../Objects/LinkDescription";
-import PhoneDetail, { TPhoneDetail } from "../Objects/PhoneDetail";
-import Template, { TTemplate } from "../Objects/Template";
-import TypeResponse from "./TypeResponse";
+import AddressPortable, { TAddressPortable } from "../Objects/AddressPortable.js";
+import LinkDescription, { TLinkDescription } from "../Objects/LinkDescription.js";
+import PhoneDetail, { TPhoneDetail } from "../Objects/PhoneDetail.js";
+import Template, { TTemplate } from "../Objects/Template.js";
+import TypeResponse from "./TypeResponse.js";
 
 export type TListTemplatesResponse = {
   readonly addresses: TAddressPortable[];
