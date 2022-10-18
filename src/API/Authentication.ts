@@ -1,4 +1,4 @@
-import PayPal from "../PayPal";
+import PayPal from "../PayPal.js";
 
 class Authentication {
   PayPal: PayPal;
@@ -14,7 +14,7 @@ class Authentication {
 
   async requestNewToken(clientId: string, clientSecret: string, sandbox: boolean) {
     const response = await this.PayPal.API.post<any>(
-      `https://${sandbox ? "api-m.sandbox" : "api"}.paypal.com/v1/oauth2/token`,
+      `https://${sandbox ? "api-m.sandbox" : "api-m"}.paypal.com/v1/oauth2/token`,
       "grant_type=client_credentials",
       {
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
@@ -48,7 +48,7 @@ class Authentication {
   setAxiosDefaults(sandbox: boolean) {
     if (!this.token) throw new Error("Token not set! Please retry configuration and authentication!");
     this.PayPal.API.setDefaultAuthorizationHeader(this.token)
-      .setDefaultBaseUrl(sandbox ? "https://api-m.sandbox.com" : "https://api.paypal.com")
+      .setDefaultBaseUrl(sandbox ? "https://api-m.sandbox.paypal.com" : "https://api-m.paypal.com")
       .setDefaultHeaders();
     return this;
   }

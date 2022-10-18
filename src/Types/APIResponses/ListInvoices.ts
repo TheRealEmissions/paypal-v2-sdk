@@ -1,6 +1,6 @@
-import Invoice, { TInvoice } from "../Objects/Invoice";
-import LinkDescription, { TLinkDescription } from "../Objects/LinkDescription";
-import TypeResponse from "./TypeResponse";
+import Invoice, { TInvoice } from "../Objects/Invoice.js";
+import LinkDescription, { TLinkDescription } from "../Objects/LinkDescription.js";
+import TypeResponse from "./TypeResponse.js";
 
 export type TListInvoicesResponse = {
   readonly items: TInvoice[];

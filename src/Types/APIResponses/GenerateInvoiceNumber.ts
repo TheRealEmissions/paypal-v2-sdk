@@ -1,4 +1,4 @@
-import TypeResponse from "./TypeResponse";
+import TypeResponse from "./TypeResponse.js";
 
 export type TGenerateInvoiceNumberResponse = {
   readonly invoice_number: string;

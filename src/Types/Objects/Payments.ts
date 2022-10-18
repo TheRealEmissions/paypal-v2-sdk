@@ -1,6 +1,6 @@
-import Types from "../Types";
-import Money, { TMoney } from "./Money";
-import PaymentDetail, { TPaymentDetail } from "./PaymentDetail";
+import Types from "../Types.js";
+import Money, { TMoney } from "./Money.js";
+import PaymentDetail, { TPaymentDetail } from "./PaymentDetail.js";
 
 export type TPayments = {
   readonly paid_amount?: TMoney;

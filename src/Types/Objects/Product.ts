@@ -1,9 +1,9 @@
-import { ProductType } from "./../Enums/ProductType";
-import { ProductCategory } from "./../Enums/ProductCategory";
-import Types from "../Types";
-import LinkDescription, { TLinkDescription } from "./LinkDescription";
-import PayPal from "../../PayPal";
-import PatchRequest from "./PatchRequest";
+import { ProductType } from "./../Enums/ProductType.js";
+import { ProductCategory } from "./../Enums/ProductCategory.js";
+import Types from "../Types.js";
+import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
+import PayPal from "../../PayPal.js";
+import PatchRequest from "./PatchRequest.js";
 
 export type TProduct = {
   category?: string;

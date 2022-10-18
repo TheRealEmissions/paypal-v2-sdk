@@ -1,6 +1,6 @@
-import Types from "../Types";
-import ErrorDetails, { TErrorDetails } from "./ErrorDetails";
-import LinkDescription, { TLinkDescription } from "./LinkDescription";
+import Types from "../Types.js";
+import ErrorDetails, { TErrorDetails } from "./ErrorDetails.js";
+import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
 
 export type TError = {
   debug_id: string;

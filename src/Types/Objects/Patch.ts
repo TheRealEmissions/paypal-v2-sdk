@@ -1,5 +1,5 @@
-import { PatchOperation } from "../Enums/PatchOperation";
-import Types from "../Types";
+import { PatchOperation } from "../Enums/PatchOperation.js";
+import Types from "../Types.js";
 
 export type TPatch = {
   op: string;

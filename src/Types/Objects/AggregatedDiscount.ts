@@ -1,6 +1,6 @@
-import Types from "../Types";
-import Discount, { TDiscount } from "./Discount";
-import Money, { TMoney } from "./Money";
+import Types from "../Types.js";
+import Discount, { TDiscount } from "./Discount.js";
+import Money, { TMoney } from "./Money.js";
 
 export type TAggregatedDiscount = {
   invoice_discount: TDiscount;

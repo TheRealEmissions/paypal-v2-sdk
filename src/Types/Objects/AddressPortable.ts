@@ -1,5 +1,5 @@
-import Types from "../Types";
-import AddressDetails, { TAddressDetails } from "./AddressDetails";
+import Types from "../Types.js";
+import AddressDetails, { TAddressDetails } from "./AddressDetails.js";
 
 export type TAddressPortable = {
   country_code: string;

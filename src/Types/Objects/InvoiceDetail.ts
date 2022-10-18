@@ -1,7 +1,7 @@
-import Types from "../Types";
-import FileReference, { TFileReference } from "./FileReference";
-import InvoicePaymentTerm, { TInvoicePaymentTerm } from "./InvoicePaymentTerm";
-import Metadata, { TMetadata } from "./Metadata";
+import Types from "../Types.js";
+import FileReference, { TFileReference } from "./FileReference.js";
+import InvoicePaymentTerm, { TInvoicePaymentTerm } from "./InvoicePaymentTerm.js";
+import Metadata, { TMetadata } from "./Metadata.js";
 
 export type TInvoiceDetail = {
   currency_code: string;

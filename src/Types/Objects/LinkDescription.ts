@@ -1,5 +1,5 @@
-import { HTTPMethod } from "../Enums/HTTPMethod";
-import Types from "../Types";
+import { HTTPMethod } from "../Enums/HTTPMethod.js";
+import Types from "../Types.js";
 
 export type TLinkDescription = {
   href: string;

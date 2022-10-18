@@ -1,12 +1,12 @@
-import Types from "../Types";
-import AmountSummaryDetail, { TAmountSummaryDetail } from "./AmountSummaryDetail";
-import Configuration, { TConfiguration } from "./Configuration";
-import EmailAddress, { TEmailAddress } from "./EmailAddress";
-import InvoicerInfo, { TInvoicerInfo } from "./InvoicerInfo";
-import Item, { TItem } from "./Item";
-import Money, { TMoney } from "./Money";
-import RecipientInfo, { TRecipientInfo } from "./RecipientInfo";
-import TemplateDetail, { TTemplateDetail } from "./TemplateDetail";
+import Types from "../Types.js";
+import AmountSummaryDetail, { TAmountSummaryDetail } from "./AmountSummaryDetail.js";
+import Configuration, { TConfiguration } from "./Configuration.js";
+import EmailAddress, { TEmailAddress } from "./EmailAddress.js";
+import InvoicerInfo, { TInvoicerInfo } from "./InvoicerInfo.js";
+import Item, { TItem } from "./Item.js";
+import Money, { TMoney } from "./Money.js";
+import RecipientInfo, { TRecipientInfo } from "./RecipientInfo.js";
+import TemplateDetail, { TTemplateDetail } from "./TemplateDetail.js";
 
 export type TTemplateInfo = {
   additional_recipients?: TEmailAddress[];

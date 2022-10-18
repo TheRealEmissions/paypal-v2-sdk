@@ -1,7 +1,7 @@
-import Types from "../Types";
-import LinkDescription, { TLinkDescription } from "./LinkDescription";
-import TrackerIdentifier, { TTrackerIdentifier } from "./TrackerIdentifier";
-import Error, { TError } from "./Error";
+import Types from "../Types.js";
+import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
+import TrackerIdentifier, { TTrackerIdentifier } from "./TrackerIdentifier.js";
+import Error, { TError } from "./Error.js";
 
 export type TBatchTrackerCollection = {
   errors?: TError[];

@@ -1,8 +1,8 @@
-import { UnitOfMeasure } from "../Enums/UnitOfMeasure";
-import Types from "../Types";
-import Discount, { TDiscount } from "./Discount";
-import Money, { TMoney } from "./Money";
-import Tax, { TTax } from "./Tax";
+import { UnitOfMeasure } from "../Enums/UnitOfMeasure.js";
+import Types from "../Types.js";
+import Discount, { TDiscount } from "./Discount.js";
+import Money, { TMoney } from "./Money.js";
+import Tax, { TTax } from "./Tax.js";
 
 export type TItem = {
   name: string;
