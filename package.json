@@ -5,7 +5,7 @@
   "name": "paypal-v2-sdk",
   "version": "2.2.0",
   "description": "Unofficial promise-based PayPal API v2 SDK for node.js",
-  "main": "out/index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
