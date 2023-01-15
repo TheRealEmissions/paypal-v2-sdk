@@ -1,7 +1,7 @@
 import PayPal from "../PayPal.js";
 
 class Authentication {
-  PayPal: PayPal;
+  protected PayPal: PayPal;
   scope?: string;
   token?: string;
   tokenType?: string;

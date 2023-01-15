@@ -8,7 +8,7 @@ import TrackerIdentifier from "../Types/Objects/TrackerIdentifier.js";
 import { default as PayPalError } from "../Types/Objects/Error.js";
 
 class AddTracking {
-  PayPal: PayPal;
+  protected PayPal: PayPal;
   constructor(PayPal: PayPal) {
     this.PayPal = PayPal;
   }

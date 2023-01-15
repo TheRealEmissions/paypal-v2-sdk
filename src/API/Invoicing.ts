@@ -20,7 +20,7 @@ import RefundDetail, { TRefundDetail } from "../Types/Objects/RefundDetail.js";
 import Template, { TTemplate } from "../Types/Objects/Template.js";
 
 class Invoicing {
-  PayPal: PayPal;
+  protected PayPal: PayPal;
   constructor(PayPal: PayPal) {
     this.PayPal = PayPal;
   }

@@ -7,7 +7,7 @@ import Product from "../Types/Objects/Product.js";
 import PatchRequest, { TPatchRequest } from "../Types/Objects/PatchRequest.js";
 
 class Products {
-  PayPal: PayPal;
+  protected PayPal: PayPal;
   constructor(PayPal: PayPal) {
     this.PayPal = PayPal;
   }
