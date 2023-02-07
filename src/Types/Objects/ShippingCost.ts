@@ -15,7 +15,11 @@ class ShippingCost extends Types {
     super();
   }
 
-  setAmount(amount: Money) {
+  /**
+   *
+   * @param amount - Value must be between 0 and 1,000,000
+   */
+  setAmount(amount: Money): ShippingCost {
     if (parseFloat(amount.value as string) < 0 || parseFloat(amount.value as string) > 1000000) {
       throw new Error("Amount value cannot be less than 0 or greater than 1,000,000");
     }
