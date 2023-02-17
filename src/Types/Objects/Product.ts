@@ -43,11 +43,14 @@ class Product extends Types implements Static<ITypes, typeof Product> {
     return this.PayPal.Products.create(this, paypalRequestId, prefer);
   }
 
-  update(patchRequest: PatchRequest) {
+  update(patchRequest: PatchRequest | ((patchRequest: PatchRequest) => void)) {
     if (!this.PayPal) {
       throw new Error("To use in-built methods, you must pass PayPal instance to the constructor");
     }
-    return this.PayPal.Products.update(this, patchRequest);
+    if (patchRequest instanceof PatchRequest) return this.PayPal.Products.update(this, patchRequest);
+    const patch = new PatchRequest();
+    patchRequest(patch);
+    return this.PayPal.Products.update(this, patch);
   }
 
   get() {
@@ -57,8 +60,9 @@ class Product extends Types implements Static<ITypes, typeof Product> {
     return this.PayPal.Products.get(this);
   }
 
-  setCategory(category: ProductCategory) {
-    this.category = category;
+  setCategory(category: ProductCategory | ((category: typeof ProductCategory) => ProductCategory)) {
+    if (typeof category === "function") this.category = category(ProductCategory);
+    else this.category = category;
     return this;
   }
 
@@ -87,8 +91,13 @@ class Product extends Types implements Static<ITypes, typeof Product> {
     return this;
   }
 
-  setLinks(links: LinkDescription[]) {
-    this.links = links;
+  setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
+    this.links = links.map((link) => {
+      if (link instanceof LinkDescription) return link;
+      const linkDesc = new LinkDescription();
+      link(linkDesc);
+      return linkDesc;
+    });
     return this;
   }
 
@@ -97,8 +106,9 @@ class Product extends Types implements Static<ITypes, typeof Product> {
     return this;
   }
 
-  setType(type: ProductType) {
-    this.type = type;
+  setType(type: ProductType | ((type: typeof ProductType) => ProductType)) {
+    if (typeof type === "function") this.type = type(ProductType);
+    else this.type = type;
     return this;
   }
 
@@ -115,7 +125,7 @@ class Product extends Types implements Static<ITypes, typeof Product> {
     if (obj.home_url) product.setHomeUrl(obj.home_url);
     if (obj.id) product.setId(obj.id);
     if (obj.image_url) product.setImageUrl(obj.image_url);
-    if (obj.links) product.setLinks(obj.links.map((x) => LinkDescription.fromObject(x)));
+    if (obj.links) product.setLinks(...obj.links.map((x) => LinkDescription.fromObject(x)));
     if (obj.name) product.setName(obj.name);
     if (obj.type) product.setType(ProductType[obj.type]);
     if (obj.update_time) product.setUpdateTime(obj.update_time);

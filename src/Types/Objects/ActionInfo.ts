@@ -15,8 +15,9 @@ class ActionInfo extends Types implements Static<ITypes, typeof ActionInfo> {
     super();
   }
 
-  setAction(action: Action) {
-    this.action = action;
+  setAction(action: Action | ((action: typeof Action) => Action)) {
+    if (typeof action === "function") this.action = action(Action);
+    else this.action = action;
     return this;
   }
 

@@ -17,18 +17,33 @@ class AllowedResponseOptions extends Types implements Static<ITypes, typeof Allo
     super();
   }
 
-  setAcceptClaim(acceptClaim: AcceptClaim) {
-    this.acceptClaim = acceptClaim;
+  setAcceptClaim(acceptClaim: AcceptClaim | ((claim: AcceptClaim) => void)) {
+    if (acceptClaim instanceof AcceptClaim) this.acceptClaim = acceptClaim;
+    else {
+      const claim = new AcceptClaim();
+      acceptClaim(claim);
+      this.acceptClaim = claim;
+    }
     return this;
   }
 
-  setAcknowledgeReturnItem(acknowledgeReturnItem: AcknowledgeReturnItem) {
-    this.acknowledgeReturnItem = acknowledgeReturnItem;
+  setAcknowledgeReturnItem(acknowledgeReturnItem: AcknowledgeReturnItem | ((item: AcknowledgeReturnItem) => void)) {
+    if (acknowledgeReturnItem instanceof AcknowledgeReturnItem) this.acknowledgeReturnItem = acknowledgeReturnItem;
+    else {
+      const item = new AcknowledgeReturnItem();
+      acknowledgeReturnItem(item);
+      this.acknowledgeReturnItem = item;
+    }
     return this;
   }
 
-  setMakeOffer(makeOffer: MakeOffer) {
-    this.makeOffer = makeOffer;
+  setMakeOffer(makeOffer: MakeOffer | ((offer: MakeOffer) => void)) {
+    if (makeOffer instanceof MakeOffer) this.makeOffer = makeOffer;
+    else {
+      const offer = new MakeOffer();
+      makeOffer(offer);
+      this.makeOffer = offer;
+    }
     return this;
   }
 

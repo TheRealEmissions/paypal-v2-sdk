@@ -21,8 +21,13 @@ class ContactInformation extends Types implements Static<ITypes, typeof ContactI
     return this;
   }
 
-  setAddress(address: AddressPortable) {
-    this.address = address;
+  setAddress(address: AddressPortable | ((address: AddressPortable) => void)) {
+    if (address instanceof AddressPortable) this.address = address;
+    else {
+      const addressPortable = new AddressPortable();
+      address(addressPortable);
+      this.address = addressPortable;
+    }
     return this;
   }
 

@@ -34,8 +34,13 @@ class ProductCollectionElement extends Types implements Static<ITypes, typeof Pr
     return this;
   }
 
-  setLinks(links: LinkDescription[]) {
-    this.links = links;
+  setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
+    this.links = links.map((link) => {
+      if (link instanceof LinkDescription) return link;
+      const linkDesc = new LinkDescription();
+      link(linkDesc);
+      return linkDesc;
+    });
     return this;
   }
 
@@ -49,7 +54,7 @@ class ProductCollectionElement extends Types implements Static<ITypes, typeof Pr
     if (obj.create_time) productCollectionElement.setCreateTime(obj.create_time);
     if (obj.description) productCollectionElement.setDescription(obj.description);
     if (obj.id) productCollectionElement.setId(obj.id);
-    if (obj.links) productCollectionElement.setLinks(obj.links.map((x) => LinkDescription.fromObject(x)));
+    if (obj.links) productCollectionElement.setLinks(...obj.links.map((x) => LinkDescription.fromObject(x)));
     if (obj.name) productCollectionElement.setName(obj.name);
     return productCollectionElement;
   }

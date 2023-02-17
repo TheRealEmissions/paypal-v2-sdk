@@ -33,8 +33,13 @@ class BillingInfo extends Types implements Static<ITypes, typeof BillingInfo> {
     return this;
   }
 
-  setPhones(phones: PhoneDetail[]) {
-    this.phones = phones;
+  setPhones(...phones: (PhoneDetail | ((detail: PhoneDetail) => void))[]) {
+    this.phones = phones.map((phone) => {
+      if (phone instanceof PhoneDetail) return phone;
+      const detail = new PhoneDetail();
+      phone(detail);
+      return detail;
+    });
     return this;
   }
 
@@ -43,7 +48,7 @@ class BillingInfo extends Types implements Static<ITypes, typeof BillingInfo> {
     if (obj.additional_info) billingInfo.setAdditionalInfo(obj.additional_info);
     if (obj.email_address) billingInfo.setEmailAddress(obj.email_address);
     if (obj.language) billingInfo.setLanguage(obj.language);
-    if (obj.phones) billingInfo.setPhones(obj.phones.map((phone) => PhoneDetail.fromObject(phone)));
+    if (obj.phones) billingInfo.setPhones(...obj.phones.map((phone) => PhoneDetail.fromObject(phone)));
     return billingInfo;
   }
 }

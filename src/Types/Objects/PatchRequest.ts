@@ -11,14 +11,21 @@ class PatchRequest extends Types implements Static<ITypes, typeof PatchRequest> 
     super();
   }
 
-  setPatchRequest(patchRequest: Patch[]) {
-    this.patchRequest = patchRequest;
+  setPatchRequest(...patchRequest: (Patch | ((patch: Patch) => void))[]) {
+    this.patchRequest = patchRequest.map((patch) => {
+      if (patch instanceof Patch) return patch;
+      else {
+        const p = new Patch();
+        patch(p);
+        return p;
+      }
+    });
     return this;
   }
 
   static fromObject(obj: TPatchRequest) {
     const patchRequest = new PatchRequest();
-    if (obj.patch_request) patchRequest.setPatchRequest(obj.patch_request.map((patch) => Patch.fromObject(patch)));
+    if (obj.patch_request) patchRequest.setPatchRequest(...obj.patch_request.map((patch) => Patch.fromObject(patch)));
     return patchRequest;
   }
 }

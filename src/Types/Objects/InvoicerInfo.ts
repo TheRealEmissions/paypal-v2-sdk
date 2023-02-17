@@ -36,8 +36,13 @@ class InvoicerInfo extends Types implements Static<ITypes, typeof InvoicerInfo> 
     return this;
   }
 
-  setPhones(phones: PhoneDetail[]) {
-    this.phones = phones;
+  setPhones(...phones: (PhoneDetail | ((phoneDetail: PhoneDetail) => void))[]) {
+    this.phones = phones.map((phone) => {
+      if (phone instanceof PhoneDetail) return phone;
+      const phoneDetail = new PhoneDetail();
+      phone(phoneDetail);
+      return phoneDetail;
+    });
     return this;
   }
 
@@ -56,7 +61,7 @@ class InvoicerInfo extends Types implements Static<ITypes, typeof InvoicerInfo> 
     if (obj.additional_notes) invoicerInfo.setAdditionalNotes(obj.additional_notes);
     if (obj.email_address) invoicerInfo.setEmailAddress(obj.email_address);
     if (obj.logo_url) invoicerInfo.setLogoUrl(obj.logo_url);
-    if (obj.phones) invoicerInfo.setPhones(obj.phones.map((phone) => PhoneDetail.fromObject(phone)));
+    if (obj.phones) invoicerInfo.setPhones(...obj.phones.map((phone) => PhoneDetail.fromObject(phone)));
     if (obj.tax_id) invoicerInfo.setTaxId(obj.tax_id);
     if (obj.website) invoicerInfo.setWebsite(obj.website);
     return invoicerInfo;

@@ -32,8 +32,15 @@ class TemplateDetail extends Types implements Static<ITypes, typeof TemplateDeta
     return this;
   }
 
-  setAttachments(attachments: FileReference[]) {
-    this.attachments = attachments;
+  setAttachments(...attachments: (FileReference | ((fileReference: FileReference) => void))[]) {
+    this.attachments = attachments.map((attachment) => {
+      if (attachment instanceof FileReference) return attachment;
+      else {
+        const a = new FileReference();
+        attachment(a);
+        return a;
+      }
+    });
     return this;
   }
 
@@ -57,13 +64,23 @@ class TemplateDetail extends Types implements Static<ITypes, typeof TemplateDeta
     return this;
   }
 
-  setMetadata(metadata: TemplateMetadata) {
-    this.metadata = metadata;
+  setMetadata(metadata: TemplateMetadata | ((metadata: TemplateMetadata) => void)) {
+    if (metadata instanceof TemplateMetadata) this.metadata = metadata;
+    else {
+      const m = new TemplateMetadata();
+      metadata(m);
+      this.metadata = m;
+    }
     return this;
   }
 
-  setPaymentTerm(paymentTerm: PaymentTerm) {
-    this.paymentTerm = paymentTerm;
+  setPaymentTerm(paymentTerm: PaymentTerm | ((paymentTerm: PaymentTerm) => void)) {
+    if (paymentTerm instanceof PaymentTerm) this.paymentTerm = paymentTerm;
+    else {
+      const p = new PaymentTerm();
+      paymentTerm(p);
+      this.paymentTerm = p;
+    }
     return this;
   }
 
@@ -71,7 +88,7 @@ class TemplateDetail extends Types implements Static<ITypes, typeof TemplateDeta
     const templateDetail = new TemplateDetail();
     if (obj.currency_code) templateDetail.setCurrencyCode(obj.currency_code);
     if (obj.attachments)
-      templateDetail.setAttachments(obj.attachments.map((attachment) => FileReference.fromObject(attachment)));
+      templateDetail.setAttachments(...obj.attachments.map((attachment) => FileReference.fromObject(attachment)));
     if (obj.memo) templateDetail.setMemo(obj.memo);
     if (obj.note) templateDetail.setNote(obj.note);
     if (obj.reference) templateDetail.setReference(obj.reference);

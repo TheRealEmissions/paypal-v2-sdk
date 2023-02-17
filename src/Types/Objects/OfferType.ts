@@ -11,8 +11,9 @@ class OfferType extends Types implements Static<ITypes, typeof OfferType> {
     super();
   }
 
-  setOfferType(offerType: OfferTypeEnum) {
-    this.offerType = offerType;
+  setOfferType(offerType: OfferTypeEnum | ((offerType: typeof OfferTypeEnum) => OfferTypeEnum)) {
+    if (typeof offerType === "function") this.offerType = offerType(OfferTypeEnum);
+    else this.offerType = offerType;
     return this;
   }
 

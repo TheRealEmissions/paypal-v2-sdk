@@ -21,13 +21,19 @@ class RefundDetail extends Types implements Static<ITypes, typeof RefundDetail> 
     super();
   }
 
-  setMethod(method: PaymentDetailMethod) {
-    this.method = method;
+  setMethod(method: PaymentDetailMethod | ((method: typeof PaymentDetailMethod) => PaymentDetailMethod)) {
+    if (typeof method === "function") this.method = method(PaymentDetailMethod);
+    else this.method = method;
     return this;
   }
 
-  setAmount(amount: Money) {
-    this.amount = amount;
+  setAmount(amount: Money | ((money: Money) => void)) {
+    if (amount instanceof Money) this.amount = amount;
+    else {
+      const money = new Money();
+      amount(money);
+      this.amount = money;
+    }
     return this;
   }
 
@@ -41,8 +47,9 @@ class RefundDetail extends Types implements Static<ITypes, typeof RefundDetail> 
     return this;
   }
 
-  setType(type: PaymentDetailType) {
-    this.type = type;
+  setType(type: PaymentDetailType | ((type: typeof PaymentDetailType) => PaymentDetailType)) {
+    if (typeof type === "function") this.type = type(PaymentDetailType);
+    else this.type = type;
     return this;
   }
 

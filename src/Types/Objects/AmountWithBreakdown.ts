@@ -22,28 +22,53 @@ class AmountWithBreakdown extends Types implements Static<ITypes, typeof AmountW
     super();
   }
 
-  setCustom(custom: CustomAmount) {
-    this.custom = custom;
+  setCustom(custom: CustomAmount | ((custom: CustomAmount) => void)) {
+    if (custom instanceof CustomAmount) this.custom = custom;
+    else {
+      const customAmount = new CustomAmount();
+      custom(customAmount);
+      this.custom = customAmount;
+    }
     return this;
   }
 
-  setDiscount(discount: AggregatedDiscount) {
-    this.discount = discount;
+  setDiscount(discount: AggregatedDiscount | ((discount: AggregatedDiscount) => void)) {
+    if (discount instanceof AggregatedDiscount) this.discount = discount;
+    else {
+      const aggregatedDiscount = new AggregatedDiscount();
+      discount(aggregatedDiscount);
+      this.discount = aggregatedDiscount;
+    }
     return this;
   }
 
-  setItemTotal(itemTotal: Money) {
-    this.itemTotal = itemTotal;
+  setItemTotal(itemTotal: Money | ((money: Money) => void)) {
+    if (itemTotal instanceof Money) this.itemTotal = itemTotal;
+    else {
+      const money = new Money();
+      itemTotal(money);
+      this.itemTotal = money;
+    }
     return this;
   }
 
-  setShipping(shipping: ShippingCost) {
-    this.shipping = shipping;
+  setShipping(shipping: ShippingCost | ((shipping: ShippingCost) => void)) {
+    if (shipping instanceof ShippingCost) this.shipping = shipping;
+    else {
+      const shippingCost = new ShippingCost();
+      shipping(shippingCost);
+      this.shipping = shippingCost;
+    }
     return this;
   }
 
-  setTaxTotal(taxTotal: Money) {
-    this.taxTotal = taxTotal;
+  setTaxTotal(taxTotal: Money | ((money: Money) => void)) {
+    if (taxTotal instanceof Money) this.taxTotal = taxTotal;
+    else {
+      const money = new Money();
+      taxTotal(money);
+      this.taxTotal = money;
+    }
     return this;
   }
 

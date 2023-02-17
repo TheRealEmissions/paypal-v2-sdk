@@ -20,8 +20,13 @@ class TrackerIdentifier extends Types implements Static<ITypes, typeof TrackerId
     return this;
   }
 
-  setLinks(links: LinkDescription[]) {
-    this.links = links;
+  setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
+    this.links = links.map((link) => {
+      if (link instanceof LinkDescription) return link;
+      const linkDesc = new LinkDescription();
+      link(linkDesc);
+      return linkDesc;
+    });
     return this;
   }
 
@@ -33,7 +38,7 @@ class TrackerIdentifier extends Types implements Static<ITypes, typeof TrackerId
   static fromObject(obj: TTrackerIdentifier): TrackerIdentifier {
     const trackerIdentifier = new TrackerIdentifier();
     if (obj.transaction_id) trackerIdentifier.setTransactionId(obj.transaction_id);
-    if (obj.links) trackerIdentifier.setLinks(obj.links.map((x) => LinkDescription.fromObject(x)));
+    if (obj.links) trackerIdentifier.setLinks(...obj.links.map((x) => LinkDescription.fromObject(x)));
     if (obj.tracking_number) trackerIdentifier.setTrackingNumber(obj.tracking_number);
     return trackerIdentifier;
   }

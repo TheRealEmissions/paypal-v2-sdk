@@ -30,8 +30,15 @@ class AcceptClaim extends Types implements Static<ITypes, typeof AcceptClaim> {
     super();
   }
 
-  setAcceptClaimTypes(acceptClaimTypes: ResponseAcceptClaimType[]) {
-    this.acceptClaimTypes = acceptClaimTypes;
+  setAcceptClaimTypes(
+    ...acceptClaimTypes: (ResponseAcceptClaimType | ((response: ResponseAcceptClaimType) => void))[]
+  ) {
+    this.acceptClaimTypes = acceptClaimTypes.map((acceptClaimType) => {
+      if (acceptClaimType instanceof ResponseAcceptClaimType) return acceptClaimType;
+      const response = new ResponseAcceptClaimType();
+      acceptClaimType(response);
+      return response;
+    });
     return this;
   }
 
@@ -40,13 +47,15 @@ class AcceptClaim extends Types implements Static<ITypes, typeof AcceptClaim> {
     return this;
   }
 
-  setAcceptClaimReason(acceptClaimReason: AcceptClaimReason) {
-    this.acceptClaimReason = acceptClaimReason;
+  setAcceptClaimReason(acceptClaimReason: AcceptClaimReason | ((x: typeof AcceptClaimReason) => AcceptClaimReason)) {
+    if (typeof acceptClaimReason === "function") this.acceptClaimReason = acceptClaimReason(AcceptClaimReason);
+    else this.acceptClaimReason = acceptClaimReason;
     return this;
   }
 
-  setAcceptClaimType(acceptClaimType: AcceptClaimType) {
-    this.acceptClaimType = acceptClaimType;
+  setAcceptClaimType(acceptClaimType: AcceptClaimType | ((x: typeof AcceptClaimType) => AcceptClaimType)) {
+    if (typeof acceptClaimType === "function") this.acceptClaimType = acceptClaimType(AcceptClaimType);
+    else this.acceptClaimType = acceptClaimType;
     return this;
   }
 
@@ -55,18 +64,33 @@ class AcceptClaim extends Types implements Static<ITypes, typeof AcceptClaim> {
     return this;
   }
 
-  setRefundAmount(refundAmount: Money) {
-    this.refundAmount = refundAmount;
+  setRefundAmount(refundAmount: Money | ((money: Money) => void)) {
+    if (refundAmount instanceof Money) this.refundAmount = refundAmount;
+    else {
+      const money = new Money();
+      refundAmount(money);
+      this.refundAmount = money;
+    }
     return this;
   }
 
-  setReturnShipmentInfo(returnShipmentInfo: ResponseShipmentInfo[]) {
-    this.returnShipmentInfo = returnShipmentInfo;
+  setReturnShipmentInfo(...returnShipmentInfo: (ResponseShipmentInfo | ((x: ResponseShipmentInfo) => void))[]) {
+    this.returnShipmentInfo = returnShipmentInfo.map((returnShipmentInfo) => {
+      if (returnShipmentInfo instanceof ResponseShipmentInfo) return returnShipmentInfo;
+      const response = new ResponseShipmentInfo();
+      returnShipmentInfo(response);
+      return response;
+    });
     return this;
   }
 
-  setReturnShippingAddress(returnShippingAddress: AddressPortable) {
-    this.returnShippingAddress = returnShippingAddress;
+  setReturnShippingAddress(returnShippingAddress: AddressPortable | ((x: AddressPortable) => void)) {
+    if (returnShippingAddress instanceof AddressPortable) this.returnShippingAddress = returnShippingAddress;
+    else {
+      const addressPortable = new AddressPortable();
+      returnShippingAddress(addressPortable);
+      this.returnShippingAddress = addressPortable;
+    }
     return this;
   }
 
@@ -74,7 +98,7 @@ class AcceptClaim extends Types implements Static<ITypes, typeof AcceptClaim> {
     const acceptClaim = new AcceptClaim();
     if (obj.accept_claim_types)
       acceptClaim.setAcceptClaimTypes(
-        obj.accept_claim_types.map((acceptClaimType) => ResponseAcceptClaimType.fromObject(acceptClaimType))
+        ...obj.accept_claim_types.map((acceptClaimType) => ResponseAcceptClaimType.fromObject(acceptClaimType))
       );
     if (obj.note) acceptClaim.setNote(obj.note);
     if (obj.accept_claim_reason) acceptClaim.setAcceptClaimReason(AcceptClaimReason[obj.accept_claim_reason]);
@@ -83,7 +107,7 @@ class AcceptClaim extends Types implements Static<ITypes, typeof AcceptClaim> {
     if (obj.refund_amount) acceptClaim.setRefundAmount(Money.fromObject(obj.refund_amount));
     if (obj.return_shipment_info)
       acceptClaim.setReturnShipmentInfo(
-        obj.return_shipment_info.map((returnShipmentInfo) => ResponseShipmentInfo.fromObject(returnShipmentInfo))
+        ...obj.return_shipment_info.map((returnShipmentInfo) => ResponseShipmentInfo.fromObject(returnShipmentInfo))
       );
     if (obj.return_shipping_address)
       acceptClaim.setReturnShippingAddress(AddressPortable.fromObject(obj.return_shipping_address));

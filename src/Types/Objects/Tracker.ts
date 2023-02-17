@@ -62,15 +62,27 @@ class Tracker extends Types implements Static<ITypes, typeof Tracker> {
     return this.PayPal.AddTracking.get(this.transactionId);
   }
 
-  add(links: LinkDescription[]) {
+  add(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
     if (!this.PayPal) {
       throw new Error("To use in-built methods, please provide PayPal instance when initialising the Tracker");
     }
-    return this.PayPal.AddTracking.add([this], links);
+
+    return this.PayPal.AddTracking.add(
+      [this],
+      links.map((x) => {
+        if (x instanceof LinkDescription) return x;
+        else {
+          const link = new LinkDescription();
+          x(link);
+          return link;
+        }
+      })
+    );
   }
 
-  setStatus(status: ShippingStatus): this {
-    this.status = status;
+  setStatus(status: ShippingStatus | ((status: typeof ShippingStatus) => ShippingStatus)): this {
+    if (typeof status === "function") this.status = status(ShippingStatus);
+    else this.status = status;
     return this;
   }
 
@@ -79,8 +91,9 @@ class Tracker extends Types implements Static<ITypes, typeof Tracker> {
     return this;
   }
 
-  setCarrier(carrier: Carrier): this {
-    this.carrier = carrier;
+  setCarrier(carrier: Carrier | ((carrier: typeof Carrier) => Carrier)): this {
+    if (typeof carrier === "function") this.carrier = carrier(Carrier);
+    else this.carrier = carrier;
     return this;
   }
 
@@ -94,8 +107,15 @@ class Tracker extends Types implements Static<ITypes, typeof Tracker> {
     return this;
   }
 
-  setLinks(links: LinkDescription[]): this {
-    this.links = links;
+  setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]): this {
+    this.links = links.map((x) => {
+      if (x instanceof LinkDescription) return x;
+      else {
+        const link = new LinkDescription();
+        x(link);
+        return link;
+      }
+    });
     return this;
   }
 
@@ -124,8 +144,11 @@ class Tracker extends Types implements Static<ITypes, typeof Tracker> {
     return this;
   }
 
-  setTrackingNumberType(trackingNumberType: TrackingNumberType): this {
-    this.trackingNumberType = trackingNumberType;
+  setTrackingNumberType(
+    trackingNumberType: TrackingNumberType | ((trackingNumberType: typeof TrackingNumberType) => TrackingNumberType)
+  ): this {
+    if (typeof trackingNumberType === "function") this.trackingNumberType = trackingNumberType(TrackingNumberType);
+    else this.trackingNumberType = trackingNumberType;
     return this;
   }
 
@@ -141,7 +164,7 @@ class Tracker extends Types implements Static<ITypes, typeof Tracker> {
     if (obj.carrier) tracker.setCarrier(Carrier[obj.carrier]);
     if (obj.carrier_name_other) tracker.setCarrierNameOther(obj.carrier_name_other);
     if (obj.last_updated_time) tracker.setLastUpdatedTime(obj.last_updated_time);
-    if (obj.links) tracker.setLinks(obj.links.map((x) => LinkDescription.fromObject(x)));
+    if (obj.links) tracker.setLinks(...obj.links.map((x) => LinkDescription.fromObject(x)));
     if (obj.notify_buyer) tracker.setNotifyBuyer(obj.notify_buyer);
     if (obj.postage_payment_id) tracker.setPostagePaymentId(obj.postage_payment_id);
     if (obj.quantity) tracker.setQuantity(obj.quantity);

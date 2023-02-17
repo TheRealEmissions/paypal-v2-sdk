@@ -40,8 +40,13 @@ class Item extends Types implements Static<ITypes, typeof Item> {
     return this;
   }
 
-  public setItemUnitAmount(unitAmount: Money): this {
-    this.unitAmount = unitAmount;
+  public setItemUnitAmount(unitAmount: Money | ((money: Money) => void)): this {
+    if (unitAmount instanceof Money) this.unitAmount = unitAmount;
+    else {
+      const money = new Money();
+      unitAmount(money);
+      this.unitAmount = money;
+    }
     return this;
   }
 
@@ -50,8 +55,13 @@ class Item extends Types implements Static<ITypes, typeof Item> {
     return this;
   }
 
-  public setItemDiscount(discount: Discount): this {
-    this.discount = discount;
+  public setItemDiscount(discount: Discount | ((discount: Discount) => void)): this {
+    if (discount instanceof Discount) this.discount = discount;
+    else {
+      const discountObj = new Discount();
+      discount(discountObj);
+      this.discount = discountObj;
+    }
     return this;
   }
 
@@ -65,13 +75,21 @@ class Item extends Types implements Static<ITypes, typeof Item> {
     return this;
   }
 
-  public setItemTax(tax: Tax): this {
-    this.tax = tax;
+  public setItemTax(tax: Tax | ((tax: Tax) => void)): this {
+    if (tax instanceof Tax) this.tax = tax;
+    else {
+      const taxObj = new Tax();
+      tax(taxObj);
+      this.tax = taxObj;
+    }
     return this;
   }
 
-  public setItemUnitOfMeasure(unitOfMeasure: UnitOfMeasure): this {
-    this.unitOfMeasure = unitOfMeasure;
+  public setItemUnitOfMeasure(
+    unitOfMeasure: UnitOfMeasure | ((unitOfMeasure: typeof UnitOfMeasure) => UnitOfMeasure)
+  ): this {
+    if (typeof unitOfMeasure === "function") this.unitOfMeasure = unitOfMeasure(UnitOfMeasure);
+    else this.unitOfMeasure = unitOfMeasure;
     return this;
   }
 

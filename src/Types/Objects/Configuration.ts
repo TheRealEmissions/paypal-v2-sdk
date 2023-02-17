@@ -25,8 +25,13 @@ class Configuration extends Types implements Static<ITypes, typeof Configuration
     return this;
   }
 
-  setPartialPayment(partialPayment: PartialPayment) {
-    this.partialPayment = partialPayment;
+  setPartialPayment(partialPayment: PartialPayment | ((partialPayment: PartialPayment) => void)) {
+    if (partialPayment instanceof PartialPayment) this.partialPayment = partialPayment;
+    else {
+      const partialPaymentObj = new PartialPayment();
+      partialPayment(partialPaymentObj);
+      this.partialPayment = partialPaymentObj;
+    }
     return this;
   }
 

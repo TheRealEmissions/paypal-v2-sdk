@@ -17,28 +17,43 @@ class BatchTrackerCollection extends Types implements Static<ITypes, typeof Batc
     super();
   }
 
-  setErrors(errors: Error[]) {
-    this.errors = errors;
+  setErrors(...errors: (Error | ((error: Error) => void))[]) {
+    this.errors = errors.map((error) => {
+      if (error instanceof Error) return error;
+      const errorObj = new Error();
+      error(errorObj);
+      return errorObj;
+    });
     return this;
   }
 
-  setLinks(links: LinkDescription[]) {
-    this.links = links;
+  setLinks(...links: (LinkDescription | ((desc: LinkDescription) => void))[]) {
+    this.links = links.map((link) => {
+      if (link instanceof LinkDescription) return link;
+      const linkDesc = new LinkDescription();
+      link(linkDesc);
+      return linkDesc;
+    });
     return this;
   }
 
-  setTrackerIdentifiers(trackerIdentifiers: TrackerIdentifier[]) {
-    this.trackerIdentifiers = trackerIdentifiers;
+  setTrackerIdentifiers(...trackerIdentifiers: (TrackerIdentifier | ((identifier: TrackerIdentifier) => void))[]) {
+    this.trackerIdentifiers = trackerIdentifiers.map((identifier) => {
+      if (identifier instanceof TrackerIdentifier) return identifier;
+      const trackerIdentifier = new TrackerIdentifier();
+      identifier(trackerIdentifier);
+      return trackerIdentifier;
+    });
     return this;
   }
 
   static fromObject(obj: TBatchTrackerCollection): BatchTrackerCollection {
     const batchTrackerCollection = new BatchTrackerCollection();
-    if (obj.errors) batchTrackerCollection.setErrors(obj.errors.map((error) => Error.fromObject(error)));
-    if (obj.links) batchTrackerCollection.setLinks(obj.links.map((link) => LinkDescription.fromObject(link)));
+    if (obj.errors) batchTrackerCollection.setErrors(...obj.errors.map((error) => Error.fromObject(error)));
+    if (obj.links) batchTrackerCollection.setLinks(...obj.links.map((link) => LinkDescription.fromObject(link)));
     if (obj.tracker_identifiers)
       batchTrackerCollection.setTrackerIdentifiers(
-        obj.tracker_identifiers.map((trackerIdentifier) => TrackerIdentifier.fromObject(trackerIdentifier))
+        ...obj.tracker_identifiers.map((trackerIdentifier) => TrackerIdentifier.fromObject(trackerIdentifier))
       );
     return batchTrackerCollection;
   }

@@ -19,18 +19,32 @@ class AcknowledgeReturnItem extends Types implements Static<ITypes, typeof Ackno
     super();
   }
 
-  setAcknowledgementTypes(acknowledgementTypes: AcknowledgementType[]) {
-    this.acknowledgementTypes = acknowledgementTypes;
+  setAcknowledgementTypes(...acknowledgementTypes: (AcknowledgementType | ((type: AcknowledgementType) => void))[]) {
+    this.acknowledgementTypes = acknowledgementTypes.map((acknowledgementType) => {
+      if (acknowledgementType instanceof AcknowledgementType) return acknowledgementType;
+      const type = new AcknowledgementType();
+      acknowledgementType(type);
+      return type;
+    });
     return this;
   }
 
-  setAcknowledgementType(acknowledgementType: AcknowledgementTypeEnum) {
-    this.acknowledgementType = acknowledgementType;
+  setAcknowledgementType(
+    acknowledgementType: AcknowledgementTypeEnum | ((type: typeof AcknowledgementTypeEnum) => AcknowledgementTypeEnum)
+  ) {
+    if (typeof acknowledgementType === "function")
+      this.acknowledgementType = acknowledgementType(AcknowledgementTypeEnum);
+    else this.acknowledgementType = acknowledgementType;
     return this;
   }
 
-  setEvidences(evidences: AcknowledgeReturnItemEvidence[]) {
-    this.evidences = evidences;
+  setEvidences(...evidences: (AcknowledgeReturnItemEvidence | ((evidence: AcknowledgeReturnItemEvidence) => void))[]) {
+    this.evidences = evidences.map((evidence) => {
+      if (evidence instanceof AcknowledgeReturnItemEvidence) return evidence;
+      const itemEvidence = new AcknowledgeReturnItemEvidence();
+      evidence(itemEvidence);
+      return itemEvidence;
+    });
     return this;
   }
 
@@ -43,13 +57,13 @@ class AcknowledgeReturnItem extends Types implements Static<ITypes, typeof Ackno
     const acknowledgeReturnItem = new AcknowledgeReturnItem();
     if (obj.acknowledgement_types)
       acknowledgeReturnItem.setAcknowledgementTypes(
-        obj.acknowledgement_types.map((acknowledgementType) => AcknowledgementType.fromObject(acknowledgementType))
+        ...obj.acknowledgement_types.map((acknowledgementType) => AcknowledgementType.fromObject(acknowledgementType))
       );
     if (obj.acknowledgement_type !== undefined)
       acknowledgeReturnItem.setAcknowledgementType(AcknowledgementTypeEnum[obj.acknowledgement_type]);
     if (obj.evidences)
       acknowledgeReturnItem.setEvidences(
-        obj.evidences.map((evidence) => AcknowledgeReturnItemEvidence.fromObject(evidence))
+        ...obj.evidences.map((evidence) => AcknowledgeReturnItemEvidence.fromObject(evidence))
       );
     if (obj.note) acknowledgeReturnItem.setNote(obj.note);
     return acknowledgeReturnItem;

@@ -37,8 +37,13 @@ class Error extends Types implements Static<ITypes, typeof Error> {
     return this;
   }
 
-  setDetails(details: ErrorDetails[]) {
-    this.details = details;
+  setDetails(...details: (ErrorDetails | ((error: ErrorDetails) => void))[]) {
+    this.details = details.map((detail) => {
+      if (detail instanceof ErrorDetails) return detail;
+      const errorDetail = new ErrorDetails();
+      detail(errorDetail);
+      return errorDetail;
+    });
     return this;
   }
 
@@ -47,8 +52,13 @@ class Error extends Types implements Static<ITypes, typeof Error> {
     return this;
   }
 
-  setLinks(links: LinkDescription[]) {
-    this.links = links;
+  setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
+    this.links = links.map((link) => {
+      if (link instanceof LinkDescription) return link;
+      const linkDesc = new LinkDescription();
+      link(linkDesc);
+      return linkDesc;
+    });
     return this;
   }
 
@@ -57,9 +67,9 @@ class Error extends Types implements Static<ITypes, typeof Error> {
     if (obj.debug_id) error.setDebugId(obj.debug_id);
     if (obj.message) error.setMessage(obj.message);
     if (obj.name) error.setName(obj.name);
-    if (obj.details) error.setDetails(obj.details.map((detail) => ErrorDetails.fromObject(detail)));
+    if (obj.details) error.setDetails(...obj.details.map((detail) => ErrorDetails.fromObject(detail)));
     if (obj.information_link) error.setInformationLink(obj.information_link);
-    if (obj.links) error.setLinks(obj.links.map((link) => LinkDescription.fromObject(link)));
+    if (obj.links) error.setLinks(...obj.links.map((link) => LinkDescription.fromObject(link)));
     return error;
   }
 }

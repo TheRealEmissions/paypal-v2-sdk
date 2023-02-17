@@ -11,8 +11,14 @@ class AcknowledgementType extends Types implements Static<ITypes, typeof Acknowl
     super();
   }
 
-  setAcknowledgementType(acknowledgementType: AcknowledgementTypeEnum) {
-    this.acknowledgementType = acknowledgementType;
+  setAcknowledgementType(
+    acknowledgementType:
+      | AcknowledgementTypeEnum
+      | ((acknowledgementType: typeof AcknowledgementTypeEnum) => AcknowledgementTypeEnum)
+  ) {
+    if (typeof acknowledgementType === "function")
+      this.acknowledgementType = acknowledgementType(AcknowledgementTypeEnum);
+    else this.acknowledgementType = acknowledgementType;
     return this;
   }
 

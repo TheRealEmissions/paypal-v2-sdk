@@ -24,18 +24,24 @@ class Adjudication extends Types implements Static<ITypes, typeof Adjudication> 
     return this;
   }
 
-  setType(type: AdjudicationType) {
-    this.type = type;
+  setType(type: AdjudicationType | ((type: typeof AdjudicationType) => AdjudicationType)) {
+    if (typeof type === "function") this.type = type(AdjudicationType);
+    else this.type = type;
     return this;
   }
 
-  setDisputeLifeCycleStage(disputeLifeCycleStage: DisputeLifeCycleStage) {
-    this.disputeLifeCycleStage = disputeLifeCycleStage;
+  setDisputeLifeCycleStage(
+    disputeLifeCycleStage: DisputeLifeCycleStage | ((type: typeof DisputeLifeCycleStage) => DisputeLifeCycleStage)
+  ) {
+    if (typeof disputeLifeCycleStage === "function")
+      this.disputeLifeCycleStage = disputeLifeCycleStage(DisputeLifeCycleStage);
+    else this.disputeLifeCycleStage = disputeLifeCycleStage;
     return this;
   }
 
-  setReason(reason: AdjudicationReason) {
-    this.reason = reason;
+  setReason(reason: AdjudicationReason | ((type: typeof AdjudicationReason) => AdjudicationReason)) {
+    if (typeof reason === "function") this.reason = reason(AdjudicationReason);
+    else this.reason = reason;
     return this;
   }
 
