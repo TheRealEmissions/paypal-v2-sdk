@@ -31,8 +31,13 @@ class ContactInformation extends Types implements Static<ITypes, typeof ContactI
     return this;
   }
 
-  setName(name: Name) {
-    this.name = name;
+  setName(name: Name | ((name: Name) => void)) {
+    if (name instanceof Name) this.name = name;
+    else {
+      const namePortable = new Name();
+      name(namePortable);
+      this.name = namePortable;
+    }
     return this;
   }
 
