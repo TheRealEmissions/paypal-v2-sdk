@@ -25,4 +25,6 @@ export interface ITypes {
   fromObject(obj: object): Types;
 }
 
+export type Integer<N extends number> = number extends N ? N : `${N}` extends `${bigint}` ? N : never;
+
 export default Types;

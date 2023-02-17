@@ -1,25 +1,28 @@
 import { TLinkDescription } from "./../Objects/LinkDescription.js";
 import LinkDescription from "../Objects/LinkDescription.js";
 import ProductCollectionElement, { TProductCollectionElement } from "../Objects/ProductCollectionElement.js";
-import Types, { ITypes, Static } from "../Types.js";
+import Types, { ITypes, Integer, Static } from "../Types.js";
 
-export type TListProductsResponse = {
+export type TListProductsResponse<N extends number, U extends number> = {
   readonly links: TLinkDescription[];
   readonly products: TProductCollectionElement[];
-  readonly total_items: number;
-  readonly total_pages: number;
+  readonly total_items: Integer<N>;
+  readonly total_pages: Integer<U>;
 };
 
-class ListProductsResponse extends Types implements Static<ITypes, typeof ListProductsResponse> {
+class ListProductsResponse<N extends number, U extends number>
+  extends Types
+  implements Static<ITypes, typeof ListProductsResponse>
+{
   readonly links: LinkDescription[];
   readonly products: ProductCollectionElement[];
-  readonly totalItems?: number;
-  readonly totalPages?: number;
+  readonly totalItems?: Integer<N>;
+  readonly totalPages?: Integer<U>;
   constructor(
     links: LinkDescription[],
     products: ProductCollectionElement[],
-    totalItems?: number,
-    totalPages?: number
+    totalItems?: Integer<N>,
+    totalPages?: Integer<U>
   ) {
     super();
     this.links = links;
@@ -28,7 +31,7 @@ class ListProductsResponse extends Types implements Static<ITypes, typeof ListPr
     this.totalPages = totalPages;
   }
 
-  static fromObject(obj: TListProductsResponse) {
+  static fromObject<N extends number, U extends number>(obj: TListProductsResponse<N, U>) {
     return new ListProductsResponse(
       obj.links.map((link) => LinkDescription.fromObject(link)),
       obj.products.map((product) => ProductCollectionElement.fromObject(product)),

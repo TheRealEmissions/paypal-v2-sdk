@@ -1,4 +1,5 @@
 import PayPal from "../PayPal.js";
+import { Integer } from "../Types/Types.js";
 
 class Authentication {
   protected PayPal: PayPal;
@@ -73,7 +74,7 @@ class Authentication {
     return this;
   }
 
-  setExpiry(expiry: number) {
+  setExpiry<N extends number>(expiry: Integer<N>) {
     this.expiry = expiry;
     return this;
   }

@@ -1,20 +1,23 @@
 import Invoice, { TInvoice } from "../Objects/Invoice.js";
 import LinkDescription, { TLinkDescription } from "../Objects/LinkDescription.js";
-import Types, { ITypes, Static } from "../Types.js";
+import Types, { ITypes, Integer, Static } from "../Types.js";
 
-export type TSearchForInvoicesResponse = {
+export type TSearchForInvoicesResponse<N extends number, U extends number> = {
   readonly items: TInvoice[];
   readonly links: TLinkDescription[];
-  readonly total_items: number;
-  readonly total_pages: number;
+  readonly total_items: Integer<N>;
+  readonly total_pages: Integer<U>;
 };
 
-class SearchForInvoicesResponse extends Types implements Static<ITypes, typeof SearchForInvoicesResponse> {
+class SearchForInvoicesResponse<N extends number, U extends number>
+  extends Types
+  implements Static<ITypes, typeof SearchForInvoicesResponse>
+{
   readonly items: Invoice[];
   readonly links: LinkDescription[];
-  readonly totalItems: number;
-  readonly totalPages: number;
-  constructor(items: Invoice[], links: LinkDescription[], totalItems: number, totalPages: number) {
+  readonly totalItems: Integer<N>;
+  readonly totalPages: Integer<U>;
+  constructor(items: Invoice[], links: LinkDescription[], totalItems: Integer<N>, totalPages: Integer<U>) {
     super();
     this.items = items;
     this.links = links;
@@ -22,7 +25,7 @@ class SearchForInvoicesResponse extends Types implements Static<ITypes, typeof S
     this.totalPages = totalPages;
   }
 
-  static fromObject(obj: TSearchForInvoicesResponse) {
+  static fromObject<N extends number, U extends number>(obj: TSearchForInvoicesResponse<N, U>) {
     return new SearchForInvoicesResponse(
       obj.items.map((item) => Invoice.fromObject(item)),
       obj.links.map((link) => LinkDescription.fromObject(link)),

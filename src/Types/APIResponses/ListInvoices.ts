@@ -1,20 +1,23 @@
 import Invoice, { TInvoice } from "../Objects/Invoice.js";
 import LinkDescription, { TLinkDescription } from "../Objects/LinkDescription.js";
-import Types, { ITypes, Static } from "../Types.js";
+import Types, { ITypes, Integer, Static } from "../Types.js";
 
-export type TListInvoicesResponse = {
+export type TListInvoicesResponse<N extends number, U extends number> = {
   readonly items: TInvoice[];
   readonly links: TLinkDescription[];
-  readonly total_items: number;
-  readonly total_pages: number;
+  readonly total_items: Integer<N>;
+  readonly total_pages: Integer<U>;
 };
 
-class ListInvoicesResponse extends Types implements Static<ITypes, typeof ListInvoicesResponse> {
+class ListInvoicesResponse<N extends number, U extends number>
+  extends Types
+  implements Static<ITypes, typeof ListInvoicesResponse>
+{
   readonly items: Invoice[];
   readonly links: LinkDescription[];
-  readonly totalItems: number;
-  readonly totalPages: number;
-  constructor(items: Invoice[], links: LinkDescription[], totalItems: number, totalPages: number) {
+  readonly totalItems: Integer<N>;
+  readonly totalPages: Integer<U>;
+  constructor(items: Invoice[], links: LinkDescription[], totalItems: Integer<N>, totalPages: Integer<U>) {
     super();
     this.items = items;
     this.links = links;
@@ -22,7 +25,7 @@ class ListInvoicesResponse extends Types implements Static<ITypes, typeof ListIn
     this.totalPages = totalPages;
   }
 
-  static fromObject(obj: TListInvoicesResponse) {
+  static fromObject<N extends number, U extends number>(obj: TListInvoicesResponse<N, U>) {
     return new ListInvoicesResponse(
       obj.items.map((item) => Invoice.fromObject(item)),
       obj.links.map((link) => LinkDescription.fromObject(link)),

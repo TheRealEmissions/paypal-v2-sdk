@@ -18,6 +18,7 @@ import PaymentDetail, { TPaymentDetail } from "../Types/Objects/PaymentDetail.js
 import PhoneDetail from "../Types/Objects/PhoneDetail.js";
 import RefundDetail, { TRefundDetail } from "../Types/Objects/RefundDetail.js";
 import Template, { TTemplate } from "../Types/Objects/Template.js";
+import { Integer } from "../Types/Types.js";
 
 class Invoicing {
   protected PayPal: PayPal;
@@ -41,7 +42,12 @@ class Invoicing {
     return this.getMany(fields, page, pageSize, totalRequired);
   }
 
-  async getMany(fields?: string, page?: number, pageSize?: number, totalRequired?: boolean) {
+  async getMany<N extends number, U extends number>(
+    fields?: string,
+    page?: Integer<N>,
+    pageSize?: Integer<U>,
+    totalRequired?: boolean
+  ) {
     if (page !== undefined) {
       if (!Number.isInteger(page)) {
         throw new Error("Page must be an integer");
@@ -59,7 +65,7 @@ class Invoicing {
       }
     }
 
-    const response = await this.PayPal.API.get<TListInvoicesResponse>("/v2/invoicing/invoices", {
+    const response = await this.PayPal.API.get<TListInvoicesResponse<number, number>>("/v2/invoicing/invoices", {
       params: {
         fields,
         page,
@@ -127,7 +133,12 @@ class Invoicing {
     return response.status === 204;
   }
 
-  async generateQrCode(invoice: Invoice | string, action?: GenerateQrCodeAction, height?: number, width?: number) {
+  async generateQrCode<N extends number, U extends number>(
+    invoice: Invoice | string,
+    action?: GenerateQrCodeAction,
+    height?: Integer<N>,
+    width?: Integer<U>
+  ) {
     const invoiceId = invoice instanceof Invoice ? invoice.id : invoice;
     const response = await this.PayPal.API.get<string>(`/v2/invoicing/invoices/${invoiceId}/generate-qr-code`, {
       params: {
@@ -233,8 +244,13 @@ class Invoicing {
     return this.get(invoiceId);
   }
 
-  async search(page: number, pageSize: number, totalRequired: boolean, data?: TSearch) {
-    const response = await this.PayPal.API.post<TSearchForInvoicesResponse>(
+  async search<N extends number, U extends number>(
+    page: Integer<N>,
+    pageSize: Integer<U>,
+    totalRequired: boolean,
+    data?: TSearch
+  ) {
+    const response = await this.PayPal.API.post<TSearchForInvoicesResponse<number, number>>(
       `/v2/invoicing/search-invoices`,
       data ?? {},
       {
@@ -254,7 +270,7 @@ class Invoicing {
     );
   }
 
-  async listTemplates(fields?: string, page?: number, pageSize?: number) {
+  async listTemplates<N extends number, U extends number>(fields?: string, page?: Integer<N>, pageSize?: Integer<U>) {
     const response = await this.PayPal.API.get<TListTemplatesResponse>(`/v2/invoicing/templates`, {
       params: {
         fields,
