@@ -53,7 +53,7 @@ export { UnitOfMeasure as UnitOfMeasureEnum } from "./src/Types/Enums/UnitOfMeas
 export { default as AcceptedResponse, TAcceptedResponse } from "./src/Types/Objects/202Response.js";
 export { default as AcceptClaim, TAcceptClaim } from "./src/Types/Objects/AcceptClaim.js";
 export { default as AcceptOffer, TAcceptOffer } from "./src/Types/Objects/AcceptOffer.js";
-export { default as AcknowledgementType, TAcknowledgementType } from "./src/Types/Objects/AcknowledgmentType.js";
+export { default as AcknowledgementType, TAcknowledgementType } from "./src/Types/Objects/AcknowledgementType.js";
 export {
   default as AcknowledgementReturnItem,
   TAcknowledgeReturnItem,
