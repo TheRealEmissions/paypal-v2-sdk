@@ -3,14 +3,14 @@ import { AcceptClaimType } from "../Enums/AcceptClaimType.js";
 import Types from "../Types.js";
 import AddressPortable, { TAddressPortable } from "./AddressPortable.js";
 import Money, { TMoney } from "./Money.js";
-import ResponseAcceptClaimType, { TResponseAcceptClaimType } from "./Response-acceptClaimType.js";
+import ResponseAcceptClaimType, { TResponseAcceptClaimType } from "./ResponseAcceptClaimType.js";
 import ResponseShipmentInfo, { TResponseShipmentInfo } from "./ResponseShipmentInfo.js";
 
 export type TAcceptClaim = {
   accept_claim_types?: TResponseAcceptClaimType[];
   note?: string;
-  accept_claim_reason?: string;
-  accept_claim_type?: string;
+  accept_claim_reason?: keyof typeof AcceptClaimReason;
+  accept_claim_type?: keyof typeof AcceptClaimType;
   invoice_id?: string;
   refund_amount?: TMoney;
   return_shipment_info?: TResponseShipmentInfo[];

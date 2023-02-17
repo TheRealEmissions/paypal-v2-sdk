@@ -4,7 +4,7 @@ import TemplateDisplayPreference, { TTemplateDisplayPreference } from "./Templat
 
 export type TTemplateSubtotalSetting = {
   display_preference?: TTemplateDisplayPreference;
-  field_name?: string;
+  field_name?: keyof typeof TemplateFieldName;
 };
 
 class TemplateSubtotalSetting extends Types {

@@ -13,14 +13,14 @@ export type TDisputeInfo = {
   create_time?: string;
   dispute_amount?: Money;
   dispute_asset?: Cryptocurrency;
-  dispute_channel?: string;
+  dispute_channel?: keyof typeof DisputeChannel;
   dispute_id?: string;
-  dispute_life_cycle_stage?: string;
-  dispute_state?: string;
+  dispute_life_cycle_stage?: keyof typeof DisputeLifeCycleStage;
+  dispute_state?: keyof typeof DisputeState;
   links?: LinkDescription[];
-  reason?: string;
+  reason?: keyof typeof DisputeReason;
   seller_response_due_date?: string;
-  status?: string;
+  status?: keyof typeof DisputeStatus;
   update_time?: string;
 };
 

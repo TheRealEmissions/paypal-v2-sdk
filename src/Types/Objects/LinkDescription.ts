@@ -4,7 +4,7 @@ import Types from "../Types.js";
 export type TLinkDescription = {
   href: string;
   rel: string;
-  method?: string;
+  method?: keyof typeof HTTPMethod;
 };
 
 class LinkDescription extends Types {

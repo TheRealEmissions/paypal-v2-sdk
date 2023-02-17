@@ -13,7 +13,7 @@ export type TItem = {
   readonly id?: string;
   item_date?: string;
   tax?: TTax;
-  unit_of_measure?: string;
+  unit_of_measure?: keyof typeof UnitOfMeasure;
 };
 
 class Item extends Types {

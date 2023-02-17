@@ -6,9 +6,9 @@ import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
 import PayPal from "../../PayPal.js";
 
 export type TTracker = {
-  status: string;
+  status: keyof typeof ShippingStatus;
   transaction_id: string;
-  carrier?: string;
+  carrier?: keyof typeof Carrier;
   carrier_name_other?: string;
   last_updated_time?: string;
   links?: TLinkDescription[];
@@ -17,7 +17,7 @@ export type TTracker = {
   readonly quantity?: number;
   shipment_date?: string;
   tracking_number?: string;
-  tracking_number_type?: string;
+  tracking_number_type?: keyof typeof TrackingNumberType;
   readonly tracking_number_validated?: boolean;
 };
 

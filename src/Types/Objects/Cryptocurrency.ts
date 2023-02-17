@@ -2,7 +2,7 @@ import { AssetSymbol } from "../Enums/AssetSymbol";
 import Types from "../Types";
 
 export type TCryptocurrency = {
-  asset_symbol: string;
+  asset_symbol: keyof typeof AssetSymbol;
   quantity: string;
 };
 

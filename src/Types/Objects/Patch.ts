@@ -2,7 +2,7 @@ import { PatchOperation } from "../Enums/PatchOperation.js";
 import Types from "../Types.js";
 
 export type TPatch = {
-  op: string;
+  op: keyof typeof PatchOperation;
   from?: string;
   path?: string;
   value?: number | string | boolean | null | Array<any> | object;

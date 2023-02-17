@@ -2,7 +2,7 @@ import { PaymentTermType } from "../Enums/PaymentTermType.js";
 import Types from "../Types.js";
 
 export type TPaymentTerm = {
-  term_type?: string;
+  term_type?: keyof typeof PaymentTermType;
 };
 
 class PaymentTerm extends Types {

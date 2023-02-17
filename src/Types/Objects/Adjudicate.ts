@@ -2,7 +2,7 @@ import { AdjudicationOutcome } from "../Enums/AdjudicationOutcome";
 import Types from "../Types";
 
 export type TAdjudicate = {
-  adjudication_outcome?: string;
+  adjudication_outcome?: keyof typeof AdjudicationOutcome;
 };
 
 class Adjudicate extends Types {

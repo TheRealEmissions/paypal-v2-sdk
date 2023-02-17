@@ -4,7 +4,7 @@ import Document, { TDocument } from "./Document.js";
 
 export type TAcknowledgeReturnItemEvidence = {
   documents?: TDocument[];
-  evidence_type?: string;
+  evidence_type?: keyof typeof EvidenceType;
 };
 
 class AcknowledgeReturnItemEvidence extends Types {

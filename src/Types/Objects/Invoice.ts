@@ -31,7 +31,7 @@ export type TInvoice = {
   payments?: TPayments;
   primary_recipients?: TRecipientInfo[];
   refunds?: TRefunds;
-  readonly status: string;
+  readonly status: keyof typeof InvoiceStatus;
 };
 
 class Invoice extends Types {

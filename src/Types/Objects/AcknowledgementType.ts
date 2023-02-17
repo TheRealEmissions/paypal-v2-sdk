@@ -2,7 +2,7 @@ import Types from "../Types.js";
 import { AcknowledgementType as AcknowledgementTypeEnum } from "../Enums/AcknowledgementType.js";
 
 export type TAcknowledgementType = {
-  acknowledgement_type?: string;
+  acknowledgement_type?: keyof typeof AcknowledgementTypeEnum;
 };
 
 class AcknowledgementType extends Types {

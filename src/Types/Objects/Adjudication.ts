@@ -5,9 +5,9 @@ import Types from "../Types";
 
 export type TAdjudication = {
   adjudication_time: string;
-  type: string;
-  dispute_life_cycle_stage?: string;
-  reason?: string;
+  type: keyof typeof AdjudicationType;
+  dispute_life_cycle_stage?: keyof typeof DisputeLifeCycleStage;
+  reason?: keyof typeof AdjudicationReason;
 };
 
 class Adjudication extends Types {

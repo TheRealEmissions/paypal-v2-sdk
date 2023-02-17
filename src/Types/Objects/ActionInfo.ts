@@ -2,7 +2,7 @@ import { Action } from "../Enums/Action";
 import Types from "../Types";
 
 export type TActionInfo = {
-  action?: string;
+  action?: keyof typeof Action;
   mandatory?: boolean;
   response_option?: string;
 };

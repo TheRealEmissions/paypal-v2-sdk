@@ -5,13 +5,13 @@ import ContactInformation, { TContactInformation } from "./ContactInformation.js
 import Money, { TMoney } from "./Money.js";
 
 export type TPaymentDetail = {
-  method: string;
+  method: keyof typeof PaymentDetailMethod;
   amount?: TMoney;
   note?: string;
   payment_date?: string;
   payment_id?: string;
   shipping_info?: TContactInformation;
-  readonly type?: string;
+  readonly type?: keyof typeof PaymentDetailType;
 };
 
 class PaymentDetail extends Types {

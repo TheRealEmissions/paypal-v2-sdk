@@ -13,7 +13,7 @@ export type TTemplate = {
   settings?: TTemplateSettings;
   readonly standard_template?: boolean;
   template_info?: TTemplateInfo;
-  unit_of_measure?: string;
+  unit_of_measure?: keyof typeof UnitOfMeasure;
 };
 
 class Template extends Types {

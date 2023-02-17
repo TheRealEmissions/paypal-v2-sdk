@@ -5,7 +5,7 @@ import AcknowledgeReturnItemEvidence, { TAcknowledgeReturnItemEvidence } from ".
 
 export type TAcknowledgeReturnItem = {
   acknowledgement_types?: TAcknowledgementType[];
-  acknowledgement_type?: string;
+  acknowledgement_type?: keyof typeof AcknowledgementTypeEnum;
   evidences?: TAcknowledgeReturnItemEvidence[];
   note?: string;
 };

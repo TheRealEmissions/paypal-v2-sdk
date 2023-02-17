@@ -4,11 +4,11 @@ import Types from "../Types.js";
 import Money, { TMoney } from "./Money.js";
 
 export type TRefundDetail = {
-  method: string;
+  method: keyof typeof PaymentDetailMethod;
   amount?: TMoney;
   refund_date?: string;
   readonly refund_id?: string;
-  readonly type?: string;
+  readonly type?: keyof typeof PaymentDetailType;
 };
 
 class RefundDetail extends Types {

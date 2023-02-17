@@ -2,7 +2,7 @@ import Types from "../Types.js";
 import Patch, { TPatch } from "./Patch.js";
 
 export type TPatchRequest = {
-  patch_request: Array<TPatch>;
+  patch_request: TPatch[];
 };
 
 class PatchRequest extends Types {

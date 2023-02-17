@@ -6,7 +6,7 @@ import PayPal from "../../PayPal.js";
 import PatchRequest from "./PatchRequest.js";
 
 export type TProduct = {
-  category?: string;
+  category?: keyof typeof ProductCategory;
   create_time?: string;
   description?: string;
   home_url?: string;
@@ -14,7 +14,7 @@ export type TProduct = {
   image_url?: string;
   links?: TLinkDescription[];
   name?: string;
-  type?: string;
+  type?: keyof typeof ProductType;
   update_time?: string;
 };
 

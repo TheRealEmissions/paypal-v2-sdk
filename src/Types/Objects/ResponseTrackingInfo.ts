@@ -2,7 +2,7 @@ import { Carrier } from "../Enums/Carrier.js";
 import Types from "../Types.js";
 
 export type TResponseTrackingInfo = {
-  carrier_name?: string;
+  carrier_name?: keyof typeof Carrier;
   tracking_number?: string;
   carrier_name_other?: string;
   tracking_url?: string;
