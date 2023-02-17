@@ -1,5 +1,5 @@
 import { EvidenceType } from "../Enums/EvidenceType.js";
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import Document, { TDocument } from "./Document.js";
 
 export type TAcknowledgeReturnItemEvidence = {
@@ -7,10 +7,7 @@ export type TAcknowledgeReturnItemEvidence = {
   evidence_type?: keyof typeof EvidenceType;
 };
 
-class AcknowledgeReturnItemEvidence
-  extends Types
-  implements StaticImplements<ITypes, typeof AcknowledgeReturnItemEvidence>
-{
+class AcknowledgeReturnItemEvidence extends Types implements Static<ITypes, typeof AcknowledgeReturnItemEvidence> {
   documents?: Document[];
   evidenceType?: EvidenceType;
   constructor() {

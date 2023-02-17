@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TMetadata = {
   create_time?: string;
@@ -15,7 +15,7 @@ export type TMetadata = {
   recipient_view_url?: string;
 };
 
-class Metadata extends Types implements StaticImplements<ITypes, typeof Metadata> {
+class Metadata extends Types implements Static<ITypes, typeof Metadata> {
   createTime?: string;
   createdBy?: string;
   lastUpdateTime?: string;

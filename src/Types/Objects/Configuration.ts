@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import PartialPayment, { TPartialPayment } from "./PartialPayment.js";
 
 export type TConfiguration = {
@@ -9,7 +9,7 @@ export type TConfiguration = {
   template_id?: string;
 };
 
-class Configuration extends Types implements StaticImplements<ITypes, typeof Configuration> {
+class Configuration extends Types implements Static<ITypes, typeof Configuration> {
   allowTip?: boolean;
   partialPayment?: PartialPayment;
   taxCalculatedAfterDiscount?: boolean;

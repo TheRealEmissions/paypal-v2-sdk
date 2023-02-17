@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import Money, { TMoney } from "./Money.js";
 import Tax, { TTax } from "./Tax.js";
 
@@ -7,7 +7,7 @@ export type TShippingCost = {
   tax?: TTax;
 };
 
-class ShippingCost extends Types implements StaticImplements<ITypes, typeof ShippingCost> {
+class ShippingCost extends Types implements Static<ITypes, typeof ShippingCost> {
   amount?: Money;
   tax?: Tax;
 

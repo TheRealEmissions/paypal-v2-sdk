@@ -1,13 +1,10 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TGenerateInvoiceNumberResponse = {
   readonly invoice_number: string;
 };
 
-class GenerateInvoiceNumberResponse
-  extends Types
-  implements StaticImplements<ITypes, typeof GenerateInvoiceNumberResponse>
-{
+class GenerateInvoiceNumberResponse extends Types implements Static<ITypes, typeof GenerateInvoiceNumberResponse> {
   readonly invoiceNumber: string;
   constructor(invoiceNumber: string) {
     super();

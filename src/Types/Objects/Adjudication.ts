@@ -1,7 +1,7 @@
 import { AdjudicationReason } from "../Enums/AdjudicationReason";
 import { AdjudicationType } from "../Enums/AdjudicationType";
 import { DisputeLifeCycleStage } from "../Enums/DisputeLifeCycleStage";
-import Types, { ITypes, StaticImplements } from "../Types";
+import Types, { ITypes, Static } from "../Types";
 
 export type TAdjudication = {
   adjudication_time: string;
@@ -10,7 +10,7 @@ export type TAdjudication = {
   reason?: keyof typeof AdjudicationReason;
 };
 
-class Adjudication extends Types implements StaticImplements<ITypes, typeof Adjudication> {
+class Adjudication extends Types implements Static<ITypes, typeof Adjudication> {
   adjudicationTime!: string;
   type!: AdjudicationType;
   disputeLifeCycleStage?: DisputeLifeCycleStage;

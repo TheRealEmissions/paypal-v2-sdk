@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import AcknowledgementType, { TAcknowledgementType } from "./AcknowledgementType.js";
 import { AcknowledgementType as AcknowledgementTypeEnum } from "../Enums/AcknowledgementType.js";
 import AcknowledgeReturnItemEvidence, { TAcknowledgeReturnItemEvidence } from "./AcknowledgeReturnItemEvidence.js";
@@ -10,7 +10,7 @@ export type TAcknowledgeReturnItem = {
   note?: string;
 };
 
-class AcknowledgeReturnItem extends Types implements StaticImplements<ITypes, typeof AcknowledgeReturnItem> {
+class AcknowledgeReturnItem extends Types implements Static<ITypes, typeof AcknowledgeReturnItem> {
   acknowledgementTypes?: AcknowledgementType[];
   acknowledgementType?: AcknowledgementTypeEnum;
   evidences?: AcknowledgeReturnItemEvidence[];

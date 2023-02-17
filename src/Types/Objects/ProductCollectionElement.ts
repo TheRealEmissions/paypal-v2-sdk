@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
 
 export type TProductCollectionElement = {
@@ -9,7 +9,7 @@ export type TProductCollectionElement = {
   name?: string;
 };
 
-class ProductCollectionElement extends Types implements StaticImplements<ITypes, typeof ProductCollectionElement> {
+class ProductCollectionElement extends Types implements Static<ITypes, typeof ProductCollectionElement> {
   createTime?: string;
   description?: string;
   id?: string;

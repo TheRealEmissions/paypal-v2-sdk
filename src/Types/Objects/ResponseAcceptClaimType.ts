@@ -1,11 +1,11 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import { ResponseAcceptClaimType as ResponseAcceptClaimTypeEnum } from "../Enums/ResponseAcceptClaimType.js";
 
 export type TResponseAcceptClaimType = {
   "response-accept_claim_type"?: keyof typeof ResponseAcceptClaimTypeEnum;
 };
 
-class ResponseAcceptClaimType extends Types implements StaticImplements<ITypes, typeof ResponseAcceptClaimType> {
+class ResponseAcceptClaimType extends Types implements Static<ITypes, typeof ResponseAcceptClaimType> {
   responseAcceptClaimType?: ResponseAcceptClaimTypeEnum;
   constructor() {
     super();

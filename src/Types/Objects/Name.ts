@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TName = {
   alternate_full_name?: string;
@@ -10,7 +10,7 @@ export type TName = {
   surname?: string;
 };
 
-class Name extends Types implements StaticImplements<ITypes, typeof Name> {
+class Name extends Types implements Static<ITypes, typeof Name> {
   alternateFullName?: string;
   fullName?: string;
   givenName?: string;

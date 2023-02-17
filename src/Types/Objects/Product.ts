@@ -1,6 +1,6 @@
 import { ProductType } from "./../Enums/ProductType.js";
 import { ProductCategory } from "./../Enums/ProductCategory.js";
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
 import PayPal from "../../PayPal.js";
 import PatchRequest from "./PatchRequest.js";
@@ -18,7 +18,7 @@ export type TProduct = {
   update_time?: string;
 };
 
-class Product extends Types implements StaticImplements<ITypes, typeof Product> {
+class Product extends Types implements Static<ITypes, typeof Product> {
   category?: ProductCategory;
   createTime?: string;
   description?: string;

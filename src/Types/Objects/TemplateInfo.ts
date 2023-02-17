@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import AmountSummaryDetail, { TAmountSummaryDetail } from "./AmountSummaryDetail.js";
 import Configuration, { TConfiguration } from "./Configuration.js";
 import EmailAddress, { TEmailAddress } from "./EmailAddress.js";
@@ -19,7 +19,7 @@ export type TTemplateInfo = {
   primary_recipients?: TRecipientInfo[];
 };
 
-class TemplateInfo extends Types implements StaticImplements<ITypes, typeof TemplateInfo> {
+class TemplateInfo extends Types implements Static<ITypes, typeof TemplateInfo> {
   additionalRecipients?: EmailAddress[];
   amount?: AmountSummaryDetail;
   configuration?: Configuration;

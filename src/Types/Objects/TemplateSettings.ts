@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import TemplateItemSetting, { TTemplateItemSetting } from "./TemplateItemSetting.js";
 import TemplateSubtotalSetting, { TTemplateSubtotalSetting } from "./TemplateSubtotalSetting.js";
 
@@ -7,7 +7,7 @@ export type TTemplateSettings = {
   template_subtotal_settings?: TTemplateSubtotalSetting[];
 };
 
-class TemplateSettings extends Types implements StaticImplements<ITypes, typeof TemplateSettings> {
+class TemplateSettings extends Types implements Static<ITypes, typeof TemplateSettings> {
   templateItemSettings?: TemplateItemSetting[];
   templateSubtotalSettings?: TemplateSubtotalSetting[];
   constructor() {

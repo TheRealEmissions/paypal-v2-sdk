@@ -1,11 +1,11 @@
-import Types, { ITypes, StaticImplements } from "../Types";
+import Types, { ITypes, Static } from "../Types";
 
 export type TDocument = {
   name?: string;
   url?: string;
 };
 
-class Document extends Types implements StaticImplements<ITypes, typeof Document> {
+class Document extends Types implements Static<ITypes, typeof Document> {
   name?: string;
   url?: string;
   constructor() {

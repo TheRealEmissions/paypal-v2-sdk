@@ -1,6 +1,6 @@
 import Invoice, { TInvoice } from "../Objects/Invoice.js";
 import LinkDescription, { TLinkDescription } from "../Objects/LinkDescription.js";
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TListInvoicesResponse = {
   readonly items: TInvoice[];
@@ -9,7 +9,7 @@ export type TListInvoicesResponse = {
   readonly total_pages: number;
 };
 
-class ListInvoicesResponse extends Types implements StaticImplements<ITypes, typeof ListInvoicesResponse> {
+class ListInvoicesResponse extends Types implements Static<ITypes, typeof ListInvoicesResponse> {
   readonly items: Invoice[];
   readonly links: LinkDescription[];
   readonly totalItems: number;

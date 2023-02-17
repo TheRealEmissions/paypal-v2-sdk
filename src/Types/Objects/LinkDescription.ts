@@ -1,5 +1,5 @@
 import { HTTPMethod } from "../Enums/HTTPMethod.js";
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TLinkDescription = {
   href: string;
@@ -7,7 +7,7 @@ export type TLinkDescription = {
   method?: keyof typeof HTTPMethod;
 };
 
-class LinkDescription extends Types implements StaticImplements<ITypes, typeof LinkDescription> {
+class LinkDescription extends Types implements Static<ITypes, typeof LinkDescription> {
   href?: string;
   rel?: string;
   method?: HTTPMethod;

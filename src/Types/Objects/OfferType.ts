@@ -1,11 +1,11 @@
-import Types, { ITypes, StaticImplements } from "../Types";
+import Types, { ITypes, Static } from "../Types";
 import { OfferType as OfferTypeEnum } from "../Enums/OfferType";
 
 export type TOfferType = {
   offer_type?: keyof typeof OfferTypeEnum;
 };
 
-class OfferType extends Types implements StaticImplements<ITypes, typeof OfferType> {
+class OfferType extends Types implements Static<ITypes, typeof OfferType> {
   offerType?: OfferTypeEnum;
   constructor() {
     super();

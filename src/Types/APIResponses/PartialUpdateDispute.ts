@@ -1,14 +1,11 @@
 import LinkDescription, { TLinkDescription } from "../Objects/LinkDescription";
-import Types, { ITypes, StaticImplements } from "../Types";
+import Types, { ITypes, Static } from "../Types";
 
 export type TPartialUpdateDisputeResponse = {
   readonly links: TLinkDescription[];
 };
 
-class PartialUpdateDisputeResponse
-  extends Types
-  implements StaticImplements<ITypes, typeof PartialUpdateDisputeResponse>
-{
+class PartialUpdateDisputeResponse extends Types implements Static<ITypes, typeof PartialUpdateDisputeResponse> {
   links!: LinkDescription[];
   constructor(links?: LinkDescription[]) {
     super();

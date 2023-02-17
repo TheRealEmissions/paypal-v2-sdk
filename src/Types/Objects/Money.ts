@@ -1,11 +1,11 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TMoney = {
   currency_code: string;
   value: string;
 };
 
-class Money extends Types implements StaticImplements<ITypes, typeof Money> {
+class Money extends Types implements Static<ITypes, typeof Money> {
   currencyCode?: string;
   value?: string;
   constructor() {

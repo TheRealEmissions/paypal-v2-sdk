@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import Money, { TMoney } from "./Money.js";
 import RefundDetail, { TRefundDetail } from "./RefundDetail.js";
 
@@ -7,7 +7,7 @@ export type TRefunds = {
   readonly transactions?: TRefundDetail[];
 };
 
-class Refunds extends Types implements StaticImplements<ITypes, typeof Refunds> {
+class Refunds extends Types implements Static<ITypes, typeof Refunds> {
   refundAmount?: Money;
   transactions?: RefundDetail[];
   constructor() {

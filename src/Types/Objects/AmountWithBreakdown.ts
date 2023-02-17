@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import AggregatedDiscount, { TAggregatedDiscount } from "./AggregatedDiscount.js";
 import CustomAmount, { TCustomAmount } from "./CustomAmount.js";
 import Money, { TMoney } from "./Money.js";
@@ -12,7 +12,7 @@ export type TAmountWithBreakdown = {
   tax_total?: TMoney;
 };
 
-class AmountWithBreakdown extends Types implements StaticImplements<ITypes, typeof AmountWithBreakdown> {
+class AmountWithBreakdown extends Types implements Static<ITypes, typeof AmountWithBreakdown> {
   custom?: CustomAmount;
   discount?: AggregatedDiscount;
   itemTotal?: Money;

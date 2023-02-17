@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types";
+import Types, { ITypes, Static } from "../Types";
 import AcceptClaim, { TAcceptClaim } from "./AcceptClaim";
 import AcknowledgeReturnItem, { TAcknowledgeReturnItem } from "./AcknowledgeReturnItem";
 import MakeOffer, { TMakeOffer } from "./MakeOffer";
@@ -9,7 +9,7 @@ export type TAllowedResponseOptions = {
   make_offer?: TMakeOffer;
 };
 
-class AllowedResponseOptions extends Types implements StaticImplements<ITypes, typeof AllowedResponseOptions> {
+class AllowedResponseOptions extends Types implements Static<ITypes, typeof AllowedResponseOptions> {
   acceptClaim?: AcceptClaim;
   acknowledgeReturnItem?: AcknowledgeReturnItem;
   makeOffer?: MakeOffer;

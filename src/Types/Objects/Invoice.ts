@@ -1,7 +1,7 @@
 import PayPal from "../../PayPal.js";
 import { GenerateQrCodeAction } from "../Enums/GenerateQrCodeAction.js";
 import { InvoiceStatus } from "../Enums/InvoiceStatus.js";
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import AmountSummaryDetail, { TAmountSummaryDetail } from "./AmountSummaryDetail.js";
 import Configuration, { TConfiguration } from "./Configuration.js";
 import EmailAddress, { TEmailAddress } from "./EmailAddress.js";
@@ -34,7 +34,7 @@ export type TInvoice = {
   readonly status: keyof typeof InvoiceStatus;
 };
 
-class Invoice extends Types implements StaticImplements<ITypes, typeof Invoice> {
+class Invoice extends Types implements Static<ITypes, typeof Invoice> {
   detail?: InvoiceDetail;
   additionalRecipients?: EmailAddress[];
   amount?: AmountSummaryDetail;

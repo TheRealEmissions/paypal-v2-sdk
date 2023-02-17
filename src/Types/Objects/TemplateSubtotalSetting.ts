@@ -1,5 +1,5 @@
 import { TemplateFieldName } from "../Enums/TemplateFieldName.js";
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import TemplateDisplayPreference, { TTemplateDisplayPreference } from "./TemplateDisplayPreference.js";
 
 export type TTemplateSubtotalSetting = {
@@ -7,7 +7,7 @@ export type TTemplateSubtotalSetting = {
   field_name?: keyof typeof TemplateFieldName;
 };
 
-class TemplateSubtotalSetting extends Types implements StaticImplements<ITypes, typeof TemplateSubtotalSetting> {
+class TemplateSubtotalSetting extends Types implements Static<ITypes, typeof TemplateSubtotalSetting> {
   displayPreference?: TemplateDisplayPreference;
   fieldName?: TemplateFieldName;
   constructor() {

@@ -1,6 +1,6 @@
 import { AcceptClaimReason } from "../Enums/AcceptClaimReason.js";
 import { AcceptClaimType } from "../Enums/AcceptClaimType.js";
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import AddressPortable, { TAddressPortable } from "./AddressPortable.js";
 import Money, { TMoney } from "./Money.js";
 import ResponseAcceptClaimType, { TResponseAcceptClaimType } from "./ResponseAcceptClaimType.js";
@@ -17,7 +17,7 @@ export type TAcceptClaim = {
   return_shipping_address?: TAddressPortable;
 };
 
-class AcceptClaim extends Types implements StaticImplements<ITypes, typeof AcceptClaim> {
+class AcceptClaim extends Types implements Static<ITypes, typeof AcceptClaim> {
   acceptClaimTypes?: ResponseAcceptClaimType[];
   note?: string;
   acceptClaimReason?: AcceptClaimReason;

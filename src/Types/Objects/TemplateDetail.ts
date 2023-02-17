@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import FileReference, { TFileReference } from "./FileReference.js";
 import PaymentTerm, { TPaymentTerm } from "./PaymentTerm.js";
 import TemplateMetadata, { TTemplateMetadata } from "./TemplateMetadata.js";
@@ -14,7 +14,7 @@ export type TTemplateDetail = {
   payment_term?: TPaymentTerm;
 };
 
-class TemplateDetail extends Types implements StaticImplements<ITypes, typeof TemplateDetail> {
+class TemplateDetail extends Types implements Static<ITypes, typeof TemplateDetail> {
   currencyCode?: string;
   attachments?: FileReference[];
   memo?: string;

@@ -1,10 +1,10 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TDateNoTime = {
   date_no_time?: string;
 };
 
-class DateNoTime extends Types implements StaticImplements<ITypes, typeof DateNoTime> {
+class DateNoTime extends Types implements Static<ITypes, typeof DateNoTime> {
   dateNoTime?: string;
   constructor() {
     super();

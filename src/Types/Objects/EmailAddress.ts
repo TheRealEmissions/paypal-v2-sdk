@@ -1,10 +1,10 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TEmailAddress = {
   email_address?: string;
 };
 
-class EmailAddress extends Types implements StaticImplements<ITypes, typeof EmailAddress> {
+class EmailAddress extends Types implements Static<ITypes, typeof EmailAddress> {
   emailAddress?: string;
   constructor() {
     super();

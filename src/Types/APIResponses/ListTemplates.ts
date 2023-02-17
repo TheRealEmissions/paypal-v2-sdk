@@ -2,7 +2,7 @@ import AddressPortable, { TAddressPortable } from "../Objects/AddressPortable.js
 import LinkDescription, { TLinkDescription } from "../Objects/LinkDescription.js";
 import PhoneDetail, { TPhoneDetail } from "../Objects/PhoneDetail.js";
 import Template, { TTemplate } from "../Objects/Template.js";
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TListTemplatesResponse = {
   readonly addresses: TAddressPortable[];
@@ -12,7 +12,7 @@ export type TListTemplatesResponse = {
   readonly templates: TTemplate[];
 };
 
-class ListTemplatesResponse extends Types implements StaticImplements<ITypes, typeof ListTemplatesResponse> {
+class ListTemplatesResponse extends Types implements Static<ITypes, typeof ListTemplatesResponse> {
   readonly addresses: AddressPortable[];
   readonly emails: string;
   readonly links: LinkDescription[];

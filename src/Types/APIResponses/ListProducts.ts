@@ -1,7 +1,7 @@
 import { TLinkDescription } from "./../Objects/LinkDescription.js";
 import LinkDescription from "../Objects/LinkDescription.js";
 import ProductCollectionElement, { TProductCollectionElement } from "../Objects/ProductCollectionElement.js";
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TListProductsResponse = {
   readonly links: TLinkDescription[];
@@ -10,7 +10,7 @@ export type TListProductsResponse = {
   readonly total_pages: number;
 };
 
-class ListProductsResponse extends Types implements StaticImplements<ITypes, typeof ListProductsResponse> {
+class ListProductsResponse extends Types implements Static<ITypes, typeof ListProductsResponse> {
   readonly links: LinkDescription[];
   readonly products: ProductCollectionElement[];
   readonly totalItems?: number;

@@ -1,11 +1,11 @@
 import { PaymentTermType } from "../Enums/PaymentTermType.js";
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TPaymentTerm = {
   term_type?: keyof typeof PaymentTermType;
 };
 
-class PaymentTerm extends Types implements StaticImplements<ITypes, typeof PaymentTerm> {
+class PaymentTerm extends Types implements Static<ITypes, typeof PaymentTerm> {
   termType?: PaymentTermType;
   constructor() {
     super();

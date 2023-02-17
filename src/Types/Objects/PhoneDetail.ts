@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TPhoneDetail = {
   country_code: string;
@@ -7,7 +7,7 @@ export type TPhoneDetail = {
   phone_type?: string;
 };
 
-class PhoneDetail extends Types implements StaticImplements<ITypes, typeof PhoneDetail> {
+class PhoneDetail extends Types implements Static<ITypes, typeof PhoneDetail> {
   countryCode?: string;
   nationalNumber?: string;
   extensionNumber?: string;

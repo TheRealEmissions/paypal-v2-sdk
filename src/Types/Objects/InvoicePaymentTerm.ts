@@ -1,11 +1,11 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TInvoicePaymentTerm = {
   term_type?: string;
   due_date?: string;
 };
 
-class InvoicePaymentTerm extends Types implements StaticImplements<ITypes, typeof InvoicePaymentTerm> {
+class InvoicePaymentTerm extends Types implements Static<ITypes, typeof InvoicePaymentTerm> {
   termType?: string;
   dueDate?: string;
   constructor() {

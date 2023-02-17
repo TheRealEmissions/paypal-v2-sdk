@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types";
+import Types, { ITypes, Static } from "../Types";
 import AddressPortable, { TAddressPortable } from "./AddressPortable";
 import Money, { TMoney } from "./Money";
 import OfferType, { TOfferType } from "./OfferType";
@@ -12,7 +12,7 @@ export type TMakeOffer = {
   return_shipping_address?: TAddressPortable;
 };
 
-class MakeOffer extends Types implements StaticImplements<ITypes, typeof MakeOffer> {
+class MakeOffer extends Types implements Static<ITypes, typeof MakeOffer> {
   offerTypes?: OfferType[];
   note!: string;
   offerType!: OfferType;

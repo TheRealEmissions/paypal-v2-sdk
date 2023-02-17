@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import Money, { TMoney } from "./Money.js";
 
 export type TCustomAmount = {
@@ -6,7 +6,7 @@ export type TCustomAmount = {
   amount?: TMoney;
 };
 
-class CustomAmount extends Types implements StaticImplements<ITypes, typeof CustomAmount> {
+class CustomAmount extends Types implements Static<ITypes, typeof CustomAmount> {
   label?: string;
   amount?: Money;
   constructor() {

@@ -1,12 +1,12 @@
 import { AssetSymbol } from "../Enums/AssetSymbol";
-import Types, { ITypes, StaticImplements } from "../Types";
+import Types, { ITypes, Static } from "../Types";
 
 export type TCryptocurrency = {
   asset_symbol: keyof typeof AssetSymbol;
   quantity: string;
 };
 
-class Cryptocurrency extends Types implements StaticImplements<ITypes, typeof Cryptocurrency> {
+class Cryptocurrency extends Types implements Static<ITypes, typeof Cryptocurrency> {
   assetSymbol!: AssetSymbol;
   quantity!: string;
   constructor() {

@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TErrorDetails = {
   issue: string;
@@ -8,7 +8,7 @@ export type TErrorDetails = {
   value?: string;
 };
 
-class ErrorDetails extends Types implements StaticImplements<ITypes, typeof ErrorDetails> {
+class ErrorDetails extends Types implements Static<ITypes, typeof ErrorDetails> {
   issue?: string;
   description?: string;
   field?: string;

@@ -1,10 +1,10 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TBusinessName = {
   business_name?: string;
 };
 
-class BusinessName extends Types implements StaticImplements<ITypes, typeof BusinessName> {
+class BusinessName extends Types implements Static<ITypes, typeof BusinessName> {
   businessName?: string;
   constructor() {
     super();

@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import Discount, { TDiscount } from "./Discount.js";
 import Money, { TMoney } from "./Money.js";
 
@@ -7,7 +7,7 @@ export type TAggregatedDiscount = {
   item_discount: TMoney;
 };
 
-class AggregatedDiscount extends Types implements StaticImplements<ITypes, typeof AggregatedDiscount> {
+class AggregatedDiscount extends Types implements Static<ITypes, typeof AggregatedDiscount> {
   invoiceDiscount?: Discount;
   itemDiscount?: Money;
   constructor() {

@@ -1,10 +1,10 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TTemplateDisplayPreference = {
   hidden?: boolean;
 };
 
-class TemplateDisplayPreference extends Types implements StaticImplements<ITypes, typeof TemplateDisplayPreference> {
+class TemplateDisplayPreference extends Types implements Static<ITypes, typeof TemplateDisplayPreference> {
   hidden?: boolean;
   constructor() {
     super();

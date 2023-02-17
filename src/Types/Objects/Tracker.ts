@@ -1,7 +1,7 @@
 import { TrackingNumberType } from "./../Enums/TrackingNumberType.js";
 import { Carrier } from "./../Enums/Carrier.js";
 import { ShippingStatus } from "./../Enums/ShippingStatus.js";
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
 import PayPal from "../../PayPal.js";
 
@@ -21,7 +21,7 @@ export type TTracker = {
   readonly tracking_number_validated?: boolean;
 };
 
-class Tracker extends Types implements StaticImplements<ITypes, typeof Tracker> {
+class Tracker extends Types implements Static<ITypes, typeof Tracker> {
   status?: ShippingStatus;
   transactionId?: string;
   carrier?: Carrier;

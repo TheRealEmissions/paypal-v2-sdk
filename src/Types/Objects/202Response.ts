@@ -1,11 +1,11 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
 
 export type TAcceptedResponse = {
   readonly links?: TLinkDescription[];
 };
 
-class AcceptedResponse extends Types implements StaticImplements<ITypes, typeof AcceptedResponse> {
+class AcceptedResponse extends Types implements Static<ITypes, typeof AcceptedResponse> {
   links?: LinkDescription[];
   constructor() {
     super();

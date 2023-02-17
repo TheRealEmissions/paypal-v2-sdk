@@ -1,6 +1,6 @@
 import { PaymentDetailMethod } from "../Enums/PaymentDetailMethod.js";
 import { PaymentDetailType } from "../Enums/PaymentDetailType.js";
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import ContactInformation, { TContactInformation } from "./ContactInformation.js";
 import Money, { TMoney } from "./Money.js";
 
@@ -14,7 +14,7 @@ export type TPaymentDetail = {
   readonly type?: keyof typeof PaymentDetailType;
 };
 
-class PaymentDetail extends Types implements StaticImplements<ITypes, typeof PaymentDetail> {
+class PaymentDetail extends Types implements Static<ITypes, typeof PaymentDetail> {
   method?: PaymentDetailMethod;
   amount?: Money;
   note?: string;

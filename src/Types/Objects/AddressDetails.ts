@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TAddressDetails = {
   street_number?: string;
@@ -9,7 +9,7 @@ export type TAddressDetails = {
   sub_building?: string;
 };
 
-class AddressDetails extends Types implements StaticImplements<ITypes, typeof AddressDetails> {
+class AddressDetails extends Types implements Static<ITypes, typeof AddressDetails> {
   streetNumber?: string;
   streetName?: string;
   streetType?: string;

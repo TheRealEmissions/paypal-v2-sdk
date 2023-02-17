@@ -1,5 +1,5 @@
 import { PatchOperation } from "../Enums/PatchOperation.js";
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TPatch = {
   op: keyof typeof PatchOperation;
@@ -8,7 +8,7 @@ export type TPatch = {
   value?: number | string | boolean | null | any[] | object;
 };
 
-class Patch extends Types implements StaticImplements<ITypes, typeof Patch> {
+class Patch extends Types implements Static<ITypes, typeof Patch> {
   op?: PatchOperation;
   from?: string;
   path?: string;

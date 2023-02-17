@@ -1,10 +1,10 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TField = {
   field?: string;
 };
 
-class Field extends Types implements StaticImplements<ITypes, typeof Field> {
+class Field extends Types implements Static<ITypes, typeof Field> {
   field?: string;
   constructor() {
     super();

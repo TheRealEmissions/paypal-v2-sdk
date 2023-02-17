@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TTemplateMetadata = {
   readonly create_time?: string;
@@ -7,7 +7,7 @@ export type TTemplateMetadata = {
   readonly last_updated_by?: string;
 };
 
-class TemplateMetadata extends Types implements StaticImplements<ITypes, typeof TemplateMetadata> {
+class TemplateMetadata extends Types implements Static<ITypes, typeof TemplateMetadata> {
   createTime?: string;
   createdBy?: string;
   lastUpdateTime?: string;

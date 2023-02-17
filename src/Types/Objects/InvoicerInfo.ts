@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import PhoneDetail, { TPhoneDetail } from "./PhoneDetail.js";
 
 export type TInvoicerInfo = {
@@ -10,7 +10,7 @@ export type TInvoicerInfo = {
   website?: string;
 };
 
-class InvoicerInfo extends Types implements StaticImplements<ITypes, typeof InvoicerInfo> {
+class InvoicerInfo extends Types implements Static<ITypes, typeof InvoicerInfo> {
   additionalNotes?: string;
   emailAddress?: string;
   logoUrl?: string;

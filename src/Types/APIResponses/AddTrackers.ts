@@ -3,7 +3,7 @@ import { TError } from "./../Objects/Error.js";
 import Error from "../Objects/Error.js";
 import LinkDescription from "../Objects/LinkDescription.js";
 import TrackerIdentifier, { TTrackerIdentifier } from "../Objects/TrackerIdentifier.js";
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TAddTrackersResponse = {
   readonly errors: TError[];
@@ -11,7 +11,7 @@ export type TAddTrackersResponse = {
   readonly tracker_identifiers: TTrackerIdentifier[];
 };
 
-class AddTrackersResponse extends Types implements StaticImplements<ITypes, typeof AddTrackersResponse> {
+class AddTrackersResponse extends Types implements Static<ITypes, typeof AddTrackersResponse> {
   readonly errors: Error[];
   readonly links: LinkDescription[];
   readonly trackerIdentifiers: TrackerIdentifier[];

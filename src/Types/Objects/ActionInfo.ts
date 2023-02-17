@@ -1,5 +1,5 @@
 import { Action } from "../Enums/Action";
-import Types, { ITypes, StaticImplements } from "../Types";
+import Types, { ITypes, Static } from "../Types";
 
 export type TActionInfo = {
   action?: keyof typeof Action;
@@ -7,7 +7,7 @@ export type TActionInfo = {
   response_option?: string;
 };
 
-class ActionInfo extends Types implements StaticImplements<ITypes, typeof ActionInfo> {
+class ActionInfo extends Types implements Static<ITypes, typeof ActionInfo> {
   action?: Action;
   mandatory?: boolean;
   responseOption?: string;

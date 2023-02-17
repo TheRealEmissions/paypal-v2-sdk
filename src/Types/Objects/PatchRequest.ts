@@ -1,11 +1,11 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import Patch, { TPatch } from "./Patch.js";
 
 export type TPatchRequest = {
   patch_request: TPatch[];
 };
 
-class PatchRequest extends Types implements StaticImplements<ITypes, typeof PatchRequest> {
+class PatchRequest extends Types implements Static<ITypes, typeof PatchRequest> {
   patchRequest?: Patch[];
   constructor() {
     super();

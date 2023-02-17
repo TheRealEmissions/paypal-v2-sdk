@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
 
 export type TTrackerIdentifier = {
@@ -7,7 +7,7 @@ export type TTrackerIdentifier = {
   tracking_number?: string;
 };
 
-class TrackerIdentifier extends Types implements StaticImplements<ITypes, typeof TrackerIdentifier> {
+class TrackerIdentifier extends Types implements Static<ITypes, typeof TrackerIdentifier> {
   transactionId?: string;
   links?: LinkDescription[];
   trackingNumber?: string;

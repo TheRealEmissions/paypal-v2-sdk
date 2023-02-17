@@ -19,7 +19,7 @@ abstract class Types {
   }
 }
 
-export type StaticImplements<I extends new (...args: any[]) => any, _C extends I> = InstanceType<I>;
+export type Static<I extends new (...args: any[]) => any, _C extends I> = InstanceType<I>;
 export interface ITypes {
   new (...args: any[]): Types;
   fromObject(obj: object): Types;

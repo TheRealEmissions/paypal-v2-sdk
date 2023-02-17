@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TFileReference = {
   content_type?: string;
@@ -8,7 +8,7 @@ export type TFileReference = {
   size?: string;
 };
 
-class FileReference extends Types implements StaticImplements<ITypes, typeof FileReference> {
+class FileReference extends Types implements Static<ITypes, typeof FileReference> {
   contentType?: string;
   createTime?: string;
   id?: string;

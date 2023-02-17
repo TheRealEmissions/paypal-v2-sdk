@@ -1,11 +1,11 @@
 import { AdjudicationOutcome } from "../Enums/AdjudicationOutcome";
-import Types, { ITypes, StaticImplements } from "../Types";
+import Types, { ITypes, Static } from "../Types";
 
 export type TAdjudicate = {
   adjudication_outcome?: keyof typeof AdjudicationOutcome;
 };
 
-class Adjudicate extends Types implements StaticImplements<ITypes, typeof Adjudicate> {
+class Adjudicate extends Types implements Static<ITypes, typeof Adjudicate> {
   adjudicationOutcome!: AdjudicationOutcome;
   constructor() {
     super();

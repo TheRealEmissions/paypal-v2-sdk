@@ -1,13 +1,13 @@
 import DisputeInfo, { TDisputeInfo } from "../Objects/DisputeInfo";
 import LinkDescription, { TLinkDescription } from "../Objects/LinkDescription";
-import Types, { ITypes, StaticImplements } from "../Types";
+import Types, { ITypes, Static } from "../Types";
 
 export type TListDisputesResponse = {
   readonly items: TDisputeInfo[];
   readonly links: TLinkDescription[];
 };
 
-class ListDisputesResponse extends Types implements StaticImplements<ITypes, typeof ListDisputesResponse> {
+class ListDisputesResponse extends Types implements Static<ITypes, typeof ListDisputesResponse> {
   items!: DisputeInfo[];
   links!: LinkDescription[];
   constructor(items: DisputeInfo[], links: LinkDescription[]) {

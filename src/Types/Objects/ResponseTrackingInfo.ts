@@ -1,5 +1,5 @@
 import { Carrier } from "../Enums/Carrier.js";
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TResponseTrackingInfo = {
   carrier_name?: keyof typeof Carrier;
@@ -8,7 +8,7 @@ export type TResponseTrackingInfo = {
   tracking_url?: string;
 };
 
-class ResponseTrackingInfo extends Types implements StaticImplements<ITypes, typeof ResponseTrackingInfo> {
+class ResponseTrackingInfo extends Types implements Static<ITypes, typeof ResponseTrackingInfo> {
   carrierName?: Carrier;
   trackingNumber?: string;
   carrierNameOther?: string;

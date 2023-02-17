@@ -3,7 +3,7 @@ import { DisputeLifeCycleStage } from "../Enums/DisputeLifeCycleStage";
 import { DisputeReason } from "../Enums/DisputeReason";
 import { DisputeState } from "../Enums/DisputeState";
 import { DisputeStatus } from "../Enums/DisputeStatus";
-import Types, { ITypes, StaticImplements } from "../Types";
+import Types, { ITypes, Static } from "../Types";
 import Cryptocurrency, { TCryptocurrency } from "./Cryptocurrency";
 import LinkDescription, { TLinkDescription } from "./LinkDescription";
 import Money, { TMoney } from "./Money";
@@ -24,7 +24,7 @@ export type TDisputeInfo = {
   update_time?: string;
 };
 
-class DisputeInfo extends Types implements StaticImplements<ITypes, typeof DisputeInfo> {
+class DisputeInfo extends Types implements Static<ITypes, typeof DisputeInfo> {
   buyerResponseDueDate?: string;
   createTime?: string;
   disputeAmount?: Money;

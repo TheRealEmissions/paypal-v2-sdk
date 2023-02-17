@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import AddressPortable, { TAddressPortable } from "./AddressPortable.js";
 import Name, { TName } from "./Name.js";
 
@@ -8,7 +8,7 @@ export type TContactInformation = {
   name?: TName;
 };
 
-class ContactInformation extends Types implements StaticImplements<ITypes, typeof ContactInformation> {
+class ContactInformation extends Types implements Static<ITypes, typeof ContactInformation> {
   businessName?: string;
   address?: AddressPortable;
   name?: Name;

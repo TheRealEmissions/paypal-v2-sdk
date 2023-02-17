@@ -1,11 +1,11 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TDateRange = {
   end: string;
   start: string;
 };
 
-class DateRange extends Types implements StaticImplements<ITypes, typeof DateRange> {
+class DateRange extends Types implements Static<ITypes, typeof DateRange> {
   end?: string;
   start?: string;
   constructor() {

@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import ErrorDetails, { TErrorDetails } from "./ErrorDetails.js";
 import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
 
@@ -11,7 +11,7 @@ export type TError = {
   readonly links?: TLinkDescription[];
 };
 
-class Error extends Types implements StaticImplements<ITypes, typeof Error> {
+class Error extends Types implements Static<ITypes, typeof Error> {
   debugId?: string;
   message?: string;
   name?: string;

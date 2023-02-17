@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import Document, { TDocument } from "./Document.js";
 import ResponseTrackingInfo, { TResponseTrackingInfo } from "./ResponseTrackingInfo.js";
 
@@ -7,7 +7,7 @@ export type TResponseShipmentInfo = {
   tracking_info?: TResponseTrackingInfo;
 };
 
-class ResponseShipmentInfo extends Types implements StaticImplements<ITypes, typeof ResponseShipmentInfo> {
+class ResponseShipmentInfo extends Types implements Static<ITypes, typeof ResponseShipmentInfo> {
   shipmentLabel?: Document;
   trackingInfo?: ResponseTrackingInfo;
   constructor() {

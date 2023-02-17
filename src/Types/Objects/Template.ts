@@ -1,6 +1,6 @@
 import PayPal from "../../PayPal.js";
 import { UnitOfMeasure } from "../Enums/UnitOfMeasure.js";
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
 import TemplateInfo, { TTemplateInfo } from "./TemplateInfo.js";
 import TemplateSettings, { TTemplateSettings } from "./TemplateSettings.js";
@@ -16,7 +16,7 @@ export type TTemplate = {
   unit_of_measure?: keyof typeof UnitOfMeasure;
 };
 
-class Template extends Types implements StaticImplements<ITypes, typeof Template> {
+class Template extends Types implements Static<ITypes, typeof Template> {
   defaultTemplate?: boolean;
   id?: string;
   links?: LinkDescription[];

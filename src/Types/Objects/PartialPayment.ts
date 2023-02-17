@@ -1,4 +1,4 @@
-import Types, { ITypes, StaticImplements } from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import Money, { TMoney } from "./Money.js";
 
 export type TPartialPayment = {
@@ -6,7 +6,7 @@ export type TPartialPayment = {
   minimum_amount_due?: TMoney;
 };
 
-class PartialPayment extends Types implements StaticImplements<ITypes, typeof PartialPayment> {
+class PartialPayment extends Types implements Static<ITypes, typeof PartialPayment> {
   allowPartialPayment?: boolean;
   minimumAmountDue?: Money;
   constructor() {
