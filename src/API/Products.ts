@@ -69,7 +69,7 @@ class Products {
     );
     if (response.status !== 204) throw new ProductUpdateError("Unexpected response status code", response.data);
 
-    return await this.get(product);
+    return this.get(product);
   }
 
   async get(product: Product | string) {
