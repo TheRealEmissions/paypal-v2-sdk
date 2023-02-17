@@ -6,6 +6,7 @@ import ProductCollectionElement from "../Types/Objects/ProductCollectionElement.
 import Product from "../Types/Objects/Product.js";
 import PatchRequest, { TPatchRequest } from "../Types/Objects/PatchRequest.js";
 import ProductUpdateError from "../Errors/Products/ProductUpdateError.js";
+import { Integer } from "../Types/Types.js";
 
 class Products {
   protected PayPal: PayPal;
@@ -21,8 +22,8 @@ class Products {
     return this.getMany(page, pageSize, totalRequired);
   }
 
-  async getMany(page?: number, pageSize?: number, totalRequired?: boolean) {
-    const response = await this.PayPal.API.get<TListProductsResponse>("/v1/catalogs/products", {
+  async getMany<N extends number, U extends number>(page?: Integer<N>, pageSize?: Integer<U>, totalRequired?: boolean) {
+    const response = await this.PayPal.API.get<TListProductsResponse<number, number>>("/v1/catalogs/products", {
       params: {
         page,
         page_size: pageSize,

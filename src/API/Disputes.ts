@@ -6,6 +6,7 @@ import PartialUpdateDisputeResponse, {
 import { DisputeState } from "../Types/Enums/DisputeState";
 import Patch from "../Types/Objects/Patch";
 import { TPatchRequest } from "../Types/Objects/PatchRequest";
+import { Integer } from "../Types/Types";
 
 class Disputes {
   protected PayPal: PayPal;
@@ -37,11 +38,11 @@ class Disputes {
     );
   }
 
-  async getMany(
+  async getMany<N extends number>(
     disputeState?: DisputeState,
     disputedTransactionId?: string,
     nextPageToken?: string,
-    pageSize?: number,
+    pageSize?: Integer<N>,
     startTime?: string,
     updateTimeAfter?: string,
     updateTimeBefore?: string

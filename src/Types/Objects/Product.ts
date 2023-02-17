@@ -30,7 +30,7 @@ class Product extends Types implements Static<ITypes, typeof Product> {
   type?: ProductType;
   updateTime?: string;
 
-  PayPal?: PayPal;
+  private PayPal?: PayPal;
   constructor(PayPal?: PayPal) {
     super();
     this.PayPal = PayPal;
