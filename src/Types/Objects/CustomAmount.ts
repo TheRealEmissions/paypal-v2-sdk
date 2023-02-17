@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import Money, { TMoney } from "./Money.js";
 
 export type TCustomAmount = {
@@ -6,7 +6,7 @@ export type TCustomAmount = {
   amount?: TMoney;
 };
 
-class CustomAmount extends Types {
+class CustomAmount extends Types implements Static<ITypes, typeof CustomAmount> {
   label?: string;
   amount?: Money;
   constructor() {
@@ -26,10 +26,11 @@ class CustomAmount extends Types {
     return this;
   }
 
-  override fromObject(obj: TCustomAmount) {
-    this.label = obj.label;
-    this.amount = obj.amount ? new Money().fromObject(obj.amount) : undefined;
-    return this;
+  static fromObject(obj: TCustomAmount) {
+    const customAmount = new CustomAmount();
+    if (obj.label) customAmount.setLabel(obj.label);
+    if (obj.amount) customAmount.setAmount(Money.fromObject(obj.amount));
+    return customAmount;
   }
 }
 

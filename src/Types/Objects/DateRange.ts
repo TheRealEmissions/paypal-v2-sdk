@@ -1,11 +1,11 @@
-import Types from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TDateRange = {
   end: string;
   start: string;
 };
 
-class DateRange extends Types {
+class DateRange extends Types implements Static<ITypes, typeof DateRange> {
   end?: string;
   start?: string;
   constructor() {
@@ -22,10 +22,11 @@ class DateRange extends Types {
     return this;
   }
 
-  override fromObject(obj: TDateRange) {
-    this.end = obj.end;
-    this.start = obj.start;
-    return this;
+  static fromObject(obj: TDateRange) {
+    const dateRange = new DateRange();
+    if (obj.end) dateRange.setEnd(obj.end);
+    if (obj.start) dateRange.setStart(obj.start);
+    return dateRange;
   }
 }
 

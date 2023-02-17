@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import AggregatedDiscount, { TAggregatedDiscount } from "./AggregatedDiscount.js";
 import CustomAmount, { TCustomAmount } from "./CustomAmount.js";
 import Money, { TMoney } from "./Money.js";
@@ -12,7 +12,7 @@ export type TAmountWithBreakdown = {
   tax_total?: TMoney;
 };
 
-class AmountWithBreakdown extends Types {
+class AmountWithBreakdown extends Types implements Static<ITypes, typeof AmountWithBreakdown> {
   custom?: CustomAmount;
   discount?: AggregatedDiscount;
   itemTotal?: Money;
@@ -47,13 +47,14 @@ class AmountWithBreakdown extends Types {
     return this;
   }
 
-  override fromObject(obj: TAmountWithBreakdown) {
-    this.custom = obj.custom ? new CustomAmount().fromObject(obj.custom) : undefined;
-    this.discount = obj.discount ? new AggregatedDiscount().fromObject(obj.discount) : undefined;
-    this.itemTotal = obj.item_total ? new Money().fromObject(obj.item_total) : undefined;
-    this.shipping = obj.shipping ? new ShippingCost().fromObject(obj.shipping) : undefined;
-    this.taxTotal = obj.tax_total ? new Money().fromObject(obj.tax_total) : undefined;
-    return this;
+  static fromObject(obj: TAmountWithBreakdown) {
+    const amountWithBreakdown = new AmountWithBreakdown();
+    if (obj.custom) amountWithBreakdown.setCustom(CustomAmount.fromObject(obj.custom));
+    if (obj.discount) amountWithBreakdown.setDiscount(AggregatedDiscount.fromObject(obj.discount));
+    if (obj.item_total) amountWithBreakdown.setItemTotal(Money.fromObject(obj.item_total));
+    if (obj.shipping) amountWithBreakdown.setShipping(ShippingCost.fromObject(obj.shipping));
+    if (obj.tax_total) amountWithBreakdown.setTaxTotal(Money.fromObject(obj.tax_total));
+    return amountWithBreakdown;
   }
 }
 

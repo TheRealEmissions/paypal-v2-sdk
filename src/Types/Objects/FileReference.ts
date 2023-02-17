@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TFileReference = {
   content_type?: string;
@@ -8,7 +8,7 @@ export type TFileReference = {
   size?: string;
 };
 
-class FileReference extends Types {
+class FileReference extends Types implements Static<ITypes, typeof FileReference> {
   contentType?: string;
   createTime?: string;
   id?: string;
@@ -43,13 +43,14 @@ class FileReference extends Types {
     return this;
   }
 
-  override fromObject(obj: TFileReference) {
-    this.contentType = obj.content_type;
-    this.createTime = obj.create_time;
-    this.id = obj.id;
-    this.referenceUrl = obj.reference_url;
-    this.size = obj.size;
-    return this;
+  static fromObject(obj: TFileReference) {
+    const fileReference = new FileReference();
+    if (obj.content_type) fileReference.setContentType(obj.content_type);
+    if (obj.create_time) fileReference.setCreateTime(obj.create_time);
+    if (obj.id) fileReference.setId(obj.id);
+    if (obj.reference_url) fileReference.setReferenceUrl(obj.reference_url);
+    if (obj.size) fileReference.setSize(obj.size);
+    return fileReference;
   }
 }
 

@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import Money, { TMoney } from "./Money.js";
 import PaymentDetail, { TPaymentDetail } from "./PaymentDetail.js";
 
@@ -7,7 +7,7 @@ export type TPayments = {
   readonly transactions?: TPaymentDetail[];
 };
 
-class Payments extends Types {
+class Payments extends Types implements Static<ITypes, typeof Payments> {
   paidAmount?: Money;
   transactions?: PaymentDetail[];
   constructor() {
@@ -24,10 +24,11 @@ class Payments extends Types {
     return this;
   }
 
-  override fromObject(obj: TPayments) {
-    this.paidAmount = obj.paid_amount ? new Money().fromObject(obj.paid_amount) : undefined;
-    this.transactions = obj.transactions?.map((transaction) => new PaymentDetail().fromObject(transaction));
-    return this;
+  static fromObject(obj: TPayments) {
+    const payments = new Payments();
+    if (obj.paid_amount) payments.setPaidAmount(Money.fromObject(obj.paid_amount));
+    if (obj.transactions) payments.setTransactions(obj.transactions.map((x) => PaymentDetail.fromObject(x)));
+    return payments;
   }
 }
 

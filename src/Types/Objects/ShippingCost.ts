@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import Money, { TMoney } from "./Money.js";
 import Tax, { TTax } from "./Tax.js";
 
@@ -7,7 +7,7 @@ export type TShippingCost = {
   tax?: TTax;
 };
 
-class ShippingCost extends Types {
+class ShippingCost extends Types implements Static<ITypes, typeof ShippingCost> {
   amount?: Money;
   tax?: Tax;
 
@@ -15,7 +15,11 @@ class ShippingCost extends Types {
     super();
   }
 
-  setAmount(amount: Money) {
+  /**
+   *
+   * @param amount - Value must be between 0 and 1,000,000
+   */
+  setAmount(amount: Money): ShippingCost {
     if (parseFloat(amount.value as string) < 0 || parseFloat(amount.value as string) > 1000000) {
       throw new Error("Amount value cannot be less than 0 or greater than 1,000,000");
     }
@@ -28,10 +32,11 @@ class ShippingCost extends Types {
     return this;
   }
 
-  override fromObject(obj: TShippingCost) {
-    this.amount = obj.amount ? new Money().fromObject(obj.amount) : undefined;
-    this.tax = obj.tax ? new Tax().fromObject(obj.tax) : undefined;
-    return this;
+  static fromObject(obj: TShippingCost) {
+    const shippingCost = new ShippingCost();
+    if (obj.amount) shippingCost.setAmount(Money.fromObject(obj.amount));
+    if (obj.tax) shippingCost.setTax(Tax.fromObject(obj.tax));
+    return shippingCost;
   }
 }
 

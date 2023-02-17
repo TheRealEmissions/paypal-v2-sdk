@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import FileReference, { TFileReference } from "./FileReference.js";
 import PaymentTerm, { TPaymentTerm } from "./PaymentTerm.js";
 import TemplateMetadata, { TTemplateMetadata } from "./TemplateMetadata.js";
@@ -14,7 +14,7 @@ export type TTemplateDetail = {
   payment_term?: TPaymentTerm;
 };
 
-class TemplateDetail extends Types {
+class TemplateDetail extends Types implements Static<ITypes, typeof TemplateDetail> {
   currencyCode?: string;
   attachments?: FileReference[];
   memo?: string;
@@ -67,18 +67,18 @@ class TemplateDetail extends Types {
     return this;
   }
 
-  override fromObject(obj: TTemplateDetail) {
-    this.currencyCode = obj.currency_code;
-    this.attachments = obj.attachments?.map((attachment) => {
-      return new FileReference().fromObject(attachment);
-    });
-    this.memo = obj.memo;
-    this.note = obj.note;
-    this.reference = obj.reference;
-    this.termsAndConditions = obj.terms_and_conditions;
-    this.metadata = obj.metadata ? new TemplateMetadata().fromObject(obj.metadata) : undefined;
-    this.paymentTerm = obj.payment_term ? new PaymentTerm().fromObject(obj.payment_term) : undefined;
-    return this;
+  static fromObject(obj: TTemplateDetail) {
+    const templateDetail = new TemplateDetail();
+    if (obj.currency_code) templateDetail.setCurrencyCode(obj.currency_code);
+    if (obj.attachments)
+      templateDetail.setAttachments(obj.attachments.map((attachment) => FileReference.fromObject(attachment)));
+    if (obj.memo) templateDetail.setMemo(obj.memo);
+    if (obj.note) templateDetail.setNote(obj.note);
+    if (obj.reference) templateDetail.setReference(obj.reference);
+    if (obj.terms_and_conditions) templateDetail.setTermsAndConditions(obj.terms_and_conditions);
+    if (obj.metadata) templateDetail.setMetadata(TemplateMetadata.fromObject(obj.metadata));
+    if (obj.payment_term) templateDetail.setPaymentTerm(PaymentTerm.fromObject(obj.payment_term));
+    return templateDetail;
   }
 }
 

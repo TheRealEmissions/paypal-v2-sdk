@@ -12,7 +12,7 @@ class API {
   }
 
   setDefaultAuthorizationHeader(token: string) {
-    this.Axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    this.Axios.defaults.headers.common.Authorization = `Bearer ${token}`;
     return this;
   }
 

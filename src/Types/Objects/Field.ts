@@ -1,10 +1,10 @@
-import Types from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TField = {
   field?: string;
 };
 
-class Field extends Types {
+class Field extends Types implements Static<ITypes, typeof Field> {
   field?: string;
   constructor() {
     super();
@@ -15,9 +15,10 @@ class Field extends Types {
     return this;
   }
 
-  override fromObject(obj: TField) {
-    this.field = obj.field;
-    return this;
+  static fromObject(obj: TField) {
+    const field = new Field();
+    if (obj.field) field.setField(obj.field);
+    return field;
   }
 }
 

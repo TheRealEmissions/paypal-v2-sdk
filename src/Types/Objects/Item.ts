@@ -1,5 +1,5 @@
 import { UnitOfMeasure } from "../Enums/UnitOfMeasure.js";
-import Types from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import Discount, { TDiscount } from "./Discount.js";
 import Money, { TMoney } from "./Money.js";
 import Tax, { TTax } from "./Tax.js";
@@ -13,10 +13,10 @@ export type TItem = {
   readonly id?: string;
   item_date?: string;
   tax?: TTax;
-  unit_of_measure?: string;
+  unit_of_measure?: keyof typeof UnitOfMeasure;
 };
 
-class Item extends Types {
+class Item extends Types implements Static<ITypes, typeof Item> {
   name?: string;
   quantity?: string;
   unitAmount?: Money;
@@ -75,17 +75,18 @@ class Item extends Types {
     return this;
   }
 
-  public override fromObject(obj: TItem): this {
-    this.name = obj.name;
-    this.quantity = obj.quantity;
-    this.unitAmount = new Money().fromObject(obj.unit_amount);
-    this.description = obj.description;
-    this.discount = obj.discount ? new Discount().fromObject(obj.discount) : undefined;
-    this.id = obj.id;
-    this.itemDate = obj.item_date;
-    this.tax = obj.tax ? new Tax().fromObject(obj.tax) : undefined;
-    this.unitOfMeasure = UnitOfMeasure[obj.unit_of_measure as keyof typeof UnitOfMeasure];
-    return this;
+  static fromObject(obj: TItem): Item {
+    const item = new Item();
+    item.setItemName(obj.name);
+    item.setItemQuantity(obj.quantity);
+    item.setItemUnitAmount(Money.fromObject(obj.unit_amount));
+    if (obj.description) item.setItemDescription(obj.description);
+    if (obj.discount) item.setItemDiscount(Discount.fromObject(obj.discount));
+    if (obj.id) item.setItemId(obj.id);
+    if (obj.item_date) item.setItemDate(obj.item_date);
+    if (obj.tax) item.setItemTax(Tax.fromObject(obj.tax));
+    if (obj.unit_of_measure) item.setItemUnitOfMeasure(UnitOfMeasure[obj.unit_of_measure]);
+    return item;
   }
 }
 

@@ -1,13 +1,13 @@
 import { TemplateFieldName } from "../Enums/TemplateFieldName.js";
-import Types from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import TemplateDisplayPreference, { TTemplateDisplayPreference } from "./TemplateDisplayPreference.js";
 
 export type TTemplateItemSetting = {
   display_preference?: TTemplateDisplayPreference;
-  field_name?: string;
+  field_name?: keyof typeof TemplateFieldName;
 };
 
-class TemplateItemSetting extends Types {
+class TemplateItemSetting extends Types implements Static<ITypes, typeof TemplateItemSetting> {
   displayPreference?: TemplateDisplayPreference;
   fieldName?: TemplateFieldName;
   constructor() {
@@ -24,12 +24,12 @@ class TemplateItemSetting extends Types {
     return this;
   }
 
-  override fromObject(obj: TTemplateItemSetting) {
-    this.displayPreference = obj.display_preference
-      ? new TemplateDisplayPreference().fromObject(obj.display_preference)
-      : undefined;
-    this.fieldName = TemplateFieldName[obj.field_name as keyof typeof TemplateFieldName];
-    return this;
+  static fromObject(obj: TTemplateItemSetting) {
+    const templateItemSetting = new TemplateItemSetting();
+    if (obj.display_preference)
+      templateItemSetting.setDisplayPreference(TemplateDisplayPreference.fromObject(obj.display_preference));
+    if (obj.field_name) templateItemSetting.setFieldName(TemplateFieldName[obj.field_name]);
+    return templateItemSetting;
   }
 }
 

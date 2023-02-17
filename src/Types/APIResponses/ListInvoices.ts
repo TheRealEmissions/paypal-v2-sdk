@@ -1,6 +1,6 @@
 import Invoice, { TInvoice } from "../Objects/Invoice.js";
 import LinkDescription, { TLinkDescription } from "../Objects/LinkDescription.js";
-import TypeResponse from "./TypeResponse.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TListInvoicesResponse = {
   readonly items: TInvoice[];
@@ -9,7 +9,7 @@ export type TListInvoicesResponse = {
   readonly total_pages: number;
 };
 
-class ListInvoicesResponse extends TypeResponse {
+class ListInvoicesResponse extends Types implements Static<ITypes, typeof ListInvoicesResponse> {
   readonly items: Invoice[];
   readonly links: LinkDescription[];
   readonly totalItems: number;
@@ -20,6 +20,15 @@ class ListInvoicesResponse extends TypeResponse {
     this.links = links;
     this.totalItems = totalItems;
     this.totalPages = totalPages;
+  }
+
+  static fromObject(obj: TListInvoicesResponse) {
+    return new ListInvoicesResponse(
+      obj.items.map((item) => Invoice.fromObject(item)),
+      obj.links.map((link) => LinkDescription.fromObject(link)),
+      obj.total_items,
+      obj.total_pages
+    );
   }
 }
 

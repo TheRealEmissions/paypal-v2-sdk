@@ -1,20 +1,20 @@
 import { PaymentDetailMethod } from "../Enums/PaymentDetailMethod.js";
 import { PaymentDetailType } from "../Enums/PaymentDetailType.js";
-import Types from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import ContactInformation, { TContactInformation } from "./ContactInformation.js";
 import Money, { TMoney } from "./Money.js";
 
 export type TPaymentDetail = {
-  method: string;
+  method: keyof typeof PaymentDetailMethod;
   amount?: TMoney;
   note?: string;
   payment_date?: string;
   payment_id?: string;
   shipping_info?: TContactInformation;
-  readonly type?: string;
+  readonly type?: keyof typeof PaymentDetailType;
 };
 
-class PaymentDetail extends Types {
+class PaymentDetail extends Types implements Static<ITypes, typeof PaymentDetail> {
   method?: PaymentDetailMethod;
   amount?: Money;
   note?: string;
@@ -61,15 +61,16 @@ class PaymentDetail extends Types {
     return this;
   }
 
-  override fromObject(obj: TPaymentDetail) {
-    this.method = PaymentDetailMethod[obj.method as keyof typeof PaymentDetailMethod];
-    this.amount = obj.amount ? new Money().fromObject(obj.amount) : undefined;
-    this.note = obj.note;
-    this.paymentDate = obj.payment_date;
-    this.paymentId = obj.payment_id;
-    this.shippingInfo = obj.shipping_info ? new ContactInformation().fromObject(obj.shipping_info) : undefined;
-    this.type = PaymentDetailType[obj.type as keyof typeof PaymentDetailType];
-    return this;
+  static fromObject(obj: TPaymentDetail) {
+    const paymentDetail = new PaymentDetail();
+    paymentDetail.setMethod(PaymentDetailMethod[obj.method]);
+    if (obj.amount) paymentDetail.setAmount(Money.fromObject(obj.amount));
+    if (obj.note) paymentDetail.setNote(obj.note);
+    if (obj.payment_date) paymentDetail.setPaymentDate(obj.payment_date);
+    if (obj.payment_id) paymentDetail.setPaymentId(obj.payment_id);
+    if (obj.shipping_info) paymentDetail.setShippingInfo(ContactInformation.fromObject(obj.shipping_info));
+    if (obj.type) paymentDetail.setType(PaymentDetailType[obj.type]);
+    return paymentDetail;
   }
 }
 

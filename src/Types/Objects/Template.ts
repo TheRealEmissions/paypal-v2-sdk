@@ -1,6 +1,6 @@
 import PayPal from "../../PayPal.js";
 import { UnitOfMeasure } from "../Enums/UnitOfMeasure.js";
-import Types from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
 import TemplateInfo, { TTemplateInfo } from "./TemplateInfo.js";
 import TemplateSettings, { TTemplateSettings } from "./TemplateSettings.js";
@@ -13,10 +13,10 @@ export type TTemplate = {
   settings?: TTemplateSettings;
   readonly standard_template?: boolean;
   template_info?: TTemplateInfo;
-  unit_of_measure?: string;
+  unit_of_measure?: keyof typeof UnitOfMeasure;
 };
 
-class Template extends Types {
+class Template extends Types implements Static<ITypes, typeof Template> {
   defaultTemplate?: boolean;
   id?: string;
   links?: LinkDescription[];
@@ -30,6 +30,11 @@ class Template extends Types {
   constructor(PayPal?: PayPal) {
     super();
     this.PayPal = PayPal;
+  }
+
+  setPayPal(PayPal: PayPal) {
+    this.PayPal = PayPal;
+    return this;
   }
 
   async create() {
@@ -105,18 +110,17 @@ class Template extends Types {
     return this;
   }
 
-  override fromObject(obj: TTemplate) {
-    this.defaultTemplate = obj.default_template;
-    this.id = obj.id;
-    this.links = obj.links?.map((item) => {
-      return new LinkDescription().fromObject(item);
-    });
-    this.name = obj.name;
-    this.settings = obj.settings ? new TemplateSettings().fromObject(obj.settings) : undefined;
-    this.standardTemplate = obj.standard_template;
-    this.templateInfo = obj.template_info ? new TemplateInfo().fromObject(obj.template_info) : undefined;
-    this.unitOfMeasure = UnitOfMeasure[obj.unit_of_measure as keyof typeof UnitOfMeasure];
-    return this;
+  static fromObject(obj: TTemplate) {
+    const template = new Template();
+    if (obj.default_template) template.setDefaultTemplate(obj.default_template);
+    if (obj.id) template.setId(obj.id);
+    if (obj.links) template.setLinks(obj.links.map((x) => LinkDescription.fromObject(x)));
+    if (obj.name) template.setName(obj.name);
+    if (obj.settings) template.setSettings(TemplateSettings.fromObject(obj.settings));
+    if (obj.standard_template) template.setStandardTemplate(obj.standard_template);
+    if (obj.template_info) template.setTemplateInfo(TemplateInfo.fromObject(obj.template_info));
+    if (obj.unit_of_measure) template.setUnitOfMeasure(UnitOfMeasure[obj.unit_of_measure]);
+    return template;
   }
 }
 

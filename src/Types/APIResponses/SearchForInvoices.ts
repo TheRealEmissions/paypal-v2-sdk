@@ -1,6 +1,6 @@
 import Invoice, { TInvoice } from "../Objects/Invoice.js";
 import LinkDescription, { TLinkDescription } from "../Objects/LinkDescription.js";
-import TypeResponse from "./TypeResponse.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TSearchForInvoicesResponse = {
   readonly items: TInvoice[];
@@ -9,7 +9,7 @@ export type TSearchForInvoicesResponse = {
   readonly total_pages: number;
 };
 
-class SearchForInvoicesResponse extends TypeResponse {
+class SearchForInvoicesResponse extends Types implements Static<ITypes, typeof SearchForInvoicesResponse> {
   readonly items: Invoice[];
   readonly links: LinkDescription[];
   readonly totalItems: number;
@@ -20,6 +20,15 @@ class SearchForInvoicesResponse extends TypeResponse {
     this.links = links;
     this.totalItems = totalItems;
     this.totalPages = totalPages;
+  }
+
+  static fromObject(obj: TSearchForInvoicesResponse) {
+    return new SearchForInvoicesResponse(
+      obj.items.map((item) => Invoice.fromObject(item)),
+      obj.links.map((link) => LinkDescription.fromObject(link)),
+      obj.total_items,
+      obj.total_pages
+    );
   }
 }
 

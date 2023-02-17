@@ -1,12 +1,12 @@
 import { ProductType } from "./../Enums/ProductType.js";
 import { ProductCategory } from "./../Enums/ProductCategory.js";
-import Types from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
 import PayPal from "../../PayPal.js";
 import PatchRequest from "./PatchRequest.js";
 
 export type TProduct = {
-  category?: string;
+  category?: keyof typeof ProductCategory;
   create_time?: string;
   description?: string;
   home_url?: string;
@@ -14,11 +14,11 @@ export type TProduct = {
   image_url?: string;
   links?: TLinkDescription[];
   name?: string;
-  type?: string;
+  type?: keyof typeof ProductType;
   update_time?: string;
 };
 
-class Product extends Types {
+class Product extends Types implements Static<ITypes, typeof Product> {
   category?: ProductCategory;
   createTime?: string;
   description?: string;
@@ -107,18 +107,19 @@ class Product extends Types {
     return this;
   }
 
-  override fromObject(obj: TProduct): this {
-    if (obj.category) this.setCategory(ProductCategory[obj.category as keyof typeof ProductCategory]);
-    if (obj.create_time) this.setCreateTime(obj.create_time);
-    if (obj.description) this.setDescription(obj.description);
-    if (obj.home_url) this.setHomeUrl(obj.home_url);
-    if (obj.id) this.setId(obj.id);
-    if (obj.image_url) this.setImageUrl(obj.image_url);
-    if (obj.links) this.setLinks(obj.links.map((link) => new LinkDescription().fromObject(link)));
-    if (obj.name) this.setName(obj.name);
-    if (obj.type) this.setType(ProductType[obj.type as keyof typeof ProductType]);
-    if (obj.update_time) this.setUpdateTime(obj.update_time);
-    return this;
+  static fromObject(obj: TProduct): Product {
+    const product = new Product();
+    if (obj.category) product.setCategory(ProductCategory[obj.category]);
+    if (obj.create_time) product.setCreateTime(obj.create_time);
+    if (obj.description) product.setDescription(obj.description);
+    if (obj.home_url) product.setHomeUrl(obj.home_url);
+    if (obj.id) product.setId(obj.id);
+    if (obj.image_url) product.setImageUrl(obj.image_url);
+    if (obj.links) product.setLinks(obj.links.map((x) => LinkDescription.fromObject(x)));
+    if (obj.name) product.setName(obj.name);
+    if (obj.type) product.setType(ProductType[obj.type]);
+    if (obj.update_time) product.setUpdateTime(obj.update_time);
+    return product;
   }
 }
 

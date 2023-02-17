@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import PartialPayment, { TPartialPayment } from "./PartialPayment.js";
 
 export type TConfiguration = {
@@ -9,7 +9,7 @@ export type TConfiguration = {
   template_id?: string;
 };
 
-class Configuration extends Types {
+class Configuration extends Types implements Static<ITypes, typeof Configuration> {
   allowTip?: boolean;
   partialPayment?: PartialPayment;
   taxCalculatedAfterDiscount?: boolean;
@@ -45,13 +45,15 @@ class Configuration extends Types {
     return this;
   }
 
-  override fromObject(obj: TConfiguration) {
-    this.allowTip = obj.allow_tip;
-    this.partialPayment = obj.partial_payment ? new PartialPayment().fromObject(obj.partial_payment) : undefined;
-    this.taxCalculatedAfterDiscount = obj.tax_calculated_after_discount;
-    this.taxInclusive = obj.tax_inclusive;
-    this.templateId = obj.template_id;
-    return this;
+  static fromObject(obj: TConfiguration) {
+    const configuration = new Configuration();
+    if (obj.allow_tip) configuration.setAllowTip(obj.allow_tip);
+    if (obj.partial_payment) configuration.setPartialPayment(PartialPayment.fromObject(obj.partial_payment));
+    if (obj.tax_calculated_after_discount)
+      configuration.setTaxCalculatedAfterDiscount(obj.tax_calculated_after_discount);
+    if (obj.tax_inclusive) configuration.setTaxInclusive(obj.tax_inclusive);
+    if (obj.template_id) configuration.setTemplateId(obj.template_id);
+    return configuration;
   }
 }
 

@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import AddressPortable, { TAddressPortable } from "./AddressPortable.js";
 import Name, { TName } from "./Name.js";
 
@@ -8,7 +8,7 @@ export type TContactInformation = {
   name?: TName;
 };
 
-class ContactInformation extends Types {
+class ContactInformation extends Types implements Static<ITypes, typeof ContactInformation> {
   businessName?: string;
   address?: AddressPortable;
   name?: Name;
@@ -31,11 +31,12 @@ class ContactInformation extends Types {
     return this;
   }
 
-  override fromObject(obj: TContactInformation) {
-    this.businessName = obj.business_name;
-    this.address = obj.address ? new AddressPortable().fromObject(obj.address) : undefined;
-    this.name = obj.name ? new Name().fromObject(obj.name) : undefined;
-    return this;
+  static fromObject(obj: TContactInformation) {
+    const contactInformation = new ContactInformation();
+    if (obj.business_name) contactInformation.setBusinessName(obj.business_name);
+    if (obj.address) contactInformation.setAddress(AddressPortable.fromObject(obj.address));
+    if (obj.name) contactInformation.setName(Name.fromObject(obj.name));
+    return contactInformation;
   }
 }
 

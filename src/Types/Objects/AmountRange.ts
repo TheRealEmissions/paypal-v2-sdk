@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import Money, { TMoney } from "./Money.js";
 
 export type TAmountRange = {
@@ -6,7 +6,7 @@ export type TAmountRange = {
   upper_amount: TMoney;
 };
 
-class AmountRange extends Types {
+class AmountRange extends Types implements Static<ITypes, typeof AmountRange> {
   lowerAmount?: Money;
   upperAmount?: Money;
   constructor() {
@@ -23,10 +23,11 @@ class AmountRange extends Types {
     return this;
   }
 
-  override fromObject(obj: TAmountRange) {
-    this.lowerAmount = new Money().fromObject(obj.lower_amount);
-    this.upperAmount = new Money().fromObject(obj.upper_amount);
-    return this;
+  static fromObject(obj: TAmountRange) {
+    const amountRange = new AmountRange();
+    amountRange.setLowerAmount(Money.fromObject(obj.lower_amount));
+    amountRange.setUpperAmount(Money.fromObject(obj.upper_amount));
+    return amountRange;
   }
 }
 

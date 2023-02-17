@@ -1,7 +1,7 @@
 import { TLinkDescription } from "./../Objects/LinkDescription.js";
 import LinkDescription from "../Objects/LinkDescription.js";
 import ProductCollectionElement, { TProductCollectionElement } from "../Objects/ProductCollectionElement.js";
-import TypeResponse from "./TypeResponse.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TListProductsResponse = {
   readonly links: TLinkDescription[];
@@ -10,7 +10,7 @@ export type TListProductsResponse = {
   readonly total_pages: number;
 };
 
-class ListProductsResponse extends TypeResponse {
+class ListProductsResponse extends Types implements Static<ITypes, typeof ListProductsResponse> {
   readonly links: LinkDescription[];
   readonly products: ProductCollectionElement[];
   readonly totalItems?: number;
@@ -26,6 +26,15 @@ class ListProductsResponse extends TypeResponse {
     this.products = products;
     this.totalItems = totalItems;
     this.totalPages = totalPages;
+  }
+
+  static fromObject(obj: TListProductsResponse) {
+    return new ListProductsResponse(
+      obj.links.map((link) => LinkDescription.fromObject(link)),
+      obj.products.map((product) => ProductCollectionElement.fromObject(product)),
+      obj.total_items,
+      obj.total_pages
+    );
   }
 }
 

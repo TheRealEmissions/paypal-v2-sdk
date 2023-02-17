@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TErrorDetails = {
   issue: string;
@@ -8,7 +8,7 @@ export type TErrorDetails = {
   value?: string;
 };
 
-class ErrorDetails extends Types {
+class ErrorDetails extends Types implements Static<ITypes, typeof ErrorDetails> {
   issue?: string;
   description?: string;
   field?: string;
@@ -43,13 +43,14 @@ class ErrorDetails extends Types {
     return this;
   }
 
-  override fromObject(obj: TErrorDetails): this {
-    this.issue = obj.issue;
-    this.description = obj.description;
-    this.field = obj.field;
-    this.location = obj.location;
-    this.value = obj.value;
-    return this;
+  static fromObject(obj: TErrorDetails): ErrorDetails {
+    const errorDetails = new ErrorDetails();
+    if (obj.issue) errorDetails.setIssue(obj.issue);
+    if (obj.description) errorDetails.setDescription(obj.description);
+    if (obj.field) errorDetails.setField(obj.field);
+    if (obj.location) errorDetails.setLocation(obj.location);
+    if (obj.value) errorDetails.setValue(obj.value);
+    return errorDetails;
   }
 }
 

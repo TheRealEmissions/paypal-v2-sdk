@@ -8,9 +8,9 @@ import SearchForInvoicesResponse, { TSearchForInvoicesResponse } from "../Types/
 import { GenerateQrCodeAction } from "../Types/Enums/GenerateQrCodeAction.js";
 import { InvoiceStatus } from "../Types/Enums/InvoiceStatus.js";
 import AddressPortable from "../Types/Objects/AddressPortable.js";
-import AmountRange from "../Types/Objects/AmountRange.js";
-import DateRange from "../Types/Objects/DateRange.js";
-import EmailAddress from "../Types/Objects/EmailAddress.js";
+import { TAmountRange } from "../Types/Objects/AmountRange.js";
+import { TDateRange } from "../Types/Objects/DateRange.js";
+import EmailAddress, { TEmailAddress } from "../Types/Objects/EmailAddress.js";
 import Field from "../Types/Objects/Field.js";
 import Invoice, { TInvoice } from "../Types/Objects/Invoice.js";
 import LinkDescription from "../Types/Objects/LinkDescription.js";
@@ -20,7 +20,7 @@ import RefundDetail, { TRefundDetail } from "../Types/Objects/RefundDetail.js";
 import Template, { TTemplate } from "../Types/Objects/Template.js";
 
 class Invoicing {
-  PayPal: PayPal;
+  protected PayPal: PayPal;
   constructor(PayPal: PayPal) {
     this.PayPal = PayPal;
   }
@@ -69,33 +69,20 @@ class Invoicing {
     });
 
     return new ListInvoicesResponse(
-      response.data.items.map((x) => new Invoice().fromObject(x)),
-      response.data.links.map((x) => new LinkDescription().fromObject(x)),
+      response.data.items.map((x) => Invoice.fromObject(x)),
+      response.data.links.map((x) => LinkDescription.fromObject(x)),
       response.data.total_items,
       response.data.total_pages
     );
   }
 
   async createDraft(invoice: Invoice) {
-    const response = await this.PayPal.API.post<TInvoice>("/v2/invoicing/invoices", {
-      detail: invoice.detail,
-      additional_recipients: invoice.additionalRecipients,
-      amount: invoice.amount,
-      configuration: invoice.configuration,
-      due_amount: invoice.dueAmount,
-      gratuity: invoice.gratuity,
-      id: invoice.id,
-      invoicer: invoice.invoicer,
-      items: invoice.items,
-      links: invoice.links,
-      parent_id: invoice.parentId,
-      payments: invoice.payments,
-      primary_recipients: invoice.primaryRecipients,
-      refunds: invoice.refunds,
-      ...(invoice.status ? { status: InvoiceStatus[invoice.status] } : {}),
-    });
+    const response = await this.PayPal.API.post<TInvoice>(
+      "/v2/invoicing/invoices",
+      invoice.toAttributeObject<TInvoice>()
+    );
 
-    return new Invoice(this.PayPal).fromObject(response.data);
+    return Invoice.fromObject(response.data).setPayPal(this.PayPal);
   }
 
   async delete(invoice: Invoice | string): Promise<boolean> {
@@ -105,32 +92,19 @@ class Invoicing {
   }
 
   async fullyUpdate(invoice: Invoice, invoiceId?: string) {
-    const response = await this.PayPal.API.put<TInvoice>(`/v2/invoicing/invoices/${invoice.id ?? invoiceId}`, {
-      detail: invoice.detail,
-      additional_recipients: invoice.additionalRecipients,
-      amount: invoice.amount,
-      configuration: invoice.configuration,
-      due_amount: invoice.dueAmount,
-      gratuity: invoice.gratuity,
-      id: invoice.id,
-      invoicer: invoice.invoicer,
-      items: invoice.items,
-      links: invoice.links,
-      parent_id: invoice.parentId,
-      payments: invoice.payments,
-      primary_recipients: invoice.primaryRecipients,
-      refunds: invoice.refunds,
-      ...(invoice.status ? { status: InvoiceStatus[invoice.status] } : {}),
-    });
+    const response = await this.PayPal.API.put<TInvoice>(
+      `/v2/invoicing/invoices/${invoice.id ?? invoiceId}`,
+      invoice.toAttributeObject<TInvoice>()
+    );
 
-    return new Invoice(this.PayPal).fromObject(response.data);
+    return Invoice.fromObject(response.data).setPayPal(this.PayPal);
   }
 
   async get(invoice: Invoice | string) {
     const invoiceId = invoice instanceof Invoice ? invoice.id : invoice;
     const response = await this.PayPal.API.get<TInvoice>(`/v2/invoicing/invoices/${invoiceId}`);
 
-    return new Invoice(this.PayPal).fromObject(response.data);
+    return Invoice.fromObject(response.data).setPayPal(this.PayPal);
   }
 
   async cancel(
@@ -143,7 +117,7 @@ class Invoicing {
   ): Promise<boolean> {
     const invoiceId = invoice instanceof Invoice ? invoice.id : invoice;
     const response = await this.PayPal.API.post<TInvoice>(`/v2/invoicing/invoices/${invoiceId}/cancel`, {
-      additional_recipients: additionalRecipients,
+      additional_recipients: additionalRecipients?.map((x) => x.toAttributeObject<TEmailAddress>()),
       note,
       send_to_invoicer: sendToInvoicer,
       send_to_recipient: sendToRecipient,
@@ -224,7 +198,7 @@ class Invoicing {
     }
 
     const response = await this.PayPal.API.post<TInvoice>(`/v2/invoicing/invoices/${invoiceId}/remind`, {
-      additional_recipients: additionalRecipients,
+      additional_recipients: additionalRecipients?.map((x) => x.toAttributeObject<TEmailAddress>()),
       note,
       send_to_invoicer: sendToInvoicer,
       send_to_recipient: sendToRecipient,
@@ -247,7 +221,7 @@ class Invoicing {
       throw new Error("Invoice id is required");
     }
     const response = await this.PayPal.API.post<TInvoice>(`/v2/invoicing/invoices/${invoiceId}/send`, {
-      additional_recipients: additionalRecipients,
+      additional_recipients: additionalRecipients?.map((x) => x.toAttributeObject<TEmailAddress>()),
       note,
       send_to_invoicer: sendToInvoicer,
       send_to_recipient: sendToRecipient,
@@ -273,8 +247,8 @@ class Invoicing {
     );
 
     return new SearchForInvoicesResponse(
-      response.data.items.map((x) => new Invoice().fromObject(x)),
-      response.data.links.map((x) => new LinkDescription().fromObject(x)),
+      response.data.items.map((x) => Invoice.fromObject(x)),
+      response.data.links.map((x) => LinkDescription.fromObject(x)),
       response.data.total_items,
       response.data.total_pages
     );
@@ -290,11 +264,11 @@ class Invoicing {
     });
 
     return new ListTemplatesResponse(
-      response.data.addresses.map((x) => new AddressPortable().fromObject(x)),
+      response.data.addresses.map((x) => AddressPortable.fromObject(x)),
       response.data.emails,
-      response.data.links.map((x) => new LinkDescription().fromObject(x)),
-      response.data.phones.map((x) => new PhoneDetail().fromObject(x)),
-      response.data.templates.map((x) => new Template().fromObject(x))
+      response.data.links.map((x) => LinkDescription.fromObject(x)),
+      response.data.phones.map((x) => PhoneDetail.fromObject(x)),
+      response.data.templates.map((x) => Template.fromObject(x))
     );
   }
 
@@ -304,7 +278,7 @@ class Invoicing {
       template.toAttributeObject<TTemplate>()
     );
 
-    return new Template(this.PayPal).fromObject(response.data);
+    return Template.fromObject(response.data).setPayPal(this.PayPal);
   }
 
   async deleteTemplate(template: Template | string) {
@@ -319,34 +293,34 @@ class Invoicing {
       template.toAttributeObject<TTemplate>()
     );
 
-    return new Template(this.PayPal).fromObject(response.data);
+    return Template.fromObject(response.data).setPayPal(this.PayPal);
   }
 
   async getTemplate(template: Template | string) {
     const templateId = template instanceof Template ? template.id : template;
     const response = await this.PayPal.API.get<TTemplate>(`/v2/invoicing/templates/${templateId}`);
 
-    return new Template(this.PayPal).fromObject(response.data);
+    return Template.fromObject(response.data).setPayPal(this.PayPal);
   }
 }
 
 type TSearch = {
   archived?: boolean | null;
-  creation_date_range?: DateRange;
+  creation_date_range?: TDateRange;
   currency_code?: string;
-  due_date_range?: DateRange;
+  due_date_range?: TDateRange;
   fields?: Field;
-  invoiceDateRange?: DateRange;
+  invoiceDateRange?: TDateRange;
   invoiceNumber?: string;
   memo?: string;
-  paymentDateRange?: DateRange;
+  paymentDateRange?: TDateRange;
   recipientBusinessName?: string;
   recipientEmail?: string;
   recipientFirstName?: string;
   recipientLastName?: string;
   reference?: string;
-  status?: InvoiceStatus[];
-  totalAmountRange?: AmountRange;
+  status?: (keyof typeof InvoiceStatus)[];
+  totalAmountRange?: TAmountRange;
 };
 
 export default Invoicing;

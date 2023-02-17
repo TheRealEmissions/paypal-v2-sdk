@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import PhoneDetail, { TPhoneDetail } from "./PhoneDetail.js";
 
 export type TBillingInfo = {
@@ -8,7 +8,7 @@ export type TBillingInfo = {
   phones?: TPhoneDetail[];
 };
 
-class BillingInfo extends Types {
+class BillingInfo extends Types implements Static<ITypes, typeof BillingInfo> {
   additionalInfo?: string;
   emailAddress?: string;
   language?: string;
@@ -38,12 +38,13 @@ class BillingInfo extends Types {
     return this;
   }
 
-  override fromObject(obj: TBillingInfo) {
-    this.additionalInfo = obj.additional_info;
-    this.emailAddress = obj.email_address;
-    this.language = obj.language;
-    this.phones = obj.phones ? obj.phones.map((x) => new PhoneDetail().fromObject(x)) : undefined;
-    return this;
+  static fromObject(obj: TBillingInfo) {
+    const billingInfo = new BillingInfo();
+    if (obj.additional_info) billingInfo.setAdditionalInfo(obj.additional_info);
+    if (obj.email_address) billingInfo.setEmailAddress(obj.email_address);
+    if (obj.language) billingInfo.setLanguage(obj.language);
+    if (obj.phones) billingInfo.setPhones(obj.phones.map((phone) => PhoneDetail.fromObject(phone)));
+    return billingInfo;
   }
 }
 

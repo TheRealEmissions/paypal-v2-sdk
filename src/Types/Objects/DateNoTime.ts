@@ -1,10 +1,10 @@
-import Types from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 
 export type TDateNoTime = {
   date_no_time?: string;
 };
 
-class DateNoTime extends Types {
+class DateNoTime extends Types implements Static<ITypes, typeof DateNoTime> {
   dateNoTime?: string;
   constructor() {
     super();
@@ -23,9 +23,10 @@ class DateNoTime extends Types {
     return this;
   }
 
-  override fromObject(obj: TDateNoTime) {
-    this.dateNoTime = obj.date_no_time;
-    return this;
+  static fromObject(obj: TDateNoTime) {
+    const dateNoTime = new DateNoTime();
+    if (obj.date_no_time) dateNoTime.setDateNoTime(obj.date_no_time);
+    return dateNoTime;
   }
 }
 

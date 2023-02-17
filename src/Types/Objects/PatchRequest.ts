@@ -1,11 +1,11 @@
-import Types from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import Patch, { TPatch } from "./Patch.js";
 
 export type TPatchRequest = {
-  patch_request: Array<TPatch>;
+  patch_request: TPatch[];
 };
 
-class PatchRequest extends Types {
+class PatchRequest extends Types implements Static<ITypes, typeof PatchRequest> {
   patchRequest?: Patch[];
   constructor() {
     super();
@@ -16,12 +16,10 @@ class PatchRequest extends Types {
     return this;
   }
 
-  override fromObject(obj: TPatchRequest) {
-    if (obj.patch_request) {
-      this.setPatchRequest(obj.patch_request.map((patch) => new Patch().fromObject(patch)));
-    }
-
-    return this;
+  static fromObject(obj: TPatchRequest) {
+    const patchRequest = new PatchRequest();
+    if (obj.patch_request) patchRequest.setPatchRequest(obj.patch_request.map((patch) => Patch.fromObject(patch)));
+    return patchRequest;
   }
 }
 

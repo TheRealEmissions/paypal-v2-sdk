@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, Static } from "../Types.js";
 import AmountSummaryDetail, { TAmountSummaryDetail } from "./AmountSummaryDetail.js";
 import Configuration, { TConfiguration } from "./Configuration.js";
 import EmailAddress, { TEmailAddress } from "./EmailAddress.js";
@@ -19,7 +19,7 @@ export type TTemplateInfo = {
   primary_recipients?: TRecipientInfo[];
 };
 
-class TemplateInfo extends Types {
+class TemplateInfo extends Types implements Static<ITypes, typeof TemplateInfo> {
   additionalRecipients?: EmailAddress[];
   amount?: AmountSummaryDetail;
   configuration?: Configuration;
@@ -72,20 +72,19 @@ class TemplateInfo extends Types {
     return this;
   }
 
-  override fromObject(obj: TTemplateInfo) {
-    this.additionalRecipients = obj.additional_recipients?.map((additionalRecipient: any) =>
-      new EmailAddress().fromObject(additionalRecipient)
-    );
-    this.amount = obj.amount ? new AmountSummaryDetail().fromObject(obj.amount) : undefined;
-    this.configuration = obj.configuration ? new Configuration().fromObject(obj.configuration) : undefined;
-    this.detail = obj.detail ? new TemplateDetail().fromObject(obj.detail) : undefined;
-    this.dueAmount = obj.due_amount ? new Money().fromObject(obj.due_amount) : undefined;
-    this.invoicer = obj.invoicer ? new InvoicerInfo().fromObject(obj.invoicer) : undefined;
-    this.items = obj.items?.map((item: any) => new Item().fromObject(item));
-    this.primaryRecipients = obj.primary_recipients?.map((primaryRecipient: any) =>
-      new RecipientInfo().fromObject(primaryRecipient)
-    );
-    return this;
+  static fromObject(obj: TTemplateInfo) {
+    const templateInfo = new TemplateInfo();
+    if (obj.additional_recipients)
+      templateInfo.setAdditionalRecipients(obj.additional_recipients.map((x) => EmailAddress.fromObject(x)));
+    if (obj.amount) templateInfo.setAmount(AmountSummaryDetail.fromObject(obj.amount));
+    if (obj.configuration) templateInfo.setConfiguration(Configuration.fromObject(obj.configuration));
+    if (obj.detail) templateInfo.setDetail(TemplateDetail.fromObject(obj.detail));
+    if (obj.due_amount) templateInfo.setDueAmount(Money.fromObject(obj.due_amount));
+    if (obj.invoicer) templateInfo.setInvoicer(InvoicerInfo.fromObject(obj.invoicer));
+    if (obj.items) templateInfo.setItems(obj.items.map((x) => Item.fromObject(x)));
+    if (obj.primary_recipients)
+      templateInfo.setPrimaryRecipients(obj.primary_recipients.map((x) => RecipientInfo.fromObject(x)));
+    return templateInfo;
   }
 }
 
