@@ -41,6 +41,8 @@ try {
 
 ```ts
 import { default as PayPal, Invoice } from "paypal-v2-sdk.js";
+// Specifying Invoice as the type is not necessary as #get() returns Invoice as the type, it
+// is displayed here for information purposes only
 const invoice: Invoice = await PayPal.Invoicing.get("id of invoice");
 ```
 
@@ -167,7 +169,7 @@ if (typeof sentInvoice === "string") {
 ```js
 import { default as PayPal, Invoice } from "paypal-v2-sdk.js";
 
-let invoice: Invoice = new Invoice(PayPal).fromObject({
+let invoice: Invoice = Invoice.fromObject({
   detail: {
     invoice_number: "#123",
     reference: "deal-ref",
@@ -323,7 +325,7 @@ let invoice: Invoice = new Invoice(PayPal).fromObject({
       },
     },
   },
-});
+}).setPayPal(PayPal);
 invoice = await invoice.createDraft(true);
 
 try {
