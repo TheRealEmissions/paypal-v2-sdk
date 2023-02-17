@@ -51,7 +51,7 @@ class Invoice extends Types implements Static<ITypes, typeof Invoice> {
   refunds?: Refunds;
   status?: InvoiceStatus;
 
-  PayPal?: PayPal;
+  private PayPal?: PayPal;
   constructor(PayPal?: PayPal) {
     super();
     this.PayPal = PayPal;
@@ -73,7 +73,7 @@ class Invoice extends Types implements Static<ITypes, typeof Invoice> {
         this.setDetail(new InvoiceDetail().setInvoiceNumber(invoiceNumber.invoiceNumber));
       }
     }
-    return await this.PayPal.Invoicing.createDraft(this);
+    return this.PayPal.Invoicing.createDraft(this);
   }
 
   delete() {
