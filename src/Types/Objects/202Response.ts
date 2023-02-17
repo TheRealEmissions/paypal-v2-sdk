@@ -1,11 +1,11 @@
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
 
 export type TAcceptedResponse = {
   readonly links?: TLinkDescription[];
 };
 
-class AcceptedResponse extends Types {
+class AcceptedResponse extends Types implements StaticImplements<ITypes, typeof AcceptedResponse> {
   links?: LinkDescription[];
   constructor() {
     super();
@@ -16,9 +16,10 @@ class AcceptedResponse extends Types {
     return this;
   }
 
-  override fromObject(obj: TAcceptedResponse) {
-    this.links = obj.links?.map((x) => new LinkDescription().fromObject(x));
-    return this;
+  static fromObject(obj: TAcceptedResponse) {
+    const acceptedResponse = new AcceptedResponse();
+    if (obj.links) acceptedResponse.setLinks(obj.links.map((link) => LinkDescription.fromObject(link)));
+    return acceptedResponse;
   }
 }
 

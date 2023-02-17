@@ -1,6 +1,6 @@
 import { AcceptClaimReason } from "../Enums/AcceptClaimReason.js";
 import { AcceptClaimType } from "../Enums/AcceptClaimType.js";
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 import AddressPortable, { TAddressPortable } from "./AddressPortable.js";
 import Money, { TMoney } from "./Money.js";
 import ResponseAcceptClaimType, { TResponseAcceptClaimType } from "./ResponseAcceptClaimType.js";
@@ -17,7 +17,7 @@ export type TAcceptClaim = {
   return_shipping_address?: TAddressPortable;
 };
 
-class AcceptClaim extends Types {
+class AcceptClaim extends Types implements StaticImplements<ITypes, typeof AcceptClaim> {
   acceptClaimTypes?: ResponseAcceptClaimType[];
   note?: string;
   acceptClaimReason?: AcceptClaimReason;
@@ -70,22 +70,24 @@ class AcceptClaim extends Types {
     return this;
   }
 
-  override fromObject(obj: TAcceptClaim) {
-    this.acceptClaimTypes = obj.accept_claim_types
-      ? obj.accept_claim_types.map((acceptClaimType) => new ResponseAcceptClaimType().fromObject(acceptClaimType))
-      : undefined;
-    this.note = obj.note;
-    this.acceptClaimReason = AcceptClaimReason[obj.accept_claim_reason as keyof typeof AcceptClaimReason];
-    this.acceptClaimType = AcceptClaimType[obj.accept_claim_type as keyof typeof AcceptClaimType];
-    this.invoiceId = obj.invoice_id;
-    this.refundAmount = obj.refund_amount ? new Money().fromObject(obj.refund_amount) : undefined;
-    this.returnShipmentInfo = obj.return_shipment_info
-      ? obj.return_shipment_info.map((returnShipmentInfo) => new ResponseShipmentInfo().fromObject(returnShipmentInfo))
-      : undefined;
-    this.returnShippingAddress = obj.return_shipping_address
-      ? new AddressPortable().fromObject(obj.return_shipping_address)
-      : undefined;
-    return this;
+  static fromObject(obj: TAcceptClaim) {
+    const acceptClaim = new AcceptClaim();
+    if (obj.accept_claim_types)
+      acceptClaim.setAcceptClaimTypes(
+        obj.accept_claim_types.map((acceptClaimType) => ResponseAcceptClaimType.fromObject(acceptClaimType))
+      );
+    if (obj.note) acceptClaim.setNote(obj.note);
+    if (obj.accept_claim_reason) acceptClaim.setAcceptClaimReason(AcceptClaimReason[obj.accept_claim_reason]);
+    if (obj.accept_claim_type) acceptClaim.setAcceptClaimType(AcceptClaimType[obj.accept_claim_type]);
+    if (obj.invoice_id) acceptClaim.setInvoiceId(obj.invoice_id);
+    if (obj.refund_amount) acceptClaim.setRefundAmount(Money.fromObject(obj.refund_amount));
+    if (obj.return_shipment_info)
+      acceptClaim.setReturnShipmentInfo(
+        obj.return_shipment_info.map((returnShipmentInfo) => ResponseShipmentInfo.fromObject(returnShipmentInfo))
+      );
+    if (obj.return_shipping_address)
+      acceptClaim.setReturnShippingAddress(AddressPortable.fromObject(obj.return_shipping_address));
+    return acceptClaim;
   }
 }
 

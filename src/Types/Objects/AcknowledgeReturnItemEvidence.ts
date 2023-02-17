@@ -1,5 +1,5 @@
 import { EvidenceType } from "../Enums/EvidenceType.js";
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 import Document, { TDocument } from "./Document.js";
 
 export type TAcknowledgeReturnItemEvidence = {
@@ -7,7 +7,10 @@ export type TAcknowledgeReturnItemEvidence = {
   evidence_type?: keyof typeof EvidenceType;
 };
 
-class AcknowledgeReturnItemEvidence extends Types {
+class AcknowledgeReturnItemEvidence
+  extends Types
+  implements StaticImplements<ITypes, typeof AcknowledgeReturnItemEvidence>
+{
   documents?: Document[];
   evidenceType?: EvidenceType;
   constructor() {
@@ -24,10 +27,12 @@ class AcknowledgeReturnItemEvidence extends Types {
     return this;
   }
 
-  fromObject(obj: TAcknowledgeReturnItemEvidence) {
-    this.documents = obj.documents?.map((doc) => new Document().fromObject(doc));
-    this.evidenceType = EvidenceType[obj.evidence_type as keyof typeof EvidenceType];
-    return this;
+  static fromObject(obj: TAcknowledgeReturnItemEvidence) {
+    const acknowledgeReturnItemEvidence = new AcknowledgeReturnItemEvidence();
+    if (obj.documents)
+      acknowledgeReturnItemEvidence.setDocuments(obj.documents.map((document) => Document.fromObject(document)));
+    if (obj.evidence_type !== undefined) acknowledgeReturnItemEvidence.setEvidenceType(EvidenceType[obj.evidence_type]);
+    return acknowledgeReturnItemEvidence;
   }
 }
 

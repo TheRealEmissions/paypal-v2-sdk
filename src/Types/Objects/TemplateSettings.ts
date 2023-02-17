@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 import TemplateItemSetting, { TTemplateItemSetting } from "./TemplateItemSetting.js";
 import TemplateSubtotalSetting, { TTemplateSubtotalSetting } from "./TemplateSubtotalSetting.js";
 
@@ -7,7 +7,7 @@ export type TTemplateSettings = {
   template_subtotal_settings?: TTemplateSubtotalSetting[];
 };
 
-class TemplateSettings extends Types {
+class TemplateSettings extends Types implements StaticImplements<ITypes, typeof TemplateSettings> {
   templateItemSettings?: TemplateItemSetting[];
   templateSubtotalSettings?: TemplateSubtotalSetting[];
   constructor() {
@@ -24,14 +24,19 @@ class TemplateSettings extends Types {
     return this;
   }
 
-  override fromObject(obj: TTemplateSettings) {
-    this.templateItemSettings = obj.template_item_settings?.map((item) => {
-      return new TemplateItemSetting().fromObject(item);
-    });
-    this.templateSubtotalSettings = obj.template_subtotal_settings?.map((item) => {
-      return new TemplateSubtotalSetting().fromObject(item);
-    });
-    return this;
+  static fromObject(obj: TTemplateSettings) {
+    const templateSettings = new TemplateSettings();
+    if (obj.template_item_settings)
+      templateSettings.setTemplateItemSettings(
+        obj.template_item_settings.map((templateItemSetting) => TemplateItemSetting.fromObject(templateItemSetting))
+      );
+    if (obj.template_subtotal_settings)
+      templateSettings.setTemplateSubtotalSettings(
+        obj.template_subtotal_settings.map((templateSubtotalSetting) =>
+          TemplateSubtotalSetting.fromObject(templateSubtotalSetting)
+        )
+      );
+    return templateSettings;
   }
 }
 

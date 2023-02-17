@@ -1,11 +1,11 @@
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 import { ResponseAcceptClaimType as ResponseAcceptClaimTypeEnum } from "../Enums/ResponseAcceptClaimType.js";
 
 export type TResponseAcceptClaimType = {
   "response-accept_claim_type"?: keyof typeof ResponseAcceptClaimTypeEnum;
 };
 
-class ResponseAcceptClaimType extends Types {
+class ResponseAcceptClaimType extends Types implements StaticImplements<ITypes, typeof ResponseAcceptClaimType> {
   responseAcceptClaimType?: ResponseAcceptClaimTypeEnum;
   constructor() {
     super();
@@ -16,10 +16,13 @@ class ResponseAcceptClaimType extends Types {
     return this;
   }
 
-  override fromObject(obj: TResponseAcceptClaimType) {
-    this.responseAcceptClaimType =
-      ResponseAcceptClaimTypeEnum[obj["response-accept_claim_type"] as keyof typeof ResponseAcceptClaimTypeEnum];
-    return this;
+  static fromObject(obj: TResponseAcceptClaimType) {
+    const responseAcceptClaimType = new ResponseAcceptClaimType();
+    if (obj["response-accept_claim_type"])
+      responseAcceptClaimType.setResponseAcceptClaimType(
+        ResponseAcceptClaimTypeEnum[obj["response-accept_claim_type"]]
+      );
+    return responseAcceptClaimType;
   }
 }
 

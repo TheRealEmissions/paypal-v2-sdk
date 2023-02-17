@@ -1,10 +1,10 @@
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 
 export type TEmailAddress = {
   email_address?: string;
 };
 
-class EmailAddress extends Types {
+class EmailAddress extends Types implements StaticImplements<ITypes, typeof EmailAddress> {
   emailAddress?: string;
   constructor() {
     super();
@@ -15,9 +15,10 @@ class EmailAddress extends Types {
     return this;
   }
 
-  override fromObject(obj: TEmailAddress) {
-    this.emailAddress = obj.email_address;
-    return this;
+  static fromObject(obj: TEmailAddress) {
+    const emailAddress = new EmailAddress();
+    if (obj.email_address) emailAddress.setEmailAddress(obj.email_address);
+    return emailAddress;
   }
 }
 

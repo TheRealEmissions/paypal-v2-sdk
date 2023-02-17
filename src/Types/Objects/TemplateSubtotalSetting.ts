@@ -1,5 +1,5 @@
 import { TemplateFieldName } from "../Enums/TemplateFieldName.js";
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 import TemplateDisplayPreference, { TTemplateDisplayPreference } from "./TemplateDisplayPreference.js";
 
 export type TTemplateSubtotalSetting = {
@@ -7,7 +7,7 @@ export type TTemplateSubtotalSetting = {
   field_name?: keyof typeof TemplateFieldName;
 };
 
-class TemplateSubtotalSetting extends Types {
+class TemplateSubtotalSetting extends Types implements StaticImplements<ITypes, typeof TemplateSubtotalSetting> {
   displayPreference?: TemplateDisplayPreference;
   fieldName?: TemplateFieldName;
   constructor() {
@@ -24,12 +24,12 @@ class TemplateSubtotalSetting extends Types {
     return this;
   }
 
-  override fromObject(obj: TTemplateSubtotalSetting) {
-    this.displayPreference = obj.display_preference
-      ? new TemplateDisplayPreference().fromObject(obj.display_preference)
-      : undefined;
-    this.fieldName = TemplateFieldName[obj.field_name as keyof typeof TemplateFieldName];
-    return this;
+  static fromObject(obj: TTemplateSubtotalSetting) {
+    const templateSubtotalSetting = new TemplateSubtotalSetting();
+    if (obj.display_preference)
+      templateSubtotalSetting.setDisplayPreference(TemplateDisplayPreference.fromObject(obj.display_preference));
+    if (obj.field_name) templateSubtotalSetting.setFieldName(TemplateFieldName[obj.field_name]);
+    return templateSubtotalSetting;
   }
 }
 

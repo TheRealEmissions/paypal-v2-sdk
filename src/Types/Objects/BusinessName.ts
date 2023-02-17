@@ -1,10 +1,10 @@
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 
 export type TBusinessName = {
   business_name?: string;
 };
 
-class BusinessName extends Types {
+class BusinessName extends Types implements StaticImplements<ITypes, typeof BusinessName> {
   businessName?: string;
   constructor() {
     super();
@@ -15,9 +15,10 @@ class BusinessName extends Types {
     return this;
   }
 
-  override fromObject(obj: TBusinessName) {
-    this.businessName = obj.business_name;
-    return this;
+  static fromObject(obj: TBusinessName) {
+    const businessName = new BusinessName();
+    if (obj.business_name) businessName.setBusinessName(obj.business_name);
+    return businessName;
   }
 }
 

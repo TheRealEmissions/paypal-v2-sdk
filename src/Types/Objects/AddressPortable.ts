@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 import AddressDetails, { TAddressDetails } from "./AddressDetails.js";
 
 export type TAddressPortable = {
@@ -14,7 +14,7 @@ export type TAddressPortable = {
   postal_code?: string;
 };
 
-class AddressPortable extends Types {
+class AddressPortable extends Types implements StaticImplements<ITypes, typeof AddressPortable> {
   countryCode?: string;
   addressDetails?: AddressDetails;
   addressLine1?: string;
@@ -79,18 +79,19 @@ class AddressPortable extends Types {
     return this;
   }
 
-  override fromObject(obj: TAddressPortable): this {
-    this.countryCode = obj["country_code"];
-    this.addressDetails = obj.address_details ? new AddressDetails().fromObject(obj["address_details"]) : undefined;
-    this.addressLine1 = obj["address_line_1"];
-    this.addressLine2 = obj["address_line_2"];
-    this.addressLine3 = obj["address_line_3"];
-    this.adminArea1 = obj["admin_area_1"];
-    this.adminArea2 = obj["admin_area_2"];
-    this.adminArea3 = obj["admin_area_3"];
-    this.adminArea4 = obj["admin_area_4"];
-    this.postalCode = obj["postal_code"];
-    return this;
+  static fromObject(obj: TAddressPortable): AddressPortable {
+    const addressPortable = new AddressPortable();
+    if (obj.country_code) addressPortable.setCountryCode(obj.country_code);
+    if (obj.address_details) addressPortable.setAddressDetails(AddressDetails.fromObject(obj.address_details));
+    if (obj.address_line_1) addressPortable.setAddressLine1(obj.address_line_1);
+    if (obj.address_line_2) addressPortable.setAddressLine2(obj.address_line_2);
+    if (obj.address_line_3) addressPortable.setAddressLine3(obj.address_line_3);
+    if (obj.admin_area_1) addressPortable.setAdminArea1(obj.admin_area_1);
+    if (obj.admin_area_2) addressPortable.setAdminArea2(obj.admin_area_2);
+    if (obj.admin_area_3) addressPortable.setAdminArea3(obj.admin_area_3);
+    if (obj.admin_area_4) addressPortable.setAdminArea4(obj.admin_area_4);
+    if (obj.postal_code) addressPortable.setPostalCode(obj.postal_code);
+    return addressPortable;
   }
 }
 

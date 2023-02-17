@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 
 export type TName = {
   alternate_full_name?: string;
@@ -10,7 +10,7 @@ export type TName = {
   surname?: string;
 };
 
-class Name extends Types {
+class Name extends Types implements StaticImplements<ITypes, typeof Name> {
   alternateFullName?: string;
   fullName?: string;
   givenName?: string;
@@ -60,15 +60,16 @@ class Name extends Types {
     return this;
   }
 
-  override fromObject(obj: TName) {
-    this.alternateFullName = obj.alternate_full_name;
-    this.fullName = obj.full_name;
-    this.givenName = obj.given_name;
-    this.middleName = obj.middle_name;
-    this.prefix = obj.prefix;
-    this.suffix = obj.suffix;
-    this.surname = obj.surname;
-    return this;
+  static fromObject(obj: TName) {
+    const name = new Name();
+    if (obj.alternate_full_name) name.setAlternateFullName(obj.alternate_full_name);
+    if (obj.full_name) name.setFullName(obj.full_name);
+    if (obj.given_name) name.setGivenName(obj.given_name);
+    if (obj.middle_name) name.setMiddleName(obj.middle_name);
+    if (obj.prefix) name.setPrefix(obj.prefix);
+    if (obj.suffix) name.setSuffix(obj.suffix);
+    if (obj.surname) name.setSurname(obj.surname);
+    return name;
   }
 }
 

@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 import Document, { TDocument } from "./Document.js";
 import ResponseTrackingInfo, { TResponseTrackingInfo } from "./ResponseTrackingInfo.js";
 
@@ -7,7 +7,7 @@ export type TResponseShipmentInfo = {
   tracking_info?: TResponseTrackingInfo;
 };
 
-class ResponseShipmentInfo extends Types {
+class ResponseShipmentInfo extends Types implements StaticImplements<ITypes, typeof ResponseShipmentInfo> {
   shipmentLabel?: Document;
   trackingInfo?: ResponseTrackingInfo;
   constructor() {
@@ -24,10 +24,11 @@ class ResponseShipmentInfo extends Types {
     return this;
   }
 
-  override fromObject(obj: TResponseShipmentInfo) {
-    this.shipmentLabel = obj.shipment_label ? new Document().fromObject(obj.shipment_label) : undefined;
-    this.trackingInfo = obj.tracking_info ? new ResponseTrackingInfo().fromObject(obj.tracking_info) : undefined;
-    return this;
+  static fromObject(obj: TResponseShipmentInfo) {
+    const responseShipmentInfo = new ResponseShipmentInfo();
+    if (obj.shipment_label) responseShipmentInfo.setShipmentLabel(Document.fromObject(obj.shipment_label));
+    if (obj.tracking_info) responseShipmentInfo.setTrackingInfo(ResponseTrackingInfo.fromObject(obj.tracking_info));
+    return responseShipmentInfo;
   }
 }
 

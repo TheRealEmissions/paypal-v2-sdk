@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
 
 export type TProductCollectionElement = {
@@ -9,7 +9,7 @@ export type TProductCollectionElement = {
   name?: string;
 };
 
-class ProductCollectionElement extends Types {
+class ProductCollectionElement extends Types implements StaticImplements<ITypes, typeof ProductCollectionElement> {
   createTime?: string;
   description?: string;
   id?: string;
@@ -44,13 +44,14 @@ class ProductCollectionElement extends Types {
     return this;
   }
 
-  override fromObject(obj: TProductCollectionElement) {
-    this.createTime = obj.create_time;
-    this.description = obj.description;
-    this.id = obj.id;
-    this.links = obj.links?.map((link) => new LinkDescription().fromObject(link));
-    this.name = obj.name;
-    return this;
+  static fromObject(obj: TProductCollectionElement) {
+    const productCollectionElement = new ProductCollectionElement();
+    if (obj.create_time) productCollectionElement.setCreateTime(obj.create_time);
+    if (obj.description) productCollectionElement.setDescription(obj.description);
+    if (obj.id) productCollectionElement.setId(obj.id);
+    if (obj.links) productCollectionElement.setLinks(obj.links.map((x) => LinkDescription.fromObject(x)));
+    if (obj.name) productCollectionElement.setName(obj.name);
+    return productCollectionElement;
   }
 }
 

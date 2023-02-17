@@ -1,5 +1,5 @@
 import { HTTPMethod } from "../Enums/HTTPMethod.js";
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 
 export type TLinkDescription = {
   href: string;
@@ -7,7 +7,7 @@ export type TLinkDescription = {
   method?: keyof typeof HTTPMethod;
 };
 
-class LinkDescription extends Types {
+class LinkDescription extends Types implements StaticImplements<ITypes, typeof LinkDescription> {
   href?: string;
   rel?: string;
   method?: HTTPMethod;
@@ -30,11 +30,12 @@ class LinkDescription extends Types {
     return this;
   }
 
-  override fromObject(obj: TLinkDescription) {
-    this.href = obj.href;
-    this.rel = obj.rel;
-    this.method = obj.method ? HTTPMethod[obj.method as keyof typeof HTTPMethod] : undefined;
-    return this;
+  static fromObject(obj: TLinkDescription) {
+    const linkDescription = new LinkDescription();
+    if (obj.href) linkDescription.setHref(obj.href);
+    if (obj.rel) linkDescription.setRel(obj.rel);
+    if (obj.method) linkDescription.setMethod(HTTPMethod[obj.method]);
+    return linkDescription;
   }
 }
 

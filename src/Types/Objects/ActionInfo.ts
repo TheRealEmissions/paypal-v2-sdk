@@ -1,5 +1,5 @@
 import { Action } from "../Enums/Action";
-import Types from "../Types";
+import Types, { ITypes, StaticImplements } from "../Types";
 
 export type TActionInfo = {
   action?: keyof typeof Action;
@@ -7,7 +7,7 @@ export type TActionInfo = {
   response_option?: string;
 };
 
-class ActionInfo extends Types {
+class ActionInfo extends Types implements StaticImplements<ITypes, typeof ActionInfo> {
   action?: Action;
   mandatory?: boolean;
   responseOption?: string;
@@ -30,11 +30,12 @@ class ActionInfo extends Types {
     return this;
   }
 
-  override fromObject(obj: TActionInfo) {
-    this.action = Action[obj.action as keyof typeof Action];
-    this.mandatory = obj.mandatory;
-    this.responseOption = obj.response_option;
-    return this;
+  static fromObject(obj: TActionInfo) {
+    const actionInfo = new ActionInfo();
+    if (obj.action !== undefined) actionInfo.setAction(Action[obj.action]);
+    if (obj.mandatory !== undefined) actionInfo.setMandatory(obj.mandatory);
+    if (obj.response_option !== undefined) actionInfo.setResponseOption(obj.response_option);
+    return actionInfo;
   }
 }
 

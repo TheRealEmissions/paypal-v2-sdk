@@ -1,7 +1,7 @@
 import PayPal from "../../PayPal.js";
 import { GenerateQrCodeAction } from "../Enums/GenerateQrCodeAction.js";
 import { InvoiceStatus } from "../Enums/InvoiceStatus.js";
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 import AmountSummaryDetail, { TAmountSummaryDetail } from "./AmountSummaryDetail.js";
 import Configuration, { TConfiguration } from "./Configuration.js";
 import EmailAddress, { TEmailAddress } from "./EmailAddress.js";
@@ -34,7 +34,7 @@ export type TInvoice = {
   readonly status: keyof typeof InvoiceStatus;
 };
 
-class Invoice extends Types {
+class Invoice extends Types implements StaticImplements<ITypes, typeof Invoice> {
   detail?: InvoiceDetail;
   additionalRecipients?: EmailAddress[];
   amount?: AmountSummaryDetail;
@@ -55,6 +55,11 @@ class Invoice extends Types {
   constructor(PayPal?: PayPal) {
     super();
     this.PayPal = PayPal;
+  }
+
+  setPayPal(PayPal: PayPal) {
+    this.PayPal = PayPal;
+    return this;
   }
 
   async createDraft(generateNextInvoiceNumber = false) {
@@ -255,23 +260,25 @@ class Invoice extends Types {
     return this;
   }
 
-  override fromObject(obj: TInvoice) {
-    this.detail = new InvoiceDetail().fromObject(obj.detail);
-    this.additionalRecipients = obj.additional_recipients?.map((x) => new EmailAddress().fromObject(x));
-    this.amount = obj.amount ? new AmountSummaryDetail().fromObject(obj.amount) : undefined;
-    this.configuration = obj.configuration ? new Configuration().fromObject(obj.configuration) : undefined;
-    this.dueAmount = obj.due_amount ? new Money().fromObject(obj.due_amount) : undefined;
-    this.gratuity = obj.gratuity ? new Money().fromObject(obj.gratuity) : undefined;
-    this.id = obj.id;
-    this.invoicer = obj.invoicer ? new InvoicerInfo().fromObject(obj.invoicer) : undefined;
-    this.items = obj.items?.map((x) => new Item().fromObject(x));
-    this.links = obj.links?.map((x) => new LinkDescription().fromObject(x));
-    this.parentId = obj.parent_id;
-    this.payments = obj.payments ? new Payments().fromObject(obj.payments) : undefined;
-    this.primaryRecipients = obj.primary_recipients?.map((x) => new RecipientInfo().fromObject(x));
-    this.refunds = obj.refunds ? new Refunds().fromObject(obj.refunds) : undefined;
-    this.status = InvoiceStatus[obj.status as keyof typeof InvoiceStatus];
-    return this;
+  static fromObject(obj: TInvoice) {
+    const invoice = new Invoice();
+    if (obj.detail) invoice.setDetail(InvoiceDetail.fromObject(obj.detail));
+    if (obj.additional_recipients)
+      invoice.setAdditionalRecipients(obj.additional_recipients.map(EmailAddress.fromObject));
+    if (obj.amount) invoice.setAmount(AmountSummaryDetail.fromObject(obj.amount));
+    if (obj.configuration) invoice.setConfiguration(Configuration.fromObject(obj.configuration));
+    if (obj.due_amount) invoice.setDueAmount(Money.fromObject(obj.due_amount));
+    if (obj.gratuity) invoice.setGratuity(Money.fromObject(obj.gratuity));
+    if (obj.id) invoice.setId(obj.id);
+    if (obj.invoicer) invoice.setInvoicer(InvoicerInfo.fromObject(obj.invoicer));
+    if (obj.items) invoice.setItems(obj.items.map(Item.fromObject));
+    if (obj.links) invoice.setLinks(obj.links.map(LinkDescription.fromObject));
+    if (obj.parent_id) invoice.setParentId(obj.parent_id);
+    if (obj.payments) invoice.setPayments(Payments.fromObject(obj.payments));
+    if (obj.primary_recipients) invoice.setPrimaryRecipients(obj.primary_recipients.map(RecipientInfo.fromObject));
+    if (obj.refunds) invoice.setRefunds(Refunds.fromObject(obj.refunds));
+    if (obj.status) invoice.setStatus(InvoiceStatus[obj.status]);
+    return invoice;
   }
 }
 

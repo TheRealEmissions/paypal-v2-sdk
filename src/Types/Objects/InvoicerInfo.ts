@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 import PhoneDetail, { TPhoneDetail } from "./PhoneDetail.js";
 
 export type TInvoicerInfo = {
@@ -10,7 +10,7 @@ export type TInvoicerInfo = {
   website?: string;
 };
 
-class InvoicerInfo extends Types {
+class InvoicerInfo extends Types implements StaticImplements<ITypes, typeof InvoicerInfo> {
   additionalNotes?: string;
   emailAddress?: string;
   logoUrl?: string;
@@ -51,14 +51,15 @@ class InvoicerInfo extends Types {
     return this;
   }
 
-  override fromObject(obj: TInvoicerInfo) {
-    this.additionalNotes = obj.additional_notes;
-    this.emailAddress = obj.email_address;
-    this.logoUrl = obj.logo_url;
-    this.phones = obj.phones?.map((x) => new PhoneDetail().fromObject(x));
-    this.taxId = obj.tax_id;
-    this.website = obj.website;
-    return this;
+  static fromObject(obj: TInvoicerInfo) {
+    const invoicerInfo = new InvoicerInfo();
+    if (obj.additional_notes) invoicerInfo.setAdditionalNotes(obj.additional_notes);
+    if (obj.email_address) invoicerInfo.setEmailAddress(obj.email_address);
+    if (obj.logo_url) invoicerInfo.setLogoUrl(obj.logo_url);
+    if (obj.phones) invoicerInfo.setPhones(obj.phones.map((phone) => PhoneDetail.fromObject(phone)));
+    if (obj.tax_id) invoicerInfo.setTaxId(obj.tax_id);
+    if (obj.website) invoicerInfo.setWebsite(obj.website);
+    return invoicerInfo;
   }
 }
 

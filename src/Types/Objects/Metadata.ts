@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 
 export type TMetadata = {
   create_time?: string;
@@ -15,7 +15,7 @@ export type TMetadata = {
   recipient_view_url?: string;
 };
 
-class Metadata extends Types {
+class Metadata extends Types implements StaticImplements<ITypes, typeof Metadata> {
   createTime?: string;
   createdBy?: string;
   lastUpdateTime?: string;
@@ -92,20 +92,21 @@ class Metadata extends Types {
     return this;
   }
 
-  override fromObject(obj: TMetadata) {
-    this.createTime = obj.create_time;
-    this.createdBy = obj.created_by;
-    this.lastUpdateTime = obj.last_update_time;
-    this.lastUpdatedBy = obj.last_updated_by;
-    this.cancelTime = obj.cancel_time;
-    this.cancelledBy = obj.cancelled_by;
-    this.createdByFlow = obj.created_by_flow;
-    this.firstSentTime = obj.first_sent_time;
-    this.invoicerViewUrl = obj.invoicer_view_url;
-    this.lastSentBy = obj.last_sent_by;
-    this.lastSentTime = obj.last_sent_time;
-    this.recipientViewUrl = obj.recipient_view_url;
-    return this;
+  static fromObject(obj: TMetadata) {
+    const metadata = new Metadata();
+    if (obj.create_time) metadata.setCreateTime(obj.create_time);
+    if (obj.created_by) metadata.setCreatedBy(obj.created_by);
+    if (obj.last_update_time) metadata.setLastUpdateTime(obj.last_update_time);
+    if (obj.last_updated_by) metadata.setLastUpdatedBy(obj.last_updated_by);
+    if (obj.cancel_time) metadata.setCancelTime(obj.cancel_time);
+    if (obj.cancelled_by) metadata.setCancelledBy(obj.cancelled_by);
+    if (obj.created_by_flow) metadata.setCreatedByFlow(obj.created_by_flow);
+    if (obj.first_sent_time) metadata.setFirstSentTime(obj.first_sent_time);
+    if (obj.invoicer_view_url) metadata.setInvoicerViewUrl(obj.invoicer_view_url);
+    if (obj.last_sent_by) metadata.setLastSentBy(obj.last_sent_by);
+    if (obj.last_sent_time) metadata.setLastSentTime(obj.last_sent_time);
+    if (obj.recipient_view_url) metadata.setRecipientViewUrl(obj.recipient_view_url);
+    return metadata;
   }
 }
 

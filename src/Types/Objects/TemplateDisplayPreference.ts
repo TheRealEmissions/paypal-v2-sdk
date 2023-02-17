@@ -1,10 +1,10 @@
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 
 export type TTemplateDisplayPreference = {
   hidden?: boolean;
 };
 
-class TemplateDisplayPreference extends Types {
+class TemplateDisplayPreference extends Types implements StaticImplements<ITypes, typeof TemplateDisplayPreference> {
   hidden?: boolean;
   constructor() {
     super();
@@ -15,9 +15,10 @@ class TemplateDisplayPreference extends Types {
     return this;
   }
 
-  override fromObject(obj: TTemplateDisplayPreference) {
-    this.hidden = obj.hidden;
-    return this;
+  static fromObject(obj: TTemplateDisplayPreference) {
+    const templateDisplayPreference = new TemplateDisplayPreference();
+    if (obj.hidden) templateDisplayPreference.setHidden(obj.hidden);
+    return templateDisplayPreference;
   }
 }
 

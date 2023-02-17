@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 
 export type TAddressDetails = {
   street_number?: string;
@@ -9,7 +9,7 @@ export type TAddressDetails = {
   sub_building?: string;
 };
 
-class AddressDetails extends Types {
+class AddressDetails extends Types implements StaticImplements<ITypes, typeof AddressDetails> {
   streetNumber?: string;
   streetName?: string;
   streetType?: string;
@@ -51,14 +51,15 @@ class AddressDetails extends Types {
     return this;
   }
 
-  override fromObject(obj: TAddressDetails): this {
-    this.streetNumber = obj["street_number"];
-    this.streetName = obj["street_name"];
-    this.streetType = obj["street_type"];
-    this.deliveryService = obj["delivery_service"];
-    this.buildingName = obj["building_name"];
-    this.subBuilding = obj["sub_building"];
-    return this;
+  static fromObject(obj: TAddressDetails): AddressDetails {
+    const addressDetails = new AddressDetails();
+    if (obj.street_number) addressDetails.setStreetNumber(obj.street_number);
+    if (obj.street_name) addressDetails.setStreetName(obj.street_name);
+    if (obj.street_type) addressDetails.setStreetType(obj.street_type);
+    if (obj.delivery_service) addressDetails.setDeliveryService(obj.delivery_service);
+    if (obj.building_name) addressDetails.setBuildingName(obj.building_name);
+    if (obj.sub_building) addressDetails.setSubBuilding(obj.sub_building);
+    return addressDetails;
   }
 }
 

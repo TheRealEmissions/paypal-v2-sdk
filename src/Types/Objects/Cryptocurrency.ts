@@ -1,12 +1,12 @@
 import { AssetSymbol } from "../Enums/AssetSymbol";
-import Types from "../Types";
+import Types, { ITypes, StaticImplements } from "../Types";
 
 export type TCryptocurrency = {
   asset_symbol: keyof typeof AssetSymbol;
   quantity: string;
 };
 
-class Cryptocurrency extends Types {
+class Cryptocurrency extends Types implements StaticImplements<ITypes, typeof Cryptocurrency> {
   assetSymbol!: AssetSymbol;
   quantity!: string;
   constructor() {
@@ -23,10 +23,11 @@ class Cryptocurrency extends Types {
     return this;
   }
 
-  override fromObject(obj: TCryptocurrency) {
-    this.assetSymbol = AssetSymbol[obj.asset_symbol as keyof typeof AssetSymbol];
-    this.quantity = obj.quantity;
-    return this;
+  static fromObject(obj: TCryptocurrency) {
+    const cryptocurrency = new Cryptocurrency();
+    cryptocurrency.setAssetSymbol(AssetSymbol[obj.asset_symbol]);
+    cryptocurrency.setQuantity(obj.quantity);
+    return cryptocurrency;
   }
 }
 

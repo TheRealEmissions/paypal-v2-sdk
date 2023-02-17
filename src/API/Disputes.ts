@@ -73,7 +73,7 @@ class Disputes {
       },
     });
 
-    return new ListDisputesResponse().fromObject(response.data);
+    return ListDisputesResponse.fromObject(response.data);
   }
 
   async partialUpdate(disputeId: string, patchRequest: Patch[]) {
@@ -81,7 +81,7 @@ class Disputes {
       data: patchRequest.map((x) => x.toAttributeObject<TPatchRequest>()),
     });
 
-    return new PartialUpdateDisputeResponse().fromObject(response.data);
+    return PartialUpdateDisputeResponse.fromObject(response.data);
   }
 }
 

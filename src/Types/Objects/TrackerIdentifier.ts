@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
 
 export type TTrackerIdentifier = {
@@ -7,7 +7,7 @@ export type TTrackerIdentifier = {
   tracking_number?: string;
 };
 
-class TrackerIdentifier extends Types {
+class TrackerIdentifier extends Types implements StaticImplements<ITypes, typeof TrackerIdentifier> {
   transactionId?: string;
   links?: LinkDescription[];
   trackingNumber?: string;
@@ -30,13 +30,12 @@ class TrackerIdentifier extends Types {
     return this;
   }
 
-  override fromObject(obj: TTrackerIdentifier): this {
-    this.transactionId = obj.transaction_id;
-    this.links = obj.links?.map((link) => {
-      return new LinkDescription().fromObject(link);
-    });
-    this.trackingNumber = obj.tracking_number;
-    return this;
+  static fromObject(obj: TTrackerIdentifier): TrackerIdentifier {
+    const trackerIdentifier = new TrackerIdentifier();
+    if (obj.transaction_id) trackerIdentifier.setTransactionId(obj.transaction_id);
+    if (obj.links) trackerIdentifier.setLinks(obj.links.map((x) => LinkDescription.fromObject(x)));
+    if (obj.tracking_number) trackerIdentifier.setTrackingNumber(obj.tracking_number);
+    return trackerIdentifier;
   }
 }
 

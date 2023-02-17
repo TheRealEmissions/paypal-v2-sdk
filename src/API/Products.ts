@@ -34,8 +34,8 @@ class Products {
     });
 
     return new ListProductsResponse(
-      response.data.links.map((link) => new LinkDescription().fromObject(link)),
-      response.data.products.map((product) => new ProductCollectionElement().fromObject(product)),
+      response.data.links.map((link) => LinkDescription.fromObject(link)),
+      response.data.products.map((product) => ProductCollectionElement.fromObject(product)),
       response.data.total_items,
       response.data.total_pages
     );
@@ -54,7 +54,7 @@ class Products {
       }
     );
 
-    return new Product().fromObject(response.data);
+    return Product.fromObject(response.data);
   }
 
   async update(product: Product | string, patchRequest: PatchRequest) {
@@ -77,7 +77,7 @@ class Products {
       `/v1/catalogs/products/${product instanceof Product ? product.id : product}`
     );
 
-    return new Product().fromObject(response.data);
+    return Product.fromObject(response.data);
   }
 }
 

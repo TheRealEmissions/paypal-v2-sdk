@@ -1,7 +1,7 @@
 import { AdjudicationReason } from "../Enums/AdjudicationReason";
 import { AdjudicationType } from "../Enums/AdjudicationType";
 import { DisputeLifeCycleStage } from "../Enums/DisputeLifeCycleStage";
-import Types from "../Types";
+import Types, { ITypes, StaticImplements } from "../Types";
 
 export type TAdjudication = {
   adjudication_time: string;
@@ -10,7 +10,7 @@ export type TAdjudication = {
   reason?: keyof typeof AdjudicationReason;
 };
 
-class Adjudication extends Types {
+class Adjudication extends Types implements StaticImplements<ITypes, typeof Adjudication> {
   adjudicationTime!: string;
   type!: AdjudicationType;
   disputeLifeCycleStage?: DisputeLifeCycleStage;
@@ -39,13 +39,14 @@ class Adjudication extends Types {
     return this;
   }
 
-  override fromObject(obj: TAdjudication) {
-    this.adjudicationTime = obj.adjudication_time;
-    this.type = AdjudicationType[obj.type as keyof typeof AdjudicationType];
-    this.disputeLifeCycleStage =
-      DisputeLifeCycleStage[obj.dispute_life_cycle_stage as keyof typeof DisputeLifeCycleStage];
-    this.reason = AdjudicationReason[obj.reason as keyof typeof AdjudicationReason];
-    return this;
+  static fromObject(obj: TAdjudication) {
+    const adjudication = new Adjudication();
+    adjudication.setAdjudicationTime(obj.adjudication_time);
+    adjudication.setType(AdjudicationType[obj.type]);
+    if (obj.dispute_life_cycle_stage)
+      adjudication.setDisputeLifeCycleStage(DisputeLifeCycleStage[obj.dispute_life_cycle_stage]);
+    if (obj.reason) adjudication.setReason(AdjudicationReason[obj.reason]);
+    return adjudication;
   }
 }
 

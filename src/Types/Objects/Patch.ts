@@ -1,5 +1,5 @@
 import { PatchOperation } from "../Enums/PatchOperation.js";
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 
 export type TPatch = {
   op: keyof typeof PatchOperation;
@@ -8,7 +8,7 @@ export type TPatch = {
   value?: number | string | boolean | null | Array<any> | object;
 };
 
-class Patch extends Types {
+class Patch extends Types implements StaticImplements<ITypes, typeof Patch> {
   op?: PatchOperation;
   from?: string;
   path?: string;
@@ -37,24 +37,13 @@ class Patch extends Types {
     return this;
   }
 
-  override fromObject(obj: TPatch) {
-    if (obj.op) {
-      this.setOp(PatchOperation[obj.op as keyof typeof PatchOperation]);
-    }
-
-    if (obj.from) {
-      this.setFrom(obj.from);
-    }
-
-    if (obj.path) {
-      this.setPath(obj.path);
-    }
-
-    if (obj.value) {
-      this.setValue(obj.value);
-    }
-
-    return this;
+  static fromObject(obj: TPatch) {
+    const patch = new Patch();
+    if (obj.op) patch.setOp(PatchOperation[obj.op]);
+    if (obj.from) patch.setFrom(obj.from);
+    if (obj.path) patch.setPath(obj.path);
+    if (obj.value) patch.setValue(obj.value);
+    return patch;
   }
 }
 

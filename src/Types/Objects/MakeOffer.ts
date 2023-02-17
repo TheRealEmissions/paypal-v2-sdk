@@ -1,4 +1,4 @@
-import Types from "../Types";
+import Types, { ITypes, StaticImplements } from "../Types";
 import AddressPortable, { TAddressPortable } from "./AddressPortable";
 import Money, { TMoney } from "./Money";
 import OfferType, { TOfferType } from "./OfferType";
@@ -6,13 +6,13 @@ import OfferType, { TOfferType } from "./OfferType";
 export type TMakeOffer = {
   offer_types?: TOfferType[];
   note?: string;
-  offer_type?: string;
+  offer_type?: TOfferType;
   invoice_id?: string;
   offer_amount?: TMoney;
   return_shipping_address?: TAddressPortable;
 };
 
-class MakeOffer extends Types {
+class MakeOffer extends Types implements StaticImplements<ITypes, typeof MakeOffer> {
   offerTypes?: OfferType[];
   note!: string;
   offerType!: OfferType;
@@ -53,18 +53,16 @@ class MakeOffer extends Types {
     return this;
   }
 
-  override fromObject(obj: TMakeOffer) {
-    this.offerTypes = obj.offer_types?.map((offerType) => {
-      return new OfferType().fromObject(offerType);
-    });
-    this.note = obj.note || "";
-    this.offerType = new OfferType().fromObject(obj);
-    this.invoiceId = obj.invoice_id;
-    this.offerAmount = obj.offer_amount ? new Money().fromObject(obj.offer_amount) : undefined;
-    this.returnShippingAddress = obj.return_shipping_address
-      ? new AddressPortable().fromObject(obj.return_shipping_address)
-      : undefined;
-    return this;
+  static fromObject(obj: TMakeOffer) {
+    const makeOffer = new MakeOffer();
+    if (obj.offer_types) makeOffer.setOfferTypes(obj.offer_types.map((offerType) => OfferType.fromObject(offerType)));
+    if (obj.note) makeOffer.setNote(obj.note);
+    if (obj.offer_type) makeOffer.setOfferType(OfferType.fromObject(obj.offer_type));
+    if (obj.invoice_id) makeOffer.setInvoiceId(obj.invoice_id);
+    if (obj.offer_amount) makeOffer.setOfferAmount(Money.fromObject(obj.offer_amount));
+    if (obj.return_shipping_address)
+      makeOffer.setReturnShippingAddress(AddressPortable.fromObject(obj.return_shipping_address));
+    return makeOffer;
   }
 }
 

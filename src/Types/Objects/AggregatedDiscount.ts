@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 import Discount, { TDiscount } from "./Discount.js";
 import Money, { TMoney } from "./Money.js";
 
@@ -7,7 +7,7 @@ export type TAggregatedDiscount = {
   item_discount: TMoney;
 };
 
-class AggregatedDiscount extends Types {
+class AggregatedDiscount extends Types implements StaticImplements<ITypes, typeof AggregatedDiscount> {
   invoiceDiscount?: Discount;
   itemDiscount?: Money;
   constructor() {
@@ -24,10 +24,11 @@ class AggregatedDiscount extends Types {
     return this;
   }
 
-  override fromObject(obj: TAggregatedDiscount) {
-    this.invoiceDiscount = new Discount().fromObject(obj.invoice_discount);
-    this.itemDiscount = new Money().fromObject(obj.item_discount);
-    return this;
+  static fromObject(obj: TAggregatedDiscount) {
+    const aggregatedDiscount = new AggregatedDiscount();
+    if (obj.invoice_discount) aggregatedDiscount.setInvoiceDiscount(Discount.fromObject(obj.invoice_discount));
+    if (obj.item_discount) aggregatedDiscount.setItemDiscount(Money.fromObject(obj.item_discount));
+    return aggregatedDiscount;
   }
 }
 

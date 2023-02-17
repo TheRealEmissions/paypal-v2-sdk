@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 import Money, { TMoney } from "./Money.js";
 
 export type TTax = {
@@ -7,7 +7,7 @@ export type TTax = {
   readonly amount?: TMoney;
 };
 
-class Tax extends Types {
+class Tax extends Types implements StaticImplements<ITypes, typeof Tax> {
   name?: string;
   percent?: string;
   amount?: Money;
@@ -37,11 +37,12 @@ class Tax extends Types {
     return this;
   }
 
-  override fromObject(obj: TTax) {
-    this.name = obj.name;
-    this.percent = obj.percent;
-    this.amount = obj.amount ? new Money().fromObject(obj.amount) : undefined;
-    return this;
+  static fromObject(obj: TTax) {
+    const tax = new Tax();
+    if (obj.name) tax.setName(obj.name);
+    if (obj.percent) tax.setPercent(obj.percent);
+    if (obj.amount) tax.setAmount(Money.fromObject(obj.amount));
+    return tax;
   }
 }
 

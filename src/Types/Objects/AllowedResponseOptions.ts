@@ -1,4 +1,4 @@
-import Types from "../Types";
+import Types, { ITypes, StaticImplements } from "../Types";
 import AcceptClaim, { TAcceptClaim } from "./AcceptClaim";
 import AcknowledgeReturnItem, { TAcknowledgeReturnItem } from "./AcknowledgeReturnItem";
 import MakeOffer, { TMakeOffer } from "./MakeOffer";
@@ -9,7 +9,7 @@ export type TAllowedResponseOptions = {
   make_offer?: TMakeOffer;
 };
 
-class AllowedResponseOptions extends Types {
+class AllowedResponseOptions extends Types implements StaticImplements<ITypes, typeof AllowedResponseOptions> {
   acceptClaim?: AcceptClaim;
   acknowledgeReturnItem?: AcknowledgeReturnItem;
   makeOffer?: MakeOffer;
@@ -32,13 +32,13 @@ class AllowedResponseOptions extends Types {
     return this;
   }
 
-  override fromObject(obj: TAllowedResponseOptions) {
-    this.acceptClaim = obj.accept_claim ? new AcceptClaim().fromObject(obj.accept_claim) : undefined;
-    this.acknowledgeReturnItem = obj.acknowledge_return_item
-      ? new AcknowledgeReturnItem().fromObject(obj.acknowledge_return_item)
-      : undefined;
-    this.makeOffer = obj.make_offer ? new MakeOffer().fromObject(obj.make_offer) : undefined;
-    return this;
+  static fromObject(obj: TAllowedResponseOptions) {
+    const allowedResponseOptions = new AllowedResponseOptions();
+    if (obj.accept_claim) allowedResponseOptions.setAcceptClaim(AcceptClaim.fromObject(obj.accept_claim));
+    if (obj.acknowledge_return_item)
+      allowedResponseOptions.setAcknowledgeReturnItem(AcknowledgeReturnItem.fromObject(obj.acknowledge_return_item));
+    if (obj.make_offer) allowedResponseOptions.setMakeOffer(MakeOffer.fromObject(obj.make_offer));
+    return allowedResponseOptions;
   }
 }
 

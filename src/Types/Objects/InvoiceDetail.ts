@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 import FileReference, { TFileReference } from "./FileReference.js";
 import InvoicePaymentTerm, { TInvoicePaymentTerm } from "./InvoicePaymentTerm.js";
 import Metadata, { TMetadata } from "./Metadata.js";
@@ -16,7 +16,7 @@ export type TInvoiceDetail = {
   payment_term?: TInvoicePaymentTerm;
 };
 
-class InvoiceDetail extends Types {
+class InvoiceDetail extends Types implements StaticImplements<ITypes, typeof InvoiceDetail> {
   currencyCode?: string;
   attachments?: FileReference[];
   memo?: string;
@@ -81,18 +81,20 @@ class InvoiceDetail extends Types {
     return this;
   }
 
-  override fromObject(obj: TInvoiceDetail) {
-    this.currencyCode = obj.currency_code;
-    this.attachments = obj.attachments?.map((attachment) => new FileReference().fromObject(attachment));
-    this.memo = obj.memo;
-    this.note = obj.note;
-    this.reference = obj.reference;
-    this.termsAndConditions = obj.terms_and_conditions;
-    this.invoiceDate = obj.invoice_date;
-    this.invoiceNumber = obj.invoice_number;
-    this.metadata = obj.metadata ? new Metadata().fromObject(obj.metadata) : undefined;
-    this.paymentTerm = obj.payment_term ? new InvoicePaymentTerm().fromObject(obj.payment_term) : undefined;
-    return this;
+  static fromObject(obj: TInvoiceDetail) {
+    const invoiceDetail = new InvoiceDetail();
+    if (obj.currency_code) invoiceDetail.setCurrencyCode(obj.currency_code);
+    if (obj.attachments)
+      invoiceDetail.setAttachments(obj.attachments.map((attachment) => FileReference.fromObject(attachment)));
+    if (obj.memo) invoiceDetail.setMemo(obj.memo);
+    if (obj.note) invoiceDetail.setNote(obj.note);
+    if (obj.reference) invoiceDetail.setReference(obj.reference);
+    if (obj.terms_and_conditions) invoiceDetail.setTermsAndConditions(obj.terms_and_conditions);
+    if (obj.invoice_date) invoiceDetail.setInvoiceDate(obj.invoice_date);
+    if (obj.invoice_number) invoiceDetail.setInvoiceNumber(obj.invoice_number);
+    if (obj.metadata) invoiceDetail.setMetadata(Metadata.fromObject(obj.metadata));
+    if (obj.payment_term) invoiceDetail.setPaymentTerm(InvoicePaymentTerm.fromObject(obj.payment_term));
+    return invoiceDetail;
   }
 }
 

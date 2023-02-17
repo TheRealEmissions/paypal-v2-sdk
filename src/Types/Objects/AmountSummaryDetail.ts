@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 import AmountWithBreakdown, { TAmountWithBreakdown } from "./AmountWithBreakdown.js";
 
 export type TAmountSummaryDetail = {
@@ -7,7 +7,7 @@ export type TAmountSummaryDetail = {
   value?: string;
 };
 
-class AmountSummaryDetail extends Types {
+class AmountSummaryDetail extends Types implements StaticImplements<ITypes, typeof AmountSummaryDetail> {
   breakdown?: AmountWithBreakdown;
   currencyCode?: string;
   value?: string;
@@ -36,11 +36,12 @@ class AmountSummaryDetail extends Types {
     return this;
   }
 
-  override fromObject(obj: TAmountSummaryDetail) {
-    this.breakdown = obj.breakdown ? new AmountWithBreakdown().fromObject(obj.breakdown) : undefined;
-    this.currencyCode = obj.currency_code;
-    this.value = obj.value;
-    return this;
+  static fromObject(obj: TAmountSummaryDetail) {
+    const amountSummaryDetail = new AmountSummaryDetail();
+    if (obj.breakdown) amountSummaryDetail.setBreakdown(AmountWithBreakdown.fromObject(obj.breakdown));
+    if (obj.currency_code) amountSummaryDetail.setCurrencyCode(obj.currency_code);
+    if (obj.value) amountSummaryDetail.setValue(obj.value);
+    return amountSummaryDetail;
   }
 }
 

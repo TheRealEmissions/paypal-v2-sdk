@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 import BillingInfo, { TBillingInfo } from "./BillingInfo.js";
 import ContactInformation, { TContactInformation } from "./ContactInformation.js";
 
@@ -7,7 +7,7 @@ export type TRecipientInfo = {
   shipping_info?: TContactInformation;
 };
 
-class RecipientInfo extends Types {
+class RecipientInfo extends Types implements StaticImplements<ITypes, typeof RecipientInfo> {
   billingInfo?: BillingInfo;
   shippingInfo?: ContactInformation;
   constructor() {
@@ -24,10 +24,11 @@ class RecipientInfo extends Types {
     return this;
   }
 
-  override fromObject(obj: TRecipientInfo) {
-    this.billingInfo = obj.billing_info ? new BillingInfo().fromObject(obj.billing_info) : undefined;
-    this.shippingInfo = obj.shipping_info ? new ContactInformation().fromObject(obj.shipping_info) : undefined;
-    return this;
+  static fromObject(obj: TRecipientInfo) {
+    const recipientInfo = new RecipientInfo();
+    if (obj.billing_info) recipientInfo.setBillingInfo(BillingInfo.fromObject(obj.billing_info));
+    if (obj.shipping_info) recipientInfo.setShippingInfo(ContactInformation.fromObject(obj.shipping_info));
+    return recipientInfo;
   }
 }
 

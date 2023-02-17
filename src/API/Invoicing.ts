@@ -69,8 +69,8 @@ class Invoicing {
     });
 
     return new ListInvoicesResponse(
-      response.data.items.map((x) => new Invoice().fromObject(x)),
-      response.data.links.map((x) => new LinkDescription().fromObject(x)),
+      response.data.items.map((x) => Invoice.fromObject(x)),
+      response.data.links.map((x) => LinkDescription.fromObject(x)),
       response.data.total_items,
       response.data.total_pages
     );
@@ -82,7 +82,7 @@ class Invoicing {
       invoice.toAttributeObject<TInvoice>()
     );
 
-    return new Invoice(this.PayPal).fromObject(response.data);
+    return Invoice.fromObject(response.data).setPayPal(this.PayPal);
   }
 
   async delete(invoice: Invoice | string): Promise<boolean> {
@@ -97,14 +97,14 @@ class Invoicing {
       invoice.toAttributeObject<TInvoice>()
     );
 
-    return new Invoice(this.PayPal).fromObject(response.data);
+    return Invoice.fromObject(response.data).setPayPal(this.PayPal);
   }
 
   async get(invoice: Invoice | string) {
     const invoiceId = invoice instanceof Invoice ? invoice.id : invoice;
     const response = await this.PayPal.API.get<TInvoice>(`/v2/invoicing/invoices/${invoiceId}`);
 
-    return new Invoice(this.PayPal).fromObject(response.data);
+    return Invoice.fromObject(response.data).setPayPal(this.PayPal);
   }
 
   async cancel(
@@ -247,8 +247,8 @@ class Invoicing {
     );
 
     return new SearchForInvoicesResponse(
-      response.data.items.map((x) => new Invoice().fromObject(x)),
-      response.data.links.map((x) => new LinkDescription().fromObject(x)),
+      response.data.items.map((x) => Invoice.fromObject(x)),
+      response.data.links.map((x) => LinkDescription.fromObject(x)),
       response.data.total_items,
       response.data.total_pages
     );
@@ -264,11 +264,11 @@ class Invoicing {
     });
 
     return new ListTemplatesResponse(
-      response.data.addresses.map((x) => new AddressPortable().fromObject(x)),
+      response.data.addresses.map((x) => AddressPortable.fromObject(x)),
       response.data.emails,
-      response.data.links.map((x) => new LinkDescription().fromObject(x)),
-      response.data.phones.map((x) => new PhoneDetail().fromObject(x)),
-      response.data.templates.map((x) => new Template().fromObject(x))
+      response.data.links.map((x) => LinkDescription.fromObject(x)),
+      response.data.phones.map((x) => PhoneDetail.fromObject(x)),
+      response.data.templates.map((x) => Template.fromObject(x))
     );
   }
 
@@ -278,7 +278,7 @@ class Invoicing {
       template.toAttributeObject<TTemplate>()
     );
 
-    return new Template(this.PayPal).fromObject(response.data);
+    return Template.fromObject(response.data).setPayPal(this.PayPal);
   }
 
   async deleteTemplate(template: Template | string) {
@@ -293,14 +293,14 @@ class Invoicing {
       template.toAttributeObject<TTemplate>()
     );
 
-    return new Template(this.PayPal).fromObject(response.data);
+    return Template.fromObject(response.data).setPayPal(this.PayPal);
   }
 
   async getTemplate(template: Template | string) {
     const templateId = template instanceof Template ? template.id : template;
     const response = await this.PayPal.API.get<TTemplate>(`/v2/invoicing/templates/${templateId}`);
 
-    return new Template(this.PayPal).fromObject(response.data);
+    return Template.fromObject(response.data).setPayPal(this.PayPal);
   }
 }
 

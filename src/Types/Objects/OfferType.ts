@@ -1,11 +1,11 @@
-import Types from "../Types";
+import Types, { ITypes, StaticImplements } from "../Types";
 import { OfferType as OfferTypeEnum } from "../Enums/OfferType";
 
 export type TOfferType = {
-  offer_type?: string;
+  offer_type?: keyof typeof OfferTypeEnum;
 };
 
-class OfferType extends Types {
+class OfferType extends Types implements StaticImplements<ITypes, typeof OfferType> {
   offerType?: OfferTypeEnum;
   constructor() {
     super();
@@ -16,9 +16,10 @@ class OfferType extends Types {
     return this;
   }
 
-  override fromObject(obj: TOfferType) {
-    this.offerType = OfferTypeEnum[obj.offer_type as keyof typeof OfferTypeEnum];
-    return this;
+  static fromObject(obj: TOfferType) {
+    const offerType = new OfferType();
+    if (obj.offer_type) offerType.setOfferType(OfferTypeEnum[obj.offer_type]);
+    return offerType;
   }
 }
 

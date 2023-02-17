@@ -1,11 +1,11 @@
-import Types from "../Types";
+import Types, { ITypes, StaticImplements } from "../Types";
 
 export type TDocument = {
   name?: string;
   url?: string;
 };
 
-class Document extends Types {
+class Document extends Types implements StaticImplements<ITypes, typeof Document> {
   name?: string;
   url?: string;
   constructor() {
@@ -22,10 +22,11 @@ class Document extends Types {
     return this;
   }
 
-  override fromObject(obj: TDocument) {
-    this.name = obj.name;
-    this.url = obj.url;
-    return this;
+  static fromObject(obj: TDocument) {
+    const document = new Document();
+    if (obj.name) document.setName(obj.name);
+    if (obj.url) document.setUrl(obj.url);
+    return document;
   }
 }
 

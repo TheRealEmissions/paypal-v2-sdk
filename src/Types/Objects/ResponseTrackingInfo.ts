@@ -1,5 +1,5 @@
 import { Carrier } from "../Enums/Carrier.js";
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 
 export type TResponseTrackingInfo = {
   carrier_name?: keyof typeof Carrier;
@@ -8,7 +8,7 @@ export type TResponseTrackingInfo = {
   tracking_url?: string;
 };
 
-class ResponseTrackingInfo extends Types {
+class ResponseTrackingInfo extends Types implements StaticImplements<ITypes, typeof ResponseTrackingInfo> {
   carrierName?: Carrier;
   trackingNumber?: string;
   carrierNameOther?: string;
@@ -37,12 +37,13 @@ class ResponseTrackingInfo extends Types {
     return this;
   }
 
-  override fromObject(obj: TResponseTrackingInfo) {
-    this.carrierName = Carrier[obj.carrier_name as keyof typeof Carrier];
-    this.trackingNumber = obj.tracking_number;
-    this.carrierNameOther = obj.carrier_name_other;
-    this.trackingUrl = obj.tracking_url;
-    return this;
+  static fromObject(obj: TResponseTrackingInfo) {
+    const responseTrackingInfo = new ResponseTrackingInfo();
+    if (obj.carrier_name) responseTrackingInfo.setCarrierName(Carrier[obj.carrier_name]);
+    if (obj.tracking_number) responseTrackingInfo.setTrackingNumber(obj.tracking_number);
+    if (obj.carrier_name_other) responseTrackingInfo.setCarrierNameOther(obj.carrier_name_other);
+    if (obj.tracking_url) responseTrackingInfo.setTrackingUrl(obj.tracking_url);
+    return responseTrackingInfo;
   }
 }
 

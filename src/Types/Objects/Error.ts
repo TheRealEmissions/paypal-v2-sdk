@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 import ErrorDetails, { TErrorDetails } from "./ErrorDetails.js";
 import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
 
@@ -11,7 +11,7 @@ export type TError = {
   readonly links?: TLinkDescription[];
 };
 
-class Error extends Types {
+class Error extends Types implements StaticImplements<ITypes, typeof Error> {
   debugId?: string;
   message?: string;
   name?: string;
@@ -52,18 +52,15 @@ class Error extends Types {
     return this;
   }
 
-  override fromObject(obj: TError): this {
-    this.debugId = obj.debug_id;
-    this.message = obj.message;
-    this.name = obj.name;
-    this.details = obj.details?.map((detail) => {
-      return new ErrorDetails().fromObject(detail);
-    });
-    this.informationLink = obj.information_link;
-    this.links = obj.links?.map((link) => {
-      return new LinkDescription().fromObject(link);
-    });
-    return this;
+  static fromObject(obj: TError): Error {
+    const error = new Error();
+    if (obj.debug_id) error.setDebugId(obj.debug_id);
+    if (obj.message) error.setMessage(obj.message);
+    if (obj.name) error.setName(obj.name);
+    if (obj.details) error.setDetails(obj.details.map((detail) => ErrorDetails.fromObject(detail)));
+    if (obj.information_link) error.setInformationLink(obj.information_link);
+    if (obj.links) error.setLinks(obj.links.map((link) => LinkDescription.fromObject(link)));
+    return error;
   }
 }
 

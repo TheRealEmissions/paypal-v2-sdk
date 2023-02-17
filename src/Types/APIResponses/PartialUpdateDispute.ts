@@ -1,20 +1,22 @@
 import LinkDescription, { TLinkDescription } from "../Objects/LinkDescription";
-import TypeResponse from "./TypeResponse";
+import Types, { ITypes, StaticImplements } from "../Types";
 
 export type TPartialUpdateDisputeResponse = {
   readonly links: TLinkDescription[];
 };
 
-class PartialUpdateDisputeResponse extends TypeResponse {
+class PartialUpdateDisputeResponse
+  extends Types
+  implements StaticImplements<ITypes, typeof PartialUpdateDisputeResponse>
+{
   links!: LinkDescription[];
   constructor(links?: LinkDescription[]) {
     super();
     if (links) this.links = links;
   }
 
-  override fromObject(obj: TPartialUpdateDisputeResponse) {
-    this.links = obj.links.map((link: TLinkDescription) => new LinkDescription().fromObject(link));
-    return this;
+  static fromObject(obj: TPartialUpdateDisputeResponse) {
+    return new PartialUpdateDisputeResponse(obj.links.map((link) => LinkDescription.fromObject(link)));
   }
 }
 

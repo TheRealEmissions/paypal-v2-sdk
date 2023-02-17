@@ -1,7 +1,7 @@
 import { TrackingNumberType } from "./../Enums/TrackingNumberType.js";
 import { Carrier } from "./../Enums/Carrier.js";
 import { ShippingStatus } from "./../Enums/ShippingStatus.js";
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
 import PayPal from "../../PayPal.js";
 
@@ -21,7 +21,7 @@ export type TTracker = {
   readonly tracking_number_validated?: boolean;
 };
 
-class Tracker extends Types {
+class Tracker extends Types implements StaticImplements<ITypes, typeof Tracker> {
   status?: ShippingStatus;
   transactionId?: string;
   carrier?: Carrier;
@@ -134,20 +134,22 @@ class Tracker extends Types {
     return this;
   }
 
-  override fromObject(obj: TTracker): this {
-    this.status = ShippingStatus[obj.status as keyof typeof ShippingStatus];
-    this.transactionId = obj.transaction_id;
-    this.carrier = Carrier[obj.carrier as keyof typeof Carrier];
-    this.carrierNameOther = obj.carrier_name_other;
-    this.lastUpdatedTime = obj.last_updated_time;
-    this.links = obj.links ? obj.links.map((link) => new LinkDescription().fromObject(link)) : undefined;
-    this.notifyBuyer = obj.notify_buyer;
-    this.postagePaymentId = obj.postage_payment_id;
-    this.quantity = obj.quantity;
-    this.shipmentDate = obj.shipment_date;
-    this.trackingNumber = obj.tracking_number;
-    this.trackingNumberType = TrackingNumberType[obj.tracking_number_type as keyof typeof TrackingNumberType];
-    return this;
+  static fromObject(obj: TTracker): Tracker {
+    const tracker = new Tracker();
+    if (obj.status) tracker.setStatus(ShippingStatus[obj.status]);
+    if (obj.transaction_id) tracker.setTransactionId(obj.transaction_id);
+    if (obj.carrier) tracker.setCarrier(Carrier[obj.carrier]);
+    if (obj.carrier_name_other) tracker.setCarrierNameOther(obj.carrier_name_other);
+    if (obj.last_updated_time) tracker.setLastUpdatedTime(obj.last_updated_time);
+    if (obj.links) tracker.setLinks(obj.links.map((x) => LinkDescription.fromObject(x)));
+    if (obj.notify_buyer) tracker.setNotifyBuyer(obj.notify_buyer);
+    if (obj.postage_payment_id) tracker.setPostagePaymentId(obj.postage_payment_id);
+    if (obj.quantity) tracker.setQuantity(obj.quantity);
+    if (obj.shipment_date) tracker.setShipmentDate(obj.shipment_date);
+    if (obj.tracking_number) tracker.setTrackingNumber(obj.tracking_number);
+    if (obj.tracking_number_type) tracker.setTrackingNumberType(TrackingNumberType[obj.tracking_number_type]);
+    if (obj.tracking_number_validated) tracker.setTrackingNumberValidated(obj.tracking_number_validated);
+    return tracker;
   }
 }
 

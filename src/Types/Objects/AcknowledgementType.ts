@@ -1,11 +1,11 @@
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 import { AcknowledgementType as AcknowledgementTypeEnum } from "../Enums/AcknowledgementType.js";
 
 export type TAcknowledgementType = {
   acknowledgement_type?: keyof typeof AcknowledgementTypeEnum;
 };
 
-class AcknowledgementType extends Types {
+class AcknowledgementType extends Types implements StaticImplements<ITypes, typeof AcknowledgementType> {
   acknowledgementType?: AcknowledgementTypeEnum;
   constructor() {
     super();
@@ -16,10 +16,11 @@ class AcknowledgementType extends Types {
     return this;
   }
 
-  override fromObject(obj: TAcknowledgementType) {
-    this.acknowledgementType =
-      AcknowledgementTypeEnum[obj.acknowledgement_type as keyof typeof AcknowledgementTypeEnum];
-    return this;
+  static fromObject(obj: TAcknowledgementType) {
+    const acknowledgementType = new AcknowledgementType();
+    if (obj.acknowledgement_type !== undefined)
+      acknowledgementType.setAcknowledgementType(AcknowledgementTypeEnum[obj.acknowledgement_type]);
+    return acknowledgementType;
   }
 }
 

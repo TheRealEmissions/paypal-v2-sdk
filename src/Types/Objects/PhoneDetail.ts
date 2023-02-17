@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 
 export type TPhoneDetail = {
   country_code: string;
@@ -7,7 +7,7 @@ export type TPhoneDetail = {
   phone_type?: string;
 };
 
-class PhoneDetail extends Types {
+class PhoneDetail extends Types implements StaticImplements<ITypes, typeof PhoneDetail> {
   countryCode?: string;
   nationalNumber?: string;
   extensionNumber?: string;
@@ -36,12 +36,13 @@ class PhoneDetail extends Types {
     return this;
   }
 
-  override fromObject(obj: TPhoneDetail) {
-    this.countryCode = obj.country_code;
-    this.nationalNumber = obj.national_number;
-    this.extensionNumber = obj.extension_number;
-    this.phoneType = obj.phone_type;
-    return this;
+  static fromObject(obj: TPhoneDetail) {
+    const phoneDetail = new PhoneDetail();
+    if (obj.country_code) phoneDetail.setCountryCode(obj.country_code);
+    if (obj.national_number) phoneDetail.setNationalNumber(obj.national_number);
+    if (obj.extension_number) phoneDetail.setExtensionNumber(obj.extension_number);
+    if (obj.phone_type) phoneDetail.setPhoneType(obj.phone_type);
+    return phoneDetail;
   }
 }
 

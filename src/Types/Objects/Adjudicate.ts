@@ -1,11 +1,11 @@
 import { AdjudicationOutcome } from "../Enums/AdjudicationOutcome";
-import Types from "../Types";
+import Types, { ITypes, StaticImplements } from "../Types";
 
 export type TAdjudicate = {
   adjudication_outcome?: keyof typeof AdjudicationOutcome;
 };
 
-class Adjudicate extends Types {
+class Adjudicate extends Types implements StaticImplements<ITypes, typeof Adjudicate> {
   adjudication_outcome!: AdjudicationOutcome;
   constructor() {
     super();
@@ -16,9 +16,11 @@ class Adjudicate extends Types {
     return this;
   }
 
-  override fromObject(obj: TAdjudicate) {
-    this.adjudication_outcome = AdjudicationOutcome[obj.adjudication_outcome as keyof typeof AdjudicationOutcome];
-    return this;
+  static fromObject(obj: TAdjudicate) {
+    const adjudicate = new Adjudicate();
+    if (obj.adjudication_outcome !== undefined)
+      adjudicate.setAdjudicationOutcome(AdjudicationOutcome[obj.adjudication_outcome]);
+    return adjudicate;
   }
 }
 

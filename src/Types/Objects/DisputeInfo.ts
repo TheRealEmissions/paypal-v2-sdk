@@ -3,28 +3,28 @@ import { DisputeLifeCycleStage } from "../Enums/DisputeLifeCycleStage";
 import { DisputeReason } from "../Enums/DisputeReason";
 import { DisputeState } from "../Enums/DisputeState";
 import { DisputeStatus } from "../Enums/DisputeStatus";
-import Types from "../Types";
-import Cryptocurrency from "./Cryptocurrency";
-import LinkDescription from "./LinkDescription";
-import Money from "./Money";
+import Types, { ITypes, StaticImplements } from "../Types";
+import Cryptocurrency, { TCryptocurrency } from "./Cryptocurrency";
+import LinkDescription, { TLinkDescription } from "./LinkDescription";
+import Money, { TMoney } from "./Money";
 
 export type TDisputeInfo = {
   buyer_response_due_date?: string;
   create_time?: string;
-  dispute_amount?: Money;
-  dispute_asset?: Cryptocurrency;
+  dispute_amount?: TMoney;
+  dispute_asset?: TCryptocurrency;
   dispute_channel?: keyof typeof DisputeChannel;
   dispute_id?: string;
   dispute_life_cycle_stage?: keyof typeof DisputeLifeCycleStage;
   dispute_state?: keyof typeof DisputeState;
-  links?: LinkDescription[];
+  links?: TLinkDescription[];
   reason?: keyof typeof DisputeReason;
   seller_response_due_date?: string;
   status?: keyof typeof DisputeStatus;
   update_time?: string;
 };
 
-class DisputeInfo extends Types {
+class DisputeInfo extends Types implements StaticImplements<ITypes, typeof DisputeInfo> {
   buyerResponseDueDate?: string;
   createTime?: string;
   disputeAmount?: Money;
@@ -107,22 +107,23 @@ class DisputeInfo extends Types {
     return this;
   }
 
-  override fromObject(obj: TDisputeInfo) {
-    this.buyerResponseDueDate = obj.buyer_response_due_date;
-    this.createTime = obj.create_time;
-    this.disputeAmount = obj.dispute_amount;
-    this.disputeAsset = obj.dispute_asset;
-    this.disputeChannel = DisputeChannel[obj.dispute_channel as keyof typeof DisputeChannel];
-    this.disputeId = obj.dispute_id;
-    this.disputeLifeCycleStage =
-      DisputeLifeCycleStage[obj.dispute_life_cycle_stage as keyof typeof DisputeLifeCycleStage];
-    this.disputeState = DisputeState[obj.dispute_state as keyof typeof DisputeState];
-    this.links = obj.links;
-    this.reason = DisputeReason[obj.reason as keyof typeof DisputeReason];
-    this.sellerResponseDueDate = obj.seller_response_due_date;
-    this.status = DisputeStatus[obj.status as keyof typeof DisputeStatus];
-    this.updateTime = obj.update_time;
-    return this;
+  static fromObject(obj: TDisputeInfo) {
+    const disputeInfo = new DisputeInfo();
+    if (obj.buyer_response_due_date) disputeInfo.setBuyerResponseDueDate(obj.buyer_response_due_date);
+    if (obj.create_time) disputeInfo.setCreateTime(obj.create_time);
+    if (obj.dispute_amount) disputeInfo.setDisputeAmount(Money.fromObject(obj.dispute_amount));
+    if (obj.dispute_asset) disputeInfo.setDisputeAsset(Cryptocurrency.fromObject(obj.dispute_asset));
+    if (obj.dispute_channel) disputeInfo.setDisputeChannel(DisputeChannel[obj.dispute_channel]);
+    if (obj.dispute_id) disputeInfo.setDisputeId(obj.dispute_id);
+    if (obj.dispute_life_cycle_stage)
+      disputeInfo.setDisputeLifeCycleStage(DisputeLifeCycleStage[obj.dispute_life_cycle_stage]);
+    if (obj.dispute_state) disputeInfo.setDisputeState(DisputeState[obj.dispute_state]);
+    if (obj.links) disputeInfo.setLinks(obj.links.map((link) => LinkDescription.fromObject(link)));
+    if (obj.reason) disputeInfo.setReason(DisputeReason[obj.reason]);
+    if (obj.seller_response_due_date) disputeInfo.setSellerResponseDueDate(obj.seller_response_due_date);
+    if (obj.status) disputeInfo.setStatus(DisputeStatus[obj.status]);
+    if (obj.update_time) disputeInfo.setUpdateTime(obj.update_time);
+    return disputeInfo;
   }
 }
 

@@ -1,4 +1,4 @@
-import Types from "../Types.js";
+import Types, { ITypes, StaticImplements } from "../Types.js";
 import Money, { TMoney } from "./Money.js";
 import Tax, { TTax } from "./Tax.js";
 
@@ -7,7 +7,7 @@ export type TShippingCost = {
   tax?: TTax;
 };
 
-class ShippingCost extends Types {
+class ShippingCost extends Types implements StaticImplements<ITypes, typeof ShippingCost> {
   amount?: Money;
   tax?: Tax;
 
@@ -32,10 +32,11 @@ class ShippingCost extends Types {
     return this;
   }
 
-  override fromObject(obj: TShippingCost) {
-    this.amount = obj.amount ? new Money().fromObject(obj.amount) : undefined;
-    this.tax = obj.tax ? new Tax().fromObject(obj.tax) : undefined;
-    return this;
+  static fromObject(obj: TShippingCost) {
+    const shippingCost = new ShippingCost();
+    if (obj.amount) shippingCost.setAmount(Money.fromObject(obj.amount));
+    if (obj.tax) shippingCost.setTax(Tax.fromObject(obj.tax));
+    return shippingCost;
   }
 }
 
