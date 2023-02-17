@@ -10,10 +10,8 @@ abstract class Types {
         [entry.replace(/[A-Z]/g, (x) => `_${x.toLowerCase()}`)]:
           this[entry as keyof this] instanceof Object
             ? Array.isArray(this[entry as keyof this])
-              ? ((<unknown>this[entry as keyof this]) as Types[]).map((x) =>
-                  x instanceof Object ? x.toAttributeObject() : x
-                )
-              : ((<unknown>this[entry as keyof typeof this]) as Types).toAttributeObject()
+              ? (this[entry as keyof this] as Types[]).map((x) => (x instanceof Object ? x.toAttributeObject() : x))
+              : (this[entry as keyof typeof this] as Types).toAttributeObject()
             : this[entry as keyof this],
       });
     }
@@ -21,7 +19,7 @@ abstract class Types {
   }
 }
 
-export type StaticImplements<I extends new (...args: any[]) => any, C extends I> = InstanceType<I>;
+export type StaticImplements<I extends new (...args: any[]) => any, _C extends I> = InstanceType<I>;
 export interface ITypes {
   new (...args: any[]): Types;
   fromObject(obj: object): Types;

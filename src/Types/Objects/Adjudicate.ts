@@ -6,13 +6,13 @@ export type TAdjudicate = {
 };
 
 class Adjudicate extends Types implements StaticImplements<ITypes, typeof Adjudicate> {
-  adjudication_outcome!: AdjudicationOutcome;
+  adjudicationOutcome!: AdjudicationOutcome;
   constructor() {
     super();
   }
 
   setAdjudicationOutcome(adjudicationOutcome: AdjudicationOutcome) {
-    this.adjudication_outcome = adjudicationOutcome;
+    this.adjudicationOutcome = adjudicationOutcome;
     return this;
   }
 

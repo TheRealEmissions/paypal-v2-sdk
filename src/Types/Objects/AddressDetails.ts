@@ -21,8 +21,8 @@ class AddressDetails extends Types implements StaticImplements<ITypes, typeof Ad
     super();
   }
 
-  setStreetNumber(number: string) {
-    this.streetNumber = number;
+  setStreetNumber(num: string) {
+    this.streetNumber = num;
     return this;
   }
 

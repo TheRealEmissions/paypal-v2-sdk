@@ -4,24 +4,23 @@ export default paypal;
 
 export { PayPal };
 
-//API
+// API
 export { default as AddTracking } from "./src/API/AddTracking.js";
 export { default as API } from "./src/API/API.js";
 export { default as Authentication } from "./src/API/Authentication.js";
-//export { default as Disputes } from "./src/API/Disputes.js";
+// export { default as Disputes } from "./src/API/Disputes.js";
 export { default as Invoicing } from "./src/API/Invoicing.js";
 export { default as Products } from "./src/API/Products.js";
 
-//Types/APIResponses
+// Types/APIResponses
 export { default as AddTrackersResponse } from "./src/Types/APIResponses/AddTrackers.js";
 export { default as GenerateInvoiceNumberResponse } from "./src/Types/APIResponses/GenerateInvoiceNumber.js";
 export { default as ListInvoicesResponse } from "./src/Types/APIResponses/ListInvoices.js";
 export { default as ListProductsResponse } from "./src/Types/APIResponses/ListProducts.js";
 export { default as ListTemplatesResponse } from "./src/Types/APIResponses/ListTemplates.js";
 export { default as SearchForInvoicesResponse } from "./src/Types/APIResponses/SearchForInvoices.js";
-export { default as TypeResponse } from "./src/Types/APIResponses/TypeResponse.js";
 
-//Types/Enums
+// Types/Enums
 export { AcceptClaimReason as AcceptClaimReasonEnum } from "./src/Types/Enums/AcceptClaimReason.js";
 export { AcceptClaimType as AcceptClaimTypeEnum } from "./src/Types/Enums/AcceptClaimType.js";
 export { AcknowledgementType as AcknowledgementTypeEnum } from "./src/Types/Enums/AcknowledgementType.js";
@@ -49,7 +48,7 @@ export { TemplateFieldName as TemplateFieldNameEnum } from "./src/Types/Enums/Te
 export { TrackingNumberType as TrackingNumberTypeEnum } from "./src/Types/Enums/TrackingNumberType.js";
 export { UnitOfMeasure as UnitOfMeasureEnum } from "./src/Types/Enums/UnitOfMeasure.js";
 
-//Types/Objects
+// Types/Objects
 export { default as AcceptedResponse, TAcceptedResponse } from "./src/Types/Objects/202Response.js";
 export { default as AcceptClaim, TAcceptClaim } from "./src/Types/Objects/AcceptClaim.js";
 export { default as AcceptOffer, TAcceptOffer } from "./src/Types/Objects/AcceptOffer.js";
@@ -79,7 +78,7 @@ export {
   default as BatchTrackerCollection,
   TBatchTrackerCollection,
 } from "./src/Types/Objects/BatchTrackerCollection.js";
-//export { default as BillingDisputesProperties, TBillingDisputesProperties } from "./src/Types/Objects/BillingDisputesPropreties.js";
+// export { default as BillingDisputesProperties, TBillingDisputesProperties } from "./src/Types/Objects/BillingDisputesPropreties.js";
 export { default as BillingInfo, TBillingInfo } from "./src/Types/Objects/BillingInfo.js";
 export { default as BusinessName, TBusinessName } from "./src/Types/Objects/BusinessName.js";
 export { default as Configuration, TConfiguration } from "./src/Types/Objects/Configuration.js";
@@ -110,7 +109,7 @@ export { default as OfferType, TOfferType } from "./src/Types/Objects/OfferType.
 export { default as PartialPayment, TPartialPayment } from "./src/Types/Objects/PartialPayment.js";
 export { default as Patch, TPatch } from "./src/Types/Objects/Patch.js";
 export { default as PatchRequest, TPatchRequest } from "./src/Types/Objects/PatchRequest.js";
-//LEFT OFF HERE
+// LEFT OFF HERE
 
 export { default as PhoneDetail, TPhoneDetail } from "./src/Types/Objects/PhoneDetail.js";
 export { default as Product, TProduct } from "./src/Types/Objects/Product.js";

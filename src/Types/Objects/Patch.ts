@@ -5,14 +5,14 @@ export type TPatch = {
   op: keyof typeof PatchOperation;
   from?: string;
   path?: string;
-  value?: number | string | boolean | null | Array<any> | object;
+  value?: number | string | boolean | null | any[] | object;
 };
 
 class Patch extends Types implements StaticImplements<ITypes, typeof Patch> {
   op?: PatchOperation;
   from?: string;
   path?: string;
-  value?: number | string | boolean | null | Array<any> | object;
+  value?: number | string | boolean | null | any[] | object;
   constructor() {
     super();
   }
@@ -32,7 +32,7 @@ class Patch extends Types implements StaticImplements<ITypes, typeof Patch> {
     return this;
   }
 
-  setValue(value: number | string | boolean | null | Array<any> | object) {
+  setValue(value: number | string | boolean | null | any[] | object) {
     this.value = value;
     return this;
   }
