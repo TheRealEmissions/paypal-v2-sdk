@@ -1,8 +1,6 @@
 abstract class Types {
-  constructor() {}
-
-  toJson() {
-    return JSON.stringify(this.toAttributeObject());
+  toJson<T>() {
+    return JSON.stringify(this.toAttributeObject<T>());
   }
 
   toAttributeObject<T>() {
@@ -12,8 +10,10 @@ abstract class Types {
         [entry.replace(/[A-Z]/g, (x) => `_${x.toLowerCase()}`)]:
           this[entry as keyof this] instanceof Object
             ? Array.isArray(this[entry as keyof this])
-              ? (<unknown>this[entry as keyof this] as Types[]).map((x) => (x instanceof Object ? x.toAttributeObject() : x))
-              : (<unknown>this[entry as keyof typeof this] as Types).toAttributeObject()
+              ? ((<unknown>this[entry as keyof this]) as Types[]).map((x) =>
+                  x instanceof Object ? x.toAttributeObject() : x
+                )
+              : ((<unknown>this[entry as keyof typeof this]) as Types).toAttributeObject()
             : this[entry as keyof this],
       });
     }
