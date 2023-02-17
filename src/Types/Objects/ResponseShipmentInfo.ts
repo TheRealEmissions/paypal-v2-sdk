@@ -14,13 +14,23 @@ class ResponseShipmentInfo extends Types implements Static<ITypes, typeof Respon
     super();
   }
 
-  setShipmentLabel(shipmentLabel: Document) {
-    this.shipmentLabel = shipmentLabel;
+  setShipmentLabel(shipmentLabel: Document | ((shipmentLabel: Document) => void)) {
+    if (shipmentLabel instanceof Document) this.shipmentLabel = shipmentLabel;
+    else {
+      const label = new Document();
+      shipmentLabel(label);
+      this.shipmentLabel = label;
+    }
     return this;
   }
 
-  setTrackingInfo(trackingInfo: ResponseTrackingInfo) {
-    this.trackingInfo = trackingInfo;
+  setTrackingInfo(trackingInfo: ResponseTrackingInfo | ((trackingInfo: ResponseTrackingInfo) => void)) {
+    if (trackingInfo instanceof ResponseTrackingInfo) this.trackingInfo = trackingInfo;
+    else {
+      const info = new ResponseTrackingInfo();
+      trackingInfo(info);
+      this.trackingInfo = info;
+    }
     return this;
   }
 

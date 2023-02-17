@@ -52,18 +52,21 @@ class DisputeInfo extends Types implements Static<ITypes, typeof DisputeInfo> {
     return this;
   }
 
-  setDisputeAmount(disputeAmount: Money) {
-    this.disputeAmount = disputeAmount;
+  setDisputeAmount(disputeAmount: Money | ((type: Money) => void)) {
+    if (typeof disputeAmount === "function") disputeAmount((this.disputeAmount = new Money()));
+    else this.disputeAmount = disputeAmount;
     return this;
   }
 
-  setDisputeAsset(disputeAsset: Cryptocurrency) {
-    this.disputeAsset = disputeAsset;
+  setDisputeAsset(disputeAsset: Cryptocurrency | ((type: Cryptocurrency) => void)) {
+    if (typeof disputeAsset === "function") disputeAsset((this.disputeAsset = new Cryptocurrency()));
+    else this.disputeAsset = disputeAsset;
     return this;
   }
 
-  setDisputeChannel(disputeChannel: DisputeChannel) {
-    this.disputeChannel = disputeChannel;
+  setDisputeChannel(disputeChannel: DisputeChannel | ((type: typeof DisputeChannel) => DisputeChannel)) {
+    if (typeof disputeChannel === "function") this.disputeChannel = disputeChannel(DisputeChannel);
+    else this.disputeChannel = disputeChannel;
     return this;
   }
 
@@ -72,23 +75,34 @@ class DisputeInfo extends Types implements Static<ITypes, typeof DisputeInfo> {
     return this;
   }
 
-  setDisputeLifeCycleStage(disputeLifeCycleStage: DisputeLifeCycleStage) {
-    this.disputeLifeCycleStage = disputeLifeCycleStage;
+  setDisputeLifeCycleStage(
+    disputeLifeCycleStage: DisputeLifeCycleStage | ((type: typeof DisputeLifeCycleStage) => DisputeLifeCycleStage)
+  ) {
+    if (typeof disputeLifeCycleStage === "function")
+      this.disputeLifeCycleStage = disputeLifeCycleStage(DisputeLifeCycleStage);
+    else this.disputeLifeCycleStage = disputeLifeCycleStage;
     return this;
   }
 
-  setDisputeState(disputeState: DisputeState) {
-    this.disputeState = disputeState;
+  setDisputeState(disputeState: DisputeState | ((type: typeof DisputeState) => DisputeState)) {
+    if (typeof disputeState === "function") this.disputeState = disputeState(DisputeState);
+    else this.disputeState = disputeState;
     return this;
   }
 
-  setLinks(links: LinkDescription[]) {
-    this.links = links;
+  setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
+    this.links = links.map((link) => {
+      if (link instanceof LinkDescription) return link;
+      const linkDescription = new LinkDescription();
+      link(linkDescription);
+      return linkDescription;
+    });
     return this;
   }
 
-  setReason(reason: DisputeReason) {
-    this.reason = reason;
+  setReason(reason: DisputeReason | ((type: typeof DisputeReason) => DisputeReason)) {
+    if (typeof reason === "function") this.reason = reason(DisputeReason);
+    else this.reason = reason;
     return this;
   }
 
@@ -97,8 +111,9 @@ class DisputeInfo extends Types implements Static<ITypes, typeof DisputeInfo> {
     return this;
   }
 
-  setStatus(status: DisputeStatus) {
-    this.status = status;
+  setStatus(status: DisputeStatus | ((type: typeof DisputeStatus) => DisputeStatus)) {
+    if (typeof status === "function") this.status = status(DisputeStatus);
+    else this.status = status;
     return this;
   }
 
@@ -118,7 +133,7 @@ class DisputeInfo extends Types implements Static<ITypes, typeof DisputeInfo> {
     if (obj.dispute_life_cycle_stage)
       disputeInfo.setDisputeLifeCycleStage(DisputeLifeCycleStage[obj.dispute_life_cycle_stage]);
     if (obj.dispute_state) disputeInfo.setDisputeState(DisputeState[obj.dispute_state]);
-    if (obj.links) disputeInfo.setLinks(obj.links.map((link) => LinkDescription.fromObject(link)));
+    if (obj.links) disputeInfo.setLinks(...obj.links.map((link) => LinkDescription.fromObject(link)));
     if (obj.reason) disputeInfo.setReason(DisputeReason[obj.reason]);
     if (obj.seller_response_due_date) disputeInfo.setSellerResponseDueDate(obj.seller_response_due_date);
     if (obj.status) disputeInfo.setStatus(DisputeStatus[obj.status]);

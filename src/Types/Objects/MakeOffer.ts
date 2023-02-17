@@ -23,8 +23,13 @@ class MakeOffer extends Types implements Static<ITypes, typeof MakeOffer> {
     super();
   }
 
-  setOfferTypes(offerTypes: OfferType[]) {
-    this.offerTypes = offerTypes;
+  setOfferTypes(...offerTypes: (OfferType | ((offerType: OfferType) => void))[]) {
+    this.offerTypes = offerTypes.map((offerType) => {
+      if (offerType instanceof OfferType) return offerType;
+      const _offerType = new OfferType();
+      offerType(_offerType);
+      return _offerType;
+    });
     return this;
   }
 
@@ -33,8 +38,13 @@ class MakeOffer extends Types implements Static<ITypes, typeof MakeOffer> {
     return this;
   }
 
-  setOfferType(offerType: OfferType) {
-    this.offerType = offerType;
+  setOfferType(offerType: OfferType | ((offerType: OfferType) => void)) {
+    if (offerType instanceof OfferType) this.offerType = offerType;
+    else {
+      const _offerType = new OfferType();
+      offerType(_offerType);
+      this.offerType = _offerType;
+    }
     return this;
   }
 
@@ -43,19 +53,30 @@ class MakeOffer extends Types implements Static<ITypes, typeof MakeOffer> {
     return this;
   }
 
-  setOfferAmount(offerAmount: Money) {
-    this.offerAmount = offerAmount;
+  setOfferAmount(offerAmount: Money | ((money: Money) => void)) {
+    if (offerAmount instanceof Money) this.offerAmount = offerAmount;
+    else {
+      const money = new Money();
+      offerAmount(money);
+      this.offerAmount = money;
+    }
     return this;
   }
 
-  setReturnShippingAddress(returnShippingAddress: AddressPortable) {
-    this.returnShippingAddress = returnShippingAddress;
+  setReturnShippingAddress(returnShippingAddress: AddressPortable | ((address: AddressPortable) => void)) {
+    if (returnShippingAddress instanceof AddressPortable) this.returnShippingAddress = returnShippingAddress;
+    else {
+      const address = new AddressPortable();
+      returnShippingAddress(address);
+      this.returnShippingAddress = address;
+    }
     return this;
   }
 
   static fromObject(obj: TMakeOffer) {
     const makeOffer = new MakeOffer();
-    if (obj.offer_types) makeOffer.setOfferTypes(obj.offer_types.map((offerType) => OfferType.fromObject(offerType)));
+    if (obj.offer_types)
+      makeOffer.setOfferTypes(...obj.offer_types.map((offerType) => OfferType.fromObject(offerType)));
     if (obj.note) makeOffer.setNote(obj.note);
     if (obj.offer_type) makeOffer.setOfferType(OfferType.fromObject(obj.offer_type));
     if (obj.invoice_id) makeOffer.setInvoiceId(obj.invoice_id);

@@ -14,13 +14,23 @@ class AggregatedDiscount extends Types implements Static<ITypes, typeof Aggregat
     super();
   }
 
-  setInvoiceDiscount(invoiceDiscount: Discount) {
-    this.invoiceDiscount = invoiceDiscount;
+  setInvoiceDiscount(invoiceDiscount: Discount | ((discount: Discount) => void)) {
+    if (invoiceDiscount instanceof Discount) this.invoiceDiscount = invoiceDiscount;
+    else {
+      const discount = new Discount();
+      invoiceDiscount(discount);
+      this.invoiceDiscount = discount;
+    }
     return this;
   }
 
-  setItemDiscount(itemDiscount: Money) {
-    this.itemDiscount = itemDiscount;
+  setItemDiscount(itemDiscount: Money | ((money: Money) => void)) {
+    if (itemDiscount instanceof Money) this.itemDiscount = itemDiscount;
+    else {
+      const money = new Money();
+      itemDiscount(money);
+      this.itemDiscount = money;
+    }
     return this;
   }
 

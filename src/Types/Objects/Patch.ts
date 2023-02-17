@@ -17,8 +17,9 @@ class Patch extends Types implements Static<ITypes, typeof Patch> {
     super();
   }
 
-  setOp(op: PatchOperation) {
-    this.op = op;
+  setOp(op: PatchOperation | ((op: typeof PatchOperation) => PatchOperation)) {
+    if (typeof op === "function") this.op = op(PatchOperation);
+    else this.op = op;
     return this;
   }
 

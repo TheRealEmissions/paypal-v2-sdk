@@ -11,8 +11,14 @@ class ResponseAcceptClaimType extends Types implements Static<ITypes, typeof Res
     super();
   }
 
-  setResponseAcceptClaimType(responseAcceptClaimType: ResponseAcceptClaimTypeEnum) {
-    this.responseAcceptClaimType = responseAcceptClaimType;
+  setResponseAcceptClaimType(
+    responseAcceptClaimType:
+      | ResponseAcceptClaimTypeEnum
+      | ((responseAcceptClaimType: typeof ResponseAcceptClaimTypeEnum) => ResponseAcceptClaimTypeEnum)
+  ) {
+    if (typeof responseAcceptClaimType === "function")
+      this.responseAcceptClaimType = responseAcceptClaimType(ResponseAcceptClaimTypeEnum);
+    else this.responseAcceptClaimType = responseAcceptClaimType;
     return this;
   }
 

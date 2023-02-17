@@ -25,8 +25,9 @@ class LinkDescription extends Types implements Static<ITypes, typeof LinkDescrip
     return this;
   }
 
-  setMethod(method: HTTPMethod) {
-    this.method = method;
+  setMethod(method: HTTPMethod | ((method: typeof HTTPMethod) => HTTPMethod)) {
+    if (typeof method === "function") this.method = method(HTTPMethod);
+    else this.method = method;
     return this;
   }
 

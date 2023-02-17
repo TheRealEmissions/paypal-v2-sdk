@@ -14,13 +14,22 @@ class TemplateItemSetting extends Types implements Static<ITypes, typeof Templat
     super();
   }
 
-  setDisplayPreference(displayPreference: TemplateDisplayPreference) {
-    this.displayPreference = displayPreference;
+  setDisplayPreference(
+    displayPreference: TemplateDisplayPreference | ((displayPreference: TemplateDisplayPreference) => void)
+  ) {
+    if (displayPreference instanceof TemplateDisplayPreference) {
+      this.displayPreference = displayPreference;
+    } else {
+      const templateDisplayPreference = new TemplateDisplayPreference();
+      displayPreference(templateDisplayPreference);
+      this.displayPreference = templateDisplayPreference;
+    }
     return this;
   }
 
-  setFieldName(fieldName: TemplateFieldName) {
-    this.fieldName = fieldName;
+  setFieldName(fieldName: TemplateFieldName | ((fieldName: typeof TemplateFieldName) => TemplateFieldName)) {
+    if (typeof fieldName === "function") this.fieldName = fieldName(TemplateFieldName);
+    else this.fieldName = fieldName;
     return this;
   }
 

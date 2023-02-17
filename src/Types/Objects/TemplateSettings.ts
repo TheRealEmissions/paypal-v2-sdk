@@ -14,13 +14,29 @@ class TemplateSettings extends Types implements Static<ITypes, typeof TemplateSe
     super();
   }
 
-  setTemplateItemSettings(templateItemSettings: TemplateItemSetting[]) {
-    this.templateItemSettings = templateItemSettings;
+  setTemplateItemSettings(...templateItemSettings: (TemplateItemSetting | ((setting: TemplateItemSetting) => void))[]) {
+    this.templateItemSettings = templateItemSettings.map((templateItemSetting) => {
+      if (templateItemSetting instanceof TemplateItemSetting) return templateItemSetting;
+      else {
+        const t = new TemplateItemSetting();
+        templateItemSetting(t);
+        return t;
+      }
+    });
     return this;
   }
 
-  setTemplateSubtotalSettings(templateSubtotalSettings: TemplateSubtotalSetting[]) {
-    this.templateSubtotalSettings = templateSubtotalSettings;
+  setTemplateSubtotalSettings(
+    ...templateSubtotalSettings: (TemplateSubtotalSetting | ((setting: TemplateSubtotalSetting) => void))[]
+  ) {
+    this.templateSubtotalSettings = templateSubtotalSettings.map((templateSubtotalSetting) => {
+      if (templateSubtotalSetting instanceof TemplateSubtotalSetting) return templateSubtotalSetting;
+      else {
+        const t = new TemplateSubtotalSetting();
+        templateSubtotalSetting(t);
+        return t;
+      }
+    });
     return this;
   }
 
@@ -28,11 +44,11 @@ class TemplateSettings extends Types implements Static<ITypes, typeof TemplateSe
     const templateSettings = new TemplateSettings();
     if (obj.template_item_settings)
       templateSettings.setTemplateItemSettings(
-        obj.template_item_settings.map((templateItemSetting) => TemplateItemSetting.fromObject(templateItemSetting))
+        ...obj.template_item_settings.map((templateItemSetting) => TemplateItemSetting.fromObject(templateItemSetting))
       );
     if (obj.template_subtotal_settings)
       templateSettings.setTemplateSubtotalSettings(
-        obj.template_subtotal_settings.map((templateSubtotalSetting) =>
+        ...obj.template_subtotal_settings.map((templateSubtotalSetting) =>
           TemplateSubtotalSetting.fromObject(templateSubtotalSetting)
         )
       );

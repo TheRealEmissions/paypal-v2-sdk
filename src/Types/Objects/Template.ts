@@ -80,8 +80,13 @@ class Template extends Types implements Static<ITypes, typeof Template> {
     return this;
   }
 
-  setLinks(links: LinkDescription[]) {
-    this.links = links;
+  setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
+    this.links = links.map((link) => {
+      if (link instanceof LinkDescription) return link;
+      const linkDesc = new LinkDescription();
+      link(linkDesc);
+      return linkDesc;
+    });
     return this;
   }
 
@@ -90,8 +95,14 @@ class Template extends Types implements Static<ITypes, typeof Template> {
     return this;
   }
 
-  setSettings(settings: TemplateSettings) {
-    this.settings = settings;
+  setSettings(settings: TemplateSettings | ((settings: TemplateSettings) => void)) {
+    if (settings instanceof TemplateSettings) {
+      this.settings = settings;
+    } else {
+      const templateSettings = new TemplateSettings();
+      settings(templateSettings);
+      this.settings = templateSettings;
+    }
     return this;
   }
 
@@ -100,13 +111,23 @@ class Template extends Types implements Static<ITypes, typeof Template> {
     return this;
   }
 
-  setTemplateInfo(templateInfo: TemplateInfo) {
-    this.templateInfo = templateInfo;
+  setTemplateInfo(templateInfo: TemplateInfo | ((templateInfo: TemplateInfo) => void)) {
+    if (templateInfo instanceof TemplateInfo) {
+      this.templateInfo = templateInfo;
+    } else {
+      const templateInfoObj = new TemplateInfo();
+      templateInfo(templateInfoObj);
+      this.templateInfo = templateInfoObj;
+    }
     return this;
   }
 
-  setUnitOfMeasure(unitOfMeasure: UnitOfMeasure) {
-    this.unitOfMeasure = unitOfMeasure;
+  setUnitOfMeasure(unitOfMeasure: UnitOfMeasure | ((unitOfMeasure: typeof UnitOfMeasure) => UnitOfMeasure)) {
+    if (typeof unitOfMeasure === "function") {
+      this.unitOfMeasure = unitOfMeasure(UnitOfMeasure);
+    } else {
+      this.unitOfMeasure = unitOfMeasure;
+    }
     return this;
   }
 
@@ -114,7 +135,7 @@ class Template extends Types implements Static<ITypes, typeof Template> {
     const template = new Template();
     if (obj.default_template) template.setDefaultTemplate(obj.default_template);
     if (obj.id) template.setId(obj.id);
-    if (obj.links) template.setLinks(obj.links.map((x) => LinkDescription.fromObject(x)));
+    if (obj.links) template.setLinks(...obj.links.map((x) => LinkDescription.fromObject(x)));
     if (obj.name) template.setName(obj.name);
     if (obj.settings) template.setSettings(TemplateSettings.fromObject(obj.settings));
     if (obj.standard_template) template.setStandardTemplate(obj.standard_template);

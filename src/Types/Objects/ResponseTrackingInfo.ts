@@ -17,8 +17,9 @@ class ResponseTrackingInfo extends Types implements Static<ITypes, typeof Respon
     super();
   }
 
-  setCarrierName(carrierName: Carrier) {
-    this.carrierName = carrierName;
+  setCarrierName(carrierName: Carrier | ((carrierName: typeof Carrier) => Carrier)) {
+    if (typeof carrierName === "function") this.carrierName = carrierName(Carrier);
+    else this.carrierName = carrierName;
     return this;
   }
 

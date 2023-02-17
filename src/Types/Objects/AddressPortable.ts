@@ -34,8 +34,13 @@ class AddressPortable extends Types implements Static<ITypes, typeof AddressPort
     return this;
   }
 
-  setAddressDetails(addressDetails: AddressDetails) {
-    this.addressDetails = addressDetails;
+  setAddressDetails(addressDetails: AddressDetails | ((addressDetails: AddressDetails) => void)) {
+    if (addressDetails instanceof AddressDetails) this.addressDetails = addressDetails;
+    else {
+      const addressDetailsObj = new AddressDetails();
+      addressDetails(addressDetailsObj);
+      this.addressDetails = addressDetailsObj;
+    }
     return this;
   }
 

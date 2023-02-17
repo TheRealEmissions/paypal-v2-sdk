@@ -14,20 +14,26 @@ class AcknowledgeReturnItemEvidence extends Types implements Static<ITypes, type
     super();
   }
 
-  setDocuments(documents: Document[]) {
-    this.documents = documents;
+  setDocuments(...documents: (Document | ((document: Document) => void))[]) {
+    this.documents = documents.map((document) => {
+      if (document instanceof Document) return document;
+      const doc = new Document();
+      document(doc);
+      return doc;
+    });
     return this;
   }
 
-  setEvidenceType(evidenceType: EvidenceType) {
-    this.evidenceType = evidenceType;
+  setEvidenceType(evidenceType: EvidenceType | ((type: typeof EvidenceType) => EvidenceType)) {
+    if (typeof evidenceType === "function") this.evidenceType = evidenceType(EvidenceType);
+    else this.evidenceType = evidenceType;
     return this;
   }
 
   static fromObject(obj: TAcknowledgeReturnItemEvidence) {
     const acknowledgeReturnItemEvidence = new AcknowledgeReturnItemEvidence();
     if (obj.documents)
-      acknowledgeReturnItemEvidence.setDocuments(obj.documents.map((document) => Document.fromObject(document)));
+      acknowledgeReturnItemEvidence.setDocuments(...obj.documents.map((document) => Document.fromObject(document)));
     if (obj.evidence_type !== undefined) acknowledgeReturnItemEvidence.setEvidenceType(EvidenceType[obj.evidence_type]);
     return acknowledgeReturnItemEvidence;
   }

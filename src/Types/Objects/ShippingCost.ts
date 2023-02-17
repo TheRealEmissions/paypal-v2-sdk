@@ -19,16 +19,30 @@ class ShippingCost extends Types implements Static<ITypes, typeof ShippingCost> 
    *
    * @param amount - Value must be between 0 and 1,000,000
    */
-  setAmount(amount: Money): ShippingCost {
-    if (parseFloat(amount.value as string) < 0 || parseFloat(amount.value as string) > 1000000) {
-      throw new Error("Amount value cannot be less than 0 or greater than 1,000,000");
+  setAmount(amount: Money | ((money: Money) => void)): ShippingCost {
+    if (amount instanceof Money) {
+      if (parseFloat(amount.value as string) < 0 || parseFloat(amount.value as string) > 1000000) {
+        throw new Error("Amount value cannot be less than 0 or greater than 1,000,000");
+      }
+      this.amount = amount;
+    } else {
+      const money = new Money();
+      amount(money);
+      if (parseFloat(money.value as string) < 0 || parseFloat(money.value as string) > 1000000) {
+        throw new Error("Amount value cannot be less than 0 or greater than 1,000,000");
+      }
+      this.amount = money;
     }
-    this.amount = amount;
     return this;
   }
 
-  setTax(tax: Tax) {
-    this.tax = tax;
+  setTax(tax: Tax | ((tax: Tax) => void)) {
+    if (tax instanceof Tax) this.tax = tax;
+    else {
+      const taxObj = new Tax();
+      tax(taxObj);
+      this.tax = taxObj;
+    }
     return this;
   }
 

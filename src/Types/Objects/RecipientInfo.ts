@@ -14,13 +14,23 @@ class RecipientInfo extends Types implements Static<ITypes, typeof RecipientInfo
     super();
   }
 
-  setBillingInfo(billingInfo: BillingInfo) {
-    this.billingInfo = billingInfo;
+  setBillingInfo(billingInfo: BillingInfo | ((billingInfo: BillingInfo) => void)) {
+    if (billingInfo instanceof BillingInfo) this.billingInfo = billingInfo;
+    else {
+      const info = new BillingInfo();
+      billingInfo(info);
+      this.billingInfo = info;
+    }
     return this;
   }
 
-  setShippingInfo(shippingInfo: ContactInformation) {
-    this.shippingInfo = shippingInfo;
+  setShippingInfo(shippingInfo: ContactInformation | ((contactInformation: ContactInformation) => void)) {
+    if (shippingInfo instanceof ContactInformation) this.shippingInfo = shippingInfo;
+    else {
+      const info = new ContactInformation();
+      shippingInfo(info);
+      this.shippingInfo = info;
+    }
     return this;
   }
 

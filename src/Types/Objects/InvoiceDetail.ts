@@ -36,8 +36,13 @@ class InvoiceDetail extends Types implements Static<ITypes, typeof InvoiceDetail
     return this;
   }
 
-  setAttachments(attachments: FileReference[]) {
-    this.attachments = attachments;
+  setAttachments(...attachments: (FileReference | ((fileReference: FileReference) => void))[]) {
+    this.attachments = attachments.map((attachment) => {
+      if (attachment instanceof FileReference) return attachment;
+      const fileReference = new FileReference();
+      attachment(fileReference);
+      return fileReference;
+    });
     return this;
   }
 
@@ -76,8 +81,13 @@ class InvoiceDetail extends Types implements Static<ITypes, typeof InvoiceDetail
     return this;
   }
 
-  setPaymentTerm(paymentTerm: InvoicePaymentTerm) {
-    this.paymentTerm = paymentTerm;
+  setPaymentTerm(paymentTerm: InvoicePaymentTerm | ((paymentTerm: InvoicePaymentTerm) => void)) {
+    if (paymentTerm instanceof InvoicePaymentTerm) this.paymentTerm = paymentTerm;
+    else {
+      const invoicePaymentTerm = new InvoicePaymentTerm();
+      paymentTerm(invoicePaymentTerm);
+      this.paymentTerm = invoicePaymentTerm;
+    }
     return this;
   }
 
@@ -85,7 +95,7 @@ class InvoiceDetail extends Types implements Static<ITypes, typeof InvoiceDetail
     const invoiceDetail = new InvoiceDetail();
     if (obj.currency_code) invoiceDetail.setCurrencyCode(obj.currency_code);
     if (obj.attachments)
-      invoiceDetail.setAttachments(obj.attachments.map((attachment) => FileReference.fromObject(attachment)));
+      invoiceDetail.setAttachments(...obj.attachments.map((attachment) => FileReference.fromObject(attachment)));
     if (obj.memo) invoiceDetail.setMemo(obj.memo);
     if (obj.note) invoiceDetail.setNote(obj.note);
     if (obj.reference) invoiceDetail.setReference(obj.reference);

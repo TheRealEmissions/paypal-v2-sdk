@@ -11,8 +11,13 @@ class Adjudicate extends Types implements Static<ITypes, typeof Adjudicate> {
     super();
   }
 
-  setAdjudicationOutcome(adjudicationOutcome: AdjudicationOutcome) {
-    this.adjudicationOutcome = adjudicationOutcome;
+  setAdjudicationOutcome(
+    adjudicationOutcome:
+      | AdjudicationOutcome
+      | ((adjudicationOutcome: typeof AdjudicationOutcome) => AdjudicationOutcome)
+  ) {
+    if (typeof adjudicationOutcome === "function") this.adjudicationOutcome = adjudicationOutcome(AdjudicationOutcome);
+    else this.adjudicationOutcome = adjudicationOutcome;
     return this;
   }
 

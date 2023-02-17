@@ -18,8 +18,13 @@ class PartialPayment extends Types implements Static<ITypes, typeof PartialPayme
     return this;
   }
 
-  setMinimumAmountDue(minimumAmountDue: Money) {
-    this.minimumAmountDue = minimumAmountDue;
+  setMinimumAmountDue(minimumAmountDue: Money | ((money: Money) => void)) {
+    if (minimumAmountDue instanceof Money) this.minimumAmountDue = minimumAmountDue;
+    else {
+      const money = new Money();
+      minimumAmountDue(money);
+      this.minimumAmountDue = money;
+    }
     return this;
   }
 

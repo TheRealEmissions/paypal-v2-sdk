@@ -37,10 +37,12 @@ try {
 ## Invoices
 
 - Getting an invoice
-  Returns Invoice object
+  Returns instance of Invoice
 
 ```ts
 import { default as PayPal, Invoice } from "paypal-v2-sdk.js";
+// Specifying Invoice as the type is not necessary as #get() returns Invoice as the type, it
+// is displayed here for information purposes only
 const invoice: Invoice = await PayPal.Invoicing.get("id of invoice");
 ```
 
@@ -57,76 +59,66 @@ console.log(deleted); // true if deleted, false if not
 - Creating an invoice object and then creating a draft invoice on PayPal (fetches next invoice number for you)
 
 ```ts
-import {
-  default as PayPal,
-  UnitOfMeasure,
-  AddressDetails,
-  AddressPortable,
-  BillingInfo,
-  Configuration,
-  ContactInformation,
-  EmailAddress,
-  Invoice,
-  InvoiceDetail,
-  InvoicePaymentTerm,
-  InvoicerInfo,
-  Item,
-  Money,
-  Name,
-  PartialPayment,
-  PhoneDetail,
-  RecipientInfo,
-  Tax,
-} from "paypal-v2-sdk.js";
-
+import { default as PayPal, Invoice } from "./index.js";
 let invoice: Invoice = new Invoice(PayPal)
-  .setAdditionalRecipients([
-    new EmailAddress().setEmailAddress("some@email.com"),
-    new EmailAddress().setEmailAddress("another@website.com"),
-  ])
-  .setConfiguration(
-    new Configuration()
+  .setAdditionalRecipients(
+    (recipient) => recipient.setEmailAddress("some@email.com"),
+    (recipient) => recipient.setEmailAddress("another@website.com")
+  )
+  .setConfiguration((configuration) =>
+    configuration
       .setAllowTip(true)
-      .setPartialPayment(
-        new PartialPayment()
+      .setPartialPayment((partialPayment) =>
+        partialPayment
           .setAllowPartialPayment(true)
-          .setMinimumAmountDue(new Money().setCurrencyCode("USD").setValue("10.00"))
+          .setMinimumAmountDue((money) => money.setCurrencyCode("USD").setValue("10.00"))
       )
       .setTaxCalculatedAfterDiscount(false)
   )
-  .setDetail(
-    new InvoiceDetail()
+  .setDetail((invoiceDetail) =>
+    invoiceDetail
       .setCurrencyCode("USD")
-      .setMemo("Some memo")
+      .setMemo("some memo")
       .setNote("some note")
-      .setPaymentTerm(new InvoicePaymentTerm().setTermType("NET_45"))
+      .setPaymentTerm((paymentTerm) => paymentTerm.setTermType("NET_45"))
   )
-  .setInvoicer(
-    new InvoicerInfo()
+  .setInvoicer((invoicer) =>
+    invoicer
       .setEmailAddress("company@some.com")
       .setAdditionalNotes("some additional notes")
       .setLogoUrl("https://logo.com/image.png")
-      .setPhones([new PhoneDetail().setCountryCode("44").setNationalNumber("123456")])
+      .setPhones(
+        (phone) => phone.setCountryCode("44").setNationalNumber("123456"),
+        (phone) => phone.setCountryCode("44").setNationalNumber("345678")
+      )
       .setTaxId("123456789")
-      .setWebsite("https://website.com")
+      .setWebsite("https://website.com/")
   )
-  .setItems([
-    new Item()
-      .setItemDescription("some description")
-      .setItemName("some name")
-      .setItemUnitAmount(new Money().setCurrencyCode("USD").setValue("20.00"))
-      .setItemTax(new Tax().setPercent("10").setName("Processing Fee"))
-      .setItemUnitOfMeasure(UnitOfMeasure.QUANTITY),
-  ])
-  .setPrimaryRecipients([
-    new RecipientInfo()
-      .setBillingInfo(new BillingInfo().setEmailAddress("customer@some.com").setLanguage("en_US"))
-      .setShippingInfo(
-        new ContactInformation()
-          .setAddress(
-            new AddressPortable()
-              .setAddressDetails(
-                new AddressDetails()
+  .setItems(
+    (item) =>
+      item
+        .setItemDescription("some description")
+        .setItemName("some name")
+        .setItemUnitAmount((money) => money.setCurrencyCode("USD").setValue("20.00"))
+        .setItemTax((tax) => tax.setPercent("10").setName("Processing Fee"))
+        .setItemUnitOfMeasure((unitOfMeasure) => unitOfMeasure.QUANTITY),
+    (item) =>
+      item
+        .setItemDescription("another description")
+        .setItemName("another name")
+        .setItemUnitAmount((money) => money.setCurrencyCode("USD").setValue("10.00"))
+        .setItemTax((tax) => tax.setPercent("10").setName("Processing Fee"))
+        .setItemUnitOfMeasure((unitOfMeasure) => unitOfMeasure.QUANTITY)
+  )
+  .setPrimaryRecipients((recipient) =>
+    recipient
+      .setBillingInfo((billingInfo) => billingInfo.setEmailAddress("customer@some.com").setLanguage("en_US"))
+      .setShippingInfo((contactInfo) =>
+        contactInfo
+          .setAddress((address) =>
+            address
+              .setAddressDetails((addressDetails) =>
+                addressDetails
                   .setBuildingName("some building")
                   .setStreetName("some street")
                   .setStreetNumber("123")
@@ -141,8 +133,8 @@ let invoice: Invoice = new Invoice(PayPal)
               .setPostalCode("12345")
           )
           .setBusinessName("some business name")
-          .setName(
-            new Name()
+          .setName((name) =>
+            name
               .setFullName("some full name")
               .setGivenName("some given name")
               .setSurname("some surname")
@@ -151,15 +143,24 @@ let invoice: Invoice = new Invoice(PayPal)
               .setSuffix("some suffix")
               .setSurname("some surname")
           )
-      ),
-  ]);
-invoice = await invoice.createDraft(true);
-const sentInvoice = await invoice.send(undefined, undefined, true, true, undefined);
-if (typeof sentInvoice === "string") {
-  console.error("invoice failed to send", sentInvoice);
-} else {
-  invoice = sentInvoice;
+      )
+  );
+invoice = await invoice.createDraft(/* Generate Next Invoice Number */ true);
+
+try {
+  invoice = await invoice.send(
+    /*Additional Recipients*/ undefined,
+    /*Note*/ undefined,
+    /*Send to Invoicer*/ true,
+    /*Send to Recipient*/ true,
+    /*Subject*/ undefined
+  );
+} catch (e) {
+  console.error(e);
+  return;
 }
+
+console.log(invoice.toJson()); // the updated invoice
 ```
 
 - Getting the next invoice number & creating an invoice **via an object**
@@ -167,13 +168,13 @@ if (typeof sentInvoice === "string") {
 ```js
 import { default as PayPal, Invoice } from "paypal-v2-sdk.js";
 
-let invoice: Invoice = new Invoice(PayPal).fromObject({
+let invoice: Invoice = Invoice.fromObject({
   detail: {
-    invoice_number: "#123",
+    invoice_number: "123",
     reference: "deal-ref",
     invoice_date: "2018-11-12",
     currency_code: "USD",
-    note: "Thank you for your business.",
+    note: "Thank you for your busin.0ess.",
     term: "No refunds after 30 days.",
     memo: "This is a long contract",
     payment_term: {
@@ -323,11 +324,21 @@ let invoice: Invoice = new Invoice(PayPal).fromObject({
       },
     },
   },
-});
-invoice = await invoice.createDraft(true);
+}).setPayPal(PayPal);
+
+invoice = await invoice.createDraft(
+  /*Generate Next Invoice Number*/ true
+);
 
 try {
-  invoice = await invoice.send(undefined, undefined, true, true, undefined);
+  // Re-assign invoice as #send() updates the Invoice object from PayPal
+  invoice = await invoice.send(
+    /*Additional Recipients*/ undefined,
+    /*Note*/ undefined, 
+    /*Send to Invoicer*/ true, 
+    /*Send to Recipient*/ true, 
+    /*Subject*/ undefined
+  );
 } catch (e) {
   // invoice failed to send, outputs statusText from API
   console.error(e);

@@ -16,8 +16,13 @@ class AmountSummaryDetail extends Types implements Static<ITypes, typeof AmountS
     super();
   }
 
-  setBreakdown(breakdown: AmountWithBreakdown) {
-    this.breakdown = breakdown;
+  setBreakdown(breakdown: AmountWithBreakdown | ((breakdown: AmountWithBreakdown) => void)) {
+    if (breakdown instanceof AmountWithBreakdown) this.breakdown = breakdown;
+    else {
+      const amountWithBreakdown = new AmountWithBreakdown();
+      breakdown(amountWithBreakdown);
+      this.breakdown = amountWithBreakdown;
+    }
     return this;
   }
 

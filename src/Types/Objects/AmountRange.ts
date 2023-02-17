@@ -13,13 +13,23 @@ class AmountRange extends Types implements Static<ITypes, typeof AmountRange> {
     super();
   }
 
-  setLowerAmount(lowerAmount: Money) {
-    this.lowerAmount = lowerAmount;
+  setLowerAmount(lowerAmount: Money | ((money: Money) => void)) {
+    if (lowerAmount instanceof Money) this.lowerAmount = lowerAmount;
+    else {
+      const money = new Money();
+      lowerAmount(money);
+      this.lowerAmount = money;
+    }
     return this;
   }
 
-  setUpperAmount(upperAmount: Money) {
-    this.upperAmount = upperAmount;
+  setUpperAmount(upperAmount: Money | ((money: Money) => void)) {
+    if (upperAmount instanceof Money) this.upperAmount = upperAmount;
+    else {
+      const money = new Money();
+      upperAmount(money);
+      this.upperAmount = money;
+    }
     return this;
   }
 

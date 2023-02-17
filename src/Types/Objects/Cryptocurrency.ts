@@ -13,8 +13,9 @@ class Cryptocurrency extends Types implements Static<ITypes, typeof Cryptocurren
     super();
   }
 
-  setAssetSymbol(assetSymbol: AssetSymbol) {
-    this.assetSymbol = assetSymbol;
+  setAssetSymbol(assetSymbol: AssetSymbol | ((assetSymbol: typeof AssetSymbol) => AssetSymbol)) {
+    if (typeof assetSymbol === "function") this.assetSymbol = assetSymbol(AssetSymbol);
+    else this.assetSymbol = assetSymbol;
     return this;
   }
 

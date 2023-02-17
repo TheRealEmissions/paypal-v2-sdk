@@ -18,11 +18,20 @@ class CustomAmount extends Types implements Static<ITypes, typeof CustomAmount> 
     return this;
   }
 
-  setAmount(amount: Money) {
-    if (Math.abs(parseFloat(amount.value as string)) > 1000000) {
-      throw new Error("Amount value cannot be greater than 1,000,000");
+  setAmount(amount: Money | ((money: Money) => void)) {
+    if (amount instanceof Money) {
+      if (Math.abs(parseFloat(amount.value as string)) > 1000000) {
+        throw new Error("Amount value cannot be greater than 1,000,000");
+      }
+      this.amount = amount;
+    } else {
+      const money = new Money();
+      amount(money);
+      if (Math.abs(parseFloat(money.value as string)) > 1000000) {
+        throw new Error("Amount value cannot be greater than 1,000,000");
+      }
+      this.amount = money;
     }
-    this.amount = amount;
     return this;
   }
 

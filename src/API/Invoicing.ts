@@ -230,7 +230,7 @@ class Invoicing {
 
     if (response.status !== 200) throw new Error(response.statusText);
 
-    return await this.get(invoiceId);
+    return this.get(invoiceId);
   }
 
   async search(page: number, pageSize: number, totalRequired: boolean, data?: TSearch) {

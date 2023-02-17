@@ -11,8 +11,9 @@ class PaymentTerm extends Types implements Static<ITypes, typeof PaymentTerm> {
     super();
   }
 
-  setTermType(termType: PaymentTermType) {
-    this.termType = termType;
+  setTermType(termType: PaymentTermType | ((termType: typeof PaymentTermType) => PaymentTermType)) {
+    if (typeof termType === "function") this.termType = termType(PaymentTermType);
+    else this.termType = termType;
     return this;
   }
 
