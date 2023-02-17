@@ -5,6 +5,7 @@ import PartialUpdateDisputeResponse, {
 } from "../Types/APIResponses/PartialUpdateDispute";
 import { DisputeState } from "../Types/Enums/DisputeState";
 import Patch from "../Types/Objects/Patch";
+import { TPatchRequest } from "../Types/Objects/PatchRequest";
 
 class Disputes {
   protected PayPal: PayPal;
@@ -77,9 +78,11 @@ class Disputes {
 
   async partialUpdate(disputeId: string, patchRequest: Patch[]) {
     const response = await this.PayPal.API.patch<TPartialUpdateDisputeResponse>(`/v1/customer/disputes/${disputeId}`, {
-      data: patchRequest,
+      data: patchRequest.map((x) => x.toAttributeObject<TPatchRequest>()),
     });
 
     return new PartialUpdateDisputeResponse().fromObject(response.data);
   }
 }
+
+export default Disputes;

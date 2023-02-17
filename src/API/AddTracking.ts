@@ -1,11 +1,11 @@
 import AddTrackersResponse, { TAddTrackersResponse } from "./../Types/APIResponses/AddTrackers.js";
-import { ShippingStatus } from "./../Types/Enums/ShippingStatus.js";
 import { TTracker } from "./../Types/Objects/Tracker.js";
 import PayPal from "../PayPal.js";
 import Tracker from "../Types/Objects/Tracker.js";
-import LinkDescription from "../Types/Objects/LinkDescription.js";
+import LinkDescription, { TLinkDescription } from "../Types/Objects/LinkDescription.js";
 import TrackerIdentifier from "../Types/Objects/TrackerIdentifier.js";
 import { default as PayPalError } from "../Types/Objects/Error.js";
+import TrackerUpdateOrCancelError from "../Errors/AddTracking/TrackerUpdateOrCancelError.js";
 
 class AddTracking {
   protected PayPal: PayPal;
@@ -17,17 +17,17 @@ class AddTracking {
    *
    * @param transactionIdTrackingNumber
    * @param tracker
-   * @returns {Promise<Tracker|boolean>} Returns Tracker if Tracker updated, boolean if cancelled
+   * @returns {Promise<Tracker>}
    */
-  async updateOrCancel(transactionIdTrackingNumber: string, tracker: Tracker): Promise<Tracker | boolean> {
+  async updateOrCancel(transactionIdTrackingNumber: string, tracker: Tracker): Promise<Tracker> {
     const response = await this.PayPal.API.put(
       `/v1/shipping/trackers/${transactionIdTrackingNumber}`,
-      tracker.toAttributeObject<TTracker>()
+      tracker.toJson<TTracker>()
     );
     if (response.status !== 204) {
-      throw new Error("Failed to update or cancel tracking");
+      throw new TrackerUpdateOrCancelError("Failed to update or cancel tracking", response.data);
     }
-    return tracker.status === ShippingStatus.CANCELLED ? true : await this.get(transactionIdTrackingNumber);
+    return this.get(transactionIdTrackingNumber);
   }
 
   async get(trackerOrTransactionIdTrackingNumber: Tracker | string): Promise<Tracker> {
@@ -42,7 +42,7 @@ class AddTracking {
   async add(trackers: Tracker[], links: LinkDescription[]) {
     const response = await this.PayPal.API.post<TAddTrackersResponse>("/v1/shipping/trackers", {
       trackers: trackers.map((tracker) => tracker.toAttributeObject<TTracker>()),
-      links: links.map((link) => link.toAttributeObject()),
+      links: links.map((link) => link.toAttributeObject<TLinkDescription>()),
     });
     return new AddTrackersResponse(
       response.data.errors.map((x) => new PayPalError().fromObject(x)),

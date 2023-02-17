@@ -8,9 +8,9 @@ import SearchForInvoicesResponse, { TSearchForInvoicesResponse } from "../Types/
 import { GenerateQrCodeAction } from "../Types/Enums/GenerateQrCodeAction.js";
 import { InvoiceStatus } from "../Types/Enums/InvoiceStatus.js";
 import AddressPortable from "../Types/Objects/AddressPortable.js";
-import AmountRange from "../Types/Objects/AmountRange.js";
-import DateRange from "../Types/Objects/DateRange.js";
-import EmailAddress from "../Types/Objects/EmailAddress.js";
+import { TAmountRange } from "../Types/Objects/AmountRange.js";
+import { TDateRange } from "../Types/Objects/DateRange.js";
+import EmailAddress, { TEmailAddress } from "../Types/Objects/EmailAddress.js";
 import Field from "../Types/Objects/Field.js";
 import Invoice, { TInvoice } from "../Types/Objects/Invoice.js";
 import LinkDescription from "../Types/Objects/LinkDescription.js";
@@ -77,23 +77,10 @@ class Invoicing {
   }
 
   async createDraft(invoice: Invoice) {
-    const response = await this.PayPal.API.post<TInvoice>("/v2/invoicing/invoices", {
-      detail: invoice.detail,
-      additional_recipients: invoice.additionalRecipients,
-      amount: invoice.amount,
-      configuration: invoice.configuration,
-      due_amount: invoice.dueAmount,
-      gratuity: invoice.gratuity,
-      id: invoice.id,
-      invoicer: invoice.invoicer,
-      items: invoice.items,
-      links: invoice.links,
-      parent_id: invoice.parentId,
-      payments: invoice.payments,
-      primary_recipients: invoice.primaryRecipients,
-      refunds: invoice.refunds,
-      ...(invoice.status ? { status: InvoiceStatus[invoice.status] } : {}),
-    });
+    const response = await this.PayPal.API.post<TInvoice>(
+      "/v2/invoicing/invoices",
+      invoice.toAttributeObject<TInvoice>()
+    );
 
     return new Invoice(this.PayPal).fromObject(response.data);
   }
@@ -105,23 +92,10 @@ class Invoicing {
   }
 
   async fullyUpdate(invoice: Invoice, invoiceId?: string) {
-    const response = await this.PayPal.API.put<TInvoice>(`/v2/invoicing/invoices/${invoice.id ?? invoiceId}`, {
-      detail: invoice.detail,
-      additional_recipients: invoice.additionalRecipients,
-      amount: invoice.amount,
-      configuration: invoice.configuration,
-      due_amount: invoice.dueAmount,
-      gratuity: invoice.gratuity,
-      id: invoice.id,
-      invoicer: invoice.invoicer,
-      items: invoice.items,
-      links: invoice.links,
-      parent_id: invoice.parentId,
-      payments: invoice.payments,
-      primary_recipients: invoice.primaryRecipients,
-      refunds: invoice.refunds,
-      ...(invoice.status ? { status: InvoiceStatus[invoice.status] } : {}),
-    });
+    const response = await this.PayPal.API.put<TInvoice>(
+      `/v2/invoicing/invoices/${invoice.id ?? invoiceId}`,
+      invoice.toAttributeObject<TInvoice>()
+    );
 
     return new Invoice(this.PayPal).fromObject(response.data);
   }
@@ -143,7 +117,7 @@ class Invoicing {
   ): Promise<boolean> {
     const invoiceId = invoice instanceof Invoice ? invoice.id : invoice;
     const response = await this.PayPal.API.post<TInvoice>(`/v2/invoicing/invoices/${invoiceId}/cancel`, {
-      additional_recipients: additionalRecipients,
+      additional_recipients: additionalRecipients?.map((x) => x.toAttributeObject<TEmailAddress>()),
       note,
       send_to_invoicer: sendToInvoicer,
       send_to_recipient: sendToRecipient,
@@ -224,7 +198,7 @@ class Invoicing {
     }
 
     const response = await this.PayPal.API.post<TInvoice>(`/v2/invoicing/invoices/${invoiceId}/remind`, {
-      additional_recipients: additionalRecipients,
+      additional_recipients: additionalRecipients?.map((x) => x.toAttributeObject<TEmailAddress>()),
       note,
       send_to_invoicer: sendToInvoicer,
       send_to_recipient: sendToRecipient,
@@ -247,7 +221,7 @@ class Invoicing {
       throw new Error("Invoice id is required");
     }
     const response = await this.PayPal.API.post<TInvoice>(`/v2/invoicing/invoices/${invoiceId}/send`, {
-      additional_recipients: additionalRecipients,
+      additional_recipients: additionalRecipients?.map((x) => x.toAttributeObject<TEmailAddress>()),
       note,
       send_to_invoicer: sendToInvoicer,
       send_to_recipient: sendToRecipient,
@@ -332,21 +306,21 @@ class Invoicing {
 
 type TSearch = {
   archived?: boolean | null;
-  creation_date_range?: DateRange;
+  creation_date_range?: TDateRange;
   currency_code?: string;
-  due_date_range?: DateRange;
+  due_date_range?: TDateRange;
   fields?: Field;
-  invoiceDateRange?: DateRange;
+  invoiceDateRange?: TDateRange;
   invoiceNumber?: string;
   memo?: string;
-  paymentDateRange?: DateRange;
+  paymentDateRange?: TDateRange;
   recipientBusinessName?: string;
   recipientEmail?: string;
   recipientFirstName?: string;
   recipientLastName?: string;
   reference?: string;
-  status?: InvoiceStatus[];
-  totalAmountRange?: AmountRange;
+  status?: (keyof typeof InvoiceStatus)[];
+  totalAmountRange?: TAmountRange;
 };
 
 export default Invoicing;

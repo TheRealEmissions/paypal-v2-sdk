@@ -5,6 +5,7 @@ import LinkDescription from "../Types/Objects/LinkDescription.js";
 import ProductCollectionElement from "../Types/Objects/ProductCollectionElement.js";
 import Product from "../Types/Objects/Product.js";
 import PatchRequest, { TPatchRequest } from "../Types/Objects/PatchRequest.js";
+import ProductUpdateError from "../Errors/Products/ProductUpdateError.js";
 
 class Products {
   protected PayPal: PayPal;
@@ -66,7 +67,7 @@ class Products {
         },
       }
     );
-    if (response.status !== 204) throw new Error("Unexpected response status code");
+    if (response.status !== 204) throw new ProductUpdateError("Unexpected response status code", response.data);
 
     return await this.get(product);
   }
