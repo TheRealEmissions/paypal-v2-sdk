@@ -1,12 +1,12 @@
-import { TProduct } from "./../Types/Objects/Product.js";
-import ListProductsResponse, { TListProductsResponse } from "./../Types/APIResponses/ListProducts.js";
-import PayPal from "../PayPal.js";
-import LinkDescription from "../Types/Objects/LinkDescription.js";
-import ProductCollectionElement from "../Types/Objects/ProductCollectionElement.js";
-import Product from "../Types/Objects/Product.js";
-import PatchRequest, { TPatchRequest } from "../Types/Objects/PatchRequest.js";
-import ProductUpdateError from "../Errors/Products/ProductUpdateError.js";
-import { Integer } from "../Types/Types.js";
+import { TProduct } from "@Types/Objects/Product.js";
+import ListProductsResponse, { TListProductsResponse } from "@Types/APIResponses/ListProducts.js";
+import PayPal from "@/PayPal.js";
+import LinkDescription from "@Types/Objects/LinkDescription.js";
+import ProductCollectionElement from "@Types/Objects/ProductCollectionElement.js";
+import Product from "@Types/Objects/Product.js";
+import PatchRequest, { TPatchRequest } from "@Types/Objects/PatchRequest.js";
+import ProductUpdateError from "@Errors/Products/ProductUpdateError.js";
+import { Integer } from "@Types/Types.js";
 
 class Products {
   protected PayPal: PayPal;

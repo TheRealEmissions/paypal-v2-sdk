@@ -1,12 +1,10 @@
-import PayPal from "../PayPal";
-import ListDisputesResponse, { TListDisputesResponse } from "../Types/APIResponses/ListDisputes";
-import PartialUpdateDisputeResponse, {
-  TPartialUpdateDisputeResponse,
-} from "../Types/APIResponses/PartialUpdateDispute";
-import { DisputeState } from "../Types/Enums/DisputeState";
-import Patch from "../Types/Objects/Patch";
-import { TPatchRequest } from "../Types/Objects/PatchRequest";
-import { Integer } from "../Types/Types";
+import PayPal from "@/PayPal";
+import ListDisputesResponse, { TListDisputesResponse } from "@Types/APIResponses/ListDisputes";
+import PartialUpdateDisputeResponse, { TPartialUpdateDisputeResponse } from "@Types/APIResponses/PartialUpdateDispute";
+import { DisputeState } from "@Types/Enums/DisputeState";
+import Patch from "@Types/Objects/Patch";
+import { TPatchRequest } from "@Types/Objects/PatchRequest";
+import { Integer } from "@Types/Types";
 
 class Disputes {
   protected PayPal: PayPal;
