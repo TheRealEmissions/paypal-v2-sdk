@@ -1,4 +1,4 @@
-import APIError from "../APIError.js";
+import APIError from "@Errors/APIError.js";
 
 class TrackerUpdateOrCancelError extends APIError {
   declare data: unknown;
