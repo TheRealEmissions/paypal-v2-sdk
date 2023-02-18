@@ -1,6 +1,6 @@
-import PayPal from "../../PayPal.js";
-import { UnitOfMeasure } from "../Enums/UnitOfMeasure.js";
-import Types, { ITypes, Static } from "../Types.js";
+import PayPal from "@Types/../PayPal.js";
+import { UnitOfMeasure } from "@Types/Enums/UnitOfMeasure.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
 import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
 import TemplateInfo, { TTemplateInfo } from "./TemplateInfo.js";
 import TemplateSettings, { TTemplateSettings } from "./TemplateSettings.js";

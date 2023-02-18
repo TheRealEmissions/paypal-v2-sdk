@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
 import Money, { TMoney } from "./Money.js";
 import PaymentDetail, { TPaymentDetail } from "./PaymentDetail.js";
 

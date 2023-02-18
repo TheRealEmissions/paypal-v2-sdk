@@ -1,5 +1,5 @@
-import { TemplateFieldName } from "../Enums/TemplateFieldName.js";
-import Types, { ITypes, Static } from "../Types.js";
+import { TemplateFieldName } from "@Types/Enums/TemplateFieldName.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
 import TemplateDisplayPreference, { TTemplateDisplayPreference } from "./TemplateDisplayPreference.js";
 
 export type TTemplateSubtotalSetting = {

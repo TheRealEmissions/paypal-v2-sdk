@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
 import Patch, { TPatch } from "./Patch.js";
 
 export type TPatchRequest = {

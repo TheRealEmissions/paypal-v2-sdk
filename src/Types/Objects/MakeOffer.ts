@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types";
+import Types, { ITypes, Static } from "@Types/Types";
 import AddressPortable, { TAddressPortable } from "./AddressPortable";
 import Money, { TMoney } from "./Money";
 import OfferType, { TOfferType } from "./OfferType";

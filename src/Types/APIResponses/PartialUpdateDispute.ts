@@ -1,5 +1,5 @@
-import LinkDescription, { TLinkDescription } from "../Objects/LinkDescription";
-import Types, { ITypes, Static } from "../Types";
+import LinkDescription, { TLinkDescription } from "@Types/Objects/LinkDescription";
+import Types, { ITypes, Static } from "@Types/Types";
 
 export type TPartialUpdateDisputeResponse = {
   readonly links: TLinkDescription[];

@@ -1,5 +1,5 @@
-import { UnitOfMeasure } from "../Enums/UnitOfMeasure.js";
-import Types, { ITypes, Static } from "../Types.js";
+import { UnitOfMeasure } from "@Types/Enums/UnitOfMeasure.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
 import Discount, { TDiscount } from "./Discount.js";
 import Money, { TMoney } from "./Money.js";
 import Tax, { TTax } from "./Tax.js";

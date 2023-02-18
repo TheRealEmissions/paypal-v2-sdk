@@ -1,6 +1,6 @@
-import { AcceptClaimReason } from "../Enums/AcceptClaimReason.js";
-import { AcceptClaimType } from "../Enums/AcceptClaimType.js";
-import Types, { ITypes, Static } from "../Types.js";
+import { AcceptClaimReason } from "@Types/Enums/AcceptClaimReason.js";
+import { AcceptClaimType } from "@Types/Enums/AcceptClaimType.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
 import AddressPortable, { TAddressPortable } from "./AddressPortable.js";
 import Money, { TMoney } from "./Money.js";
 import ResponseAcceptClaimType, { TResponseAcceptClaimType } from "./ResponseAcceptClaimType.js";

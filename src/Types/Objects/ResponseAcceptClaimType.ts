@@ -1,5 +1,5 @@
-import Types, { ITypes, Static } from "../Types.js";
-import { ResponseAcceptClaimType as ResponseAcceptClaimTypeEnum } from "../Enums/ResponseAcceptClaimType.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
+import { ResponseAcceptClaimType as ResponseAcceptClaimTypeEnum } from "@Types/Enums/ResponseAcceptClaimType.js";
 
 export type TResponseAcceptClaimType = {
   "response-accept_claim_type"?: keyof typeof ResponseAcceptClaimTypeEnum;

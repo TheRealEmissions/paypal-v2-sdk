@@ -1,5 +1,5 @@
-import { PaymentTermType } from "../Enums/PaymentTermType.js";
-import Types, { ITypes, Static } from "../Types.js";
+import { PaymentTermType } from "@Types/Enums/PaymentTermType.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
 
 export type TPaymentTerm = {
   term_type?: keyof typeof PaymentTermType;

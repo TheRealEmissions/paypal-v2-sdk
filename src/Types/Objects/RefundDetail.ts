@@ -1,6 +1,6 @@
-import { PaymentDetailMethod } from "../Enums/PaymentDetailMethod.js";
-import { PaymentDetailType } from "../Enums/PaymentDetailType.js";
-import Types, { ITypes, Static } from "../Types.js";
+import { PaymentDetailMethod } from "@Types/Enums/PaymentDetailMethod.js";
+import { PaymentDetailType } from "@Types/Enums/PaymentDetailType.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
 import Money, { TMoney } from "./Money.js";
 
 export type TRefundDetail = {

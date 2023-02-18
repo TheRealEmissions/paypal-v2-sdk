@@ -1,9 +1,9 @@
-import { TLinkDescription } from "./../Objects/LinkDescription.js";
-import { TError } from "./../Objects/Error.js";
-import Error from "../Objects/Error.js";
-import LinkDescription from "../Objects/LinkDescription.js";
-import TrackerIdentifier, { TTrackerIdentifier } from "../Objects/TrackerIdentifier.js";
-import Types, { ITypes, Static } from "../Types.js";
+import { TLinkDescription } from "@Types/Objects/LinkDescription.js";
+import { TError } from "@Types/Objects/Error.js";
+import Error from "@Types/Objects/Error.js";
+import LinkDescription from "@Types/Objects/LinkDescription.js";
+import TrackerIdentifier, { TTrackerIdentifier } from "@Types/Objects/TrackerIdentifier.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
 
 export type TAddTrackersResponse = {
   readonly errors: TError[];

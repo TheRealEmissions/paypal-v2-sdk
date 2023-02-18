@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
 import Document, { TDocument } from "./Document.js";
 import ResponseTrackingInfo, { TResponseTrackingInfo } from "./ResponseTrackingInfo.js";
 

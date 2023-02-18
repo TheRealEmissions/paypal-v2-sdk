@@ -1,5 +1,5 @@
-import { Carrier } from "../Enums/Carrier.js";
-import Types, { ITypes, Static } from "../Types.js";
+import { Carrier } from "@Types/Enums/Carrier.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
 
 export type TResponseTrackingInfo = {
   carrier_name?: keyof typeof Carrier;

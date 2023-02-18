@@ -1,9 +1,9 @@
-import { DisputeChannel } from "../Enums/DisputeChannel";
-import { DisputeLifeCycleStage } from "../Enums/DisputeLifeCycleStage";
-import { DisputeReason } from "../Enums/DisputeReason";
-import { DisputeState } from "../Enums/DisputeState";
-import { DisputeStatus } from "../Enums/DisputeStatus";
-import Types, { ITypes, Static } from "../Types";
+import { DisputeChannel } from "@Types/Enums/DisputeChannel";
+import { DisputeLifeCycleStage } from "@Types/Enums/DisputeLifeCycleStage";
+import { DisputeReason } from "@Types/Enums/DisputeReason";
+import { DisputeState } from "@Types/Enums/DisputeState";
+import { DisputeStatus } from "@Types/Enums/DisputeStatus";
+import Types, { ITypes, Static } from "@Types/Types";
 import Cryptocurrency, { TCryptocurrency } from "./Cryptocurrency";
 import LinkDescription, { TLinkDescription } from "./LinkDescription";
 import Money, { TMoney } from "./Money";

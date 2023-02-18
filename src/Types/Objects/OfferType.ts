@@ -1,5 +1,5 @@
-import Types, { ITypes, Static } from "../Types";
-import { OfferType as OfferTypeEnum } from "../Enums/OfferType";
+import Types, { ITypes, Static } from "@Types/Types";
+import { OfferType as OfferTypeEnum } from "@Types/Enums/OfferType";
 
 export type TOfferType = {
   offer_type?: keyof typeof OfferTypeEnum;

@@ -1,5 +1,5 @@
-import { EvidenceType } from "../Enums/EvidenceType.js";
-import Types, { ITypes, Static } from "../Types.js";
+import { EvidenceType } from "@Types/Enums/EvidenceType.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
 import Document, { TDocument } from "./Document.js";
 
 export type TAcknowledgeReturnItemEvidence = {
