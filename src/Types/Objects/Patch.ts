@@ -1,5 +1,5 @@
-import { PatchOperation } from "../Enums/PatchOperation.js";
-import Types, { ITypes, Static } from "../Types.js";
+import { PatchOperation } from "@Types/Enums/PatchOperation.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
 
 export type TPatch = {
   op: keyof typeof PatchOperation;

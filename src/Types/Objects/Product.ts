@@ -1,8 +1,8 @@
-import { ProductType } from "./../Enums/ProductType.js";
-import { ProductCategory } from "./../Enums/ProductCategory.js";
-import Types, { ITypes, Static } from "../Types.js";
+import { ProductType } from "@Types/Enums/ProductType.js";
+import { ProductCategory } from "@Types/Enums/ProductCategory.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
 import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
-import PayPal from "../../PayPal.js";
+import PayPal from "@Types/../PayPal.js";
 import PatchRequest from "./PatchRequest.js";
 
 export type TProduct = {

@@ -1,24 +1,24 @@
-import PayPal from "../PayPal.js";
+import PayPal from "@/PayPal.js";
 import GenerateInvoiceNumberResponse, {
   TGenerateInvoiceNumberResponse,
-} from "../Types/APIResponses/GenerateInvoiceNumber.js";
-import ListInvoicesResponse, { TListInvoicesResponse } from "../Types/APIResponses/ListInvoices.js";
-import ListTemplatesResponse, { TListTemplatesResponse } from "../Types/APIResponses/ListTemplates.js";
-import SearchForInvoicesResponse, { TSearchForInvoicesResponse } from "../Types/APIResponses/SearchForInvoices.js";
-import { GenerateQrCodeAction } from "../Types/Enums/GenerateQrCodeAction.js";
-import { InvoiceStatus } from "../Types/Enums/InvoiceStatus.js";
-import AddressPortable from "../Types/Objects/AddressPortable.js";
-import { TAmountRange } from "../Types/Objects/AmountRange.js";
-import { TDateRange } from "../Types/Objects/DateRange.js";
-import EmailAddress, { TEmailAddress } from "../Types/Objects/EmailAddress.js";
-import Field from "../Types/Objects/Field.js";
-import Invoice, { TInvoice } from "../Types/Objects/Invoice.js";
-import LinkDescription from "../Types/Objects/LinkDescription.js";
-import PaymentDetail, { TPaymentDetail } from "../Types/Objects/PaymentDetail.js";
-import PhoneDetail from "../Types/Objects/PhoneDetail.js";
-import RefundDetail, { TRefundDetail } from "../Types/Objects/RefundDetail.js";
-import Template, { TTemplate } from "../Types/Objects/Template.js";
-import { Integer } from "../Types/Types.js";
+} from "@Types/APIResponses/GenerateInvoiceNumber.js";
+import ListInvoicesResponse, { TListInvoicesResponse } from "@Types/APIResponses/ListInvoices.js";
+import ListTemplatesResponse, { TListTemplatesResponse } from "@Types/APIResponses/ListTemplates.js";
+import SearchForInvoicesResponse, { TSearchForInvoicesResponse } from "@Types/APIResponses/SearchForInvoices.js";
+import { GenerateQrCodeAction } from "@Types/Enums/GenerateQrCodeAction.js";
+import { InvoiceStatus } from "@Types/Enums/InvoiceStatus.js";
+import AddressPortable from "@Types/Objects/AddressPortable.js";
+import { TAmountRange } from "@Types/Objects/AmountRange.js";
+import { TDateRange } from "@Types/Objects/DateRange.js";
+import EmailAddress, { TEmailAddress } from "@Types/Objects/EmailAddress.js";
+import Field from "@Types/Objects/Field.js";
+import Invoice, { TInvoice } from "@Types/Objects/Invoice.js";
+import LinkDescription from "@Types/Objects/LinkDescription.js";
+import PaymentDetail, { TPaymentDetail } from "@Types/Objects/PaymentDetail.js";
+import PhoneDetail from "@Types/Objects/PhoneDetail.js";
+import RefundDetail, { TRefundDetail } from "@Types/Objects/RefundDetail.js";
+import Template, { TTemplate } from "@Types/Objects/Template.js";
+import { Integer } from "@Types/Types.js";
 
 class Invoicing {
   protected PayPal: PayPal;

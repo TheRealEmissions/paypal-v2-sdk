@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
 import FileReference, { TFileReference } from "./FileReference.js";
 import InvoicePaymentTerm, { TInvoicePaymentTerm } from "./InvoicePaymentTerm.js";
 import Metadata, { TMetadata } from "./Metadata.js";

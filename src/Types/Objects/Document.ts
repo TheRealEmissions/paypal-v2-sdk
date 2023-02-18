@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types";
+import Types, { ITypes, Static } from "@Types/Types";
 
 export type TDocument = {
   name?: string;

@@ -1,7 +1,7 @@
-import { AdjudicationReason } from "../Enums/AdjudicationReason";
-import { AdjudicationType } from "../Enums/AdjudicationType";
-import { DisputeLifeCycleStage } from "../Enums/DisputeLifeCycleStage";
-import Types, { ITypes, Static } from "../Types";
+import { AdjudicationReason } from "@Types/Enums/AdjudicationReason";
+import { AdjudicationType } from "@Types/Enums/AdjudicationType";
+import { DisputeLifeCycleStage } from "@Types/Enums/DisputeLifeCycleStage";
+import Types, { ITypes, Static } from "@Types/Types";
 
 export type TAdjudication = {
   adjudication_time: string;

@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types";
+import Types, { ITypes, Static } from "@Types/Types";
 import AcceptClaim, { TAcceptClaim } from "./AcceptClaim";
 import AcknowledgeReturnItem, { TAcknowledgeReturnItem } from "./AcknowledgeReturnItem";
 import MakeOffer, { TMakeOffer } from "./MakeOffer";

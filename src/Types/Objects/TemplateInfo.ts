@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
 import AmountSummaryDetail, { TAmountSummaryDetail } from "./AmountSummaryDetail.js";
 import Configuration, { TConfiguration } from "./Configuration.js";
 import EmailAddress, { TEmailAddress } from "./EmailAddress.js";

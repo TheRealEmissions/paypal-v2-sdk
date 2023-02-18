@@ -1,5 +1,5 @@
-import PayPal from "../PayPal.js";
-import { Integer } from "../Types/Types.js";
+import PayPal from "@/PayPal.js";
+import { Integer } from "@Types/Types.js";
 
 class Authentication {
   protected PayPal: PayPal;

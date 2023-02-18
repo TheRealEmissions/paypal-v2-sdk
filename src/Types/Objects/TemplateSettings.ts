@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
 import TemplateItemSetting, { TTemplateItemSetting } from "./TemplateItemSetting.js";
 import TemplateSubtotalSetting, { TTemplateSubtotalSetting } from "./TemplateSubtotalSetting.js";
 

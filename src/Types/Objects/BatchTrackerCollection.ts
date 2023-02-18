@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
 import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
 import TrackerIdentifier, { TTrackerIdentifier } from "./TrackerIdentifier.js";
 import Error, { TError } from "./Error.js";

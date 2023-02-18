@@ -1,7 +1,7 @@
-import { TLinkDescription } from "./../Objects/LinkDescription.js";
-import LinkDescription from "../Objects/LinkDescription.js";
-import ProductCollectionElement, { TProductCollectionElement } from "../Objects/ProductCollectionElement.js";
-import Types, { ITypes, Integer, Static } from "../Types.js";
+import { TLinkDescription } from "@Types/Objects/LinkDescription.js";
+import LinkDescription from "@Types/Objects/LinkDescription.js";
+import ProductCollectionElement, { TProductCollectionElement } from "@Types/Objects/ProductCollectionElement.js";
+import Types, { ITypes, Integer, Static } from "@Types/Types.js";
 
 export type TListProductsResponse<N extends number, U extends number> = {
   readonly links: TLinkDescription[];

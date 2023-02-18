@@ -1,5 +1,5 @@
-import { HTTPMethod } from "../Enums/HTTPMethod.js";
-import Types, { ITypes, Static } from "../Types.js";
+import { HTTPMethod } from "@Types/Enums/HTTPMethod.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
 
 export type TLinkDescription = {
   href: string;

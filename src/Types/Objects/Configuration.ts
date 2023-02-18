@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
 import PartialPayment, { TPartialPayment } from "./PartialPayment.js";
 
 export type TConfiguration = {

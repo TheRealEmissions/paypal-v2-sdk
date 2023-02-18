@@ -1,6 +1,6 @@
-import Invoice, { TInvoice } from "../Objects/Invoice.js";
-import LinkDescription, { TLinkDescription } from "../Objects/LinkDescription.js";
-import Types, { ITypes, Integer, Static } from "../Types.js";
+import Invoice, { TInvoice } from "@Types/Objects/Invoice.js";
+import LinkDescription, { TLinkDescription } from "@Types/Objects/LinkDescription.js";
+import Types, { ITypes, Integer, Static } from "@Types/Types.js";
 
 export type TListInvoicesResponse<N extends number, U extends number> = {
   readonly items: TInvoice[];

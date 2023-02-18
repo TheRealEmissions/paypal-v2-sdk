@@ -1,5 +1,5 @@
-import Types, { ITypes, Static } from "../Types.js";
-import { AcknowledgementType as AcknowledgementTypeEnum } from "../Enums/AcknowledgementType.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
+import { AcknowledgementType as AcknowledgementTypeEnum } from "@Types/Enums/AcknowledgementType.js";
 
 export type TAcknowledgementType = {
   acknowledgement_type?: keyof typeof AcknowledgementTypeEnum;

@@ -1,5 +1,5 @@
-import { AdjudicationOutcome } from "../Enums/AdjudicationOutcome";
-import Types, { ITypes, Static } from "../Types";
+import { AdjudicationOutcome } from "@Types/Enums/AdjudicationOutcome";
+import Types, { ITypes, Static } from "@Types/Types";
 
 export type TAdjudicate = {
   adjudication_outcome?: keyof typeof AdjudicationOutcome;

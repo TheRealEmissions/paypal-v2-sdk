@@ -1,6 +1,6 @@
-import DisputeInfo, { TDisputeInfo } from "../Objects/DisputeInfo";
-import LinkDescription, { TLinkDescription } from "../Objects/LinkDescription";
-import Types, { ITypes, Static } from "../Types";
+import DisputeInfo, { TDisputeInfo } from "@Types/Objects/DisputeInfo";
+import LinkDescription, { TLinkDescription } from "@Types/Objects/LinkDescription";
+import Types, { ITypes, Static } from "@Types/Types";
 
 export type TListDisputesResponse = {
   readonly items: TDisputeInfo[];

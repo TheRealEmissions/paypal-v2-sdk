@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
 import AddressPortable, { TAddressPortable } from "./AddressPortable.js";
 import Name, { TName } from "./Name.js";
 

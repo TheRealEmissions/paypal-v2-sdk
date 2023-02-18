@@ -1,5 +1,5 @@
-import { AssetSymbol } from "../Enums/AssetSymbol";
-import Types, { ITypes, Static } from "../Types";
+import { AssetSymbol } from "@Types/Enums/AssetSymbol";
+import Types, { ITypes, Static } from "@Types/Types";
 
 export type TCryptocurrency = {
   asset_symbol: keyof typeof AssetSymbol;

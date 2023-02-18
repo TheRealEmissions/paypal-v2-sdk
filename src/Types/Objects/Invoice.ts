@@ -1,7 +1,7 @@
-import PayPal from "../../PayPal.js";
-import { GenerateQrCodeAction } from "../Enums/GenerateQrCodeAction.js";
-import { InvoiceStatus } from "../Enums/InvoiceStatus.js";
-import Types, { ITypes, Static } from "../Types.js";
+import PayPal from "@Types/../PayPal.js";
+import { GenerateQrCodeAction } from "@Types/Enums/GenerateQrCodeAction.js";
+import { InvoiceStatus } from "@Types/Enums/InvoiceStatus.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
 import AmountSummaryDetail, { TAmountSummaryDetail } from "./AmountSummaryDetail.js";
 import Configuration, { TConfiguration } from "./Configuration.js";
 import EmailAddress, { TEmailAddress } from "./EmailAddress.js";

@@ -1,4 +1,4 @@
-import APIError from "../APIError";
+import APIError from "@Errors/APIError.js";
 
 class ProductUpdateError extends APIError {
   declare data: unknown;

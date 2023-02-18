@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
 import AggregatedDiscount, { TAggregatedDiscount } from "./AggregatedDiscount.js";
 import CustomAmount, { TCustomAmount } from "./CustomAmount.js";
 import Money, { TMoney } from "./Money.js";

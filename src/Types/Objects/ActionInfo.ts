@@ -1,5 +1,5 @@
-import { Action } from "../Enums/Action";
-import Types, { ITypes, Static } from "../Types";
+import { Action } from "@Types/Enums/Action";
+import Types, { ITypes, Static } from "@Types/Types";
 
 export type TActionInfo = {
   action?: keyof typeof Action;

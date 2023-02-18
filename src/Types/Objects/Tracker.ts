@@ -1,9 +1,9 @@
-import { TrackingNumberType } from "./../Enums/TrackingNumberType.js";
-import { Carrier } from "./../Enums/Carrier.js";
-import { ShippingStatus } from "./../Enums/ShippingStatus.js";
-import Types, { ITypes, Static } from "../Types.js";
+import { TrackingNumberType } from "@Types/Enums/TrackingNumberType.js";
+import { Carrier } from "@Types/Enums/Carrier.js";
+import { ShippingStatus } from "@Types/Enums/ShippingStatus.js";
+import Types, { ITypes, Static } from "@Types/Types.js";
 import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
-import PayPal from "../../PayPal.js";
+import PayPal from "@Types/../PayPal.js";
 
 export type TTracker = {
   status: keyof typeof ShippingStatus;

@@ -1,5 +1,5 @@
 import { AxiosResponse } from "axios";
-import APIError from "../APIError.js";
+import APIError from "@Errors/APIError.js";
 
 class InvoiceSendError extends APIError {
   declare data: AxiosResponse<unknown, any>;
