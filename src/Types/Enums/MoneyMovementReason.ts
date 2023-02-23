@@ -1,0 +1,6 @@
+export enum MoneyMovementReason {
+  DISPUTE_SETTLEMENT_FEE,
+  DISPUTE_SETTLEMENT,
+  DISPUTE_FEE,
+  CHARGEBACK_FEE,
+}

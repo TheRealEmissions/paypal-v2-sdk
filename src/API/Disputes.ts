@@ -4,6 +4,7 @@ import PartialUpdateDisputeResponse, {
   TPartialUpdateDisputeResponse,
 } from "../Types/APIResponses/PartialUpdateDispute";
 import { DisputeState } from "../Types/Enums/DisputeState";
+import Dispute, { TDispute } from "../Types/Objects/Dispute";
 import Patch from "../Types/Objects/Patch";
 import { TPatchRequest } from "../Types/Objects/PatchRequest";
 import { Integer } from "../Types/Types";
@@ -83,6 +84,12 @@ class Disputes {
     });
 
     return PartialUpdateDisputeResponse.fromObject(response.data);
+  }
+
+  async get(disputeId: string) {
+    const response = await this.PayPal.API.get<TDispute>(`/v1/customer/disputes/${disputeId}`);
+
+    return Dispute.fromObject(response.data);
   }
 }
 

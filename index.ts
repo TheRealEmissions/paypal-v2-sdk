@@ -8,7 +8,7 @@ export { PayPal };
 export { default as AddTracking } from "./src/API/AddTracking.js";
 export { default as API } from "./src/API/API.js";
 export { default as Authentication } from "./src/API/Authentication.js";
-// export { default as Disputes } from "./src/API/Disputes.js";
+export { default as Disputes } from "./src/API/Disputes.js";
 export { default as Invoicing } from "./src/API/Invoicing.js";
 export { default as Products } from "./src/API/Products.js";
 
@@ -109,8 +109,6 @@ export { default as OfferType, TOfferType } from "./src/Types/Objects/OfferType.
 export { default as PartialPayment, TPartialPayment } from "./src/Types/Objects/PartialPayment.js";
 export { default as Patch, TPatch } from "./src/Types/Objects/Patch.js";
 export { default as PatchRequest, TPatchRequest } from "./src/Types/Objects/PatchRequest.js";
-// LEFT OFF HERE
-
 export { default as PhoneDetail, TPhoneDetail } from "./src/Types/Objects/PhoneDetail.js";
 export { default as Product, TProduct } from "./src/Types/Objects/Product.js";
 export {

@@ -1,0 +1,8 @@
+export enum CancellationMode {
+  CANCELLED_PAYPAL_BILLING_AGREEMENT,
+  WEBSITE,
+  PHONE,
+  EMAIL,
+  WRITTEN,
+  IN_PERSON,
+}

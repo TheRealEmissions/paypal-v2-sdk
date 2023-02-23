@@ -4,6 +4,7 @@ import Invoicing from "./API/Invoicing.js";
 import Authentication from "./API/Authentication.js";
 import AddTracking from "./API/AddTracking.js";
 import Products from "./API/Products.js";
+import Disputes from "./API/Disputes.js";
 
 abstract class BasePayPal extends EventEmitter {
   clientId: string | null;
@@ -14,6 +15,8 @@ abstract class BasePayPal extends EventEmitter {
   Auth: Authentication;
   AddTracking: AddTracking;
   Products: Products;
+  Disputes: Disputes;
+
   constructor() {
     super({
       captureRejections: true,
@@ -27,6 +30,7 @@ abstract class BasePayPal extends EventEmitter {
     this.Invoicing = new Invoicing(this);
     this.AddTracking = new AddTracking(this);
     this.Products = new Products(this);
+    this.Disputes = new Disputes(this);
   }
 
   configure(id: string, secret: string, sandbox = false) {
