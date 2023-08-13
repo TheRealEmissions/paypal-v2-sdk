@@ -1,19 +1,18 @@
 import Types, { ITypes, Static } from "../Types.js";
-import Document, { TDocument } from "./Document.js";
-import ResponseTrackingInfo, { TResponseTrackingInfo } from "./ResponseTrackingInfo.js";
+import { Document, TDocument } from "./Document.js";
+import { ResponseTrackingInfo, TResponseTrackingInfo } from "./ResponseTrackingInfo.js";
 
 export type TResponseShipmentInfo = {
   shipment_label?: TDocument;
   tracking_info?: TResponseTrackingInfo;
 };
 
-class ResponseShipmentInfo extends Types implements Static<ITypes, typeof ResponseShipmentInfo> {
+export class ResponseShipmentInfo extends Types implements Static<ITypes, typeof ResponseShipmentInfo> {
   shipmentLabel?: Document;
   trackingInfo?: ResponseTrackingInfo;
-  constructor() {
-    super();
-  }
 
+  setShipmentLabel(shipmentLabel: Document): this;
+  setShipmentLabel(shipmentLabel: (shipmentLabel: Document) => void): this;
   setShipmentLabel(shipmentLabel: Document | ((shipmentLabel: Document) => void)) {
     if (shipmentLabel instanceof Document) this.shipmentLabel = shipmentLabel;
     else {
@@ -24,6 +23,8 @@ class ResponseShipmentInfo extends Types implements Static<ITypes, typeof Respon
     return this;
   }
 
+  setTrackingInfo(trackingInfo: ResponseTrackingInfo): this;
+  setTrackingInfo(trackingInfo: (trackingInfo: ResponseTrackingInfo) => void): this;
   setTrackingInfo(trackingInfo: ResponseTrackingInfo | ((trackingInfo: ResponseTrackingInfo) => void)) {
     if (trackingInfo instanceof ResponseTrackingInfo) this.trackingInfo = trackingInfo;
     else {
@@ -41,5 +42,3 @@ class ResponseShipmentInfo extends Types implements Static<ITypes, typeof Respon
     return responseShipmentInfo;
   }
 }
-
-export default ResponseShipmentInfo;

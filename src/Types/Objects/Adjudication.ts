@@ -10,26 +10,27 @@ export type TAdjudication = {
   reason?: keyof typeof AdjudicationReason;
 };
 
-class Adjudication extends Types implements Static<ITypes, typeof Adjudication> {
+export class Adjudication extends Types implements Static<ITypes, typeof Adjudication> {
   adjudicationTime!: string;
   type!: AdjudicationType;
   disputeLifeCycleStage?: DisputeLifeCycleStage;
   reason?: AdjudicationReason;
-  constructor() {
-    super();
-  }
 
   setAdjudicationTime(adjudicationTime: string) {
     this.adjudicationTime = adjudicationTime;
     return this;
   }
 
+  setType(type: AdjudicationType): this;
+  setType(type: (type: typeof AdjudicationType) => AdjudicationType): this;
   setType(type: AdjudicationType | ((type: typeof AdjudicationType) => AdjudicationType)) {
     if (typeof type === "function") this.type = type(AdjudicationType);
     else this.type = type;
     return this;
   }
 
+  setDisputeLifeCycleStage(disputeLifeCycleStage: DisputeLifeCycleStage): this;
+  setDisputeLifeCycleStage(disputeLifeCycleStage: (type: typeof DisputeLifeCycleStage) => DisputeLifeCycleStage): this;
   setDisputeLifeCycleStage(
     disputeLifeCycleStage: DisputeLifeCycleStage | ((type: typeof DisputeLifeCycleStage) => DisputeLifeCycleStage)
   ) {
@@ -39,6 +40,8 @@ class Adjudication extends Types implements Static<ITypes, typeof Adjudication> 
     return this;
   }
 
+  setReason(reason: AdjudicationReason): this;
+  setReason(reason: (type: typeof AdjudicationReason) => AdjudicationReason): this;
   setReason(reason: AdjudicationReason | ((type: typeof AdjudicationReason) => AdjudicationReason)) {
     if (typeof reason === "function") this.reason = reason(AdjudicationReason);
     else this.reason = reason;
@@ -55,5 +58,3 @@ class Adjudication extends Types implements Static<ITypes, typeof Adjudication> 
     return adjudication;
   }
 }
-
-export default Adjudication;

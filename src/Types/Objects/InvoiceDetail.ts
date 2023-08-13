@@ -1,7 +1,7 @@
 import Types, { ITypes, Static } from "../Types.js";
-import FileReference, { TFileReference } from "./FileReference.js";
-import InvoicePaymentTerm, { TInvoicePaymentTerm } from "./InvoicePaymentTerm.js";
-import Metadata, { TMetadata } from "./Metadata.js";
+import { FileReference, TFileReference } from "./FileReference.js";
+import { InvoicePaymentTerm, TInvoicePaymentTerm } from "./InvoicePaymentTerm.js";
+import { Metadata, TMetadata } from "./Metadata.js";
 
 export type TInvoiceDetail = {
   currency_code: string;
@@ -16,7 +16,7 @@ export type TInvoiceDetail = {
   payment_term?: TInvoicePaymentTerm;
 };
 
-class InvoiceDetail extends Types implements Static<ITypes, typeof InvoiceDetail> {
+export class InvoiceDetail extends Types implements Static<ITypes, typeof InvoiceDetail> {
   currencyCode?: string;
   attachments?: FileReference[];
   memo?: string;
@@ -120,5 +120,3 @@ class InvoiceDetail extends Types implements Static<ITypes, typeof InvoiceDetail
     return invoiceDetail;
   }
 }
-
-export default InvoiceDetail;

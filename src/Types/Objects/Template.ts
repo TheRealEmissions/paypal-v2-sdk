@@ -1,9 +1,9 @@
 import PayPal from "../../PayPal.js";
 import { UnitOfMeasure } from "../Enums/UnitOfMeasure.js";
 import Types, { ITypes, Static } from "../Types.js";
-import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
-import TemplateInfo, { TTemplateInfo } from "./TemplateInfo.js";
-import TemplateSettings, { TTemplateSettings } from "./TemplateSettings.js";
+import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
+import { TemplateInfo, TTemplateInfo } from "./TemplateInfo.js";
+import { TemplateSettings, TTemplateSettings } from "./TemplateSettings.js";
 
 export type TTemplate = {
   default_template?: boolean;
@@ -16,7 +16,7 @@ export type TTemplate = {
   unit_of_measure?: keyof typeof UnitOfMeasure;
 };
 
-class Template extends Types implements Static<ITypes, typeof Template> {
+export class Template extends Types implements Static<ITypes, typeof Template> {
   defaultTemplate?: boolean;
   id?: string;
   links?: LinkDescription[];
@@ -80,6 +80,8 @@ class Template extends Types implements Static<ITypes, typeof Template> {
     return this;
   }
 
+  setLinks(...links: LinkDescription[]): this;
+  setLinks(...links: ((link: LinkDescription) => void)[]): this;
   setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) return link;
@@ -95,6 +97,8 @@ class Template extends Types implements Static<ITypes, typeof Template> {
     return this;
   }
 
+  setSettings(settings: TemplateSettings): this;
+  setSettings(settings: (settings: TemplateSettings) => void): this;
   setSettings(settings: TemplateSettings | ((settings: TemplateSettings) => void)) {
     if (settings instanceof TemplateSettings) {
       this.settings = settings;
@@ -111,6 +115,8 @@ class Template extends Types implements Static<ITypes, typeof Template> {
     return this;
   }
 
+  setTemplateInfo(templateInfo: TemplateInfo): this;
+  setTemplateInfo(templateInfo: (templateInfo: TemplateInfo) => void): this;
   setTemplateInfo(templateInfo: TemplateInfo | ((templateInfo: TemplateInfo) => void)) {
     if (templateInfo instanceof TemplateInfo) {
       this.templateInfo = templateInfo;
@@ -122,6 +128,8 @@ class Template extends Types implements Static<ITypes, typeof Template> {
     return this;
   }
 
+  setUnitOfMeasure(unitOfMeasure: UnitOfMeasure): this;
+  setUnitOfMeasure(unitOfMeasure: (unitOfMeasure: typeof UnitOfMeasure) => UnitOfMeasure): this;
   setUnitOfMeasure(unitOfMeasure: UnitOfMeasure | ((unitOfMeasure: typeof UnitOfMeasure) => UnitOfMeasure)) {
     if (typeof unitOfMeasure === "function") {
       this.unitOfMeasure = unitOfMeasure(UnitOfMeasure);
@@ -144,5 +152,3 @@ class Template extends Types implements Static<ITypes, typeof Template> {
     return template;
   }
 }
-
-export default Template;

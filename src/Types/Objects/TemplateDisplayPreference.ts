@@ -4,11 +4,8 @@ export type TTemplateDisplayPreference = {
   hidden?: boolean;
 };
 
-class TemplateDisplayPreference extends Types implements Static<ITypes, typeof TemplateDisplayPreference> {
+export class TemplateDisplayPreference extends Types implements Static<ITypes, typeof TemplateDisplayPreference> {
   hidden?: boolean;
-  constructor() {
-    super();
-  }
 
   setHidden(hidden: boolean) {
     this.hidden = hidden;
@@ -21,5 +18,3 @@ class TemplateDisplayPreference extends Types implements Static<ITypes, typeof T
     return templateDisplayPreference;
   }
 }
-
-export default TemplateDisplayPreference;

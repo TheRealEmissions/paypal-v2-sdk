@@ -4,11 +4,8 @@ export type TAcceptOffer = {
   note?: string;
 };
 
-class AcceptOffer extends Types implements Static<ITypes, typeof AcceptOffer> {
+export class AcceptOffer extends Types implements Static<ITypes, typeof AcceptOffer> {
   note?: string;
-  constructor() {
-    super();
-  }
 
   setNote(note: string) {
     this.note = note;
@@ -21,5 +18,3 @@ class AcceptOffer extends Types implements Static<ITypes, typeof AcceptOffer> {
     return acceptOffer;
   }
 }
-
-export default AcceptOffer;

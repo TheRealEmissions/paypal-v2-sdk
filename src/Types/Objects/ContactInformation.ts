@@ -1,6 +1,6 @@
 import Types, { ITypes, Static } from "../Types.js";
-import AddressPortable, { TAddressPortable } from "./AddressPortable.js";
-import Name, { TName } from "./Name.js";
+import { AddressPortable, TAddressPortable } from "./AddressPortable.js";
+import { Name, TName } from "./Name.js";
 
 export type TContactInformation = {
   business_name?: string;
@@ -8,7 +8,7 @@ export type TContactInformation = {
   name?: TName;
 };
 
-class ContactInformation extends Types implements Static<ITypes, typeof ContactInformation> {
+export class ContactInformation extends Types implements Static<ITypes, typeof ContactInformation> {
   businessName?: string;
   address?: AddressPortable;
   name?: Name;
@@ -52,5 +52,3 @@ class ContactInformation extends Types implements Static<ITypes, typeof ContactI
     return contactInformation;
   }
 }
-
-export default ContactInformation;

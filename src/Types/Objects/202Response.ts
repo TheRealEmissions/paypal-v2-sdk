@@ -1,11 +1,11 @@
 import Types, { ITypes, Static } from "../Types.js";
-import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
+import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
 
 export type TAcceptedResponse = {
   readonly links?: TLinkDescription[];
 };
 
-class AcceptedResponse extends Types implements Static<ITypes, typeof AcceptedResponse> {
+export class AcceptedResponse extends Types implements Static<ITypes, typeof AcceptedResponse> {
   links?: LinkDescription[];
 
   setLinks(...links: LinkDescription[]): this;
@@ -30,5 +30,3 @@ class AcceptedResponse extends Types implements Static<ITypes, typeof AcceptedRe
     return acceptedResponse;
   }
 }
-
-export default AcceptedResponse;

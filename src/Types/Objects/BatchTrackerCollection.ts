@@ -1,7 +1,7 @@
 import Types, { ITypes, Static } from "../Types.js";
-import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
-import TrackerIdentifier, { TTrackerIdentifier } from "./TrackerIdentifier.js";
-import Error, { TError } from "./Error.js";
+import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
+import { TrackerIdentifier, TTrackerIdentifier } from "./TrackerIdentifier.js";
+import { Error, TError } from "./Error.js";
 
 export type TBatchTrackerCollection = {
   errors?: TError[];
@@ -9,7 +9,7 @@ export type TBatchTrackerCollection = {
   tracker_identifiers?: TTrackerIdentifier[];
 };
 
-class BatchTrackerCollection extends Types implements Static<ITypes, typeof BatchTrackerCollection> {
+export class BatchTrackerCollection extends Types implements Static<ITypes, typeof BatchTrackerCollection> {
   errors?: Error[];
   links?: LinkDescription[];
   trackerIdentifiers?: TrackerIdentifier[];
@@ -72,5 +72,3 @@ class BatchTrackerCollection extends Types implements Static<ITypes, typeof Batc
     return batchTrackerCollection;
   }
 }
-
-export default BatchTrackerCollection;

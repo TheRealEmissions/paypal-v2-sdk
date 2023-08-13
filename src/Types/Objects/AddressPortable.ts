@@ -1,5 +1,5 @@
 import Types, { ITypes, Static } from "../Types.js";
-import AddressDetails, { TAddressDetails } from "./AddressDetails.js";
+import { AddressDetails, TAddressDetails } from "./AddressDetails.js";
 
 export type TAddressPortable = {
   country_code: string;
@@ -14,7 +14,7 @@ export type TAddressPortable = {
   postal_code?: string;
 };
 
-class AddressPortable extends Types implements Static<ITypes, typeof AddressPortable> {
+export class AddressPortable extends Types implements Static<ITypes, typeof AddressPortable> {
   countryCode?: string;
   addressDetails?: AddressDetails;
   addressLine1?: string;
@@ -99,5 +99,3 @@ class AddressPortable extends Types implements Static<ITypes, typeof AddressPort
     return addressPortable;
   }
 }
-
-export default AddressPortable;

@@ -5,7 +5,7 @@ export type TDateRange = {
   start: string;
 };
 
-class DateRange extends Types implements Static<ITypes, typeof DateRange> {
+export class DateRange extends Types implements Static<ITypes, typeof DateRange> {
   end?: string;
   start?: string;
 
@@ -26,5 +26,3 @@ class DateRange extends Types implements Static<ITypes, typeof DateRange> {
     return dateRange;
   }
 }
-
-export default DateRange;

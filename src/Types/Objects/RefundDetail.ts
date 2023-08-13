@@ -1,7 +1,7 @@
 import { PaymentDetailMethod } from "../Enums/PaymentDetailMethod.js";
 import { PaymentDetailType } from "../Enums/PaymentDetailType.js";
 import Types, { ITypes, Static } from "../Types.js";
-import Money, { TMoney } from "./Money.js";
+import { Money, TMoney } from "./Money.js";
 
 export type TRefundDetail = {
   method: keyof typeof PaymentDetailMethod;
@@ -11,22 +11,23 @@ export type TRefundDetail = {
   readonly type?: keyof typeof PaymentDetailType;
 };
 
-class RefundDetail extends Types implements Static<ITypes, typeof RefundDetail> {
+export class RefundDetail extends Types implements Static<ITypes, typeof RefundDetail> {
   method?: PaymentDetailMethod;
   amount?: Money;
   refundDate?: string;
   refundId?: string;
   type?: PaymentDetailType;
-  constructor() {
-    super();
-  }
 
+  setMethod(method: PaymentDetailMethod): this;
+  setMethod(method: (method: typeof PaymentDetailMethod) => PaymentDetailMethod): this;
   setMethod(method: PaymentDetailMethod | ((method: typeof PaymentDetailMethod) => PaymentDetailMethod)) {
     if (typeof method === "function") this.method = method(PaymentDetailMethod);
     else this.method = method;
     return this;
   }
 
+  setAmount(amount: Money): this;
+  setAmount(amount: (money: Money) => void): this;
   setAmount(amount: Money | ((money: Money) => void)) {
     if (amount instanceof Money) this.amount = amount;
     else {
@@ -47,6 +48,8 @@ class RefundDetail extends Types implements Static<ITypes, typeof RefundDetail> 
     return this;
   }
 
+  setType(type: PaymentDetailType): this;
+  setType(type: (type: typeof PaymentDetailType) => PaymentDetailType): this;
   setType(type: PaymentDetailType | ((type: typeof PaymentDetailType) => PaymentDetailType)) {
     if (typeof type === "function") this.type = type(PaymentDetailType);
     else this.type = type;
@@ -63,5 +66,3 @@ class RefundDetail extends Types implements Static<ITypes, typeof RefundDetail> 
     return refundDetail;
   }
 }
-
-export default RefundDetail;

@@ -5,12 +5,15 @@ export type TResponseAcceptClaimType = {
   "response-accept_claim_type"?: keyof typeof ResponseAcceptClaimTypeEnum;
 };
 
-class ResponseAcceptClaimType extends Types implements Static<ITypes, typeof ResponseAcceptClaimType> {
+export class ResponseAcceptClaimType extends Types implements Static<ITypes, typeof ResponseAcceptClaimType> {
   responseAcceptClaimType?: ResponseAcceptClaimTypeEnum;
-  constructor() {
-    super();
-  }
 
+  setResponseAcceptClaimType(responseAcceptClaimType: ResponseAcceptClaimTypeEnum): this;
+  setResponseAcceptClaimType(
+    responseAcceptClaimType: (
+      responseAcceptClaimType: typeof ResponseAcceptClaimTypeEnum
+    ) => ResponseAcceptClaimTypeEnum
+  ): this;
   setResponseAcceptClaimType(
     responseAcceptClaimType:
       | ResponseAcceptClaimTypeEnum
@@ -31,5 +34,3 @@ class ResponseAcceptClaimType extends Types implements Static<ITypes, typeof Res
     return responseAcceptClaimType;
   }
 }
-
-export default ResponseAcceptClaimType;

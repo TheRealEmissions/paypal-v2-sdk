@@ -1,5 +1,5 @@
 import Types, { ITypes, Static } from "../Types.js";
-import AmountWithBreakdown, { TAmountWithBreakdown } from "./AmountWithBreakdown.js";
+import { AmountWithBreakdown, TAmountWithBreakdown } from "./AmountWithBreakdown.js";
 
 export type TAmountSummaryDetail = {
   breakdown?: TAmountWithBreakdown;
@@ -7,7 +7,7 @@ export type TAmountSummaryDetail = {
   value?: string;
 };
 
-class AmountSummaryDetail extends Types implements Static<ITypes, typeof AmountSummaryDetail> {
+export class AmountSummaryDetail extends Types implements Static<ITypes, typeof AmountSummaryDetail> {
   breakdown?: AmountWithBreakdown;
   currencyCode?: string;
   value?: string;
@@ -48,5 +48,3 @@ class AmountSummaryDetail extends Types implements Static<ITypes, typeof AmountS
     return amountSummaryDetail;
   }
 }
-
-export default AmountSummaryDetail;

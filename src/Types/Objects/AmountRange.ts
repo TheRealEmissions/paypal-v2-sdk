@@ -1,12 +1,12 @@
 import Types, { ITypes, Static } from "../Types.js";
-import Money, { TMoney } from "./Money.js";
+import { Money, TMoney } from "./Money.js";
 
 export type TAmountRange = {
   lower_amount: TMoney;
   upper_amount: TMoney;
 };
 
-class AmountRange extends Types implements Static<ITypes, typeof AmountRange> {
+export class AmountRange extends Types implements Static<ITypes, typeof AmountRange> {
   lowerAmount?: Money;
   upperAmount?: Money;
 
@@ -43,5 +43,3 @@ class AmountRange extends Types implements Static<ITypes, typeof AmountRange> {
     return amountRange;
   }
 }
-
-export default AmountRange;

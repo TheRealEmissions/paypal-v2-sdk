@@ -1,7 +1,7 @@
 import Types, { ITypes, Static } from "../Types.js";
-import AcknowledgementType, { TAcknowledgementType } from "./AcknowledgementType.js";
+import { AcknowledgementType, TAcknowledgementType } from "./AcknowledgementType.js";
 import { AcknowledgementType as AcknowledgementTypeEnum } from "../Enums/AcknowledgementType.js";
-import AcknowledgeReturnItemEvidence, { TAcknowledgeReturnItemEvidence } from "./AcknowledgeReturnItemEvidence.js";
+import { AcknowledgeReturnItemEvidence, TAcknowledgeReturnItemEvidence } from "./AcknowledgeReturnItemEvidence.js";
 
 export type TAcknowledgeReturnItem = {
   acknowledgement_types?: TAcknowledgementType[];
@@ -10,15 +10,14 @@ export type TAcknowledgeReturnItem = {
   note?: string;
 };
 
-class AcknowledgeReturnItem extends Types implements Static<ITypes, typeof AcknowledgeReturnItem> {
+export class AcknowledgeReturnItem extends Types implements Static<ITypes, typeof AcknowledgeReturnItem> {
   acknowledgementTypes?: AcknowledgementType[];
   acknowledgementType?: AcknowledgementTypeEnum;
   evidences?: AcknowledgeReturnItemEvidence[];
   note?: string;
-  constructor() {
-    super();
-  }
 
+  setAcknowledgementTypes(...acknowledgementTypes: AcknowledgementType[]): this;
+  setAcknowledgementTypes(...acknowledgementTypes: ((type: AcknowledgementType) => void)[]): this;
   setAcknowledgementTypes(...acknowledgementTypes: (AcknowledgementType | ((type: AcknowledgementType) => void))[]) {
     this.acknowledgementTypes = acknowledgementTypes.map((acknowledgementType) => {
       if (acknowledgementType instanceof AcknowledgementType) return acknowledgementType;
@@ -29,6 +28,8 @@ class AcknowledgeReturnItem extends Types implements Static<ITypes, typeof Ackno
     return this;
   }
 
+  setAcknowledgementType(acknowledgementType: AcknowledgementTypeEnum): this;
+  setAcknowledgementType(acknowledgementType: (type: typeof AcknowledgementTypeEnum) => AcknowledgementTypeEnum): this;
   setAcknowledgementType(
     acknowledgementType: AcknowledgementTypeEnum | ((type: typeof AcknowledgementTypeEnum) => AcknowledgementTypeEnum)
   ) {
@@ -38,6 +39,8 @@ class AcknowledgeReturnItem extends Types implements Static<ITypes, typeof Ackno
     return this;
   }
 
+  setEvidences(...evidences: AcknowledgeReturnItemEvidence[]): this;
+  setEvidences(...evidences: ((evidence: AcknowledgeReturnItemEvidence) => void)[]): this;
   setEvidences(...evidences: (AcknowledgeReturnItemEvidence | ((evidence: AcknowledgeReturnItemEvidence) => void))[]) {
     this.evidences = evidences.map((evidence) => {
       if (evidence instanceof AcknowledgeReturnItemEvidence) return evidence;
@@ -69,5 +72,3 @@ class AcknowledgeReturnItem extends Types implements Static<ITypes, typeof Ackno
     return acknowledgeReturnItem;
   }
 }
-
-export default AcknowledgeReturnItem;

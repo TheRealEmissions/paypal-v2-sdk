@@ -1,5 +1,5 @@
 import Types, { ITypes, Static } from "../Types.js";
-import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
+import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
 
 export type TTrackerIdentifier = {
   transaction_id: string;
@@ -7,19 +7,18 @@ export type TTrackerIdentifier = {
   tracking_number?: string;
 };
 
-class TrackerIdentifier extends Types implements Static<ITypes, typeof TrackerIdentifier> {
+export class TrackerIdentifier extends Types implements Static<ITypes, typeof TrackerIdentifier> {
   transactionId?: string;
   links?: LinkDescription[];
   trackingNumber?: string;
-  constructor() {
-    super();
-  }
 
   setTransactionId(transactionId: string) {
     this.transactionId = transactionId;
     return this;
   }
 
+  setLinks(...links: LinkDescription[]): this;
+  setLinks(...links: ((link: LinkDescription) => void)[]): this;
   setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) return link;
@@ -38,10 +37,8 @@ class TrackerIdentifier extends Types implements Static<ITypes, typeof TrackerId
   static fromObject(obj: TTrackerIdentifier): TrackerIdentifier {
     const trackerIdentifier = new TrackerIdentifier();
     if (obj.transaction_id) trackerIdentifier.setTransactionId(obj.transaction_id);
-    if (obj.links) trackerIdentifier.setLinks(...obj.links.map((x) => LinkDescription.fromObject(x)));
+    if (obj.links) trackerIdentifier.setLinks(...obj.links.map(LinkDescription.fromObject));
     if (obj.tracking_number) trackerIdentifier.setTrackingNumber(obj.tracking_number);
     return trackerIdentifier;
   }
 }
-
-export default TrackerIdentifier;

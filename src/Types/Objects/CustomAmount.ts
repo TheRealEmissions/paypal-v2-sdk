@@ -1,12 +1,12 @@
 import Types, { ITypes, Static } from "../Types.js";
-import Money, { TMoney } from "./Money.js";
+import { Money, TMoney } from "./Money.js";
 
 export type TCustomAmount = {
   label: string;
   amount?: TMoney;
 };
 
-class CustomAmount extends Types implements Static<ITypes, typeof CustomAmount> {
+export class CustomAmount extends Types implements Static<ITypes, typeof CustomAmount> {
   label?: string;
   amount?: Money;
 
@@ -42,5 +42,3 @@ class CustomAmount extends Types implements Static<ITypes, typeof CustomAmount> 
     return customAmount;
   }
 }
-
-export default CustomAmount;

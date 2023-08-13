@@ -4,7 +4,7 @@ export type TEmailAddress = {
   email_address?: string;
 };
 
-class EmailAddress extends Types implements Static<ITypes, typeof EmailAddress> {
+export class EmailAddress extends Types implements Static<ITypes, typeof EmailAddress> {
   emailAddress?: string;
 
   setEmailAddress(emailAddress: string) {
@@ -18,5 +18,3 @@ class EmailAddress extends Types implements Static<ITypes, typeof EmailAddress> 
     return emailAddress;
   }
 }
-
-export default EmailAddress;

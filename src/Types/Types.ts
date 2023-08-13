@@ -27,4 +27,7 @@ export interface ITypes {
 
 export type Integer<N extends number> = number extends N ? N : `${N}` extends `${bigint}` ? N : never;
 
+// export type EnumLambda<T extends { [key: string]: number | string }> = (x: T) => T[keyof T];
+// export type VoidLambda<T> = (x: T) => void;
+
 export default Types;

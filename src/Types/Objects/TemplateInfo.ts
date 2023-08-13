@@ -1,12 +1,12 @@
 import Types, { ITypes, Static } from "../Types.js";
-import AmountSummaryDetail, { TAmountSummaryDetail } from "./AmountSummaryDetail.js";
-import Configuration, { TConfiguration } from "./Configuration.js";
-import EmailAddress, { TEmailAddress } from "./EmailAddress.js";
-import InvoicerInfo, { TInvoicerInfo } from "./InvoicerInfo.js";
-import Item, { TItem } from "./Item.js";
-import Money, { TMoney } from "./Money.js";
-import RecipientInfo, { TRecipientInfo } from "./RecipientInfo.js";
-import TemplateDetail, { TTemplateDetail } from "./TemplateDetail.js";
+import { AmountSummaryDetail, TAmountSummaryDetail } from "./AmountSummaryDetail.js";
+import { Configuration, TConfiguration } from "./Configuration.js";
+import { EmailAddress, TEmailAddress } from "./EmailAddress.js";
+import { InvoicerInfo, TInvoicerInfo } from "./InvoicerInfo.js";
+import { Item, TItem } from "./Item.js";
+import { Money, TMoney } from "./Money.js";
+import { RecipientInfo, TRecipientInfo } from "./RecipientInfo.js";
+import { TemplateDetail, TTemplateDetail } from "./TemplateDetail.js";
 
 export type TTemplateInfo = {
   additional_recipients?: TEmailAddress[];
@@ -19,7 +19,7 @@ export type TTemplateInfo = {
   primary_recipients?: TRecipientInfo[];
 };
 
-class TemplateInfo extends Types implements Static<ITypes, typeof TemplateInfo> {
+export class TemplateInfo extends Types implements Static<ITypes, typeof TemplateInfo> {
   additionalRecipients?: EmailAddress[];
   amount?: AmountSummaryDetail;
   configuration?: Configuration;
@@ -28,10 +28,9 @@ class TemplateInfo extends Types implements Static<ITypes, typeof TemplateInfo> 
   invoicer?: InvoicerInfo;
   items?: Item[];
   primaryRecipients?: RecipientInfo[];
-  constructor() {
-    super();
-  }
 
+  setAdditionalRecipients(...additionalRecipients: EmailAddress[]): this;
+  setAdditionalRecipients(...additionalRecipients: ((emailAddress: EmailAddress) => void)[]): this;
   setAdditionalRecipients(...additionalRecipients: (EmailAddress | ((emailAddress: EmailAddress) => void))[]) {
     this.additionalRecipients = additionalRecipients.map((x) => {
       if (x instanceof EmailAddress) return x;
@@ -44,6 +43,8 @@ class TemplateInfo extends Types implements Static<ITypes, typeof TemplateInfo> 
     return this;
   }
 
+  setAmount(amount: AmountSummaryDetail): this;
+  setAmount(amount: (amountSummaryDetail: AmountSummaryDetail) => void): this;
   setAmount(amount: AmountSummaryDetail | ((amountSummaryDetail: AmountSummaryDetail) => void)) {
     if (amount instanceof AmountSummaryDetail) this.amount = amount;
     else {
@@ -54,6 +55,8 @@ class TemplateInfo extends Types implements Static<ITypes, typeof TemplateInfo> 
     return this;
   }
 
+  setConfiguration(configuration: Configuration): this;
+  setConfiguration(configuration: (configuration: Configuration) => void): this;
   setConfiguration(configuration: Configuration | ((configuration: Configuration) => void)) {
     if (configuration instanceof Configuration) this.configuration = configuration;
     else {
@@ -64,6 +67,8 @@ class TemplateInfo extends Types implements Static<ITypes, typeof TemplateInfo> 
     return this;
   }
 
+  setDetail(detail: TemplateDetail): this;
+  setDetail(detail: (templateDetail: TemplateDetail) => void): this;
   setDetail(detail: TemplateDetail | ((templateDetail: TemplateDetail) => void)) {
     if (detail instanceof TemplateDetail) this.detail = detail;
     else {
@@ -74,6 +79,8 @@ class TemplateInfo extends Types implements Static<ITypes, typeof TemplateInfo> 
     return this;
   }
 
+  setDueAmount(dueAmount: Money): this;
+  setDueAmount(dueAmount: (money: Money) => void): this;
   setDueAmount(dueAmount: Money | ((money: Money) => void)) {
     if (dueAmount instanceof Money) this.dueAmount = dueAmount;
     else {
@@ -84,6 +91,8 @@ class TemplateInfo extends Types implements Static<ITypes, typeof TemplateInfo> 
     return this;
   }
 
+  setInvoicer(invoicer: InvoicerInfo): this;
+  setInvoicer(invoicer: (invoicerInfo: InvoicerInfo) => void): this;
   setInvoicer(invoicer: InvoicerInfo | ((invoicerInfo: InvoicerInfo) => void)) {
     if (invoicer instanceof InvoicerInfo) this.invoicer = invoicer;
     else {
@@ -94,6 +103,8 @@ class TemplateInfo extends Types implements Static<ITypes, typeof TemplateInfo> 
     return this;
   }
 
+  setItems(...items: Item[]): this;
+  setItems(...items: ((item: Item) => void)[]): this;
   setItems(...items: (Item | ((item: Item) => void))[]) {
     this.items = items.map((x) => {
       if (x instanceof Item) return x;
@@ -106,6 +117,8 @@ class TemplateInfo extends Types implements Static<ITypes, typeof TemplateInfo> 
     return this;
   }
 
+  setPrimaryRecipients(...primaryRecipients: RecipientInfo[]): this;
+  setPrimaryRecipients(...primaryRecipients: ((recipientInfo: RecipientInfo) => void)[]): this;
   setPrimaryRecipients(...primaryRecipients: (RecipientInfo | ((recipientInfo: RecipientInfo) => void))[]) {
     this.primaryRecipients = primaryRecipients.map((x) => {
       if (x instanceof RecipientInfo) return x;
@@ -133,5 +146,3 @@ class TemplateInfo extends Types implements Static<ITypes, typeof TemplateInfo> 
     return templateInfo;
   }
 }
-
-export default TemplateInfo;

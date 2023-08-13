@@ -1,19 +1,18 @@
 import Types, { ITypes, Static } from "../Types.js";
-import TemplateItemSetting, { TTemplateItemSetting } from "./TemplateItemSetting.js";
-import TemplateSubtotalSetting, { TTemplateSubtotalSetting } from "./TemplateSubtotalSetting.js";
+import { TemplateItemSetting, TTemplateItemSetting } from "./TemplateItemSetting.js";
+import { TemplateSubtotalSetting, TTemplateSubtotalSetting } from "./TemplateSubtotalSetting.js";
 
 export type TTemplateSettings = {
   template_item_settings?: TTemplateItemSetting[];
   template_subtotal_settings?: TTemplateSubtotalSetting[];
 };
 
-class TemplateSettings extends Types implements Static<ITypes, typeof TemplateSettings> {
+export class TemplateSettings extends Types implements Static<ITypes, typeof TemplateSettings> {
   templateItemSettings?: TemplateItemSetting[];
   templateSubtotalSettings?: TemplateSubtotalSetting[];
-  constructor() {
-    super();
-  }
 
+  setTemplateItemSettings(...templateItemSettings: TemplateItemSetting[]): this;
+  setTemplateItemSettings(...templateItemSettings: ((setting: TemplateItemSetting) => void)[]): this;
   setTemplateItemSettings(...templateItemSettings: (TemplateItemSetting | ((setting: TemplateItemSetting) => void))[]) {
     this.templateItemSettings = templateItemSettings.map((templateItemSetting) => {
       if (templateItemSetting instanceof TemplateItemSetting) return templateItemSetting;
@@ -26,6 +25,8 @@ class TemplateSettings extends Types implements Static<ITypes, typeof TemplateSe
     return this;
   }
 
+  setTemplateSubtotalSettings(...templateSubtotalSettings: TemplateSubtotalSetting[]): this;
+  setTemplateSubtotalSettings(...templateSubtotalSettings: ((setting: TemplateSubtotalSetting) => void)[]): this;
   setTemplateSubtotalSettings(
     ...templateSubtotalSettings: (TemplateSubtotalSetting | ((setting: TemplateSubtotalSetting) => void))[]
   ) {
@@ -55,5 +56,3 @@ class TemplateSettings extends Types implements Static<ITypes, typeof TemplateSe
     return templateSettings;
   }
 }
-
-export default TemplateSettings;

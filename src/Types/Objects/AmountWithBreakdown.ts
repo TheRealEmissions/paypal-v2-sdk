@@ -1,8 +1,8 @@
 import Types, { ITypes, Static } from "../Types.js";
-import AggregatedDiscount, { TAggregatedDiscount } from "./AggregatedDiscount.js";
-import CustomAmount, { TCustomAmount } from "./CustomAmount.js";
-import Money, { TMoney } from "./Money.js";
-import ShippingCost, { TShippingCost } from "./ShippingCost.js";
+import { AggregatedDiscount, TAggregatedDiscount } from "./AggregatedDiscount.js";
+import { CustomAmount, TCustomAmount } from "./CustomAmount.js";
+import { Money, TMoney } from "./Money.js";
+import { ShippingCost, TShippingCost } from "./ShippingCost.js";
 
 export type TAmountWithBreakdown = {
   custom?: TCustomAmount;
@@ -12,7 +12,7 @@ export type TAmountWithBreakdown = {
   tax_total?: TMoney;
 };
 
-class AmountWithBreakdown extends Types implements Static<ITypes, typeof AmountWithBreakdown> {
+export class AmountWithBreakdown extends Types implements Static<ITypes, typeof AmountWithBreakdown> {
   custom?: CustomAmount;
   discount?: AggregatedDiscount;
   itemTotal?: Money;
@@ -94,5 +94,3 @@ class AmountWithBreakdown extends Types implements Static<ITypes, typeof AmountW
     return amountWithBreakdown;
   }
 }
-
-export default AmountWithBreakdown;

@@ -8,15 +8,14 @@ export type TResponseTrackingInfo = {
   tracking_url?: string;
 };
 
-class ResponseTrackingInfo extends Types implements Static<ITypes, typeof ResponseTrackingInfo> {
+export class ResponseTrackingInfo extends Types implements Static<ITypes, typeof ResponseTrackingInfo> {
   carrierName?: Carrier;
   trackingNumber?: string;
   carrierNameOther?: string;
   trackingUrl?: string;
-  constructor() {
-    super();
-  }
 
+  setCarrierName(carrierName: Carrier): this;
+  setCarrierName(carrierName: (carrierName: typeof Carrier) => Carrier): this;
   setCarrierName(carrierName: Carrier | ((carrierName: typeof Carrier) => Carrier)) {
     if (typeof carrierName === "function") this.carrierName = carrierName(Carrier);
     else this.carrierName = carrierName;
@@ -47,5 +46,3 @@ class ResponseTrackingInfo extends Types implements Static<ITypes, typeof Respon
     return responseTrackingInfo;
   }
 }
-
-export default ResponseTrackingInfo;

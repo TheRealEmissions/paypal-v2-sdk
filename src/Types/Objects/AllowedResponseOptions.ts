@@ -1,7 +1,7 @@
 import Types, { ITypes, Static } from "../Types";
-import AcceptClaim, { TAcceptClaim } from "./AcceptClaim";
-import AcknowledgeReturnItem, { TAcknowledgeReturnItem } from "./AcknowledgeReturnItem";
-import MakeOffer, { TMakeOffer } from "./MakeOffer";
+import { AcceptClaim, TAcceptClaim } from "./AcceptClaim";
+import { AcknowledgeReturnItem, TAcknowledgeReturnItem } from "./AcknowledgeReturnItem";
+import { MakeOffer, TMakeOffer } from "./MakeOffer";
 
 export type TAllowedResponseOptions = {
   accept_claim?: TAcceptClaim;
@@ -9,14 +9,13 @@ export type TAllowedResponseOptions = {
   make_offer?: TMakeOffer;
 };
 
-class AllowedResponseOptions extends Types implements Static<ITypes, typeof AllowedResponseOptions> {
+export class AllowedResponseOptions extends Types implements Static<ITypes, typeof AllowedResponseOptions> {
   acceptClaim?: AcceptClaim;
   acknowledgeReturnItem?: AcknowledgeReturnItem;
   makeOffer?: MakeOffer;
-  constructor() {
-    super();
-  }
 
+  setAcceptClaim(acceptClaim: AcceptClaim): this;
+  setAcceptClaim(acceptClaim: (claim: AcceptClaim) => void): this;
   setAcceptClaim(acceptClaim: AcceptClaim | ((claim: AcceptClaim) => void)) {
     if (acceptClaim instanceof AcceptClaim) this.acceptClaim = acceptClaim;
     else {
@@ -27,6 +26,8 @@ class AllowedResponseOptions extends Types implements Static<ITypes, typeof Allo
     return this;
   }
 
+  setAcknowledgeReturnItem(acknowledgeReturnItem: AcknowledgeReturnItem): this;
+  setAcknowledgeReturnItem(acknowledgeReturnItem: (item: AcknowledgeReturnItem) => void): this;
   setAcknowledgeReturnItem(acknowledgeReturnItem: AcknowledgeReturnItem | ((item: AcknowledgeReturnItem) => void)) {
     if (acknowledgeReturnItem instanceof AcknowledgeReturnItem) this.acknowledgeReturnItem = acknowledgeReturnItem;
     else {
@@ -37,6 +38,8 @@ class AllowedResponseOptions extends Types implements Static<ITypes, typeof Allo
     return this;
   }
 
+  setMakeOffer(makeOffer: MakeOffer): this;
+  setMakeOffer(makeOffer: (offer: MakeOffer) => void): this;
   setMakeOffer(makeOffer: MakeOffer | ((offer: MakeOffer) => void)) {
     if (makeOffer instanceof MakeOffer) this.makeOffer = makeOffer;
     else {
@@ -56,5 +59,3 @@ class AllowedResponseOptions extends Types implements Static<ITypes, typeof Allo
     return allowedResponseOptions;
   }
 }
-
-export default AllowedResponseOptions;

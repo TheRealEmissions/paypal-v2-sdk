@@ -4,7 +4,7 @@ export type TField = {
   field?: string;
 };
 
-class Field extends Types implements Static<ITypes, typeof Field> {
+export class Field extends Types implements Static<ITypes, typeof Field> {
   field?: string;
 
   setField(field: string) {
@@ -18,5 +18,3 @@ class Field extends Types implements Static<ITypes, typeof Field> {
     return field;
   }
 }
-
-export default Field;

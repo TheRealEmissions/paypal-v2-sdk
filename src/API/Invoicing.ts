@@ -7,17 +7,17 @@ import ListTemplatesResponse, { TListTemplatesResponse } from "../Types/APIRespo
 import SearchForInvoicesResponse, { TSearchForInvoicesResponse } from "../Types/APIResponses/SearchForInvoices.js";
 import { GenerateQrCodeAction } from "../Types/Enums/GenerateQrCodeAction.js";
 import { InvoiceStatus } from "../Types/Enums/InvoiceStatus.js";
-import AddressPortable from "../Types/Objects/AddressPortable.js";
+import { AddressPortable } from "../Types/Objects/AddressPortable.js";
 import { TAmountRange } from "../Types/Objects/AmountRange.js";
 import { TDateRange } from "../Types/Objects/DateRange.js";
-import EmailAddress, { TEmailAddress } from "../Types/Objects/EmailAddress.js";
-import Field from "../Types/Objects/Field.js";
-import Invoice, { TInvoice } from "../Types/Objects/Invoice.js";
-import LinkDescription from "../Types/Objects/LinkDescription.js";
-import PaymentDetail, { TPaymentDetail } from "../Types/Objects/PaymentDetail.js";
-import PhoneDetail from "../Types/Objects/PhoneDetail.js";
-import RefundDetail, { TRefundDetail } from "../Types/Objects/RefundDetail.js";
-import Template, { TTemplate } from "../Types/Objects/Template.js";
+import { EmailAddress, TEmailAddress } from "../Types/Objects/EmailAddress.js";
+import { Field } from "../Types/Objects/Field.js";
+import { Invoice, TInvoice } from "../Types/Objects/Invoice.js";
+import { LinkDescription } from "../Types/Objects/LinkDescription.js";
+import { PaymentDetail, TPaymentDetail } from "../Types/Objects/PaymentDetail.js";
+import { PhoneDetail } from "../Types/Objects/PhoneDetail.js";
+import { RefundDetail, TRefundDetail } from "../Types/Objects/RefundDetail.js";
+import { Template, TTemplate } from "../Types/Objects/Template.js";
 import { Integer } from "../Types/Types.js";
 
 class Invoicing {
@@ -86,49 +86,142 @@ class Invoicing {
     );
   }
 
-  async createDraft(invoice: Invoice) {
+  async createDraft(invoice: Invoice): Promise<Invoice>;
+  async createDraft(invoice: (invoice: Invoice) => void): Promise<Invoice>;
+  async createDraft(invoice: Invoice | ((invoice: Invoice) => void)) {
+    const invoiceInstance = invoice instanceof Invoice ? invoice : new Invoice();
+    if (typeof invoice === "function") {
+      invoice(invoiceInstance);
+    }
     const response = await this.PayPal.API.post<TInvoice>(
       "/v2/invoicing/invoices",
-      invoice.toAttributeObject<TInvoice>()
+      invoiceInstance.toAttributeObject<TInvoice>()
     );
 
     return Invoice.fromObject(response.data).setPayPal(this.PayPal);
   }
 
-  async delete(invoice: Invoice | string): Promise<boolean> {
-    const invoiceId = invoice instanceof Invoice ? invoice.id : invoice;
+  async delete(invoice: Invoice): Promise<boolean>;
+  async delete(invoice: string): Promise<boolean>;
+  async delete(invoice: (invoice: Invoice) => void): Promise<boolean>;
+  async delete(invoice: Invoice | string | ((invoice: Invoice) => void)): Promise<boolean> {
+    const invoiceInstance =
+      typeof invoice !== "string" ? (invoice instanceof Invoice ? invoice : new Invoice()) : undefined;
+    if (typeof invoice === "function" && invoiceInstance) {
+      invoice(invoiceInstance);
+    }
+    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.id;
+    if (!invoiceId) {
+      throw new Error("Invoice id is required");
+    }
     const response = await this.PayPal.API.delete(`/v2/invoicing/invoices/${invoiceId}`);
     const SUCCESS_RESPONSE = 204;
     return response.status === SUCCESS_RESPONSE;
   }
 
-  async fullyUpdate(invoice: Invoice, invoiceId?: string) {
+  async fullyUpdate(invoice: Invoice): Promise<Invoice>;
+  async fullyUpdate(invoice: (invoice: Invoice) => void, invoiceId?: string): Promise<Invoice>;
+  async fullyUpdate(invoice: Invoice | ((invoice: Invoice) => void), invoiceId?: string) {
+    const invoiceInstance = invoice instanceof Invoice ? invoice : new Invoice();
+    if (typeof invoice === "function") {
+      invoice(invoiceInstance);
+    }
     const response = await this.PayPal.API.put<TInvoice>(
-      `/v2/invoicing/invoices/${invoice.id ?? invoiceId}`,
-      invoice.toAttributeObject<TInvoice>()
+      `/v2/invoicing/invoices/${invoiceInstance.id ?? invoiceId}`,
+      invoiceInstance.toAttributeObject<TInvoice>()
     );
 
     return Invoice.fromObject(response.data).setPayPal(this.PayPal);
   }
 
-  async get(invoice: Invoice | string) {
-    const invoiceId = invoice instanceof Invoice ? invoice.id : invoice;
+  async get(invoice: Invoice | string | ((invoice: Invoice) => void)) {
+    const invoiceInstance =
+      typeof invoice !== "string" ? (invoice instanceof Invoice ? invoice : new Invoice()) : undefined;
+    if (typeof invoice === "function" && invoiceInstance) {
+      invoice(invoiceInstance);
+    }
+    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.id;
+    if (!invoiceId) {
+      throw new Error("Invoice id is required");
+    }
     const response = await this.PayPal.API.get<TInvoice>(`/v2/invoicing/invoices/${invoiceId}`);
 
     return Invoice.fromObject(response.data).setPayPal(this.PayPal);
   }
 
   async cancel(
-    invoice: Invoice | string,
+    invoice: Invoice,
     additionalRecipients?: EmailAddress[],
     note?: string,
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
     subject?: string
+  ): Promise<boolean>;
+  async cancel(
+    invoice: string,
+    additionalRecipients?: EmailAddress[],
+    note?: string,
+    sendToInvoicer?: boolean,
+    sendToRecipient?: boolean,
+    subject?: string
+  ): Promise<boolean>;
+  async cancel(
+    invoice: (invoice: Invoice) => void,
+    additionalRecipients?: EmailAddress[],
+    note?: string,
+    sendToInvoicer?: boolean,
+    sendToRecipient?: boolean,
+    subject?: string
+  ): Promise<boolean>;
+  async cancel(
+    invoice: Invoice,
+    additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
+    note?: string,
+    sendToInvoicer?: boolean,
+    sendToRecipient?: boolean,
+    subject?: string
+  ): Promise<boolean>;
+  async cancel(
+    invoice: string,
+    additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
+    note?: string,
+    sendToInvoicer?: boolean,
+    sendToRecipient?: boolean,
+    subject?: string
+  ): Promise<boolean>;
+  async cancel(
+    invoice: (invoice: Invoice) => void,
+    additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
+    note?: string,
+    sendToInvoicer?: boolean,
+    sendToRecipient?: boolean,
+    subject?: string
+  ): Promise<boolean>;
+  async cancel(
+    invoice: Invoice | string | ((invoice: Invoice) => void),
+    additionalRecipients?: (EmailAddress | ((additionalRecipient: EmailAddress) => void))[],
+    note?: string,
+    sendToInvoicer?: boolean,
+    sendToRecipient?: boolean,
+    subject?: string
   ): Promise<boolean> {
-    const invoiceId = invoice instanceof Invoice ? invoice.id : invoice;
+    const invoiceInstance =
+      typeof invoice !== "string" ? (invoice instanceof Invoice ? invoice : new Invoice()) : undefined;
+    if (typeof invoice === "function" && invoiceInstance) {
+      invoice(invoiceInstance);
+    }
+    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.id;
+    if (!invoiceId) {
+      throw new Error("Invoice id is required");
+    }
     const response = await this.PayPal.API.post<TInvoice>(`/v2/invoicing/invoices/${invoiceId}/cancel`, {
-      additional_recipients: additionalRecipients?.map((x) => x.toAttributeObject<TEmailAddress>()),
+      additional_recipients: additionalRecipients?.map((x) => {
+        const additionalRecipient = x instanceof EmailAddress ? x : new EmailAddress();
+        if (typeof x === "function") {
+          x(additionalRecipient);
+        }
+        return additionalRecipient.toAttributeObject<TEmailAddress>();
+      }),
       send_to_invoicer: sendToInvoicer,
       send_to_recipient: sendToRecipient,
       subject,
@@ -140,17 +233,67 @@ class Invoicing {
   }
 
   async generateQrCode<N extends number, U extends number>(
-    invoice: Invoice | string,
+    invoice: Invoice,
     action?: GenerateQrCodeAction,
     height?: Integer<N>,
     width?: Integer<U>
+  ): Promise<string>;
+  async generateQrCode<N extends number, U extends number>(
+    invoice: string,
+    action?: GenerateQrCodeAction,
+    height?: Integer<N>,
+    width?: Integer<U>
+  ): Promise<string>;
+  async generateQrCode<N extends number, U extends number>(
+    invoice: (invoice: Invoice) => void,
+    action?: GenerateQrCodeAction,
+    height?: Integer<N>,
+    width?: Integer<U>
+  ): Promise<string>;
+  async generateQrCode<N extends number, U extends number>(
+    invoice: Invoice,
+    action?: (action: typeof GenerateQrCodeAction) => GenerateQrCodeAction,
+    height?: Integer<N>,
+    width?: Integer<U>
+  ): Promise<string>;
+  async generateQrCode<N extends number, U extends number>(
+    invoice: string,
+    action?: (action: typeof GenerateQrCodeAction) => GenerateQrCodeAction,
+    height?: Integer<N>,
+    width?: Integer<U>
+  ): Promise<string>;
+  async generateQrCode<N extends number, U extends number>(
+    invoice: (invoice: Invoice) => void,
+    action?: (action: typeof GenerateQrCodeAction) => GenerateQrCodeAction,
+    height?: Integer<N>,
+    width?: Integer<U>
+  ): Promise<string>;
+  async generateQrCode<N extends number, U extends number>(
+    invoice: Invoice | string | ((invoice: Invoice) => void),
+    action?: GenerateQrCodeAction | ((action: typeof GenerateQrCodeAction) => GenerateQrCodeAction),
+    height?: Integer<N>,
+    width?: Integer<U>
   ) {
-    const invoiceId = invoice instanceof Invoice ? invoice.id : invoice;
+    const invoiceInstance =
+      typeof invoice !== "string" ? (invoice instanceof Invoice ? invoice : new Invoice()) : undefined;
+    if (typeof invoice === "function" && invoiceInstance) {
+      invoice(invoiceInstance);
+    }
+    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.id;
+    if (!invoiceId) {
+      throw new Error("Invoice id is required");
+    }
     const response = await this.PayPal.API.get<string>(`/v2/invoicing/invoices/${invoiceId}/generate-qr-code`, {
       params: {
         ...(action
           ? {
-              action: GenerateQrCodeAction[action.toUpperCase() as keyof typeof GenerateQrCodeAction],
+              action:
+                GenerateQrCodeAction[
+                  (typeof action === "function"
+                    ? action(GenerateQrCodeAction)
+                    : action
+                  ).toUpperCase() as keyof typeof GenerateQrCodeAction
+                ],
             }
           : {}),
         height,
@@ -161,65 +304,196 @@ class Invoicing {
     return response.data;
   }
 
-  async recordPayment(invoice: Invoice | string, paymentDetail: PaymentDetail) {
-    const invoiceId = invoice instanceof Invoice ? invoice.id : invoice;
+  async recordPayment(invoice: Invoice, paymentDetail: PaymentDetail): Promise<Invoice>;
+  async recordPayment(invoice: string, paymentDetail: PaymentDetail): Promise<Invoice>;
+  async recordPayment(invoice: (invoice: Invoice) => void, paymentDetail: PaymentDetail): Promise<Invoice>;
+  async recordPayment(invoice: Invoice, paymentDetail: (paymentDetail: PaymentDetail) => void): Promise<Invoice>;
+  async recordPayment(invoice: string, paymentDetail: (paymentDetail: PaymentDetail) => void): Promise<Invoice>;
+  async recordPayment(
+    invoice: (invoice: Invoice) => void,
+    paymentDetail: (paymentDetail: PaymentDetail) => void
+  ): Promise<Invoice>;
+
+  async recordPayment(
+    invoice: Invoice | string | ((invoice: Invoice) => void),
+    paymentDetail: PaymentDetail | ((paymentDetail: PaymentDetail) => void)
+  ) {
+    const invoiceInstance =
+      typeof invoice !== "string" ? (invoice instanceof Invoice ? invoice : new Invoice()) : undefined;
+    if (typeof invoice === "function" && invoiceInstance) {
+      invoice(invoiceInstance);
+    }
+    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.id;
     if (!invoiceId) {
       throw new Error("Invoice id is required");
     }
+    const paymentDetailInstance = paymentDetail instanceof PaymentDetail ? paymentDetail : new PaymentDetail();
+    if (typeof paymentDetail === "function") {
+      paymentDetail(paymentDetailInstance);
+    }
     const response = await this.PayPal.API.post<TInvoice>(
       `/v2/invoicing/invoices/${invoiceId}/payments`,
-      paymentDetail.toAttributeObject<TPaymentDetail>()
+      paymentDetailInstance.toAttributeObject<TPaymentDetail>()
     );
 
     const SUCCESS_RESPONSE = 200;
     return response.status === SUCCESS_RESPONSE ? this.get(invoiceId) : response.statusText;
   }
 
-  async deleteExternalPayment(invoice: Invoice | string, transactionId: string): Promise<boolean> {
-    const invoiceId = invoice instanceof Invoice ? invoice.id : invoice;
+  async deleteExternalPayment(invoice: Invoice, transactionId: string): Promise<boolean>;
+  async deleteExternalPayment(invoice: string, transactionId: string): Promise<boolean>;
+  async deleteExternalPayment(invoice: (invoice: Invoice) => void, transactionId: string): Promise<boolean>;
+  async deleteExternalPayment(
+    invoice: Invoice | string | ((invoice: Invoice) => void),
+    transactionId: string
+  ): Promise<boolean> {
+    const invoiceInstance =
+      typeof invoice !== "string" ? (invoice instanceof Invoice ? invoice : new Invoice()) : undefined;
+    if (typeof invoice === "function" && invoiceInstance) {
+      invoice(invoiceInstance);
+    }
+    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.id;
+    if (!invoiceId) {
+      throw new Error("Invoice id is required");
+    }
     const response = await this.PayPal.API.delete(`/v2/invoicing/invoices/${invoiceId}/payments/${transactionId}`);
     const SUCCESS_RESPONSE = 204;
     return response.status === SUCCESS_RESPONSE;
   }
 
-  async recordRefund(invoice: Invoice | string, refundDetail: RefundDetail) {
-    const invoiceId = invoice instanceof Invoice ? invoice.id : invoice;
+  async recordRefund(invoice: Invoice, refundDetail: RefundDetail): Promise<Invoice | string>;
+  async recordRefund(invoice: string, refundDetail: RefundDetail): Promise<Invoice | string>;
+  async recordRefund(invoice: (invoice: Invoice) => void, refundDetail: RefundDetail): Promise<Invoice | string>;
+  async recordRefund(invoice: Invoice, refundDetail: (refundDetail: RefundDetail) => void): Promise<Invoice | string>;
+  async recordRefund(invoice: string, refundDetail: (refundDetail: RefundDetail) => void): Promise<Invoice | string>;
+  async recordRefund(
+    invoice: (invoice: Invoice) => void,
+    refundDetail: (refundDetail: RefundDetail) => void
+  ): Promise<Invoice | string>;
+  async recordRefund(
+    invoice: Invoice | string | ((invoice: Invoice) => void),
+    refundDetail: RefundDetail | ((refundDetail: RefundDetail) => void)
+  ) {
+    const invoiceInstance =
+      typeof invoice !== "string" ? (invoice instanceof Invoice ? invoice : new Invoice()) : undefined;
+    if (typeof invoice === "function" && invoiceInstance) {
+      invoice(invoiceInstance);
+    }
+    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.id;
     if (!invoiceId) {
       throw new Error("Invoice id is required");
     }
 
+    const refundDetailInstance = refundDetail instanceof RefundDetail ? refundDetail : new RefundDetail();
+    if (typeof refundDetail === "function") {
+      refundDetail(refundDetailInstance);
+    }
+
     const response = await this.PayPal.API.post<TInvoice>(
       `/v2/invoicing/invoices/${invoiceId}/refunds`,
-      refundDetail.toAttributeObject<TRefundDetail>()
+      refundDetailInstance.toAttributeObject<TRefundDetail>()
     );
 
     const SUCCESS_RESPONSE = 200;
     return response.status === SUCCESS_RESPONSE ? this.get(invoiceId) : response.statusText;
   }
 
-  async deleteExternalRefund(invoice: Invoice | string, transactionId: string): Promise<boolean> {
-    const invoiceId = invoice instanceof Invoice ? invoice.id : invoice;
+  async deleteExternalRefund(invoice: Invoice, transactionId: string): Promise<boolean>;
+  async deleteExternalRefund(invoice: string, transactionId: string): Promise<boolean>;
+  async deleteExternalRefund(invoice: (invoice: Invoice) => void, transactionId: string): Promise<boolean>;
+  async deleteExternalRefund(
+    invoice: Invoice | string | ((invoice: Invoice) => void),
+    transactionId: string
+  ): Promise<boolean> {
+    const invoiceInstance =
+      typeof invoice !== "string" ? (invoice instanceof Invoice ? invoice : new Invoice()) : undefined;
+    if (typeof invoice === "function" && invoiceInstance) {
+      invoice(invoiceInstance);
+    }
+    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.id;
+    if (!invoiceId) {
+      throw new Error("Invoice id is required");
+    }
     const response = await this.PayPal.API.delete(`/v2/invoicing/invoices/${invoiceId}/refunds/${transactionId}`);
     const SUCCESS_RESPONSE = 204;
     return response.status === SUCCESS_RESPONSE;
   }
 
   async sendReminder(
-    invoice: Invoice | string,
+    invoice: Invoice,
     additionalRecipients?: EmailAddress[],
     note?: string,
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
     subject?: string
+  ): Promise<Invoice | string>;
+  async sendReminder(
+    invoice: string,
+    additionalRecipients?: EmailAddress[],
+    note?: string,
+    sendToInvoicer?: boolean,
+    sendToRecipient?: boolean,
+    subject?: string
+  ): Promise<Invoice | string>;
+  async sendReminder(
+    invoice: (invoice: Invoice) => void,
+    additionalRecipients?: EmailAddress[],
+    note?: string,
+    sendToInvoicer?: boolean,
+    sendToRecipient?: boolean,
+    subject?: string
+  ): Promise<Invoice | string>;
+  async sendReminder(
+    invoice: Invoice,
+    additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
+    note?: string,
+    sendToInvoicer?: boolean,
+    sendToRecipient?: boolean,
+    subject?: string
+  ): Promise<Invoice | string>;
+  async sendReminder(
+    invoice: string,
+    additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
+    note?: string,
+    sendToInvoicer?: boolean,
+    sendToRecipient?: boolean,
+    subject?: string
+  ): Promise<Invoice | string>;
+  async sendReminder(
+    invoice: (invoice: Invoice) => void,
+    additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
+    note?: string,
+    sendToInvoicer?: boolean,
+    sendToRecipient?: boolean,
+    subject?: string
+  ): Promise<Invoice | string>;
+  async sendReminder(
+    invoice: Invoice | string | ((invoice: Invoice) => void),
+    additionalRecipients?: (EmailAddress | ((additionalRecipient: EmailAddress) => void))[],
+    note?: string,
+    sendToInvoicer?: boolean,
+    sendToRecipient?: boolean,
+    subject?: string
   ) {
-    const invoiceId = invoice instanceof Invoice ? invoice.id : invoice;
+    const invoiceInstance =
+      typeof invoice !== "string" ? (invoice instanceof Invoice ? invoice : new Invoice()) : undefined;
+    if (typeof invoice === "function" && invoiceInstance) {
+      invoice(invoiceInstance);
+    }
+    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.id;
 
     if (!invoiceId) {
       throw new Error("Invoice id is required");
     }
 
     const response = await this.PayPal.API.post<TInvoice>(`/v2/invoicing/invoices/${invoiceId}/remind`, {
-      additional_recipients: additionalRecipients?.map((x) => x.toAttributeObject<TEmailAddress>()),
+      additional_recipients: additionalRecipients?.map((x) => {
+        const additionalRecipient = x instanceof EmailAddress ? x : new EmailAddress();
+        if (typeof x === "function") {
+          x(additionalRecipient);
+        }
+        return additionalRecipient.toAttributeObject<TEmailAddress>();
+      }),
       send_to_invoicer: sendToInvoicer,
       send_to_recipient: sendToRecipient,
       subject,
@@ -231,19 +505,78 @@ class Invoicing {
   }
 
   async send(
-    invoice: Invoice | string,
+    invoice: Invoice,
     additionalRecipients?: EmailAddress[],
     note?: string,
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
     subject?: string
+  ): Promise<Invoice | string>;
+  async send(
+    invoice: string,
+    additionalRecipients?: EmailAddress[],
+    note?: string,
+    sendToInvoicer?: boolean,
+    sendToRecipient?: boolean,
+    subject?: string
+  ): Promise<Invoice | string>;
+  async send(
+    invoice: (invoice: Invoice) => void,
+    additionalRecipients?: EmailAddress[],
+    note?: string,
+    sendToInvoicer?: boolean,
+    sendToRecipient?: boolean,
+    subject?: string
+  ): Promise<Invoice | string>;
+  async send(
+    invoice: Invoice,
+    additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
+    note?: string,
+    sendToInvoicer?: boolean,
+    sendToRecipient?: boolean,
+    subject?: string
+  ): Promise<Invoice | string>;
+  async send(
+    invoice: string,
+    additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
+    note?: string,
+    sendToInvoicer?: boolean,
+    sendToRecipient?: boolean,
+    subject?: string
+  ): Promise<Invoice | string>;
+  async send(
+    invoice: (invoice: Invoice) => void,
+    additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
+    note?: string,
+    sendToInvoicer?: boolean,
+    sendToRecipient?: boolean,
+    subject?: string
+  ): Promise<Invoice | string>;
+  async send(
+    invoice: Invoice | string | ((invoice: Invoice) => void),
+    additionalRecipients?: (EmailAddress | ((additionalRecipient: EmailAddress) => void))[],
+    note?: string,
+    sendToInvoicer?: boolean,
+    sendToRecipient?: boolean,
+    subject?: string
   ) {
-    const invoiceId = invoice instanceof Invoice ? invoice.id : invoice;
+    const invoiceInstance =
+      typeof invoice !== "string" ? (invoice instanceof Invoice ? invoice : new Invoice()) : undefined;
+    if (typeof invoice === "function" && invoiceInstance) {
+      invoice(invoiceInstance);
+    }
+    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.id;
     if (!invoiceId) {
       throw new Error("Invoice id is required");
     }
     const response = await this.PayPal.API.post<TInvoice>(`/v2/invoicing/invoices/${invoiceId}/send`, {
-      additional_recipients: additionalRecipients,
+      additional_recipients: additionalRecipients?.map((x) => {
+        const additionalRecipient = x instanceof EmailAddress ? x : new EmailAddress();
+        if (typeof x === "function") {
+          x(additionalRecipient);
+        }
+        return additionalRecipient.toAttributeObject<TEmailAddress>();
+      }),
       send_to_invoicer: sendToInvoicer,
       send_to_recipient: sendToRecipient,
       subject,
@@ -298,33 +631,67 @@ class Invoicing {
     );
   }
 
-  async createTemplate(template: Template) {
+  async createTemplate(template: Template): Promise<Template>;
+  async createTemplate(template: (template: Template) => void): Promise<Template>;
+  async createTemplate(template: Template | ((template: Template) => void)) {
+    const templateInstance = template instanceof Template ? template : new Template();
+    if (typeof template === "function") {
+      template(templateInstance);
+    }
     const response = await this.PayPal.API.post<TTemplate>(
       `/v2/invoicing/templates`,
-      template.toAttributeObject<TTemplate>()
+      templateInstance.toAttributeObject<TTemplate>()
     );
 
     return Template.fromObject(response.data).setPayPal(this.PayPal);
   }
 
-  async deleteTemplate(template: Template | string) {
-    const templateId = template instanceof Template ? template.id : template;
+  async deleteTemplate(template: Template): Promise<boolean>;
+  async deleteTemplate(template: string): Promise<boolean>;
+  async deleteTemplate(template: (template: Template) => void): Promise<boolean>;
+  async deleteTemplate(template: Template | string | ((template: Template) => void)) {
+    const templateInstance =
+      typeof template !== "string" ? (template instanceof Template ? template : new Template()) : undefined;
+    if (typeof template === "function" && templateInstance) {
+      template(templateInstance);
+    }
+    const templateId = typeof template === "string" ? template : templateInstance!.id;
+    if (!templateId) {
+      throw new Error("Template id is required");
+    }
     const response = await this.PayPal.API.delete(`/v2/invoicing/templates/${templateId}`);
     const SUCCESS_RESPONSE = 204;
     return response.status === SUCCESS_RESPONSE;
   }
 
-  async fullyUpdateTemplate(template: Template) {
+  async fullyUpdateTemplate(template: Template): Promise<Template>;
+  async fullyUpdateTemplate(template: (template: Template) => void): Promise<Template>;
+  async fullyUpdateTemplate(template: Template | ((template: Template) => void)) {
+    const templateInstance = template instanceof Template ? template : new Template();
+    if (typeof template === "function") {
+      template(templateInstance);
+    }
     const response = await this.PayPal.API.put<TTemplate>(
-      `/v2/invoicing/templates/${template.id}`,
-      template.toAttributeObject<TTemplate>()
+      `/v2/invoicing/templates/${templateInstance.id}`,
+      templateInstance.toAttributeObject<TTemplate>()
     );
 
     return Template.fromObject(response.data).setPayPal(this.PayPal);
   }
 
-  async getTemplate(template: Template | string) {
-    const templateId = template instanceof Template ? template.id : template;
+  async getTemplate(template: Template): Promise<Template>;
+  async getTemplate(template: string): Promise<Template>;
+  async getTemplate(template: (template: Template) => void): Promise<Template>;
+  async getTemplate(template: Template | string | ((template: Template) => void)) {
+    const templateInstance =
+      typeof template !== "string" ? (template instanceof Template ? template : new Template()) : undefined;
+    if (typeof template === "function" && templateInstance) {
+      template(templateInstance);
+    }
+    const templateId = typeof template === "string" ? template : templateInstance!.id;
+    if (!templateId) {
+      throw new Error("Template id is required");
+    }
     const response = await this.PayPal.API.get<TTemplate>(`/v2/invoicing/templates/${templateId}`);
 
     return Template.fromObject(response.data).setPayPal(this.PayPal);

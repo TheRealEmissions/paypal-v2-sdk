@@ -1,5 +1,5 @@
 import Types, { ITypes, Static } from "../Types.js";
-import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
+import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
 
 export type TProductCollectionElement = {
   create_time?: string;
@@ -9,15 +9,12 @@ export type TProductCollectionElement = {
   name?: string;
 };
 
-class ProductCollectionElement extends Types implements Static<ITypes, typeof ProductCollectionElement> {
+export class ProductCollectionElement extends Types implements Static<ITypes, typeof ProductCollectionElement> {
   createTime?: string;
   description?: string;
   id?: string;
   links?: LinkDescription[];
   name?: string;
-  constructor() {
-    super();
-  }
 
   setCreateTime(createTime: string) {
     this.createTime = createTime;
@@ -34,6 +31,8 @@ class ProductCollectionElement extends Types implements Static<ITypes, typeof Pr
     return this;
   }
 
+  setLinks(...links: LinkDescription[]): this;
+  setLinks(...links: ((link: LinkDescription) => void)[]): this;
   setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) return link;
@@ -59,5 +58,3 @@ class ProductCollectionElement extends Types implements Static<ITypes, typeof Pr
     return productCollectionElement;
   }
 }
-
-export default ProductCollectionElement;

@@ -8,7 +8,7 @@ export type TFileReference = {
   size?: string;
 };
 
-class FileReference extends Types implements Static<ITypes, typeof FileReference> {
+export class FileReference extends Types implements Static<ITypes, typeof FileReference> {
   contentType?: string;
   createTime?: string;
   id?: string;
@@ -50,5 +50,3 @@ class FileReference extends Types implements Static<ITypes, typeof FileReference
     return fileReference;
   }
 }
-
-export default FileReference;

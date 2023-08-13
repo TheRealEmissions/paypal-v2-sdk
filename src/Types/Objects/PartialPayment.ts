@@ -1,23 +1,22 @@
 import Types, { ITypes, Static } from "../Types.js";
-import Money, { TMoney } from "./Money.js";
+import { Money, TMoney } from "./Money.js";
 
 export type TPartialPayment = {
   allow_partial_payment?: boolean;
   minimum_amount_due?: TMoney;
 };
 
-class PartialPayment extends Types implements Static<ITypes, typeof PartialPayment> {
+export class PartialPayment extends Types implements Static<ITypes, typeof PartialPayment> {
   allowPartialPayment?: boolean;
   minimumAmountDue?: Money;
-  constructor() {
-    super();
-  }
 
   setAllowPartialPayment(allowPartialPayment: boolean) {
     this.allowPartialPayment = allowPartialPayment;
     return this;
   }
 
+  setMinimumAmountDue(minimumAmountDue: Money): this;
+  setMinimumAmountDue(minimumAmountDue: (money: Money) => void): this;
   setMinimumAmountDue(minimumAmountDue: Money | ((money: Money) => void)) {
     if (minimumAmountDue instanceof Money) this.minimumAmountDue = minimumAmountDue;
     else {
@@ -35,5 +34,3 @@ class PartialPayment extends Types implements Static<ITypes, typeof PartialPayme
     return partialPayment;
   }
 }
-
-export default PartialPayment;

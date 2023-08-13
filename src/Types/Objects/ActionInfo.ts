@@ -7,14 +7,13 @@ export type TActionInfo = {
   response_option?: string;
 };
 
-class ActionInfo extends Types implements Static<ITypes, typeof ActionInfo> {
+export class ActionInfo extends Types implements Static<ITypes, typeof ActionInfo> {
   action?: Action;
   mandatory?: boolean;
   responseOption?: string;
-  constructor() {
-    super();
-  }
 
+  setAction(action: Action): this;
+  setAction(action: (action: typeof Action) => Action): this;
   setAction(action: Action | ((action: typeof Action) => Action)) {
     if (typeof action === "function") this.action = action(Action);
     else this.action = action;
@@ -39,5 +38,3 @@ class ActionInfo extends Types implements Static<ITypes, typeof ActionInfo> {
     return actionInfo;
   }
 }
-
-export default ActionInfo;

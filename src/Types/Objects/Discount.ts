@@ -1,12 +1,12 @@
 import Types, { ITypes, Static } from "../Types.js";
-import Money, { TMoney } from "./Money.js";
+import { Money, TMoney } from "./Money.js";
 
 export type TDiscount = {
   amount?: TMoney;
   percent?: string;
 };
 
-class Discount extends Types implements Static<ITypes, typeof Discount> {
+export class Discount extends Types implements Static<ITypes, typeof Discount> {
   amount?: Money;
   percent?: string;
 
@@ -35,5 +35,3 @@ class Discount extends Types implements Static<ITypes, typeof Discount> {
     return discount;
   }
 }
-
-export default Discount;

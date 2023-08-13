@@ -2,19 +2,19 @@ import PayPal from "../../PayPal.js";
 import { GenerateQrCodeAction } from "../Enums/GenerateQrCodeAction.js";
 import { InvoiceStatus } from "../Enums/InvoiceStatus.js";
 import Types, { ITypes, Static } from "../Types.js";
-import AmountSummaryDetail, { TAmountSummaryDetail } from "./AmountSummaryDetail.js";
-import Configuration, { TConfiguration } from "./Configuration.js";
-import EmailAddress, { TEmailAddress } from "./EmailAddress.js";
-import InvoiceDetail, { TInvoiceDetail } from "./InvoiceDetail.js";
-import InvoicerInfo, { TInvoicerInfo } from "./InvoicerInfo.js";
-import Item, { TItem } from "./Item.js";
-import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
-import Money, { TMoney } from "./Money.js";
-import PaymentDetail from "./PaymentDetail.js";
-import Payments, { TPayments } from "./Payments.js";
-import RecipientInfo, { TRecipientInfo } from "./RecipientInfo.js";
-import RefundDetail from "./RefundDetail.js";
-import Refunds, { TRefunds } from "./Refunds.js";
+import { AmountSummaryDetail, TAmountSummaryDetail } from "./AmountSummaryDetail.js";
+import { Configuration, TConfiguration } from "./Configuration.js";
+import { EmailAddress, TEmailAddress } from "./EmailAddress.js";
+import { InvoiceDetail, TInvoiceDetail } from "./InvoiceDetail.js";
+import { InvoicerInfo, TInvoicerInfo } from "./InvoicerInfo.js";
+import { Item, TItem } from "./Item.js";
+import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
+import { Money, TMoney } from "./Money.js";
+import { PaymentDetail } from "./PaymentDetail.js";
+import { Payments, TPayments } from "./Payments.js";
+import { RecipientInfo, TRecipientInfo } from "./RecipientInfo.js";
+import { RefundDetail } from "./RefundDetail.js";
+import { Refunds, TRefunds } from "./Refunds.js";
 
 export type TInvoice = {
   detail: TInvoiceDetail;
@@ -34,7 +34,7 @@ export type TInvoice = {
   readonly status: keyof typeof InvoiceStatus;
 };
 
-class Invoice extends Types implements Static<ITypes, typeof Invoice> {
+export class Invoice extends Types implements Static<ITypes, typeof Invoice> {
   detail?: InvoiceDetail;
   additionalRecipients?: EmailAddress[];
   amount?: AmountSummaryDetail;
@@ -70,7 +70,7 @@ class Invoice extends Types implements Static<ITypes, typeof Invoice> {
       if (this.detail) {
         this.detail.setInvoiceNumber(invoiceNumber.invoiceNumber);
       } else {
-        this.setDetail(new InvoiceDetail().setInvoiceNumber(invoiceNumber.invoiceNumber));
+        this.setDetail((detail) => detail.setInvoiceNumber(invoiceNumber.invoiceNumber));
       }
     }
     return this.PayPal.Invoicing.createDraft(this);
@@ -103,6 +103,12 @@ class Invoice extends Types implements Static<ITypes, typeof Invoice> {
     return this.PayPal.Invoicing.get(this);
   }
 
+  async generateQrCode(action?: GenerateQrCodeAction, height?: number, width?: number): Promise<string>;
+  async generateQrCode(
+    action?: (generateQrCodeAction: typeof GenerateQrCodeAction) => GenerateQrCodeAction,
+    height?: number,
+    width?: number
+  ): Promise<string>;
   async generateQrCode(
     action?: GenerateQrCodeAction | ((generateQrCodeAction: typeof GenerateQrCodeAction) => GenerateQrCodeAction),
     height?: number,
@@ -315,6 +321,8 @@ class Invoice extends Types implements Static<ITypes, typeof Invoice> {
     return this;
   }
 
+  setDueAmount(dueAmount: Money): this;
+  setDueAmount(dueAmount: (dueAmount: Money) => void): this;
   setDueAmount(dueAmount: Money | ((dueAmount: Money) => void)) {
     if (dueAmount instanceof Money) {
       this.dueAmount = dueAmount;
@@ -326,6 +334,8 @@ class Invoice extends Types implements Static<ITypes, typeof Invoice> {
     return this;
   }
 
+  setGratuity(gratuity: Money): this;
+  setGratuity(gratuity: (gratuity: Money) => void): this;
   setGratuity(gratuity: Money | ((gratuity: Money) => void)) {
     if (gratuity instanceof Money) {
       this.gratuity = gratuity;
@@ -342,6 +352,8 @@ class Invoice extends Types implements Static<ITypes, typeof Invoice> {
     return this;
   }
 
+  setInvoicer(invoicer: InvoicerInfo): this;
+  setInvoicer(invoicer: (invoicer: InvoicerInfo) => void): this;
   setInvoicer(invoicer: InvoicerInfo | ((invoicer: InvoicerInfo) => void)) {
     if (invoicer instanceof InvoicerInfo) {
       this.invoicer = invoicer;
@@ -353,6 +365,8 @@ class Invoice extends Types implements Static<ITypes, typeof Invoice> {
     return this;
   }
 
+  setItems(...items: Item[]): this;
+  setItems(...items: ((item: Item) => void)[]): this;
   setItems(...items: (Item | ((item: Item) => void))[]) {
     this.items = items.map((item) => {
       if (item instanceof Item) {
@@ -366,6 +380,8 @@ class Invoice extends Types implements Static<ITypes, typeof Invoice> {
     return this;
   }
 
+  setLinks(...links: LinkDescription[]): this;
+  setLinks(...links: ((link: LinkDescription) => void)[]): this;
   setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) {
@@ -384,6 +400,8 @@ class Invoice extends Types implements Static<ITypes, typeof Invoice> {
     return this;
   }
 
+  setPayments(payments: Payments): this;
+  setPayments(payments: (payments: Payments) => void): this;
   setPayments(payments: Payments | ((payments: Payments) => void)) {
     if (payments instanceof Payments) {
       this.payments = payments;
@@ -395,6 +413,8 @@ class Invoice extends Types implements Static<ITypes, typeof Invoice> {
     return this;
   }
 
+  setPrimaryRecipients(...primaryRecipients: RecipientInfo[]): this;
+  setPrimaryRecipients(...primaryRecipients: ((recipient: RecipientInfo) => void)[]): this;
   setPrimaryRecipients(...primaryRecipients: (RecipientInfo | ((recipient: RecipientInfo) => void))[]) {
     this.primaryRecipients = primaryRecipients.map((recipient) => {
       if (recipient instanceof RecipientInfo) {
@@ -408,6 +428,8 @@ class Invoice extends Types implements Static<ITypes, typeof Invoice> {
     return this;
   }
 
+  setRefunds(refunds: Refunds): this;
+  setRefunds(refunds: (refunds: Refunds) => void): this;
   setRefunds(refunds: Refunds | ((refunds: Refunds) => void)) {
     if (refunds instanceof Refunds) {
       this.refunds = refunds;
@@ -419,6 +441,8 @@ class Invoice extends Types implements Static<ITypes, typeof Invoice> {
     return this;
   }
 
+  setStatus(status: InvoiceStatus): this;
+  setStatus(status: (status: typeof InvoiceStatus) => InvoiceStatus): this;
   setStatus(status: InvoiceStatus | ((status: typeof InvoiceStatus) => InvoiceStatus)) {
     if (typeof status === "function") this.status = status(InvoiceStatus);
     else this.status = status;
@@ -446,5 +470,3 @@ class Invoice extends Types implements Static<ITypes, typeof Invoice> {
     return invoice;
   }
 }
-
-export default Invoice;

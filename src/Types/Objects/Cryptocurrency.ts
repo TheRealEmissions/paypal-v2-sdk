@@ -6,13 +6,12 @@ export type TCryptocurrency = {
   quantity: string;
 };
 
-class Cryptocurrency extends Types implements Static<ITypes, typeof Cryptocurrency> {
+export class Cryptocurrency extends Types implements Static<ITypes, typeof Cryptocurrency> {
   assetSymbol!: AssetSymbol;
   quantity!: string;
-  constructor() {
-    super();
-  }
 
+  setAssetSymbol(assetSymbol: AssetSymbol): this;
+  setAssetSymbol(assetSymbol: (assetSymbol: typeof AssetSymbol) => AssetSymbol): this;
   setAssetSymbol(assetSymbol: AssetSymbol | ((assetSymbol: typeof AssetSymbol) => AssetSymbol)) {
     if (typeof assetSymbol === "function") this.assetSymbol = assetSymbol(AssetSymbol);
     else this.assetSymbol = assetSymbol;
@@ -31,5 +30,3 @@ class Cryptocurrency extends Types implements Static<ITypes, typeof Cryptocurren
     return cryptocurrency;
   }
 }
-
-export default Cryptocurrency;

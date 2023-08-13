@@ -5,12 +5,11 @@ export type TPaymentTerm = {
   term_type?: keyof typeof PaymentTermType;
 };
 
-class PaymentTerm extends Types implements Static<ITypes, typeof PaymentTerm> {
+export class PaymentTerm extends Types implements Static<ITypes, typeof PaymentTerm> {
   termType?: PaymentTermType;
-  constructor() {
-    super();
-  }
 
+  setTermType(termType: PaymentTermType): this;
+  setTermType(termType: (termType: typeof PaymentTermType) => PaymentTermType): this;
   setTermType(termType: PaymentTermType | ((termType: typeof PaymentTermType) => PaymentTermType)) {
     if (typeof termType === "function") this.termType = termType(PaymentTermType);
     else this.termType = termType;
@@ -23,5 +22,3 @@ class PaymentTerm extends Types implements Static<ITypes, typeof PaymentTerm> {
     return paymentTerm;
   }
 }
-
-export default PaymentTerm;

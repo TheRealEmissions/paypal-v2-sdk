@@ -1,19 +1,18 @@
 import Types, { ITypes, Static } from "../Types.js";
-import BillingInfo, { TBillingInfo } from "./BillingInfo.js";
-import ContactInformation, { TContactInformation } from "./ContactInformation.js";
+import { BillingInfo, TBillingInfo } from "./BillingInfo.js";
+import { ContactInformation, TContactInformation } from "./ContactInformation.js";
 
 export type TRecipientInfo = {
   billing_info?: TBillingInfo;
   shipping_info?: TContactInformation;
 };
 
-class RecipientInfo extends Types implements Static<ITypes, typeof RecipientInfo> {
+export class RecipientInfo extends Types implements Static<ITypes, typeof RecipientInfo> {
   billingInfo?: BillingInfo;
   shippingInfo?: ContactInformation;
-  constructor() {
-    super();
-  }
 
+  setBillingInfo(billingInfo: BillingInfo): this;
+  setBillingInfo(billingInfo: (billingInfo: BillingInfo) => void): this;
   setBillingInfo(billingInfo: BillingInfo | ((billingInfo: BillingInfo) => void)) {
     if (billingInfo instanceof BillingInfo) this.billingInfo = billingInfo;
     else {
@@ -24,6 +23,8 @@ class RecipientInfo extends Types implements Static<ITypes, typeof RecipientInfo
     return this;
   }
 
+  setShippingInfo(shippingInfo: ContactInformation): this;
+  setShippingInfo(shippingInfo: (contactInformation: ContactInformation) => void): this;
   setShippingInfo(shippingInfo: ContactInformation | ((contactInformation: ContactInformation) => void)) {
     if (shippingInfo instanceof ContactInformation) this.shippingInfo = shippingInfo;
     else {
@@ -41,5 +42,3 @@ class RecipientInfo extends Types implements Static<ITypes, typeof RecipientInfo
     return recipientInfo;
   }
 }
-
-export default RecipientInfo;

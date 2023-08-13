@@ -5,12 +5,9 @@ export type TMoney = {
   value: string;
 };
 
-class Money extends Types implements Static<ITypes, typeof Money> {
+export class Money extends Types implements Static<ITypes, typeof Money> {
   currencyCode?: string;
   value?: string;
-  constructor() {
-    super();
-  }
 
   setCurrencyCode(currencyCode: string) {
     this.currencyCode = currencyCode;
@@ -18,7 +15,7 @@ class Money extends Types implements Static<ITypes, typeof Money> {
   }
 
   setValue(value: string) {
-    const regex = new RegExp(/^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$/);
+    const regex = new RegExp(/^((-?\d+)|(-?(\d+)?[.]\d+))$/);
     if (!regex.test(value)) {
       throw new Error("Invalid value");
     }
@@ -34,5 +31,3 @@ class Money extends Types implements Static<ITypes, typeof Money> {
     return money;
   }
 }
-
-export default Money;

@@ -5,12 +5,9 @@ export type TDocument = {
   url?: string;
 };
 
-class Document extends Types implements Static<ITypes, typeof Document> {
+export class Document extends Types implements Static<ITypes, typeof Document> {
   name?: string;
   url?: string;
-  constructor() {
-    super();
-  }
 
   setName(name: string) {
     this.name = name;
@@ -29,5 +26,3 @@ class Document extends Types implements Static<ITypes, typeof Document> {
     return document;
   }
 }
-
-export default Document;

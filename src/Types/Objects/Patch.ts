@@ -8,15 +8,14 @@ export type TPatch = {
   value?: number | string | boolean | null | any[] | object;
 };
 
-class Patch extends Types implements Static<ITypes, typeof Patch> {
+export class Patch extends Types implements Static<ITypes, typeof Patch> {
   op?: PatchOperation;
   from?: string;
   path?: string;
   value?: number | string | boolean | null | any[] | object;
-  constructor() {
-    super();
-  }
 
+  setOp(op: PatchOperation): this;
+  setOp(op: (op: typeof PatchOperation) => PatchOperation): this;
   setOp(op: PatchOperation | ((op: typeof PatchOperation) => PatchOperation)) {
     if (typeof op === "function") this.op = op(PatchOperation);
     else this.op = op;
@@ -47,5 +46,3 @@ class Patch extends Types implements Static<ITypes, typeof Patch> {
     return patch;
   }
 }
-
-export default Patch;

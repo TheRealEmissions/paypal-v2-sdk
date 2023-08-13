@@ -1,5 +1,5 @@
 import Types, { ITypes, Static } from "../Types.js";
-import PhoneDetail, { TPhoneDetail } from "./PhoneDetail.js";
+import { PhoneDetail, TPhoneDetail } from "./PhoneDetail.js";
 
 export type TInvoicerInfo = {
   additional_notes?: string;
@@ -10,7 +10,7 @@ export type TInvoicerInfo = {
   website?: string;
 };
 
-class InvoicerInfo extends Types implements Static<ITypes, typeof InvoicerInfo> {
+export class InvoicerInfo extends Types implements Static<ITypes, typeof InvoicerInfo> {
   additionalNotes?: string;
   emailAddress?: string;
   logoUrl?: string;
@@ -69,5 +69,3 @@ class InvoicerInfo extends Types implements Static<ITypes, typeof InvoicerInfo> 
     return invoicerInfo;
   }
 }
-
-export default InvoicerInfo;

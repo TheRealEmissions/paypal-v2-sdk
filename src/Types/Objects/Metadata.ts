@@ -15,7 +15,7 @@ export type TMetadata = {
   recipient_view_url?: string;
 };
 
-class Metadata extends Types implements Static<ITypes, typeof Metadata> {
+export class Metadata extends Types implements Static<ITypes, typeof Metadata> {
   createTime?: string;
   createdBy?: string;
   lastUpdateTime?: string;
@@ -28,9 +28,6 @@ class Metadata extends Types implements Static<ITypes, typeof Metadata> {
   lastSentBy?: string;
   lastSentTime?: string;
   recipientViewUrl?: string;
-  constructor() {
-    super();
-  }
 
   setCreateTime(createTime: string) {
     this.createTime = createTime;
@@ -109,5 +106,3 @@ class Metadata extends Types implements Static<ITypes, typeof Metadata> {
     return metadata;
   }
 }
-
-export default Metadata;

@@ -5,12 +5,13 @@ export type TAdjudicate = {
   adjudication_outcome?: keyof typeof AdjudicationOutcome;
 };
 
-class Adjudicate extends Types implements Static<ITypes, typeof Adjudicate> {
+export class Adjudicate extends Types implements Static<ITypes, typeof Adjudicate> {
   adjudicationOutcome!: AdjudicationOutcome;
-  constructor() {
-    super();
-  }
 
+  setAdjudicationOutcome(adjudicationOutcome: AdjudicationOutcome): this;
+  setAdjudicationOutcome(
+    adjudicationOutcome: (adjudicationOutcome: typeof AdjudicationOutcome) => AdjudicationOutcome
+  ): this;
   setAdjudicationOutcome(
     adjudicationOutcome:
       | AdjudicationOutcome
@@ -28,5 +29,3 @@ class Adjudicate extends Types implements Static<ITypes, typeof Adjudicate> {
     return adjudicate;
   }
 }
-
-export default Adjudicate;

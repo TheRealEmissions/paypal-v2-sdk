@@ -5,12 +5,11 @@ export type TOfferType = {
   offer_type?: keyof typeof OfferTypeEnum;
 };
 
-class OfferType extends Types implements Static<ITypes, typeof OfferType> {
+export class OfferType extends Types implements Static<ITypes, typeof OfferType> {
   offerType?: OfferTypeEnum;
-  constructor() {
-    super();
-  }
 
+  setOfferType(offerType: OfferTypeEnum): this;
+  setOfferType(offerType: (offerType: typeof OfferTypeEnum) => OfferTypeEnum): this;
   setOfferType(offerType: OfferTypeEnum | ((offerType: typeof OfferTypeEnum) => OfferTypeEnum)) {
     if (typeof offerType === "function") this.offerType = offerType(OfferTypeEnum);
     else this.offerType = offerType;
@@ -23,5 +22,3 @@ class OfferType extends Types implements Static<ITypes, typeof OfferType> {
     return offerType;
   }
 }
-
-export default OfferType;

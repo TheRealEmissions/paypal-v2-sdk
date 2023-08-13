@@ -5,12 +5,13 @@ export type TAcknowledgementType = {
   acknowledgement_type?: keyof typeof AcknowledgementTypeEnum;
 };
 
-class AcknowledgementType extends Types implements Static<ITypes, typeof AcknowledgementType> {
+export class AcknowledgementType extends Types implements Static<ITypes, typeof AcknowledgementType> {
   acknowledgementType?: AcknowledgementTypeEnum;
-  constructor() {
-    super();
-  }
 
+  setAcknowledgementType(acknowledgementType: AcknowledgementTypeEnum): this;
+  setAcknowledgementType(
+    acknowledgementType: (acknowledgementType: typeof AcknowledgementTypeEnum) => AcknowledgementTypeEnum
+  ): this;
   setAcknowledgementType(
     acknowledgementType:
       | AcknowledgementTypeEnum
@@ -29,5 +30,3 @@ class AcknowledgementType extends Types implements Static<ITypes, typeof Acknowl
     return acknowledgementType;
   }
 }
-
-export default AcknowledgementType;

@@ -9,7 +9,7 @@ export type TAddressDetails = {
   sub_building?: string;
 };
 
-class AddressDetails extends Types implements Static<ITypes, typeof AddressDetails> {
+export class AddressDetails extends Types implements Static<ITypes, typeof AddressDetails> {
   streetNumber?: string;
   streetName?: string;
   streetType?: string;
@@ -58,5 +58,3 @@ class AddressDetails extends Types implements Static<ITypes, typeof AddressDetai
     return addressDetails;
   }
 }
-
-export default AddressDetails;

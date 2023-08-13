@@ -1,19 +1,18 @@
 import { TemplateFieldName } from "../Enums/TemplateFieldName.js";
 import Types, { ITypes, Static } from "../Types.js";
-import TemplateDisplayPreference, { TTemplateDisplayPreference } from "./TemplateDisplayPreference.js";
+import { TemplateDisplayPreference, TTemplateDisplayPreference } from "./TemplateDisplayPreference.js";
 
 export type TTemplateItemSetting = {
   display_preference?: TTemplateDisplayPreference;
   field_name?: keyof typeof TemplateFieldName;
 };
 
-class TemplateItemSetting extends Types implements Static<ITypes, typeof TemplateItemSetting> {
+export class TemplateItemSetting extends Types implements Static<ITypes, typeof TemplateItemSetting> {
   displayPreference?: TemplateDisplayPreference;
   fieldName?: TemplateFieldName;
-  constructor() {
-    super();
-  }
 
+  setDisplayPreference(displayPreference: TemplateDisplayPreference): this;
+  setDisplayPreference(displayPreference: (displayPreference: TemplateDisplayPreference) => void): this;
   setDisplayPreference(
     displayPreference: TemplateDisplayPreference | ((displayPreference: TemplateDisplayPreference) => void)
   ) {
@@ -27,6 +26,8 @@ class TemplateItemSetting extends Types implements Static<ITypes, typeof Templat
     return this;
   }
 
+  setFieldName(fieldName: TemplateFieldName): this;
+  setFieldName(fieldName: (fieldName: typeof TemplateFieldName) => TemplateFieldName): this;
   setFieldName(fieldName: TemplateFieldName | ((fieldName: typeof TemplateFieldName) => TemplateFieldName)) {
     if (typeof fieldName === "function") this.fieldName = fieldName(TemplateFieldName);
     else this.fieldName = fieldName;
@@ -41,5 +42,3 @@ class TemplateItemSetting extends Types implements Static<ITypes, typeof Templat
     return templateItemSetting;
   }
 }
-
-export default TemplateItemSetting;

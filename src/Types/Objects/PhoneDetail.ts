@@ -7,14 +7,11 @@ export type TPhoneDetail = {
   phone_type?: string;
 };
 
-class PhoneDetail extends Types implements Static<ITypes, typeof PhoneDetail> {
+export class PhoneDetail extends Types implements Static<ITypes, typeof PhoneDetail> {
   countryCode?: string;
   nationalNumber?: string;
   extensionNumber?: string;
   phoneType?: string;
-  constructor() {
-    super();
-  }
 
   setCountryCode(countryCode: string) {
     this.countryCode = countryCode;
@@ -45,5 +42,3 @@ class PhoneDetail extends Types implements Static<ITypes, typeof PhoneDetail> {
     return phoneDetail;
   }
 }
-
-export default PhoneDetail;

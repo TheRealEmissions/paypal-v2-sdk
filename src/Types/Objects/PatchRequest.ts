@@ -1,16 +1,15 @@
 import Types, { ITypes, Static } from "../Types.js";
-import Patch, { TPatch } from "./Patch.js";
+import { Patch, TPatch } from "./Patch.js";
 
 export type TPatchRequest = {
   patch_request: TPatch[];
 };
 
-class PatchRequest extends Types implements Static<ITypes, typeof PatchRequest> {
+export class PatchRequest extends Types implements Static<ITypes, typeof PatchRequest> {
   patchRequest?: Patch[];
-  constructor() {
-    super();
-  }
 
+  setPatchRequest(...patchRequest: Patch[]): this;
+  setPatchRequest(...patchRequest: ((patch: Patch) => void)[]): this;
   setPatchRequest(...patchRequest: (Patch | ((patch: Patch) => void))[]) {
     this.patchRequest = patchRequest.map((patch) => {
       if (patch instanceof Patch) return patch;
@@ -29,5 +28,3 @@ class PatchRequest extends Types implements Static<ITypes, typeof PatchRequest> 
     return patchRequest;
   }
 }
-
-export default PatchRequest;

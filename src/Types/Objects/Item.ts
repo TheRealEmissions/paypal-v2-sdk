@@ -1,8 +1,8 @@
 import { UnitOfMeasure } from "../Enums/UnitOfMeasure.js";
 import Types, { ITypes, Static } from "../Types.js";
-import Discount, { TDiscount } from "./Discount.js";
-import Money, { TMoney } from "./Money.js";
-import Tax, { TTax } from "./Tax.js";
+import { Discount, TDiscount } from "./Discount.js";
+import { Money, TMoney } from "./Money.js";
+import { Tax, TTax } from "./Tax.js";
 
 export type TItem = {
   name: string;
@@ -16,7 +16,7 @@ export type TItem = {
   unit_of_measure?: keyof typeof UnitOfMeasure;
 };
 
-class Item extends Types implements Static<ITypes, typeof Item> {
+export class Item extends Types implements Static<ITypes, typeof Item> {
   name?: string;
   quantity?: string;
   unitAmount?: Money;
@@ -118,5 +118,3 @@ class Item extends Types implements Static<ITypes, typeof Item> {
     return item;
   }
 }
-
-export default Item;

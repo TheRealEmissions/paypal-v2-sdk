@@ -1,8 +1,7 @@
 import { TLinkDescription } from "./../Objects/LinkDescription.js";
-import { TError } from "./../Objects/Error.js";
-import Error from "../Objects/Error.js";
-import LinkDescription from "../Objects/LinkDescription.js";
-import TrackerIdentifier, { TTrackerIdentifier } from "../Objects/TrackerIdentifier.js";
+import { Error, TError } from "../Objects/Error.js";
+import { LinkDescription } from "../Objects/LinkDescription.js";
+import { TrackerIdentifier, TTrackerIdentifier } from "../Objects/TrackerIdentifier.js";
 import Types, { ITypes, Static } from "../Types.js";
 
 export type TAddTrackersResponse = {

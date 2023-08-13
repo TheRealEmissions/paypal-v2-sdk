@@ -5,7 +5,7 @@ export type TInvoicePaymentTerm = {
   due_date?: string;
 };
 
-class InvoicePaymentTerm extends Types implements Static<ITypes, typeof InvoicePaymentTerm> {
+export class InvoicePaymentTerm extends Types implements Static<ITypes, typeof InvoicePaymentTerm> {
   termType?: string;
   dueDate?: string;
 
@@ -26,5 +26,3 @@ class InvoicePaymentTerm extends Types implements Static<ITypes, typeof InvoiceP
     return invoicePaymentTerm;
   }
 }
-
-export default InvoicePaymentTerm;

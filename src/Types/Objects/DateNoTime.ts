@@ -4,7 +4,7 @@ export type TDateNoTime = {
   date_no_time?: string;
 };
 
-class DateNoTime extends Types implements Static<ITypes, typeof DateNoTime> {
+export class DateNoTime extends Types implements Static<ITypes, typeof DateNoTime> {
   dateNoTime?: string;
 
   setDateNoTime(dateNoTime: string) {
@@ -27,5 +27,3 @@ class DateNoTime extends Types implements Static<ITypes, typeof DateNoTime> {
     return dateNoTime;
   }
 }
-
-export default DateNoTime;

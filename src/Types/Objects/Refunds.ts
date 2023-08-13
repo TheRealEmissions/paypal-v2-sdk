@@ -1,19 +1,18 @@
 import Types, { ITypes, Static } from "../Types.js";
-import Money, { TMoney } from "./Money.js";
-import RefundDetail, { TRefundDetail } from "./RefundDetail.js";
+import { Money, TMoney } from "./Money.js";
+import { RefundDetail, TRefundDetail } from "./RefundDetail.js";
 
 export type TRefunds = {
   readonly refund_amount?: TMoney;
   readonly transactions?: TRefundDetail[];
 };
 
-class Refunds extends Types implements Static<ITypes, typeof Refunds> {
+export class Refunds extends Types implements Static<ITypes, typeof Refunds> {
   refundAmount?: Money;
   transactions?: RefundDetail[];
-  constructor() {
-    super();
-  }
 
+  setRefundAmount(refundAmount: Money): this;
+  setRefundAmount(refundAmount: (money: Money) => void): this;
   setRefundAmount(refundAmount: Money | ((money: Money) => void)) {
     if (refundAmount instanceof Money) this.refundAmount = refundAmount;
     else {
@@ -24,6 +23,8 @@ class Refunds extends Types implements Static<ITypes, typeof Refunds> {
     return this;
   }
 
+  setTransactions(...transactions: RefundDetail[]): this;
+  setTransactions(...transactions: ((refundDetail: RefundDetail) => void)[]): this;
   setTransactions(...transactions: (RefundDetail | ((refundDetail: RefundDetail) => void))[]) {
     this.transactions = transactions.map((x) => {
       if (x instanceof RefundDetail) return x;
@@ -43,5 +44,3 @@ class Refunds extends Types implements Static<ITypes, typeof Refunds> {
     return refunds;
   }
 }
-
-export default Refunds;

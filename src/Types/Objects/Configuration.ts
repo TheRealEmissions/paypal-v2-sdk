@@ -1,5 +1,5 @@
 import Types, { ITypes, Static } from "../Types.js";
-import PartialPayment, { TPartialPayment } from "./PartialPayment.js";
+import { PartialPayment, TPartialPayment } from "./PartialPayment.js";
 
 export type TConfiguration = {
   allow_tip?: boolean;
@@ -9,7 +9,7 @@ export type TConfiguration = {
   template_id?: string;
 };
 
-class Configuration extends Types implements Static<ITypes, typeof Configuration> {
+export class Configuration extends Types implements Static<ITypes, typeof Configuration> {
   allowTip?: boolean;
   partialPayment?: PartialPayment;
   taxCalculatedAfterDiscount?: boolean;
@@ -60,5 +60,3 @@ class Configuration extends Types implements Static<ITypes, typeof Configuration
     return configuration;
   }
 }
-
-export default Configuration;

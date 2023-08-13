@@ -4,9 +4,9 @@ import { DisputeReason } from "../Enums/DisputeReason";
 import { DisputeState } from "../Enums/DisputeState";
 import { DisputeStatus } from "../Enums/DisputeStatus";
 import Types, { ITypes, Static } from "../Types";
-import Cryptocurrency, { TCryptocurrency } from "./Cryptocurrency";
-import LinkDescription, { TLinkDescription } from "./LinkDescription";
-import Money, { TMoney } from "./Money";
+import { Cryptocurrency, TCryptocurrency } from "./Cryptocurrency";
+import { LinkDescription, TLinkDescription } from "./LinkDescription";
+import { Money, TMoney } from "./Money";
 
 export type TDisputeInfo = {
   buyer_response_due_date?: string;
@@ -24,7 +24,7 @@ export type TDisputeInfo = {
   update_time?: string;
 };
 
-class DisputeInfo extends Types implements Static<ITypes, typeof DisputeInfo> {
+export class DisputeInfo extends Types implements Static<ITypes, typeof DisputeInfo> {
   buyerResponseDueDate?: string;
   createTime?: string;
   disputeAmount?: Money;
@@ -38,9 +38,6 @@ class DisputeInfo extends Types implements Static<ITypes, typeof DisputeInfo> {
   sellerResponseDueDate?: string;
   status?: DisputeStatus;
   updateTime?: string;
-  constructor() {
-    super();
-  }
 
   setBuyerResponseDueDate(buyerResponseDueDate: string) {
     this.buyerResponseDueDate = buyerResponseDueDate;
@@ -52,18 +49,24 @@ class DisputeInfo extends Types implements Static<ITypes, typeof DisputeInfo> {
     return this;
   }
 
+  setDisputeAmount(disputeAmount: Money): this;
+  setDisputeAmount(disputeAmount: (type: Money) => void): this;
   setDisputeAmount(disputeAmount: Money | ((type: Money) => void)) {
     if (typeof disputeAmount === "function") disputeAmount((this.disputeAmount = new Money()));
     else this.disputeAmount = disputeAmount;
     return this;
   }
 
+  setDisputeAsset(disputeAsset: Cryptocurrency): this;
+  setDisputeAsset(disputeAsset: (type: Cryptocurrency) => void): this;
   setDisputeAsset(disputeAsset: Cryptocurrency | ((type: Cryptocurrency) => void)) {
     if (typeof disputeAsset === "function") disputeAsset((this.disputeAsset = new Cryptocurrency()));
     else this.disputeAsset = disputeAsset;
     return this;
   }
 
+  setDisputeChannel(disputeChannel: DisputeChannel): this;
+  setDisputeChannel(disputeChannel: (type: typeof DisputeChannel) => DisputeChannel): this;
   setDisputeChannel(disputeChannel: DisputeChannel | ((type: typeof DisputeChannel) => DisputeChannel)) {
     if (typeof disputeChannel === "function") this.disputeChannel = disputeChannel(DisputeChannel);
     else this.disputeChannel = disputeChannel;
@@ -75,6 +78,8 @@ class DisputeInfo extends Types implements Static<ITypes, typeof DisputeInfo> {
     return this;
   }
 
+  setDisputeLifeCycleStage(disputeLifeCycleStage: DisputeLifeCycleStage): this;
+  setDisputeLifeCycleStage(disputeLifeCycleStage: (type: typeof DisputeLifeCycleStage) => DisputeLifeCycleStage): this;
   setDisputeLifeCycleStage(
     disputeLifeCycleStage: DisputeLifeCycleStage | ((type: typeof DisputeLifeCycleStage) => DisputeLifeCycleStage)
   ) {
@@ -84,12 +89,16 @@ class DisputeInfo extends Types implements Static<ITypes, typeof DisputeInfo> {
     return this;
   }
 
+  setDisputeState(disputeState: DisputeState): this;
+  setDisputeState(disputeState: (type: typeof DisputeState) => DisputeState): this;
   setDisputeState(disputeState: DisputeState | ((type: typeof DisputeState) => DisputeState)) {
     if (typeof disputeState === "function") this.disputeState = disputeState(DisputeState);
     else this.disputeState = disputeState;
     return this;
   }
 
+  setLinks(...links: LinkDescription[]): this;
+  setLinks(...links: ((link: LinkDescription) => void)[]): this;
   setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) return link;
@@ -100,6 +109,8 @@ class DisputeInfo extends Types implements Static<ITypes, typeof DisputeInfo> {
     return this;
   }
 
+  setReason(reason: DisputeReason): this;
+  setReason(reason: (type: typeof DisputeReason) => DisputeReason): this;
   setReason(reason: DisputeReason | ((type: typeof DisputeReason) => DisputeReason)) {
     if (typeof reason === "function") this.reason = reason(DisputeReason);
     else this.reason = reason;
@@ -111,6 +122,8 @@ class DisputeInfo extends Types implements Static<ITypes, typeof DisputeInfo> {
     return this;
   }
 
+  setStatus(status: DisputeStatus): this;
+  setStatus(status: (type: typeof DisputeStatus) => DisputeStatus): this;
   setStatus(status: DisputeStatus | ((type: typeof DisputeStatus) => DisputeStatus)) {
     if (typeof status === "function") this.status = status(DisputeStatus);
     else this.status = status;
@@ -141,5 +154,3 @@ class DisputeInfo extends Types implements Static<ITypes, typeof DisputeInfo> {
     return disputeInfo;
   }
 }
-
-export default DisputeInfo;

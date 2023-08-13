@@ -1,9 +1,9 @@
 import { ProductType } from "./../Enums/ProductType.js";
 import { ProductCategory } from "./../Enums/ProductCategory.js";
 import Types, { ITypes, Static } from "../Types.js";
-import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
+import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
 import PayPal from "../../PayPal.js";
-import PatchRequest from "./PatchRequest.js";
+import { PatchRequest } from "./PatchRequest.js";
 
 export type TProduct = {
   category?: keyof typeof ProductCategory;
@@ -18,7 +18,7 @@ export type TProduct = {
   update_time?: string;
 };
 
-class Product extends Types implements Static<ITypes, typeof Product> {
+export class Product extends Types implements Static<ITypes, typeof Product> {
   category?: ProductCategory;
   createTime?: string;
   description?: string;
@@ -43,6 +43,8 @@ class Product extends Types implements Static<ITypes, typeof Product> {
     return this.PayPal.Products.create(this, paypalRequestId, prefer);
   }
 
+  update(patchRequest: PatchRequest): Promise<Product>;
+  update(patchRequest: (patchRequest: PatchRequest) => void): Promise<Product>;
   update(patchRequest: PatchRequest | ((patchRequest: PatchRequest) => void)) {
     if (!this.PayPal) {
       throw new Error("To use in-built methods, you must pass PayPal instance to the constructor");
@@ -60,6 +62,8 @@ class Product extends Types implements Static<ITypes, typeof Product> {
     return this.PayPal.Products.get(this);
   }
 
+  setCategory(category: ProductCategory): this;
+  setCategory(category: (category: typeof ProductCategory) => ProductCategory): this;
   setCategory(category: ProductCategory | ((category: typeof ProductCategory) => ProductCategory)) {
     if (typeof category === "function") this.category = category(ProductCategory);
     else this.category = category;
@@ -91,6 +95,8 @@ class Product extends Types implements Static<ITypes, typeof Product> {
     return this;
   }
 
+  setLinks(...links: LinkDescription[]): this;
+  setLinks(...links: ((link: LinkDescription) => void)[]): this;
   setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) return link;
@@ -106,6 +112,8 @@ class Product extends Types implements Static<ITypes, typeof Product> {
     return this;
   }
 
+  setType(type: ProductType): this;
+  setType(type: (type: typeof ProductType) => ProductType): this;
   setType(type: ProductType | ((type: typeof ProductType) => ProductType)) {
     if (typeof type === "function") this.type = type(ProductType);
     else this.type = type;
@@ -132,5 +140,3 @@ class Product extends Types implements Static<ITypes, typeof Product> {
     return product;
   }
 }
-
-export default Product;

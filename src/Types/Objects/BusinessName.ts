@@ -4,7 +4,7 @@ export type TBusinessName = {
   business_name?: string;
 };
 
-class BusinessName extends Types implements Static<ITypes, typeof BusinessName> {
+export class BusinessName extends Types implements Static<ITypes, typeof BusinessName> {
   businessName?: string;
 
   setBusinessName(businessName: string) {
@@ -18,5 +18,3 @@ class BusinessName extends Types implements Static<ITypes, typeof BusinessName> 
     return businessName;
   }
 }
-
-export default BusinessName;

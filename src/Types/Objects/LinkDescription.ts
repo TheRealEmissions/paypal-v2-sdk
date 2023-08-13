@@ -7,13 +7,10 @@ export type TLinkDescription = {
   method?: keyof typeof HTTPMethod;
 };
 
-class LinkDescription extends Types implements Static<ITypes, typeof LinkDescription> {
+export class LinkDescription extends Types implements Static<ITypes, typeof LinkDescription> {
   href?: string;
   rel?: string;
   method?: HTTPMethod;
-  constructor() {
-    super();
-  }
 
   setHref(href: string) {
     this.href = href;
@@ -25,6 +22,8 @@ class LinkDescription extends Types implements Static<ITypes, typeof LinkDescrip
     return this;
   }
 
+  setMethod(method: HTTPMethod): this;
+  setMethod(method: (method: typeof HTTPMethod) => HTTPMethod): this;
   setMethod(method: HTTPMethod | ((method: typeof HTTPMethod) => HTTPMethod)) {
     if (typeof method === "function") this.method = method(HTTPMethod);
     else this.method = method;
@@ -39,5 +38,3 @@ class LinkDescription extends Types implements Static<ITypes, typeof LinkDescrip
     return linkDescription;
   }
 }
-
-export default LinkDescription;

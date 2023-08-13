@@ -8,7 +8,7 @@ export type TErrorDetails = {
   value?: string;
 };
 
-class ErrorDetails extends Types implements Static<ITypes, typeof ErrorDetails> {
+export class ErrorDetails extends Types implements Static<ITypes, typeof ErrorDetails> {
   issue?: string;
   description?: string;
   field?: string;
@@ -50,5 +50,3 @@ class ErrorDetails extends Types implements Static<ITypes, typeof ErrorDetails> 
     return errorDetails;
   }
 }
-
-export default ErrorDetails;

@@ -10,7 +10,7 @@ export type TName = {
   surname?: string;
 };
 
-class Name extends Types implements Static<ITypes, typeof Name> {
+export class Name extends Types implements Static<ITypes, typeof Name> {
   alternateFullName?: string;
   fullName?: string;
   givenName?: string;
@@ -18,9 +18,6 @@ class Name extends Types implements Static<ITypes, typeof Name> {
   prefix?: string;
   suffix?: string;
   surname?: string;
-  constructor() {
-    super();
-  }
 
   /**
    * @deprecated
@@ -72,5 +69,3 @@ class Name extends Types implements Static<ITypes, typeof Name> {
     return name;
   }
 }
-
-export default Name;

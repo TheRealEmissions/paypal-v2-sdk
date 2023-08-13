@@ -7,14 +7,11 @@ export type TTemplateMetadata = {
   readonly last_updated_by?: string;
 };
 
-class TemplateMetadata extends Types implements Static<ITypes, typeof TemplateMetadata> {
+export class TemplateMetadata extends Types implements Static<ITypes, typeof TemplateMetadata> {
   createTime?: string;
   createdBy?: string;
   lastUpdateTime?: string;
   lastUpdatedBy?: string;
-  constructor() {
-    super();
-  }
 
   setCreateTime(createTime: string) {
     this.createTime = createTime;
@@ -45,5 +42,3 @@ class TemplateMetadata extends Types implements Static<ITypes, typeof TemplateMe
     return templateMetadata;
   }
 }
-
-export default TemplateMetadata;

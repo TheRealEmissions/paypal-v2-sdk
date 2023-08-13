@@ -1,7 +1,7 @@
 import Types, { ITypes, Static } from "../Types";
-import AddressPortable, { TAddressPortable } from "./AddressPortable";
-import Money, { TMoney } from "./Money";
-import OfferType, { TOfferType } from "./OfferType";
+import { AddressPortable, TAddressPortable } from "./AddressPortable";
+import { Money, TMoney } from "./Money";
+import { OfferType, TOfferType } from "./OfferType";
 
 export type TMakeOffer = {
   offer_types?: TOfferType[];
@@ -12,17 +12,16 @@ export type TMakeOffer = {
   return_shipping_address?: TAddressPortable;
 };
 
-class MakeOffer extends Types implements Static<ITypes, typeof MakeOffer> {
+export class MakeOffer extends Types implements Static<ITypes, typeof MakeOffer> {
   offerTypes?: OfferType[];
   note!: string;
   offerType!: OfferType;
   invoiceId?: string;
   offerAmount?: Money;
   returnShippingAddress?: AddressPortable;
-  constructor() {
-    super();
-  }
 
+  setOfferTypes(...offerTypes: OfferType[]): this;
+  setOfferTypes(...offerTypes: ((offerType: OfferType) => void)[]): this;
   setOfferTypes(...offerTypes: (OfferType | ((offerType: OfferType) => void))[]) {
     this.offerTypes = offerTypes.map((offerType) => {
       if (offerType instanceof OfferType) return offerType;
@@ -38,6 +37,8 @@ class MakeOffer extends Types implements Static<ITypes, typeof MakeOffer> {
     return this;
   }
 
+  setOfferType(offerType: OfferType): this;
+  setOfferType(offerType: (offerType: OfferType) => void): this;
   setOfferType(offerType: OfferType | ((offerType: OfferType) => void)) {
     if (offerType instanceof OfferType) this.offerType = offerType;
     else {
@@ -53,6 +54,8 @@ class MakeOffer extends Types implements Static<ITypes, typeof MakeOffer> {
     return this;
   }
 
+  setOfferAmount(offerAmount: Money): this;
+  setOfferAmount(offerAmount: (money: Money) => void): this;
   setOfferAmount(offerAmount: Money | ((money: Money) => void)) {
     if (offerAmount instanceof Money) this.offerAmount = offerAmount;
     else {
@@ -63,6 +66,8 @@ class MakeOffer extends Types implements Static<ITypes, typeof MakeOffer> {
     return this;
   }
 
+  setReturnShippingAddress(returnShippingAddress: AddressPortable): this;
+  setReturnShippingAddress(returnShippingAddress: (address: AddressPortable) => void): this;
   setReturnShippingAddress(returnShippingAddress: AddressPortable | ((address: AddressPortable) => void)) {
     if (returnShippingAddress instanceof AddressPortable) this.returnShippingAddress = returnShippingAddress;
     else {
@@ -86,5 +91,3 @@ class MakeOffer extends Types implements Static<ITypes, typeof MakeOffer> {
     return makeOffer;
   }
 }
-
-export default MakeOffer;

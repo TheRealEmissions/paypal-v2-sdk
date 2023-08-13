@@ -1,6 +1,6 @@
 import Types, { ITypes, Static } from "../Types.js";
-import ErrorDetails, { TErrorDetails } from "./ErrorDetails.js";
-import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
+import { ErrorDetails, TErrorDetails } from "./ErrorDetails.js";
+import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
 
 export type TError = {
   debug_id: string;
@@ -11,7 +11,7 @@ export type TError = {
   readonly links?: TLinkDescription[];
 };
 
-class Error extends Types implements Static<ITypes, typeof Error> {
+export class Error extends Types implements Static<ITypes, typeof Error> {
   debugId?: string;
   message?: string;
   name?: string;
@@ -80,5 +80,3 @@ class Error extends Types implements Static<ITypes, typeof Error> {
     return error;
   }
 }
-
-export default Error;
