@@ -9,26 +9,29 @@ export type TAmountRange = {
 class AmountRange extends Types implements Static<ITypes, typeof AmountRange> {
   lowerAmount?: Money;
   upperAmount?: Money;
-  constructor() {
-    super();
-  }
 
-  setLowerAmount(lowerAmount: Money | ((money: Money) => void)) {
-    if (lowerAmount instanceof Money) this.lowerAmount = lowerAmount;
-    else {
-      const money = new Money();
-      lowerAmount(money);
-      this.lowerAmount = money;
+  setLowerAmount(lowerAmount: Money): this;
+  setLowerAmount(lowerAmount: (lowerAmount: Money) => void): this;
+  setLowerAmount(lowerAmount: Money | ((lowerAmount: Money) => void)): this {
+    if (lowerAmount instanceof Money) {
+      this.lowerAmount = lowerAmount;
+    } else {
+      const lowerAmountInstance = new Money();
+      lowerAmount(lowerAmountInstance);
+      this.lowerAmount = lowerAmountInstance;
     }
     return this;
   }
 
-  setUpperAmount(upperAmount: Money | ((money: Money) => void)) {
-    if (upperAmount instanceof Money) this.upperAmount = upperAmount;
-    else {
-      const money = new Money();
-      upperAmount(money);
-      this.upperAmount = money;
+  setUpperAmount(upperAmount: Money): this;
+  setUpperAmount(upperAmount: (upperAmount: Money) => void): this;
+  setUpperAmount(upperAmount: Money | ((upperAmount: Money) => void)): this {
+    if (upperAmount instanceof Money) {
+      this.upperAmount = upperAmount;
+    } else {
+      const upperAmountInstance = new Money();
+      upperAmount(upperAmountInstance);
+      this.upperAmount = upperAmountInstance;
     }
     return this;
   }

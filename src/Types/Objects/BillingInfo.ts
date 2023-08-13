@@ -14,10 +14,6 @@ class BillingInfo extends Types implements Static<ITypes, typeof BillingInfo> {
   language?: string;
   phones?: PhoneDetail[];
 
-  constructor() {
-    super();
-  }
-
   setAdditionalInfo(additionalInfo: string) {
     this.additionalInfo = additionalInfo;
     return this;
@@ -33,12 +29,17 @@ class BillingInfo extends Types implements Static<ITypes, typeof BillingInfo> {
     return this;
   }
 
-  setPhones(...phones: (PhoneDetail | ((detail: PhoneDetail) => void))[]) {
+  setPhones(...phones: PhoneDetail[]): this;
+  setPhones(...phones: ((phone: PhoneDetail) => void)[]): this;
+  setPhones(...phones: (PhoneDetail | ((phone: PhoneDetail) => void))[]) {
     this.phones = phones.map((phone) => {
-      if (phone instanceof PhoneDetail) return phone;
-      const detail = new PhoneDetail();
-      phone(detail);
-      return detail;
+      if (phone instanceof PhoneDetail) {
+        return phone;
+      } else {
+        const phoneInstance = new PhoneDetail();
+        phone(phoneInstance);
+        return phoneInstance;
+      }
     });
     return this;
   }

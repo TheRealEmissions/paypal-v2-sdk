@@ -14,9 +14,6 @@ class FileReference extends Types implements Static<ITypes, typeof FileReference
   id?: string;
   referenceUrl?: string;
   size?: string;
-  constructor() {
-    super();
-  }
 
   setContentType(contentType: string) {
     this.contentType = contentType;

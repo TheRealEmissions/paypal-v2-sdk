@@ -6,9 +6,6 @@ export type TEmailAddress = {
 
 class EmailAddress extends Types implements Static<ITypes, typeof EmailAddress> {
   emailAddress?: string;
-  constructor() {
-    super();
-  }
 
   setEmailAddress(emailAddress: string) {
     this.emailAddress = emailAddress;

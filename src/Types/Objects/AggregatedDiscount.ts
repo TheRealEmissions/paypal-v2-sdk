@@ -10,26 +10,29 @@ export type TAggregatedDiscount = {
 class AggregatedDiscount extends Types implements Static<ITypes, typeof AggregatedDiscount> {
   invoiceDiscount?: Discount;
   itemDiscount?: Money;
-  constructor() {
-    super();
-  }
 
-  setInvoiceDiscount(invoiceDiscount: Discount | ((discount: Discount) => void)) {
-    if (invoiceDiscount instanceof Discount) this.invoiceDiscount = invoiceDiscount;
-    else {
-      const discount = new Discount();
-      invoiceDiscount(discount);
-      this.invoiceDiscount = discount;
+  setInvoiceDiscount(invoiceDiscount: Discount): this;
+  setInvoiceDiscount(invoiceDiscount: (invoiceDiscount: Discount) => void): this;
+  setInvoiceDiscount(invoiceDiscount: Discount | ((invoiceDiscount: Discount) => void)) {
+    if (invoiceDiscount instanceof Discount) {
+      this.invoiceDiscount = invoiceDiscount;
+    } else {
+      const invoiceDiscountInstance = new Discount();
+      invoiceDiscount(invoiceDiscountInstance);
+      this.invoiceDiscount = invoiceDiscountInstance;
     }
     return this;
   }
 
-  setItemDiscount(itemDiscount: Money | ((money: Money) => void)) {
-    if (itemDiscount instanceof Money) this.itemDiscount = itemDiscount;
-    else {
-      const money = new Money();
-      itemDiscount(money);
-      this.itemDiscount = money;
+  setItemDiscount(itemDiscount: Money): this;
+  setItemDiscount(itemDiscount: (itemDiscount: Money) => void): this;
+  setItemDiscount(itemDiscount: Money | ((itemDiscount: Money) => void)): this {
+    if (itemDiscount instanceof Money) {
+      this.itemDiscount = itemDiscount;
+    } else {
+      const itemDiscountInstance = new Money();
+      itemDiscount(itemDiscountInstance);
+      this.itemDiscount = itemDiscountInstance;
     }
     return this;
   }

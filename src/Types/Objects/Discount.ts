@@ -10,16 +10,15 @@ class Discount extends Types implements Static<ITypes, typeof Discount> {
   amount?: Money;
   percent?: string;
 
-  constructor() {
-    super();
-  }
-
-  setAmount(amount: Money | ((money: Money) => void)) {
-    if (amount instanceof Money) this.amount = amount;
-    else {
-      const money = new Money();
-      amount(money);
-      this.amount = money;
+  setAmount(amount: Money): this;
+  setAmount(amount: (amount: Money) => void): this;
+  setAmount(amount: Money | ((amount: Money) => void)): this {
+    if (amount instanceof Money) {
+      this.amount = amount;
+    } else {
+      const amountInstance = new Money();
+      amount(amountInstance);
+      this.amount = amountInstance;
     }
     return this;
   }

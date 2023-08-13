@@ -6,9 +6,6 @@ export type TField = {
 
 class Field extends Types implements Static<ITypes, typeof Field> {
   field?: string;
-  constructor() {
-    super();
-  }
 
   setField(field: string) {
     this.field = field;

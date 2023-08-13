@@ -16,21 +16,20 @@ class Configuration extends Types implements Static<ITypes, typeof Configuration
   taxInclusive?: boolean;
   templateId?: string;
 
-  constructor() {
-    super();
-  }
-
   setAllowTip(allowTip: boolean) {
     this.allowTip = allowTip;
     return this;
   }
 
-  setPartialPayment(partialPayment: PartialPayment | ((partialPayment: PartialPayment) => void)) {
-    if (partialPayment instanceof PartialPayment) this.partialPayment = partialPayment;
-    else {
-      const partialPaymentObj = new PartialPayment();
-      partialPayment(partialPaymentObj);
-      this.partialPayment = partialPaymentObj;
+  setPartialPayment(partialPayment: PartialPayment): this;
+  setPartialPayment(partialPayment: (partialPayment: PartialPayment) => void): this;
+  setPartialPayment(partialPayment: PartialPayment | ((partialPayment: PartialPayment) => void)): this {
+    if (partialPayment instanceof PartialPayment) {
+      this.partialPayment = partialPayment;
+    } else {
+      const partialPaymentInstance = new PartialPayment();
+      partialPayment(partialPaymentInstance);
+      this.partialPayment = partialPaymentInstance;
     }
     return this;
   }

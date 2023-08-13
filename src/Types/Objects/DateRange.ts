@@ -8,9 +8,6 @@ export type TDateRange = {
 class DateRange extends Types implements Static<ITypes, typeof DateRange> {
   end?: string;
   start?: string;
-  constructor() {
-    super();
-  }
 
   setEnd(end: string) {
     this.end = end;

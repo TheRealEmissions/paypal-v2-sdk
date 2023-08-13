@@ -7,16 +7,18 @@ export type TAcceptedResponse = {
 
 class AcceptedResponse extends Types implements Static<ITypes, typeof AcceptedResponse> {
   links?: LinkDescription[];
-  constructor() {
-    super();
-  }
 
-  setLinks(...links: (((linkDescription: LinkDescription) => void) | LinkDescription)[]) {
+  setLinks(...links: LinkDescription[]): this;
+  setLinks(...links: ((links: LinkDescription) => void)[]): this;
+  setLinks(...links: (LinkDescription | ((links: LinkDescription) => void))[]) {
     this.links = links.map((link) => {
-      if (link instanceof LinkDescription) return link;
-      const linkDescription = new LinkDescription();
-      link(linkDescription);
-      return linkDescription;
+      if (link instanceof LinkDescription) {
+        return link;
+      } else {
+        const linkInstance = new LinkDescription();
+        link(linkInstance);
+        return linkInstance;
+      }
     });
     return this;
   }

@@ -17,12 +17,8 @@ class AddressDetails extends Types implements Static<ITypes, typeof AddressDetai
   buildingName?: string;
   subBuilding?: string;
 
-  constructor() {
-    super();
-  }
-
-  setStreetNumber(num: string) {
-    this.streetNumber = num;
+  setStreetNumber(number: string) {
+    this.streetNumber = number;
     return this;
   }
 

@@ -14,9 +14,6 @@ class ErrorDetails extends Types implements Static<ITypes, typeof ErrorDetails> 
   field?: string;
   location?: string;
   value?: string;
-  constructor() {
-    super();
-  }
 
   setIssue(issue: string) {
     this.issue = issue;

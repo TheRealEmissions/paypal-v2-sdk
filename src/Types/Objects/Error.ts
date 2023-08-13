@@ -18,9 +18,6 @@ class Error extends Types implements Static<ITypes, typeof Error> {
   details?: ErrorDetails[];
   informationLink?: string;
   links?: LinkDescription[];
-  constructor() {
-    super();
-  }
 
   setDebugId(debugId: string) {
     this.debugId = debugId;
@@ -37,12 +34,17 @@ class Error extends Types implements Static<ITypes, typeof Error> {
     return this;
   }
 
-  setDetails(...details: (ErrorDetails | ((error: ErrorDetails) => void))[]) {
+  setDetails(...details: ErrorDetails[]): this;
+  setDetails(...details: ((detail: ErrorDetails) => void)[]): this;
+  setDetails(...details: (ErrorDetails | ((detail: ErrorDetails) => void))[]) {
     this.details = details.map((detail) => {
-      if (detail instanceof ErrorDetails) return detail;
-      const errorDetail = new ErrorDetails();
-      detail(errorDetail);
-      return errorDetail;
+      if (detail instanceof ErrorDetails) {
+        return detail;
+      } else {
+        const detailInstance = new ErrorDetails();
+        detail(detailInstance);
+        return detailInstance;
+      }
     });
     return this;
   }
@@ -52,12 +54,17 @@ class Error extends Types implements Static<ITypes, typeof Error> {
     return this;
   }
 
+  setLinks(...links: LinkDescription[]): this;
+  setLinks(...links: ((link: LinkDescription) => void)[]): this;
   setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
     this.links = links.map((link) => {
-      if (link instanceof LinkDescription) return link;
-      const linkDesc = new LinkDescription();
-      link(linkDesc);
-      return linkDesc;
+      if (link instanceof LinkDescription) {
+        return link;
+      } else {
+        const linkInstance = new LinkDescription();
+        link(linkInstance);
+        return linkInstance;
+      }
     });
     return this;
   }

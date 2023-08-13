@@ -6,9 +6,6 @@ export type TBusinessName = {
 
 class BusinessName extends Types implements Static<ITypes, typeof BusinessName> {
   businessName?: string;
-  constructor() {
-    super();
-  }
 
   setBusinessName(businessName: string) {
     this.businessName = businessName;

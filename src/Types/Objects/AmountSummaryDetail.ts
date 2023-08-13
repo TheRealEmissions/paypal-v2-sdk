@@ -12,16 +12,15 @@ class AmountSummaryDetail extends Types implements Static<ITypes, typeof AmountS
   currencyCode?: string;
   value?: string;
 
-  constructor() {
-    super();
-  }
-
-  setBreakdown(breakdown: AmountWithBreakdown | ((breakdown: AmountWithBreakdown) => void)) {
-    if (breakdown instanceof AmountWithBreakdown) this.breakdown = breakdown;
-    else {
-      const amountWithBreakdown = new AmountWithBreakdown();
-      breakdown(amountWithBreakdown);
-      this.breakdown = amountWithBreakdown;
+  setBreakdown(breakdown: AmountWithBreakdown): this;
+  setBreakdown(breakdown: (breakdown: AmountWithBreakdown) => void): this;
+  setBreakdown(breakdown: AmountWithBreakdown | ((breakdown: AmountWithBreakdown) => void)): this {
+    if (breakdown instanceof AmountWithBreakdown) {
+      this.breakdown = breakdown;
+    } else {
+      const breakdownInstance = new AmountWithBreakdown();
+      breakdown(breakdownInstance);
+      this.breakdown = breakdownInstance;
     }
     return this;
   }
@@ -32,7 +31,7 @@ class AmountSummaryDetail extends Types implements Static<ITypes, typeof AmountS
   }
 
   setValue(value: string) {
-    const regex = new RegExp(/^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$/);
+    const regex = new RegExp(/^((-?\d+)|(-?(\d+)?[.]\d+))$/);
     if (!regex.test(value)) {
       throw new Error("Invalid value");
     }

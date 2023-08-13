@@ -121,6 +121,8 @@ class Invoice extends Types implements Static<ITypes, typeof Invoice> {
     );
   }
 
+  async recordPayment(paymentDetail: PaymentDetail): Promise<string | Invoice>;
+  async recordPayment(paymentDetail: (paymentDetail: PaymentDetail) => void): Promise<string | Invoice>;
   async recordPayment(paymentDetail: PaymentDetail | ((paymentDetail: PaymentDetail) => void)) {
     if (!this.PayPal)
       throw new Error("To use in-built methods, please provide PayPal instance when initialising the invoice");
@@ -130,9 +132,9 @@ class Invoice extends Types implements Static<ITypes, typeof Invoice> {
     if (paymentDetail instanceof PaymentDetail) {
       return this.PayPal.Invoicing.recordPayment(this, paymentDetail);
     } else {
-      const newPaymentDetail = new PaymentDetail();
-      paymentDetail(newPaymentDetail);
-      return this.PayPal.Invoicing.recordPayment(this, newPaymentDetail);
+      const paymentDetailInstance = new PaymentDetail();
+      paymentDetail(paymentDetailInstance);
+      return this.PayPal.Invoicing.recordPayment(this, paymentDetailInstance);
     }
   }
 
@@ -145,6 +147,8 @@ class Invoice extends Types implements Static<ITypes, typeof Invoice> {
     return this.PayPal.Invoicing.deleteExternalPayment(this, paymentId);
   }
 
+  async recordRefund(refundDetail: RefundDetail): Promise<string | Invoice>;
+  async recordRefund(refundDetail: (refundDetail: RefundDetail) => void): Promise<string | Invoice>;
   async recordRefund(refundDetail: RefundDetail | ((refundDetail: RefundDetail) => void)) {
     if (!this.PayPal)
       throw new Error("To use in-built methods, please provide PayPal instance when initialising the invoice");
@@ -154,9 +158,9 @@ class Invoice extends Types implements Static<ITypes, typeof Invoice> {
     if (refundDetail instanceof RefundDetail) {
       return this.PayPal.Invoicing.recordRefund(this, refundDetail);
     } else {
-      const newRefundDetail = new RefundDetail();
-      refundDetail(newRefundDetail);
-      return this.PayPal.Invoicing.recordRefund(this, newRefundDetail);
+      const refundDetailInstance = new RefundDetail();
+      refundDetail(refundDetailInstance);
+      return this.PayPal.Invoicing.recordRefund(this, refundDetailInstance);
     }
   }
 
@@ -175,27 +179,37 @@ class Invoice extends Types implements Static<ITypes, typeof Invoice> {
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
     subject?: string
+  ): Promise<string | Invoice>;
+  async sendReminder(
+    additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
+    note?: string,
+    sendToInvoicer?: boolean,
+    sendToRecipient?: boolean,
+    subject?: string
+  ): Promise<string | Invoice>;
+  async sendReminder(
+    additionalRecipients?: (EmailAddress | ((additionalRecipient: EmailAddress) => void))[],
+    note?: string,
+    sendToInvoicer?: boolean,
+    sendToRecipient?: boolean,
+    subject?: string
   ) {
     if (!this.PayPal)
       throw new Error("To use in-built methods, please provide PayPal instance when initialising the invoice");
     if (!this.id) {
       throw new Error("Invoice ID is required to send reminder");
     }
-    let newAdditionalRecipients: EmailAddress[] | undefined;
-    if (additionalRecipients) {
-      newAdditionalRecipients = additionalRecipients.map((email) => {
-        if (email instanceof EmailAddress) {
-          return email;
-        } else {
-          const newEmail = new EmailAddress();
-          email(newEmail);
-          return newEmail;
-        }
-      });
-    }
     return this.PayPal.Invoicing.sendReminder(
       this,
-      newAdditionalRecipients,
+      additionalRecipients?.map((additionalRecipient) => {
+        if (additionalRecipient instanceof EmailAddress) {
+          return additionalRecipient;
+        } else {
+          const additionalRecipientInstance = new EmailAddress();
+          additionalRecipient(additionalRecipientInstance);
+          return additionalRecipientInstance;
+        }
+      }),
       note,
       sendToInvoicer,
       sendToRecipient,
@@ -209,69 +223,94 @@ class Invoice extends Types implements Static<ITypes, typeof Invoice> {
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
     subject?: string
+  ): Promise<string | Invoice>;
+  async send(
+    additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
+    note?: string,
+    sendToInvoicer?: boolean,
+    sendToRecipient?: boolean,
+    subject?: string
+  ): Promise<string | Invoice>;
+  async send(
+    additionalRecipients?: (EmailAddress | ((additionalRecipient: EmailAddress) => void))[],
+    note?: string,
+    sendToInvoicer?: boolean,
+    sendToRecipient?: boolean,
+    subject?: string
   ) {
     if (!this.PayPal)
       throw new Error("To use in-built methods, please provide PayPal instance when initialising the invoice");
     if (!this.id) {
       throw new Error("Invoice ID is required to send invoice");
     }
-    let newAdditionalRecipients: EmailAddress[] | undefined;
-    if (additionalRecipients) {
-      newAdditionalRecipients = additionalRecipients.map((email) => {
-        if (email instanceof EmailAddress) {
-          return email;
+    return this.PayPal.Invoicing.send(
+      this,
+      additionalRecipients?.map((recipient) => {
+        if (recipient instanceof EmailAddress) {
+          return recipient;
         } else {
-          const newEmail = new EmailAddress();
-          email(newEmail);
-          return newEmail;
+          const recipientInstance = new EmailAddress();
+          recipient(recipientInstance);
+          return recipientInstance;
         }
-      });
-    }
-    return this.PayPal.Invoicing.send(this, newAdditionalRecipients, note, sendToInvoicer, sendToRecipient, subject);
+      }),
+      note,
+      sendToInvoicer,
+      sendToRecipient,
+      subject
+    );
   }
 
-  setDetail(detail: InvoiceDetail | ((detail: InvoiceDetail) => void)) {
+  setDetail(detail: InvoiceDetail): this;
+  setDetail(detail: (detail: InvoiceDetail) => void): this;
+  setDetail(detail: InvoiceDetail | ((detail: InvoiceDetail) => void)): this {
     if (detail instanceof InvoiceDetail) {
       this.detail = detail;
     } else {
-      const newDetail = new InvoiceDetail();
-      detail(newDetail);
-      this.detail = newDetail;
+      const detailInstance = new InvoiceDetail();
+      detail(detailInstance);
+      this.detail = detailInstance;
     }
     return this;
   }
 
-  setAdditionalRecipients(...additionalRecipients: (EmailAddress | ((email: EmailAddress) => void))[]) {
-    this.additionalRecipients = additionalRecipients.map((email) => {
-      if (email instanceof EmailAddress) {
-        return email;
+  setAdditionalRecipients(...additionalRecipients: EmailAddress[]): this;
+  setAdditionalRecipients(...additionalRecipients: ((additionalRecipient: EmailAddress) => void)[]): this;
+  setAdditionalRecipients(...additionalRecipients: (EmailAddress | ((additionalRecipient: EmailAddress) => void))[]) {
+    this.additionalRecipients = additionalRecipients.map((additionalRecipient) => {
+      if (additionalRecipient instanceof EmailAddress) {
+        return additionalRecipient;
       } else {
-        const newEmail = new EmailAddress();
-        email(newEmail);
-        return newEmail;
+        const additionalRecipientInstance = new EmailAddress();
+        additionalRecipient(additionalRecipientInstance);
+        return additionalRecipientInstance;
       }
     });
     return this;
   }
 
+  setAmount(amount: AmountSummaryDetail): this;
+  setAmount(amount: (amount: AmountSummaryDetail) => void): this;
   setAmount(amount: AmountSummaryDetail | ((amount: AmountSummaryDetail) => void)) {
     if (amount instanceof AmountSummaryDetail) {
       this.amount = amount;
     } else {
-      const newAmount = new AmountSummaryDetail();
-      amount(newAmount);
-      this.amount = newAmount;
+      const amountInstance = new AmountSummaryDetail();
+      amount(amountInstance);
+      this.amount = amountInstance;
     }
     return this;
   }
 
-  setConfiguration(configuration: Configuration | ((configuration: Configuration) => void)) {
+  setConfiguration(configuration: Configuration): this;
+  setConfiguration(configuration: (configuration: Configuration) => void): this;
+  setConfiguration(configuration: Configuration | ((configuration: Configuration) => void)): this {
     if (configuration instanceof Configuration) {
       this.configuration = configuration;
     } else {
-      const newConfiguration = new Configuration();
-      configuration(newConfiguration);
-      this.configuration = newConfiguration;
+      const configurationInstance = new Configuration();
+      configuration(configurationInstance);
+      this.configuration = configurationInstance;
     }
     return this;
   }

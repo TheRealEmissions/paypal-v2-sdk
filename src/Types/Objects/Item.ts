@@ -26,9 +26,6 @@ class Item extends Types implements Static<ITypes, typeof Item> {
   itemDate?: string;
   tax?: Tax;
   unitOfMeasure?: UnitOfMeasure;
-  constructor() {
-    super();
-  }
 
   public setItemName(name: string): this {
     this.name = name;
@@ -40,12 +37,15 @@ class Item extends Types implements Static<ITypes, typeof Item> {
     return this;
   }
 
-  public setItemUnitAmount(unitAmount: Money | ((money: Money) => void)): this {
-    if (unitAmount instanceof Money) this.unitAmount = unitAmount;
-    else {
-      const money = new Money();
-      unitAmount(money);
-      this.unitAmount = money;
+  public setItemUnitAmount(unitAmount: Money): this;
+  public setItemUnitAmount(unitAmount: (unitAmount: Money) => void): this;
+  public setItemUnitAmount(unitAmount: Money | ((unitAmount: Money) => void)): this {
+    if (unitAmount instanceof Money) {
+      this.unitAmount = unitAmount;
+    } else {
+      const unitAmountInstance = new Money();
+      unitAmount(unitAmountInstance);
+      this.unitAmount = unitAmountInstance;
     }
     return this;
   }
@@ -55,12 +55,15 @@ class Item extends Types implements Static<ITypes, typeof Item> {
     return this;
   }
 
+  public setItemDiscount(discount: Discount): this;
+  public setItemDiscount(discount: (discount: Discount) => void): this;
   public setItemDiscount(discount: Discount | ((discount: Discount) => void)): this {
-    if (discount instanceof Discount) this.discount = discount;
-    else {
-      const discountObj = new Discount();
-      discount(discountObj);
-      this.discount = discountObj;
+    if (discount instanceof Discount) {
+      this.discount = discount;
+    } else {
+      const discountInstance = new Discount();
+      discount(discountInstance);
+      this.discount = discountInstance;
     }
     return this;
   }
@@ -75,21 +78,29 @@ class Item extends Types implements Static<ITypes, typeof Item> {
     return this;
   }
 
+  public setItemTax(tax: Tax): this;
+  public setItemTax(tax: (tax: Tax) => void): this;
   public setItemTax(tax: Tax | ((tax: Tax) => void)): this {
-    if (tax instanceof Tax) this.tax = tax;
-    else {
-      const taxObj = new Tax();
-      tax(taxObj);
-      this.tax = taxObj;
+    if (tax instanceof Tax) {
+      this.tax = tax;
+    } else {
+      const taxInstance = new Tax();
+      tax(taxInstance);
+      this.tax = taxInstance;
     }
     return this;
   }
 
+  public setItemUnitOfMeasure(unitOfMeasure: UnitOfMeasure): this;
+  public setItemUnitOfMeasure(unitOfMeasure: (unitOfMeasure: typeof UnitOfMeasure) => UnitOfMeasure): this;
   public setItemUnitOfMeasure(
     unitOfMeasure: UnitOfMeasure | ((unitOfMeasure: typeof UnitOfMeasure) => UnitOfMeasure)
   ): this {
-    if (typeof unitOfMeasure === "function") this.unitOfMeasure = unitOfMeasure(UnitOfMeasure);
-    else this.unitOfMeasure = unitOfMeasure;
+    if (typeof unitOfMeasure === "function") {
+      this.unitOfMeasure = unitOfMeasure(UnitOfMeasure);
+    } else {
+      this.unitOfMeasure = unitOfMeasure;
+    }
     return this;
   }
 

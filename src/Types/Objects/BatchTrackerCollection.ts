@@ -13,36 +13,50 @@ class BatchTrackerCollection extends Types implements Static<ITypes, typeof Batc
   errors?: Error[];
   links?: LinkDescription[];
   trackerIdentifiers?: TrackerIdentifier[];
-  constructor() {
-    super();
-  }
 
+  setErrors(...errors: Error[]): this;
+  setErrors(...errors: ((error: Error) => void)[]): this;
   setErrors(...errors: (Error | ((error: Error) => void))[]) {
     this.errors = errors.map((error) => {
-      if (error instanceof Error) return error;
-      const errorObj = new Error();
-      error(errorObj);
-      return errorObj;
+      if (error instanceof Error) {
+        return error;
+      } else {
+        const errorInstance = new Error();
+        error(errorInstance);
+        return errorInstance;
+      }
     });
     return this;
   }
 
-  setLinks(...links: (LinkDescription | ((desc: LinkDescription) => void))[]) {
+  setLinks(...links: LinkDescription[]): this;
+  setLinks(...links: ((links: LinkDescription) => void)[]): this;
+  setLinks(...links: (LinkDescription | ((links: LinkDescription) => void))[]) {
     this.links = links.map((link) => {
-      if (link instanceof LinkDescription) return link;
-      const linkDesc = new LinkDescription();
-      link(linkDesc);
-      return linkDesc;
+      if (link instanceof LinkDescription) {
+        return link;
+      } else {
+        const linkInstance = new LinkDescription();
+        link(linkInstance);
+        return linkInstance;
+      }
     });
     return this;
   }
 
-  setTrackerIdentifiers(...trackerIdentifiers: (TrackerIdentifier | ((identifier: TrackerIdentifier) => void))[]) {
-    this.trackerIdentifiers = trackerIdentifiers.map((identifier) => {
-      if (identifier instanceof TrackerIdentifier) return identifier;
-      const trackerIdentifier = new TrackerIdentifier();
-      identifier(trackerIdentifier);
-      return trackerIdentifier;
+  setTrackerIdentifiers(...trackerIdentifiers: TrackerIdentifier[]): this;
+  setTrackerIdentifiers(...trackerIdentifiers: ((trackerIdentifiers: TrackerIdentifier) => void)[]): this;
+  setTrackerIdentifiers(
+    ...trackerIdentifiers: (TrackerIdentifier | ((trackerIdentifiers: TrackerIdentifier) => void))[]
+  ) {
+    this.trackerIdentifiers = trackerIdentifiers.map((trackerIdentifier) => {
+      if (trackerIdentifier instanceof TrackerIdentifier) {
+        return trackerIdentifier;
+      } else {
+        const trackerIdentifierInstance = new TrackerIdentifier();
+        trackerIdentifier(trackerIdentifierInstance);
+        return trackerIdentifierInstance;
+      }
     });
     return this;
   }

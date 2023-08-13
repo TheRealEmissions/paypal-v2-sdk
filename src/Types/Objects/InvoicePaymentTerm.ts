@@ -8,9 +8,6 @@ export type TInvoicePaymentTerm = {
 class InvoicePaymentTerm extends Types implements Static<ITypes, typeof InvoicePaymentTerm> {
   termType?: string;
   dueDate?: string;
-  constructor() {
-    super();
-  }
 
   setTermType(termType: string) {
     this.termType = termType;

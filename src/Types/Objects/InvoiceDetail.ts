@@ -27,21 +27,23 @@ class InvoiceDetail extends Types implements Static<ITypes, typeof InvoiceDetail
   invoiceNumber?: string;
   metadata?: Metadata;
   paymentTerm?: InvoicePaymentTerm;
-  constructor() {
-    super();
-  }
 
   setCurrencyCode(currencyCode: string) {
     this.currencyCode = currencyCode;
     return this;
   }
 
-  setAttachments(...attachments: (FileReference | ((fileReference: FileReference) => void))[]) {
+  setAttachments(...attachments: FileReference[]): this;
+  setAttachments(...attachments: ((attachment: FileReference) => void)[]): this;
+  setAttachments(...attachments: (FileReference | ((attachment: FileReference) => void))[]) {
     this.attachments = attachments.map((attachment) => {
-      if (attachment instanceof FileReference) return attachment;
-      const fileReference = new FileReference();
-      attachment(fileReference);
-      return fileReference;
+      if (attachment instanceof FileReference) {
+        return attachment;
+      } else {
+        const attachmentInstance = new FileReference();
+        attachment(attachmentInstance);
+        return attachmentInstance;
+      }
     });
     return this;
   }
@@ -76,17 +78,28 @@ class InvoiceDetail extends Types implements Static<ITypes, typeof InvoiceDetail
     return this;
   }
 
-  setMetadata(metadata: Metadata) {
-    this.metadata = metadata;
+  setMetadata(metadata: Metadata): this;
+  setMetadata(metadata: (metadata: Metadata) => void): this;
+  setMetadata(metadata: Metadata | ((metadata: Metadata) => void)) {
+    if (metadata instanceof Metadata) {
+      this.metadata = metadata;
+    } else {
+      const metadataInstance = new Metadata();
+      metadata(metadataInstance);
+      this.metadata = metadataInstance;
+    }
     return this;
   }
 
+  setPaymentTerm(paymentTerm: InvoicePaymentTerm): this;
+  setPaymentTerm(paymentTerm: (paymentTerm: InvoicePaymentTerm) => void): this;
   setPaymentTerm(paymentTerm: InvoicePaymentTerm | ((paymentTerm: InvoicePaymentTerm) => void)) {
-    if (paymentTerm instanceof InvoicePaymentTerm) this.paymentTerm = paymentTerm;
-    else {
-      const invoicePaymentTerm = new InvoicePaymentTerm();
-      paymentTerm(invoicePaymentTerm);
-      this.paymentTerm = invoicePaymentTerm;
+    if (paymentTerm instanceof InvoicePaymentTerm) {
+      this.paymentTerm = paymentTerm;
+    } else {
+      const paymentTermInstance = new InvoicePaymentTerm();
+      paymentTerm(paymentTermInstance);
+      this.paymentTerm = paymentTermInstance;
     }
     return this;
   }

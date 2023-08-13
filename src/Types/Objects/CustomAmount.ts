@@ -9,28 +9,28 @@ export type TCustomAmount = {
 class CustomAmount extends Types implements Static<ITypes, typeof CustomAmount> {
   label?: string;
   amount?: Money;
-  constructor() {
-    super();
-  }
 
   setLabel(label: string) {
     this.label = label;
     return this;
   }
 
-  setAmount(amount: Money | ((money: Money) => void)) {
+  setAmount(amount: Money): this;
+  setAmount(amount: (amount: Money) => void): this;
+  setAmount(amount: Money | ((amount: Money) => void)): this {
+    const MAX_AMOUNT = 1_000_000;
     if (amount instanceof Money) {
-      if (Math.abs(parseFloat(amount.value as string)) > 1000000) {
+      if (Math.abs(parseFloat(amount.value as string)) > MAX_AMOUNT) {
         throw new Error("Amount value cannot be greater than 1,000,000");
       }
       this.amount = amount;
     } else {
-      const money = new Money();
-      amount(money);
-      if (Math.abs(parseFloat(money.value as string)) > 1000000) {
+      const amountInstance = new Money();
+      amount(amountInstance);
+      if (Math.abs(parseFloat(amountInstance.value as string)) > MAX_AMOUNT) {
         throw new Error("Amount value cannot be greater than 1,000,000");
       }
-      this.amount = money;
+      this.amount = amountInstance;
     }
     return this;
   }

@@ -25,21 +25,21 @@ class AddressPortable extends Types implements Static<ITypes, typeof AddressPort
   adminArea3?: string;
   adminArea4?: string;
   postalCode?: string;
-  constructor() {
-    super();
-  }
 
   setCountryCode(countryCode: string) {
     this.countryCode = countryCode;
     return this;
   }
 
+  setAddressDetails(addressDetails: AddressDetails): this;
+  setAddressDetails(addressDetails: (addressDetails: AddressDetails) => void): this;
   setAddressDetails(addressDetails: AddressDetails | ((addressDetails: AddressDetails) => void)) {
-    if (addressDetails instanceof AddressDetails) this.addressDetails = addressDetails;
-    else {
-      const addressDetailsObj = new AddressDetails();
-      addressDetails(addressDetailsObj);
-      this.addressDetails = addressDetailsObj;
+    if (addressDetails instanceof AddressDetails) {
+      this.addressDetails = addressDetails;
+    } else {
+      const addressDetailsInstance = new AddressDetails();
+      addressDetails(addressDetailsInstance);
+      this.addressDetails = addressDetailsInstance;
     }
     return this;
   }

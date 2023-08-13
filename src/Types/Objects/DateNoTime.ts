@@ -6,16 +6,14 @@ export type TDateNoTime = {
 
 class DateNoTime extends Types implements Static<ITypes, typeof DateNoTime> {
   dateNoTime?: string;
-  constructor() {
-    super();
-  }
 
   setDateNoTime(dateNoTime: string) {
-    if (dateNoTime.length !== 10) {
+    const DATE_LENGTH_REQ = 10;
+    if (dateNoTime.length !== DATE_LENGTH_REQ) {
       throw new Error("DateNoTime must be in YYYY-MM-DD format");
     }
 
-    const regex = new RegExp(/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/);
+    const regex = new RegExp(/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2]\d|3[0-1])$/);
     if (!regex.test(dateNoTime)) {
       throw new Error("DateNoTime must be in YYYY-MM-DD format");
     }

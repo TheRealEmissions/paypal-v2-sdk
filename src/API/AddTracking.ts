@@ -24,7 +24,8 @@ class AddTracking {
       `/v1/shipping/trackers/${transactionIdTrackingNumber}`,
       tracker.toJson<TTracker>()
     );
-    if (response.status !== 204) {
+    const SUCCESS_RESPONSE = 204;
+    if (response.status !== SUCCESS_RESPONSE) {
       throw new TrackerUpdateOrCancelError("Failed to update or cancel tracking", response.data);
     }
     return this.get(transactionIdTrackingNumber);

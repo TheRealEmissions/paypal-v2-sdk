@@ -12,31 +12,34 @@ class ContactInformation extends Types implements Static<ITypes, typeof ContactI
   businessName?: string;
   address?: AddressPortable;
   name?: Name;
-  constructor() {
-    super();
-  }
 
   setBusinessName(businessName: string) {
     this.businessName = businessName;
     return this;
   }
 
+  setAddress(address: AddressPortable): this;
+  setAddress(address: (address: AddressPortable) => void): this;
   setAddress(address: AddressPortable | ((address: AddressPortable) => void)) {
-    if (address instanceof AddressPortable) this.address = address;
-    else {
-      const addressPortable = new AddressPortable();
-      address(addressPortable);
-      this.address = addressPortable;
+    if (address instanceof AddressPortable) {
+      this.address = address;
+    } else {
+      const addressInstance = new AddressPortable();
+      address(addressInstance);
+      this.address = addressInstance;
     }
     return this;
   }
 
-  setName(name: Name | ((name: Name) => void)) {
-    if (name instanceof Name) this.name = name;
-    else {
-      const namePortable = new Name();
-      name(namePortable);
-      this.name = namePortable;
+  setName(name: Name): this;
+  setName(name: (name: Name) => void): this;
+  setName(name: Name | ((name: Name) => void)): this {
+    if (name instanceof Name) {
+      this.name = name;
+    } else {
+      const nameInstance = new Name();
+      name(nameInstance);
+      this.name = nameInstance;
     }
     return this;
   }

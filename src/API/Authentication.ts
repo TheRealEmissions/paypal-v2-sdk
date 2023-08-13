@@ -30,7 +30,8 @@ class Authentication {
       }
     );
 
-    this.PayPal.emit("debug", "Requested token!\n" + JSON.stringify(response.data, null, 2));
+    const SPACES = 2;
+    this.PayPal.emit("debug", "Requested token!\n" + JSON.stringify(response.data, null, SPACES));
 
     this.setAccessToken(response.data.access_token)
       .setTokenType(response.data.token_type)
