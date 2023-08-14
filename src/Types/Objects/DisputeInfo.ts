@@ -3,10 +3,10 @@ import { DisputeLifeCycleStage } from "../Enums/DisputeLifeCycleStage";
 import { DisputeReason } from "../Enums/DisputeReason";
 import { DisputeState } from "../Enums/DisputeState";
 import { DisputeStatus } from "../Enums/DisputeStatus";
-import Types, { ITypes, Static } from "../Types";
-import Cryptocurrency, { TCryptocurrency } from "./Cryptocurrency";
-import LinkDescription, { TLinkDescription } from "./LinkDescription";
-import Money, { TMoney } from "./Money";
+import { Utility, IUtility, Static } from "../Utility";
+import { Cryptocurrency, TCryptocurrency } from "./Cryptocurrency";
+import { LinkDescription, TLinkDescription } from "./LinkDescription";
+import { Money, TMoney } from "./Money";
 
 export type TDisputeInfo = {
   buyer_response_due_date?: string;
@@ -24,58 +24,83 @@ export type TDisputeInfo = {
   update_time?: string;
 };
 
-class DisputeInfo extends Types implements Static<ITypes, typeof DisputeInfo> {
-  buyerResponseDueDate?: string;
-  createTime?: string;
-  disputeAmount?: Money;
-  disputeAsset?: Cryptocurrency;
-  disputeChannel?: DisputeChannel;
-  disputeId?: string;
-  disputeLifeCycleStage?: DisputeLifeCycleStage;
-  disputeState?: DisputeState;
-  links?: LinkDescription[];
-  reason?: DisputeReason;
-  sellerResponseDueDate?: string;
-  status?: DisputeStatus;
-  updateTime?: string;
-  constructor() {
-    super();
-  }
+export class DisputeInfo extends Utility implements Static<IUtility, typeof DisputeInfo> {
+  private buyerResponseDueDate?: string;
+  private createTime?: string;
+  private disputeAmount?: Money;
+  private disputeAsset?: Cryptocurrency;
+  private disputeChannel?: DisputeChannel;
+  private disputeId?: string;
+  private disputeLifeCycleStage?: DisputeLifeCycleStage;
+  private disputeState?: DisputeState;
+  private links?: LinkDescription[];
+  private reason?: DisputeReason;
+  private sellerResponseDueDate?: string;
+  private status?: DisputeStatus;
+  private updateTime?: string;
 
-  setBuyerResponseDueDate(buyerResponseDueDate: string) {
+  public setBuyerResponseDueDate(buyerResponseDueDate: string) {
     this.buyerResponseDueDate = buyerResponseDueDate;
     return this;
   }
+  public getBuyerResponseDueDate() {
+    return this.buyerResponseDueDate;
+  }
 
-  setCreateTime(createTime: string) {
+  public setCreateTime(createTime: string) {
     this.createTime = createTime;
     return this;
   }
+  public getCreateTime() {
+    return this.createTime;
+  }
 
-  setDisputeAmount(disputeAmount: Money | ((type: Money) => void)) {
+  public setDisputeAmount(disputeAmount: Money): this;
+  public setDisputeAmount(disputeAmount: (type: Money) => void): this;
+  public setDisputeAmount(disputeAmount: Money | ((type: Money) => void)) {
     if (typeof disputeAmount === "function") disputeAmount((this.disputeAmount = new Money()));
     else this.disputeAmount = disputeAmount;
     return this;
   }
+  public getDisputeAmount() {
+    return this.disputeAmount;
+  }
 
-  setDisputeAsset(disputeAsset: Cryptocurrency | ((type: Cryptocurrency) => void)) {
+  public setDisputeAsset(disputeAsset: Cryptocurrency): this;
+  public setDisputeAsset(disputeAsset: (type: Cryptocurrency) => void): this;
+  public setDisputeAsset(disputeAsset: Cryptocurrency | ((type: Cryptocurrency) => void)) {
     if (typeof disputeAsset === "function") disputeAsset((this.disputeAsset = new Cryptocurrency()));
     else this.disputeAsset = disputeAsset;
     return this;
   }
+  public getDisputeAsset() {
+    return this.disputeAsset;
+  }
 
-  setDisputeChannel(disputeChannel: DisputeChannel | ((type: typeof DisputeChannel) => DisputeChannel)) {
+  public setDisputeChannel(disputeChannel: DisputeChannel): this;
+  public setDisputeChannel(disputeChannel: (type: typeof DisputeChannel) => DisputeChannel): this;
+  public setDisputeChannel(disputeChannel: DisputeChannel | ((type: typeof DisputeChannel) => DisputeChannel)) {
     if (typeof disputeChannel === "function") this.disputeChannel = disputeChannel(DisputeChannel);
     else this.disputeChannel = disputeChannel;
     return this;
   }
+  public getDisputeChannel() {
+    return this.disputeChannel;
+  }
 
-  setDisputeId(disputeId: string) {
+  public setDisputeId(disputeId: string) {
     this.disputeId = disputeId;
     return this;
   }
+  public getDisputeId() {
+    return this.disputeId;
+  }
 
-  setDisputeLifeCycleStage(
+  public setDisputeLifeCycleStage(disputeLifeCycleStage: DisputeLifeCycleStage): this;
+  public setDisputeLifeCycleStage(
+    disputeLifeCycleStage: (type: typeof DisputeLifeCycleStage) => DisputeLifeCycleStage
+  ): this;
+  public setDisputeLifeCycleStage(
     disputeLifeCycleStage: DisputeLifeCycleStage | ((type: typeof DisputeLifeCycleStage) => DisputeLifeCycleStage)
   ) {
     if (typeof disputeLifeCycleStage === "function")
@@ -83,14 +108,24 @@ class DisputeInfo extends Types implements Static<ITypes, typeof DisputeInfo> {
     else this.disputeLifeCycleStage = disputeLifeCycleStage;
     return this;
   }
+  public getDisputeLifeCycleStage() {
+    return this.disputeLifeCycleStage;
+  }
 
-  setDisputeState(disputeState: DisputeState | ((type: typeof DisputeState) => DisputeState)) {
+  public setDisputeState(disputeState: DisputeState): this;
+  public setDisputeState(disputeState: (type: typeof DisputeState) => DisputeState): this;
+  public setDisputeState(disputeState: DisputeState | ((type: typeof DisputeState) => DisputeState)) {
     if (typeof disputeState === "function") this.disputeState = disputeState(DisputeState);
     else this.disputeState = disputeState;
     return this;
   }
+  public getDisputeState() {
+    return this.disputeState;
+  }
 
-  setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
+  public setLinks(...links: LinkDescription[]): this;
+  public setLinks(...links: ((link: LinkDescription) => void)[]): this;
+  public setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) return link;
       const linkDescription = new LinkDescription();
@@ -99,30 +134,53 @@ class DisputeInfo extends Types implements Static<ITypes, typeof DisputeInfo> {
     });
     return this;
   }
+  public getLinks() {
+    return this.links;
+  }
 
-  setReason(reason: DisputeReason | ((type: typeof DisputeReason) => DisputeReason)) {
+  public setReason(reason: DisputeReason): this;
+  public setReason(reason: (type: typeof DisputeReason) => DisputeReason): this;
+  public setReason(reason: DisputeReason | ((type: typeof DisputeReason) => DisputeReason)) {
     if (typeof reason === "function") this.reason = reason(DisputeReason);
     else this.reason = reason;
     return this;
   }
+  public getReason() {
+    return this.reason;
+  }
 
-  setSellerResponseDueDate(sellerResponseDueDate: string) {
+  public setSellerResponseDueDate(sellerResponseDueDate: string) {
     this.sellerResponseDueDate = sellerResponseDueDate;
     return this;
   }
+  public getSellerResponseDueDate() {
+    return this.sellerResponseDueDate;
+  }
 
-  setStatus(status: DisputeStatus | ((type: typeof DisputeStatus) => DisputeStatus)) {
+  public setStatus(status: DisputeStatus): this;
+  public setStatus(status: (type: typeof DisputeStatus) => DisputeStatus): this;
+  public setStatus(status: DisputeStatus | ((type: typeof DisputeStatus) => DisputeStatus)) {
     if (typeof status === "function") this.status = status(DisputeStatus);
     else this.status = status;
     return this;
   }
+  public getStatus() {
+    return this.status;
+  }
 
-  setUpdateTime(updateTime: string) {
+  public setUpdateTime(updateTime: string) {
     this.updateTime = updateTime;
     return this;
   }
+  public getUpdateTime() {
+    return this.updateTime;
+  }
 
-  static fromObject(obj: TDisputeInfo) {
+  public override getFields<T extends TDisputeInfo>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TDisputeInfo) {
     const disputeInfo = new DisputeInfo();
     if (obj.buyer_response_due_date) disputeInfo.setBuyerResponseDueDate(obj.buyer_response_due_date);
     if (obj.create_time) disputeInfo.setCreateTime(obj.create_time);
@@ -141,5 +199,3 @@ class DisputeInfo extends Types implements Static<ITypes, typeof DisputeInfo> {
     return disputeInfo;
   }
 }
-
-export default DisputeInfo;

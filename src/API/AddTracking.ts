@@ -1,10 +1,10 @@
 import AddTrackersResponse, { TAddTrackersResponse } from "./../Types/APIResponses/AddTrackers.js";
 import { TTracker } from "./../Types/Objects/Tracker.js";
 import PayPal from "../PayPal.js";
-import Tracker from "../Types/Objects/Tracker.js";
-import LinkDescription, { TLinkDescription } from "../Types/Objects/LinkDescription.js";
-import TrackerIdentifier from "../Types/Objects/TrackerIdentifier.js";
-import { default as PayPalError } from "../Types/Objects/Error.js";
+import { Tracker } from "../Types/Objects/Tracker.js";
+import { LinkDescription, TLinkDescription } from "../Types/Objects/LinkDescription.js";
+import { TrackerIdentifier } from "../Types/Objects/TrackerIdentifier.js";
+import { Error as PayPalError } from "../Types/Objects/Error.js";
 import TrackerUpdateOrCancelError from "../Errors/AddTracking/TrackerUpdateOrCancelError.js";
 
 class AddTracking {
@@ -19,30 +19,70 @@ class AddTracking {
    * @param tracker
    * @returns {Promise<Tracker>}
    */
-  async updateOrCancel(transactionIdTrackingNumber: string, tracker: Tracker): Promise<Tracker> {
+  async updateOrCancel(transactionIdTrackingNumber: string, tracker: Tracker): Promise<Tracker>;
+  async updateOrCancel(transactionIdTrackingNumber: string, tracker: (tracker: Tracker) => void): Promise<Tracker>;
+  async updateOrCancel(
+    transactionIdTrackingNumber: string,
+    tracker: Tracker | ((tracker: Tracker) => void)
+  ): Promise<Tracker> {
+    const trackerInstance = tracker instanceof Tracker ? tracker : new Tracker();
+    if (typeof tracker === "function") tracker(trackerInstance);
     const response = await this.PayPal.API.put(
       `/v1/shipping/trackers/${transactionIdTrackingNumber}`,
-      tracker.toJson<TTracker>()
+      trackerInstance.toJson<TTracker>()
     );
-    if (response.status !== 204) {
+    const SUCCESS_RESPONSE = 204;
+    if (response.status !== SUCCESS_RESPONSE) {
       throw new TrackerUpdateOrCancelError("Failed to update or cancel tracking", response.data);
     }
     return this.get(transactionIdTrackingNumber);
   }
 
-  async get(trackerOrTransactionIdTrackingNumber: Tracker | string): Promise<Tracker> {
-    const transactionIdTrackingNumber =
-      trackerOrTransactionIdTrackingNumber instanceof Tracker
-        ? trackerOrTransactionIdTrackingNumber.transactionId
-        : trackerOrTransactionIdTrackingNumber;
+  async get(tracker: Tracker): Promise<Tracker>;
+  async get(tracker: string): Promise<Tracker>;
+  async get(tracker: (tracker: Tracker) => void): Promise<Tracker>;
+  async get(trackerOrTransactionIdTrackingNumber: Tracker | string | ((tracker: Tracker) => void)): Promise<Tracker> {
+    let transactionIdTrackingNumber: string | undefined;
+    if (typeof trackerOrTransactionIdTrackingNumber === "string") {
+      transactionIdTrackingNumber = trackerOrTransactionIdTrackingNumber;
+    } else if (trackerOrTransactionIdTrackingNumber instanceof Tracker) {
+      transactionIdTrackingNumber = trackerOrTransactionIdTrackingNumber.transactionId;
+    } else {
+      const tracker = new Tracker();
+      trackerOrTransactionIdTrackingNumber(tracker);
+      transactionIdTrackingNumber = tracker.transactionId;
+    }
+    if (!transactionIdTrackingNumber) throw new Error("Transaction ID or Tracking Number is required");
     const response = await this.PayPal.API.get<TTracker>(`/v1/shipping/trackers/${transactionIdTrackingNumber}`);
     return Tracker.fromObject(response.data);
   }
 
-  async add(trackers: Tracker[], links: LinkDescription[]) {
+  async add(trackers: Tracker[], links: LinkDescription[]): Promise<AddTrackersResponse>;
+  async add(trackers: Tracker[], links: ((link: LinkDescription) => void)[]): Promise<AddTrackersResponse>;
+  async add(trackers: ((tracker: Tracker) => void)[], links: LinkDescription[]): Promise<AddTrackersResponse>;
+  async add(
+    trackers: ((tracker: Tracker) => void)[],
+    links: ((link: LinkDescription) => void)[]
+  ): Promise<AddTrackersResponse>;
+  async add(
+    trackers: (Tracker | ((tracker: Tracker) => void))[],
+    links: (LinkDescription | ((link: LinkDescription) => void))[]
+  ) {
+    const trackerInstances = trackers.map((tracker) => {
+      if (tracker instanceof Tracker) return tracker;
+      const trackerInstance = new Tracker();
+      tracker(trackerInstance);
+      return trackerInstance;
+    });
+    const linkInstances = links.map((link) => {
+      if (link instanceof LinkDescription) return link;
+      const linkInstance = new LinkDescription();
+      link(linkInstance);
+      return linkInstance;
+    });
     const response = await this.PayPal.API.post<TAddTrackersResponse>("/v1/shipping/trackers", {
-      trackers: trackers.map((tracker) => tracker.toAttributeObject<TTracker>()),
-      links: links.map((link) => link.toAttributeObject<TLinkDescription>()),
+      trackers: trackerInstances.map((tracker) => tracker.toAttributeObject<TTracker>()),
+      links: linkInstances.map((link) => link.toAttributeObject<TLinkDescription>()),
     });
     return new AddTrackersResponse(
       response.data.errors.map((x) => PayPalError.fromObject(x)),

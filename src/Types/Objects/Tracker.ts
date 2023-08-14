@@ -1,9 +1,10 @@
 import { TrackingNumberType } from "./../Enums/TrackingNumberType.js";
 import { Carrier } from "./../Enums/Carrier.js";
 import { ShippingStatus } from "./../Enums/ShippingStatus.js";
-import Types, { ITypes, Static } from "../Types.js";
-import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
+import { Utility, IUtility, Static } from "../Utility.js";
+import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
 import PayPal from "../../PayPal.js";
+import AddTrackersResponse from "../APIResponses/AddTrackers.js";
 
 export type TTracker = {
   status: keyof typeof ShippingStatus;
@@ -21,20 +22,20 @@ export type TTracker = {
   readonly tracking_number_validated?: boolean;
 };
 
-class Tracker extends Types implements Static<ITypes, typeof Tracker> {
-  status?: ShippingStatus;
-  transactionId?: string;
-  carrier?: Carrier;
-  carrierNameOther?: string;
-  lastUpdatedTime?: string;
-  links?: LinkDescription[];
-  notifyBuyer?: boolean;
-  postagePaymentId?: string;
-  quantity?: number;
-  shipmentDate?: string;
-  trackingNumber?: string;
-  trackingNumberType?: TrackingNumberType;
-  trackingNumberValidated?: boolean;
+export class Tracker extends Utility implements Static<IUtility, typeof Tracker> {
+  private status?: ShippingStatus;
+  private transactionId?: string;
+  private carrier?: Carrier;
+  private carrierNameOther?: string;
+  private lastUpdatedTime?: string;
+  private links?: LinkDescription[];
+  private notifyBuyer?: boolean;
+  private postagePaymentId?: string;
+  private quantity?: number;
+  private shipmentDate?: string;
+  private trackingNumber?: string;
+  private trackingNumberType?: TrackingNumberType;
+  private trackingNumberValidated?: boolean;
 
   PayPal?: PayPal;
   constructor(PayPal?: PayPal) {
@@ -42,7 +43,7 @@ class Tracker extends Types implements Static<ITypes, typeof Tracker> {
     this.PayPal = PayPal;
   }
 
-  updateOrCancel() {
+  public updateOrCancel() {
     if (!this.PayPal) {
       throw new Error("To use in-built methods, please provide PayPal instance when initialising the Tracker");
     }
@@ -52,7 +53,7 @@ class Tracker extends Types implements Static<ITypes, typeof Tracker> {
     return this.PayPal.AddTracking.updateOrCancel(this.transactionId, this);
   }
 
-  get() {
+  public get() {
     if (!this.PayPal) {
       throw new Error("To use in-built methods, please provide PayPal instance when initialising the Tracker");
     }
@@ -62,7 +63,9 @@ class Tracker extends Types implements Static<ITypes, typeof Tracker> {
     return this.PayPal.AddTracking.get(this.transactionId);
   }
 
-  add(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
+  public add(...links: LinkDescription[]): Promise<AddTrackersResponse>;
+  public add(...links: ((link: LinkDescription) => void)[]): Promise<AddTrackersResponse>;
+  public add(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
     if (!this.PayPal) {
       throw new Error("To use in-built methods, please provide PayPal instance when initialising the Tracker");
     }
@@ -80,34 +83,55 @@ class Tracker extends Types implements Static<ITypes, typeof Tracker> {
     );
   }
 
-  setStatus(status: ShippingStatus | ((status: typeof ShippingStatus) => ShippingStatus)): this {
+  public setStatus(status: ShippingStatus): this;
+  public setStatus(status: (status: typeof ShippingStatus) => ShippingStatus): this;
+  public setStatus(status: ShippingStatus | ((status: typeof ShippingStatus) => ShippingStatus)): this {
     if (typeof status === "function") this.status = status(ShippingStatus);
     else this.status = status;
     return this;
   }
+  public getStatus() {
+    return this.status;
+  }
 
-  setTransactionId(transactionId: string): this {
+  public setTransactionId(transactionId: string): this {
     this.transactionId = transactionId;
     return this;
   }
+  public getTransactionId() {
+    return this.transactionId;
+  }
 
-  setCarrier(carrier: Carrier | ((carrier: typeof Carrier) => Carrier)): this {
+  public setCarrier(carrier: Carrier): this;
+  public setCarrier(carrier: (carrier: typeof Carrier) => Carrier): this;
+  public setCarrier(carrier: Carrier | ((carrier: typeof Carrier) => Carrier)): this {
     if (typeof carrier === "function") this.carrier = carrier(Carrier);
     else this.carrier = carrier;
     return this;
   }
+  public getCarrier() {
+    return this.carrier;
+  }
 
-  setCarrierNameOther(carrierNameOther: string): this {
+  public setCarrierNameOther(carrierNameOther: string): this {
     this.carrierNameOther = carrierNameOther;
     return this;
   }
+  public getCarrierNameOther() {
+    return this.carrierNameOther;
+  }
 
-  setLastUpdatedTime(lastUpdatedTime: string): this {
+  public setLastUpdatedTime(lastUpdatedTime: string): this {
     this.lastUpdatedTime = lastUpdatedTime;
     return this;
   }
+  public getLastUpdatedTime() {
+    return this.lastUpdatedTime;
+  }
 
-  setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]): this {
+  public setLinks(...links: LinkDescription[]): this;
+  public setLinks(...links: ((link: LinkDescription) => void)[]): this;
+  public setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]): this {
     this.links = links.map((x) => {
       if (x instanceof LinkDescription) return x;
       else {
@@ -118,53 +142,85 @@ class Tracker extends Types implements Static<ITypes, typeof Tracker> {
     });
     return this;
   }
+  public getLinks() {
+    return this.links;
+  }
 
-  setNotifyBuyer(notifyBuyer: boolean): this {
+  public setNotifyBuyer(notifyBuyer: boolean): this {
     this.notifyBuyer = notifyBuyer;
     return this;
   }
+  public getNotifyBuyer() {
+    return this.notifyBuyer;
+  }
 
-  setPostagePaymentId(postagePaymentId: string): this {
+  public setPostagePaymentId(postagePaymentId: string): this {
     this.postagePaymentId = postagePaymentId;
     return this;
   }
+  public getPostagePaymentId() {
+    return this.postagePaymentId;
+  }
 
-  setQuantity(quantity: number): this {
+  public setQuantity(quantity: number): this {
     this.quantity = quantity;
     return this;
   }
+  public getQuantity() {
+    return this.quantity;
+  }
 
-  setShipmentDate(shipmentDate: string): this {
+  public setShipmentDate(shipmentDate: string): this {
     this.shipmentDate = shipmentDate;
     return this;
   }
+  public getShipmentDate() {
+    return this.shipmentDate;
+  }
 
-  setTrackingNumber(trackingNumber: string): this {
+  public setTrackingNumber(trackingNumber: string): this {
     this.trackingNumber = trackingNumber;
     return this;
   }
+  public getTrackingNumber() {
+    return this.trackingNumber;
+  }
 
-  setTrackingNumberType(
+  public setTrackingNumberType(trackingNumberType: TrackingNumberType): this;
+  public setTrackingNumberType(
+    trackingNumberType: (trackingNumberType: typeof TrackingNumberType) => TrackingNumberType
+  ): this;
+  public setTrackingNumberType(
     trackingNumberType: TrackingNumberType | ((trackingNumberType: typeof TrackingNumberType) => TrackingNumberType)
   ): this {
     if (typeof trackingNumberType === "function") this.trackingNumberType = trackingNumberType(TrackingNumberType);
     else this.trackingNumberType = trackingNumberType;
     return this;
   }
+  public getTrackingNumberType() {
+    return this.trackingNumberType;
+  }
 
-  setTrackingNumberValidated(trackingNumberValidated: boolean): this {
+  public setTrackingNumberValidated(trackingNumberValidated: boolean): this {
     this.trackingNumberValidated = trackingNumberValidated;
     return this;
   }
+  public getTrackingNumberValidated() {
+    return this.trackingNumberValidated;
+  }
 
-  static fromObject(obj: TTracker): Tracker {
+  public override getFields<T extends Partial<TTracker>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TTracker): Tracker {
     const tracker = new Tracker();
     if (obj.status) tracker.setStatus(ShippingStatus[obj.status]);
     if (obj.transaction_id) tracker.setTransactionId(obj.transaction_id);
     if (obj.carrier) tracker.setCarrier(Carrier[obj.carrier]);
     if (obj.carrier_name_other) tracker.setCarrierNameOther(obj.carrier_name_other);
     if (obj.last_updated_time) tracker.setLastUpdatedTime(obj.last_updated_time);
-    if (obj.links) tracker.setLinks(...obj.links.map((x) => LinkDescription.fromObject(x)));
+    if (obj.links) tracker.setLinks(...obj.links.map(LinkDescription.fromObject));
     if (obj.notify_buyer) tracker.setNotifyBuyer(obj.notify_buyer);
     if (obj.postage_payment_id) tracker.setPostagePaymentId(obj.postage_payment_id);
     if (obj.quantity) tracker.setQuantity(obj.quantity);
@@ -175,5 +231,3 @@ class Tracker extends Types implements Static<ITypes, typeof Tracker> {
     return tracker;
   }
 }
-
-export default Tracker;

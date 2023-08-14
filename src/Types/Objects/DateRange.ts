@@ -1,33 +1,38 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 
 export type TDateRange = {
   end: string;
   start: string;
 };
 
-class DateRange extends Types implements Static<ITypes, typeof DateRange> {
-  end?: string;
-  start?: string;
-  constructor() {
-    super();
-  }
+export class DateRange extends Utility implements Static<IUtility, typeof DateRange> {
+  private end?: string;
+  private start?: string;
 
-  setEnd(end: string) {
+  public setEnd(end: string) {
     this.end = end;
     return this;
   }
+  public getEnd() {
+    return this.end;
+  }
 
-  setStart(start: string) {
+  public setStart(start: string) {
     this.start = start;
     return this;
   }
+  public getStart() {
+    return this.start;
+  }
 
-  static fromObject(obj: TDateRange) {
+  public override getFields<T extends Partial<TDateRange>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TDateRange) {
     const dateRange = new DateRange();
     if (obj.end) dateRange.setEnd(obj.end);
     if (obj.start) dateRange.setStart(obj.start);
     return dateRange;
   }
 }
-
-export default DateRange;

@@ -1,5 +1,5 @@
-import Types, { ITypes, Static } from "../Types.js";
-import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
+import { Utility, IUtility, Static } from "../Utility.js";
+import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
 
 export type TProductCollectionElement = {
   create_time?: string;
@@ -9,32 +9,40 @@ export type TProductCollectionElement = {
   name?: string;
 };
 
-class ProductCollectionElement extends Types implements Static<ITypes, typeof ProductCollectionElement> {
-  createTime?: string;
-  description?: string;
-  id?: string;
-  links?: LinkDescription[];
-  name?: string;
-  constructor() {
-    super();
-  }
+export class ProductCollectionElement extends Utility implements Static<IUtility, typeof ProductCollectionElement> {
+  private createTime?: string;
+  private description?: string;
+  private id?: string;
+  private links?: LinkDescription[];
+  private name?: string;
 
-  setCreateTime(createTime: string) {
+  public setCreateTime(createTime: string) {
     this.createTime = createTime;
     return this;
   }
+  public getCreateTime() {
+    return this.createTime;
+  }
 
-  setDescription(description: string) {
+  public setDescription(description: string) {
     this.description = description;
     return this;
   }
+  public getDescription() {
+    return this.description;
+  }
 
-  setId(id: string) {
+  public setId(id: string) {
     this.id = id;
     return this;
   }
+  public getId() {
+    return this.id;
+  }
 
-  setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
+  public setLinks(...links: LinkDescription[]): this;
+  public setLinks(...links: ((link: LinkDescription) => void)[]): this;
+  public setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) return link;
       const linkDesc = new LinkDescription();
@@ -43,13 +51,23 @@ class ProductCollectionElement extends Types implements Static<ITypes, typeof Pr
     });
     return this;
   }
+  public getLinks() {
+    return this.links;
+  }
 
-  setName(name: string) {
+  public setName(name: string) {
     this.name = name;
     return this;
   }
+  public getName() {
+    return this.name;
+  }
 
-  static fromObject(obj: TProductCollectionElement) {
+  public override getFields<T extends TProductCollectionElement>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TProductCollectionElement) {
     const productCollectionElement = new ProductCollectionElement();
     if (obj.create_time) productCollectionElement.setCreateTime(obj.create_time);
     if (obj.description) productCollectionElement.setDescription(obj.description);
@@ -59,5 +77,3 @@ class ProductCollectionElement extends Types implements Static<ITypes, typeof Pr
     return productCollectionElement;
   }
 }
-
-export default ProductCollectionElement;

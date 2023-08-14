@@ -1,7 +1,7 @@
-import Types, { ITypes, Static } from "../Types.js";
-import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
-import TrackerIdentifier, { TTrackerIdentifier } from "./TrackerIdentifier.js";
-import Error, { TError } from "./Error.js";
+import { Utility, IUtility, Static } from "../Utility.js";
+import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
+import { TrackerIdentifier, TTrackerIdentifier } from "./TrackerIdentifier.js";
+import { Error, TError } from "./Error.js";
 
 export type TBatchTrackerCollection = {
   errors?: TError[];
@@ -9,45 +9,72 @@ export type TBatchTrackerCollection = {
   tracker_identifiers?: TTrackerIdentifier[];
 };
 
-class BatchTrackerCollection extends Types implements Static<ITypes, typeof BatchTrackerCollection> {
-  errors?: Error[];
-  links?: LinkDescription[];
-  trackerIdentifiers?: TrackerIdentifier[];
-  constructor() {
-    super();
-  }
+export class BatchTrackerCollection extends Utility implements Static<IUtility, typeof BatchTrackerCollection> {
+  private errors?: Error[];
+  private links?: LinkDescription[];
+  private trackerIdentifiers?: TrackerIdentifier[];
 
-  setErrors(...errors: (Error | ((error: Error) => void))[]) {
+  public setErrors(...errors: Error[]): this;
+  public setErrors(...errors: ((error: Error) => void)[]): this;
+  public setErrors(...errors: (Error | ((error: Error) => void))[]) {
     this.errors = errors.map((error) => {
-      if (error instanceof Error) return error;
-      const errorObj = new Error();
-      error(errorObj);
-      return errorObj;
+      if (error instanceof Error) {
+        return error;
+      } else {
+        const errorInstance = new Error();
+        error(errorInstance);
+        return errorInstance;
+      }
     });
     return this;
   }
+  public getErrors() {
+    return this.errors;
+  }
 
-  setLinks(...links: (LinkDescription | ((desc: LinkDescription) => void))[]) {
+  public setLinks(...links: LinkDescription[]): this;
+  public setLinks(...links: ((links: LinkDescription) => void)[]): this;
+  public setLinks(...links: (LinkDescription | ((links: LinkDescription) => void))[]) {
     this.links = links.map((link) => {
-      if (link instanceof LinkDescription) return link;
-      const linkDesc = new LinkDescription();
-      link(linkDesc);
-      return linkDesc;
+      if (link instanceof LinkDescription) {
+        return link;
+      } else {
+        const linkInstance = new LinkDescription();
+        link(linkInstance);
+        return linkInstance;
+      }
     });
     return this;
   }
+  public getLinks() {
+    return this.links;
+  }
 
-  setTrackerIdentifiers(...trackerIdentifiers: (TrackerIdentifier | ((identifier: TrackerIdentifier) => void))[]) {
-    this.trackerIdentifiers = trackerIdentifiers.map((identifier) => {
-      if (identifier instanceof TrackerIdentifier) return identifier;
-      const trackerIdentifier = new TrackerIdentifier();
-      identifier(trackerIdentifier);
-      return trackerIdentifier;
+  public setTrackerIdentifiers(...trackerIdentifiers: TrackerIdentifier[]): this;
+  public setTrackerIdentifiers(...trackerIdentifiers: ((trackerIdentifiers: TrackerIdentifier) => void)[]): this;
+  public setTrackerIdentifiers(
+    ...trackerIdentifiers: (TrackerIdentifier | ((trackerIdentifiers: TrackerIdentifier) => void))[]
+  ) {
+    this.trackerIdentifiers = trackerIdentifiers.map((trackerIdentifier) => {
+      if (trackerIdentifier instanceof TrackerIdentifier) {
+        return trackerIdentifier;
+      } else {
+        const trackerIdentifierInstance = new TrackerIdentifier();
+        trackerIdentifier(trackerIdentifierInstance);
+        return trackerIdentifierInstance;
+      }
     });
     return this;
   }
+  public getTrackerIdentifiers() {
+    return this.trackerIdentifiers;
+  }
 
-  static fromObject(obj: TBatchTrackerCollection): BatchTrackerCollection {
+  public override getFields<T extends TBatchTrackerCollection>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TBatchTrackerCollection): BatchTrackerCollection {
     const batchTrackerCollection = new BatchTrackerCollection();
     if (obj.errors) batchTrackerCollection.setErrors(...obj.errors.map((error) => Error.fromObject(error)));
     if (obj.links) batchTrackerCollection.setLinks(...obj.links.map((link) => LinkDescription.fromObject(link)));
@@ -58,5 +85,3 @@ class BatchTrackerCollection extends Types implements Static<ITypes, typeof Batc
     return batchTrackerCollection;
   }
 }
-
-export default BatchTrackerCollection;

@@ -1,32 +1,39 @@
-import Types, { ITypes, Static } from "../Types.js";
-import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
+import { Utility, IUtility, Static } from "../Utility.js";
+import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
 
 export type TAcceptedResponse = {
   readonly links?: TLinkDescription[];
 };
 
-class AcceptedResponse extends Types implements Static<ITypes, typeof AcceptedResponse> {
-  links?: LinkDescription[];
-  constructor() {
-    super();
-  }
+export class AcceptedResponse extends Utility implements Static<IUtility, typeof AcceptedResponse> {
+  private links?: LinkDescription[];
 
-  setLinks(...links: (((linkDescription: LinkDescription) => void) | LinkDescription)[]) {
+  public setLinks(...links: LinkDescription[]): this;
+  public setLinks(...links: ((links: LinkDescription) => void)[]): this;
+  public setLinks(...links: (LinkDescription | ((links: LinkDescription) => void))[]) {
     this.links = links.map((link) => {
-      if (link instanceof LinkDescription) return link;
-      const linkDescription = new LinkDescription();
-      link(linkDescription);
-      return linkDescription;
+      if (link instanceof LinkDescription) {
+        return link;
+      } else {
+        const linkInstance = new LinkDescription();
+        link(linkInstance);
+        return linkInstance;
+      }
     });
     return this;
   }
+  public getLinks() {
+    return this.links;
+  }
 
-  static fromObject(obj: TAcceptedResponse) {
+  public override getFields<T extends TAcceptedResponse>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TAcceptedResponse) {
     const acceptedResponse = new AcceptedResponse();
     if (obj.links) acceptedResponse.setLinks(...obj.links.map((link) => LinkDescription.fromObject(link)));
 
     return acceptedResponse;
   }
 }
-
-export default AcceptedResponse;

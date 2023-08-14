@@ -1,36 +1,49 @@
-import Types, { ITypes, Static } from "../Types.js";
-import Money, { TMoney } from "./Money.js";
+import { Utility, IUtility, Static } from "../Utility.js";
+import { Money, TMoney } from "./Money.js";
 
 export type TAmountRange = {
   lower_amount: TMoney;
   upper_amount: TMoney;
 };
 
-class AmountRange extends Types implements Static<ITypes, typeof AmountRange> {
-  lowerAmount?: Money;
-  upperAmount?: Money;
-  constructor() {
-    super();
-  }
+export class AmountRange extends Utility implements Static<IUtility, typeof AmountRange> {
+  private lowerAmount?: Money;
+  private upperAmount?: Money;
 
-  setLowerAmount(lowerAmount: Money | ((money: Money) => void)) {
-    if (lowerAmount instanceof Money) this.lowerAmount = lowerAmount;
-    else {
-      const money = new Money();
-      lowerAmount(money);
-      this.lowerAmount = money;
+  public setLowerAmount(lowerAmount: Money): this;
+  public setLowerAmount(lowerAmount: (lowerAmount: Money) => void): this;
+  public setLowerAmount(lowerAmount: Money | ((lowerAmount: Money) => void)): this {
+    if (lowerAmount instanceof Money) {
+      this.lowerAmount = lowerAmount;
+    } else {
+      const lowerAmountInstance = new Money();
+      lowerAmount(lowerAmountInstance);
+      this.lowerAmount = lowerAmountInstance;
     }
     return this;
   }
+  public getLowerAmount() {
+    return this.lowerAmount;
+  }
 
-  setUpperAmount(upperAmount: Money | ((money: Money) => void)) {
-    if (upperAmount instanceof Money) this.upperAmount = upperAmount;
-    else {
-      const money = new Money();
-      upperAmount(money);
-      this.upperAmount = money;
+  public setUpperAmount(upperAmount: Money): this;
+  public setUpperAmount(upperAmount: (upperAmount: Money) => void): this;
+  public setUpperAmount(upperAmount: Money | ((upperAmount: Money) => void)): this {
+    if (upperAmount instanceof Money) {
+      this.upperAmount = upperAmount;
+    } else {
+      const upperAmountInstance = new Money();
+      upperAmount(upperAmountInstance);
+      this.upperAmount = upperAmountInstance;
     }
     return this;
+  }
+  public getUpperAmount() {
+    return this.upperAmount;
+  }
+
+  public override getFields<T extends Partial<TAmountRange>>() {
+    return super.getFields<T>();
   }
 
   static fromObject(obj: TAmountRange) {
@@ -40,5 +53,3 @@ class AmountRange extends Types implements Static<ITypes, typeof AmountRange> {
     return amountRange;
   }
 }
-
-export default AmountRange;

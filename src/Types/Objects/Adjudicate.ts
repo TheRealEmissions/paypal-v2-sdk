@@ -1,17 +1,18 @@
 import { AdjudicationOutcome } from "../Enums/AdjudicationOutcome";
-import Types, { ITypes, Static } from "../Types";
+import { Utility, IUtility, Static } from "../Utility";
 
 export type TAdjudicate = {
   adjudication_outcome?: keyof typeof AdjudicationOutcome;
 };
 
-class Adjudicate extends Types implements Static<ITypes, typeof Adjudicate> {
-  adjudicationOutcome!: AdjudicationOutcome;
-  constructor() {
-    super();
-  }
+export class Adjudicate extends Utility implements Static<IUtility, typeof Adjudicate> {
+  private adjudicationOutcome!: AdjudicationOutcome;
 
-  setAdjudicationOutcome(
+  public setAdjudicationOutcome(adjudicationOutcome: AdjudicationOutcome): this;
+  public setAdjudicationOutcome(
+    adjudicationOutcome: (adjudicationOutcome: typeof AdjudicationOutcome) => AdjudicationOutcome
+  ): this;
+  public setAdjudicationOutcome(
     adjudicationOutcome:
       | AdjudicationOutcome
       | ((adjudicationOutcome: typeof AdjudicationOutcome) => AdjudicationOutcome)
@@ -20,13 +21,18 @@ class Adjudicate extends Types implements Static<ITypes, typeof Adjudicate> {
     else this.adjudicationOutcome = adjudicationOutcome;
     return this;
   }
+  public getAdjucationOutcome() {
+    return this.adjudicationOutcome;
+  }
 
-  static fromObject(obj: TAdjudicate) {
+  public override getFields<T extends TAdjudicate>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TAdjudicate) {
     const adjudicate = new Adjudicate();
     if (obj.adjudication_outcome !== undefined)
       adjudicate.setAdjudicationOutcome(AdjudicationOutcome[obj.adjudication_outcome]);
     return adjudicate;
   }
 }
-
-export default Adjudicate;

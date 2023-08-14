@@ -1,5 +1,5 @@
-import Types, { ITypes, Static } from "../Types.js";
-import AmountWithBreakdown, { TAmountWithBreakdown } from "./AmountWithBreakdown.js";
+import { Utility, IUtility, Static } from "../Utility.js";
+import { AmountWithBreakdown, TAmountWithBreakdown } from "./AmountWithBreakdown.js";
 
 export type TAmountSummaryDetail = {
   breakdown?: TAmountWithBreakdown;
@@ -7,32 +7,37 @@ export type TAmountSummaryDetail = {
   value?: string;
 };
 
-class AmountSummaryDetail extends Types implements Static<ITypes, typeof AmountSummaryDetail> {
-  breakdown?: AmountWithBreakdown;
-  currencyCode?: string;
-  value?: string;
+export class AmountSummaryDetail extends Utility implements Static<IUtility, typeof AmountSummaryDetail> {
+  private breakdown?: AmountWithBreakdown;
+  private currencyCode?: string;
+  private value?: string;
 
-  constructor() {
-    super();
-  }
-
-  setBreakdown(breakdown: AmountWithBreakdown | ((breakdown: AmountWithBreakdown) => void)) {
-    if (breakdown instanceof AmountWithBreakdown) this.breakdown = breakdown;
-    else {
-      const amountWithBreakdown = new AmountWithBreakdown();
-      breakdown(amountWithBreakdown);
-      this.breakdown = amountWithBreakdown;
+  public setBreakdown(breakdown: AmountWithBreakdown): this;
+  public setBreakdown(breakdown: (breakdown: AmountWithBreakdown) => void): this;
+  public setBreakdown(breakdown: AmountWithBreakdown | ((breakdown: AmountWithBreakdown) => void)): this {
+    if (breakdown instanceof AmountWithBreakdown) {
+      this.breakdown = breakdown;
+    } else {
+      const breakdownInstance = new AmountWithBreakdown();
+      breakdown(breakdownInstance);
+      this.breakdown = breakdownInstance;
     }
     return this;
   }
+  public getBreakdown() {
+    return this.breakdown;
+  }
 
-  setCurrencyCode(currencyCode: string) {
+  public setCurrencyCode(currencyCode: string) {
     this.currencyCode = currencyCode;
     return this;
   }
+  public getCurrencyCode() {
+    return this.currencyCode;
+  }
 
-  setValue(value: string) {
-    const regex = new RegExp(/^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$/);
+  public setValue(value: string) {
+    const regex = new RegExp(/^((-?\d+)|(-?(\d+)?[.]\d+))$/);
     if (!regex.test(value)) {
       throw new Error("Invalid value");
     }
@@ -40,8 +45,15 @@ class AmountSummaryDetail extends Types implements Static<ITypes, typeof AmountS
     this.value = value;
     return this;
   }
+  public getValue() {
+    return this.value;
+  }
 
-  static fromObject(obj: TAmountSummaryDetail) {
+  public override getFields<T extends Partial<TAmountSummaryDetail>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TAmountSummaryDetail) {
     const amountSummaryDetail = new AmountSummaryDetail();
     if (obj.breakdown) amountSummaryDetail.setBreakdown(AmountWithBreakdown.fromObject(obj.breakdown));
     if (obj.currency_code) amountSummaryDetail.setCurrencyCode(obj.currency_code);
@@ -49,5 +61,3 @@ class AmountSummaryDetail extends Types implements Static<ITypes, typeof AmountS
     return amountSummaryDetail;
   }
 }
-
-export default AmountSummaryDetail;

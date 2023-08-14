@@ -1,7 +1,7 @@
 import { TLinkDescription } from "./../Objects/LinkDescription.js";
-import LinkDescription from "../Objects/LinkDescription.js";
-import ProductCollectionElement, { TProductCollectionElement } from "../Objects/ProductCollectionElement.js";
-import Types, { ITypes, Integer, Static } from "../Types.js";
+import { LinkDescription } from "../Objects/LinkDescription.js";
+import { ProductCollectionElement, TProductCollectionElement } from "../Objects/ProductCollectionElement.js";
+import { Utility, IUtility, Integer, Static } from "../Utility.js";
 
 export type TListProductsResponse<N extends number, U extends number> = {
   readonly links: TLinkDescription[];
@@ -11,13 +11,13 @@ export type TListProductsResponse<N extends number, U extends number> = {
 };
 
 class ListProductsResponse<N extends number, U extends number>
-  extends Types
-  implements Static<ITypes, typeof ListProductsResponse>
+  extends Utility
+  implements Static<IUtility, typeof ListProductsResponse>
 {
-  readonly links: LinkDescription[];
-  readonly products: ProductCollectionElement[];
-  readonly totalItems?: Integer<N>;
-  readonly totalPages?: Integer<U>;
+  private readonly links: LinkDescription[];
+  private readonly products: ProductCollectionElement[];
+  private readonly totalItems?: Integer<N>;
+  private readonly totalPages?: Integer<U>;
   constructor(
     links: LinkDescription[],
     products: ProductCollectionElement[],
@@ -29,6 +29,26 @@ class ListProductsResponse<N extends number, U extends number>
     this.products = products;
     this.totalItems = totalItems;
     this.totalPages = totalPages;
+  }
+
+  public getLinks() {
+    return this.links;
+  }
+
+  public getProducts() {
+    return this.products;
+  }
+
+  public getTotalItems() {
+    return this.totalItems;
+  }
+
+  public getTotalPages() {
+    return this.totalPages;
+  }
+
+  public override getFields<T extends Partial<TListProductsResponse<N, U>>>() {
+    return super.getFields<T>();
   }
 
   static fromObject<N extends number, U extends number>(obj: TListProductsResponse<N, U>) {

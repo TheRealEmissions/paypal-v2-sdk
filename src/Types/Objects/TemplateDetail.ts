@@ -1,7 +1,7 @@
-import Types, { ITypes, Static } from "../Types.js";
-import FileReference, { TFileReference } from "./FileReference.js";
-import PaymentTerm, { TPaymentTerm } from "./PaymentTerm.js";
-import TemplateMetadata, { TTemplateMetadata } from "./TemplateMetadata.js";
+import { Utility, IUtility, Static } from "../Utility.js";
+import { FileReference, TFileReference } from "./FileReference.js";
+import { PaymentTerm, TPaymentTerm } from "./PaymentTerm.js";
+import { TemplateMetadata, TTemplateMetadata } from "./TemplateMetadata.js";
 
 export type TTemplateDetail = {
   currency_code: string;
@@ -14,25 +14,27 @@ export type TTemplateDetail = {
   payment_term?: TPaymentTerm;
 };
 
-class TemplateDetail extends Types implements Static<ITypes, typeof TemplateDetail> {
-  currencyCode?: string;
-  attachments?: FileReference[];
-  memo?: string;
-  note?: string;
-  reference?: string;
-  termsAndConditions?: string;
-  metadata?: TemplateMetadata;
-  paymentTerm?: PaymentTerm;
-  constructor() {
-    super();
-  }
+export class TemplateDetail extends Utility implements Static<IUtility, typeof TemplateDetail> {
+  private currencyCode?: string;
+  private attachments?: FileReference[];
+  private memo?: string;
+  private note?: string;
+  private reference?: string;
+  private termsAndConditions?: string;
+  private metadata?: TemplateMetadata;
+  private paymentTerm?: PaymentTerm;
 
-  setCurrencyCode(currencyCode: string) {
+  public setCurrencyCode(currencyCode: string) {
     this.currencyCode = currencyCode;
     return this;
   }
+  public getCurrencyCode() {
+    return this.currencyCode;
+  }
 
-  setAttachments(...attachments: (FileReference | ((fileReference: FileReference) => void))[]) {
+  public setAttachments(...attachments: FileReference[]): this;
+  public setAttachments(...attachments: ((fileReference: FileReference) => void)[]): this;
+  public setAttachments(...attachments: (FileReference | ((fileReference: FileReference) => void))[]) {
     this.attachments = attachments.map((attachment) => {
       if (attachment instanceof FileReference) return attachment;
       else {
@@ -43,28 +45,45 @@ class TemplateDetail extends Types implements Static<ITypes, typeof TemplateDeta
     });
     return this;
   }
+  public getAttachments() {
+    return this.attachments;
+  }
 
-  setMemo(memo: string) {
+  public setMemo(memo: string) {
     this.memo = memo;
     return this;
   }
+  public getMemo() {
+    return this.memo;
+  }
 
-  setNote(note: string) {
+  public setNote(note: string) {
     this.note = note;
     return this;
   }
+  public getNote() {
+    return this.note;
+  }
 
-  setReference(reference: string) {
+  public setReference(reference: string) {
     this.reference = reference;
     return this;
   }
+  public getReference() {
+    return this.reference;
+  }
 
-  setTermsAndConditions(termsAndConditions: string) {
+  public setTermsAndConditions(termsAndConditions: string) {
     this.termsAndConditions = termsAndConditions;
     return this;
   }
+  public getTermsAndConditions() {
+    return this.termsAndConditions;
+  }
 
-  setMetadata(metadata: TemplateMetadata | ((metadata: TemplateMetadata) => void)) {
+  public setMetadata(metadata: TemplateMetadata): this;
+  public setMetadata(metadata: (metadata: TemplateMetadata) => void): this;
+  public setMetadata(metadata: TemplateMetadata | ((metadata: TemplateMetadata) => void)) {
     if (metadata instanceof TemplateMetadata) this.metadata = metadata;
     else {
       const m = new TemplateMetadata();
@@ -73,8 +92,13 @@ class TemplateDetail extends Types implements Static<ITypes, typeof TemplateDeta
     }
     return this;
   }
+  public getMetadata() {
+    return this.metadata;
+  }
 
-  setPaymentTerm(paymentTerm: PaymentTerm | ((paymentTerm: PaymentTerm) => void)) {
+  public setPaymentTerm(paymentTerm: PaymentTerm): this;
+  public setPaymentTerm(paymentTerm: (paymentTerm: PaymentTerm) => void): this;
+  public setPaymentTerm(paymentTerm: PaymentTerm | ((paymentTerm: PaymentTerm) => void)) {
     if (paymentTerm instanceof PaymentTerm) this.paymentTerm = paymentTerm;
     else {
       const p = new PaymentTerm();
@@ -83,8 +107,15 @@ class TemplateDetail extends Types implements Static<ITypes, typeof TemplateDeta
     }
     return this;
   }
+  public getPaymentTerm() {
+    return this.paymentTerm;
+  }
 
-  static fromObject(obj: TTemplateDetail) {
+  public override getFields<T extends Partial<TTemplateDetail>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TTemplateDetail) {
     const templateDetail = new TemplateDetail();
     if (obj.currency_code) templateDetail.setCurrencyCode(obj.currency_code);
     if (obj.attachments)
@@ -98,5 +129,3 @@ class TemplateDetail extends Types implements Static<ITypes, typeof TemplateDeta
     return templateDetail;
   }
 }
-
-export default TemplateDetail;

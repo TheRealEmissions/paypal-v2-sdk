@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 
 export type TTemplateMetadata = {
   readonly create_time?: string;
@@ -7,36 +7,49 @@ export type TTemplateMetadata = {
   readonly last_updated_by?: string;
 };
 
-class TemplateMetadata extends Types implements Static<ITypes, typeof TemplateMetadata> {
-  createTime?: string;
-  createdBy?: string;
-  lastUpdateTime?: string;
-  lastUpdatedBy?: string;
-  constructor() {
-    super();
-  }
+export class TemplateMetadata extends Utility implements Static<IUtility, typeof TemplateMetadata> {
+  private createTime?: string;
+  private createdBy?: string;
+  private lastUpdateTime?: string;
+  private lastUpdatedBy?: string;
 
-  setCreateTime(createTime: string) {
+  public setCreateTime(createTime: string) {
     this.createTime = createTime;
     return this;
   }
+  public getCreateTime() {
+    return this.createTime;
+  }
 
-  setCreatedBy(createdBy: string) {
+  public setCreatedBy(createdBy: string) {
     this.createdBy = createdBy;
     return this;
   }
+  public getCreatedBy() {
+    return this.createdBy;
+  }
 
-  setLastUpdateTime(lastUpdateTime: string) {
+  public setLastUpdateTime(lastUpdateTime: string) {
     this.lastUpdateTime = lastUpdateTime;
     return this;
   }
+  public getLastUpdateTime() {
+    return this.lastUpdateTime;
+  }
 
-  setLastUpdatedBy(lastUpdatedBy: string) {
+  public setLastUpdatedBy(lastUpdatedBy: string) {
     this.lastUpdatedBy = lastUpdatedBy;
     return this;
   }
+  public getLastUpdatedBy() {
+    return this.lastUpdatedBy;
+  }
 
-  static fromObject(obj: TTemplateMetadata) {
+  public override getFields<T extends TTemplateMetadata>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TTemplateMetadata) {
     const templateMetadata = new TemplateMetadata();
     if (obj.create_time) templateMetadata.setCreateTime(obj.create_time);
     if (obj.created_by) templateMetadata.setCreatedBy(obj.created_by);
@@ -45,5 +58,3 @@ class TemplateMetadata extends Types implements Static<ITypes, typeof TemplateMe
     return templateMetadata;
   }
 }
-
-export default TemplateMetadata;

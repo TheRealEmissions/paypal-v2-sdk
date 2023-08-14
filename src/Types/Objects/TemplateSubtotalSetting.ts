@@ -1,20 +1,19 @@
 import { TemplateFieldName } from "../Enums/TemplateFieldName.js";
-import Types, { ITypes, Static } from "../Types.js";
-import TemplateDisplayPreference, { TTemplateDisplayPreference } from "./TemplateDisplayPreference.js";
+import { Utility, IUtility, Static } from "../Utility.js";
+import { TemplateDisplayPreference, TTemplateDisplayPreference } from "./TemplateDisplayPreference.js";
 
 export type TTemplateSubtotalSetting = {
   display_preference?: TTemplateDisplayPreference;
   field_name?: keyof typeof TemplateFieldName;
 };
 
-class TemplateSubtotalSetting extends Types implements Static<ITypes, typeof TemplateSubtotalSetting> {
-  displayPreference?: TemplateDisplayPreference;
-  fieldName?: TemplateFieldName;
-  constructor() {
-    super();
-  }
+export class TemplateSubtotalSetting extends Utility implements Static<IUtility, typeof TemplateSubtotalSetting> {
+  private displayPreference?: TemplateDisplayPreference;
+  private fieldName?: TemplateFieldName;
 
-  setDisplayPreference(
+  public setDisplayPreference(displayPreference: TemplateDisplayPreference): this;
+  public setDisplayPreference(displayPreference: (displayPreference: TemplateDisplayPreference) => void): this;
+  public setDisplayPreference(
     displayPreference: TemplateDisplayPreference | ((displayPreference: TemplateDisplayPreference) => void)
   ) {
     if (displayPreference instanceof TemplateDisplayPreference) {
@@ -26,14 +25,26 @@ class TemplateSubtotalSetting extends Types implements Static<ITypes, typeof Tem
     }
     return this;
   }
+  public getDisplayPreference() {
+    return this.displayPreference;
+  }
 
-  setFieldName(fieldName: TemplateFieldName | ((fieldName: typeof TemplateFieldName) => TemplateFieldName)) {
+  public setFieldName(fieldName: TemplateFieldName): this;
+  public setFieldName(fieldName: (fieldName: typeof TemplateFieldName) => TemplateFieldName): this;
+  public setFieldName(fieldName: TemplateFieldName | ((fieldName: typeof TemplateFieldName) => TemplateFieldName)) {
     if (typeof fieldName === "function") this.fieldName = fieldName(TemplateFieldName);
     else this.fieldName = fieldName;
     return this;
   }
+  public getFieldName() {
+    return this.fieldName;
+  }
 
-  static fromObject(obj: TTemplateSubtotalSetting) {
+  public override getFields<T extends TTemplateSubtotalSetting>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TTemplateSubtotalSetting) {
     const templateSubtotalSetting = new TemplateSubtotalSetting();
     if (obj.display_preference)
       templateSubtotalSetting.setDisplayPreference(TemplateDisplayPreference.fromObject(obj.display_preference));
@@ -41,5 +52,3 @@ class TemplateSubtotalSetting extends Types implements Static<ITypes, typeof Tem
     return templateSubtotalSetting;
   }
 }
-
-export default TemplateSubtotalSetting;

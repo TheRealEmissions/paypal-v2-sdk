@@ -1,25 +1,27 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 
 export type TEmailAddress = {
   email_address?: string;
 };
 
-class EmailAddress extends Types implements Static<ITypes, typeof EmailAddress> {
-  emailAddress?: string;
-  constructor() {
-    super();
-  }
+export class EmailAddress extends Utility implements Static<IUtility, typeof EmailAddress> {
+  private emailAddress?: string;
 
-  setEmailAddress(emailAddress: string) {
+  public setEmailAddress(emailAddress: string) {
     this.emailAddress = emailAddress;
     return this;
   }
+  public getEmailAddress() {
+    return this.emailAddress;
+  }
 
-  static fromObject(obj: TEmailAddress) {
+  public override getFields<T extends TEmailAddress>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TEmailAddress) {
     const emailAddress = new EmailAddress();
     if (obj.email_address) emailAddress.setEmailAddress(obj.email_address);
     return emailAddress;
   }
 }
-
-export default EmailAddress;

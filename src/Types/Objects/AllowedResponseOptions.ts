@@ -1,7 +1,7 @@
-import Types, { ITypes, Static } from "../Types";
-import AcceptClaim, { TAcceptClaim } from "./AcceptClaim";
-import AcknowledgeReturnItem, { TAcknowledgeReturnItem } from "./AcknowledgeReturnItem";
-import MakeOffer, { TMakeOffer } from "./MakeOffer";
+import { Utility, IUtility, Static } from "../Utility";
+import { AcceptClaim, TAcceptClaim } from "./AcceptClaim";
+import { AcknowledgeReturnItem, TAcknowledgeReturnItem } from "./AcknowledgeReturnItem";
+import { MakeOffer, TMakeOffer } from "./MakeOffer";
 
 export type TAllowedResponseOptions = {
   accept_claim?: TAcceptClaim;
@@ -9,15 +9,14 @@ export type TAllowedResponseOptions = {
   make_offer?: TMakeOffer;
 };
 
-class AllowedResponseOptions extends Types implements Static<ITypes, typeof AllowedResponseOptions> {
-  acceptClaim?: AcceptClaim;
-  acknowledgeReturnItem?: AcknowledgeReturnItem;
-  makeOffer?: MakeOffer;
-  constructor() {
-    super();
-  }
+export class AllowedResponseOptions extends Utility implements Static<IUtility, typeof AllowedResponseOptions> {
+  private acceptClaim?: AcceptClaim;
+  private acknowledgeReturnItem?: AcknowledgeReturnItem;
+  private makeOffer?: MakeOffer;
 
-  setAcceptClaim(acceptClaim: AcceptClaim | ((claim: AcceptClaim) => void)) {
+  public setAcceptClaim(acceptClaim: AcceptClaim): this;
+  public setAcceptClaim(acceptClaim: (claim: AcceptClaim) => void): this;
+  public setAcceptClaim(acceptClaim: AcceptClaim | ((claim: AcceptClaim) => void)) {
     if (acceptClaim instanceof AcceptClaim) this.acceptClaim = acceptClaim;
     else {
       const claim = new AcceptClaim();
@@ -26,8 +25,15 @@ class AllowedResponseOptions extends Types implements Static<ITypes, typeof Allo
     }
     return this;
   }
+  public getAcceptClaim() {
+    return this.acceptClaim;
+  }
 
-  setAcknowledgeReturnItem(acknowledgeReturnItem: AcknowledgeReturnItem | ((item: AcknowledgeReturnItem) => void)) {
+  public setAcknowledgeReturnItem(acknowledgeReturnItem: AcknowledgeReturnItem): this;
+  public setAcknowledgeReturnItem(acknowledgeReturnItem: (item: AcknowledgeReturnItem) => void): this;
+  public setAcknowledgeReturnItem(
+    acknowledgeReturnItem: AcknowledgeReturnItem | ((item: AcknowledgeReturnItem) => void)
+  ) {
     if (acknowledgeReturnItem instanceof AcknowledgeReturnItem) this.acknowledgeReturnItem = acknowledgeReturnItem;
     else {
       const item = new AcknowledgeReturnItem();
@@ -36,8 +42,13 @@ class AllowedResponseOptions extends Types implements Static<ITypes, typeof Allo
     }
     return this;
   }
+  public getAcknowledgeReturnItem() {
+    return this.acknowledgeReturnItem;
+  }
 
-  setMakeOffer(makeOffer: MakeOffer | ((offer: MakeOffer) => void)) {
+  public setMakeOffer(makeOffer: MakeOffer): this;
+  public setMakeOffer(makeOffer: (offer: MakeOffer) => void): this;
+  public setMakeOffer(makeOffer: MakeOffer | ((offer: MakeOffer) => void)) {
     if (makeOffer instanceof MakeOffer) this.makeOffer = makeOffer;
     else {
       const offer = new MakeOffer();
@@ -46,8 +57,15 @@ class AllowedResponseOptions extends Types implements Static<ITypes, typeof Allo
     }
     return this;
   }
+  public getMakeOffer() {
+    return this.makeOffer;
+  }
 
-  static fromObject(obj: TAllowedResponseOptions) {
+  public override getFields<T extends TAllowedResponseOptions>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TAllowedResponseOptions) {
     const allowedResponseOptions = new AllowedResponseOptions();
     if (obj.accept_claim) allowedResponseOptions.setAcceptClaim(AcceptClaim.fromObject(obj.accept_claim));
     if (obj.acknowledge_return_item)
@@ -56,5 +74,3 @@ class AllowedResponseOptions extends Types implements Static<ITypes, typeof Allo
     return allowedResponseOptions;
   }
 }
-
-export default AllowedResponseOptions;

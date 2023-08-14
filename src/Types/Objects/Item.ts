@@ -1,8 +1,8 @@
 import { UnitOfMeasure } from "../Enums/UnitOfMeasure.js";
-import Types, { ITypes, Static } from "../Types.js";
-import Discount, { TDiscount } from "./Discount.js";
-import Money, { TMoney } from "./Money.js";
-import Tax, { TTax } from "./Tax.js";
+import { Utility, IUtility, Static } from "../Utility.js";
+import { Discount, TDiscount } from "./Discount.js";
+import { Money, TMoney } from "./Money.js";
+import { Tax, TTax } from "./Tax.js";
 
 export type TItem = {
   name: string;
@@ -16,84 +16,126 @@ export type TItem = {
   unit_of_measure?: keyof typeof UnitOfMeasure;
 };
 
-class Item extends Types implements Static<ITypes, typeof Item> {
-  name?: string;
-  quantity?: string;
-  unitAmount?: Money;
-  description?: string;
-  discount?: Discount;
-  id?: string;
-  itemDate?: string;
-  tax?: Tax;
-  unitOfMeasure?: UnitOfMeasure;
-  constructor() {
-    super();
-  }
+export class Item extends Utility implements Static<IUtility, typeof Item> {
+  private name?: string;
+  private quantity?: string;
+  private unitAmount?: Money;
+  private description?: string;
+  private discount?: Discount;
+  private id?: string;
+  private itemDate?: string;
+  private tax?: Tax;
+  private unitOfMeasure?: UnitOfMeasure;
 
   public setItemName(name: string): this {
     this.name = name;
     return this;
+  }
+  public getItemName() {
+    return this.name;
   }
 
   public setItemQuantity(quantity: string): this {
     this.quantity = quantity;
     return this;
   }
+  public getItemQuantity() {
+    return this.quantity;
+  }
 
-  public setItemUnitAmount(unitAmount: Money | ((money: Money) => void)): this {
-    if (unitAmount instanceof Money) this.unitAmount = unitAmount;
-    else {
-      const money = new Money();
-      unitAmount(money);
-      this.unitAmount = money;
+  public setItemUnitAmount(unitAmount: Money): this;
+  public setItemUnitAmount(unitAmount: (unitAmount: Money) => void): this;
+  public setItemUnitAmount(unitAmount: Money | ((unitAmount: Money) => void)): this {
+    if (unitAmount instanceof Money) {
+      this.unitAmount = unitAmount;
+    } else {
+      const unitAmountInstance = new Money();
+      unitAmount(unitAmountInstance);
+      this.unitAmount = unitAmountInstance;
     }
     return this;
+  }
+  public getItemUnitAmount() {
+    return this.unitAmount;
   }
 
   public setItemDescription(description: string): this {
     this.description = description;
     return this;
   }
+  public getItemDescription() {
+    return this.description;
+  }
 
+  public setItemDiscount(discount: Discount): this;
+  public setItemDiscount(discount: (discount: Discount) => void): this;
   public setItemDiscount(discount: Discount | ((discount: Discount) => void)): this {
-    if (discount instanceof Discount) this.discount = discount;
-    else {
-      const discountObj = new Discount();
-      discount(discountObj);
-      this.discount = discountObj;
+    if (discount instanceof Discount) {
+      this.discount = discount;
+    } else {
+      const discountInstance = new Discount();
+      discount(discountInstance);
+      this.discount = discountInstance;
     }
     return this;
+  }
+  public getItemDiscount() {
+    return this.discount;
   }
 
   public setItemId(id: string): this {
     this.id = id;
     return this;
   }
+  public getItemId() {
+    return this.id;
+  }
 
   public setItemDate(itemDate: string): this {
     this.itemDate = itemDate;
     return this;
   }
+  public getItemDate() {
+    return this.itemDate;
+  }
 
+  public setItemTax(tax: Tax): this;
+  public setItemTax(tax: (tax: Tax) => void): this;
   public setItemTax(tax: Tax | ((tax: Tax) => void)): this {
-    if (tax instanceof Tax) this.tax = tax;
-    else {
-      const taxObj = new Tax();
-      tax(taxObj);
-      this.tax = taxObj;
+    if (tax instanceof Tax) {
+      this.tax = tax;
+    } else {
+      const taxInstance = new Tax();
+      tax(taxInstance);
+      this.tax = taxInstance;
     }
     return this;
   }
+  public getItemTax() {
+    return this.tax;
+  }
 
+  public setItemUnitOfMeasure(unitOfMeasure: UnitOfMeasure): this;
+  public setItemUnitOfMeasure(unitOfMeasure: (unitOfMeasure: typeof UnitOfMeasure) => UnitOfMeasure): this;
   public setItemUnitOfMeasure(
     unitOfMeasure: UnitOfMeasure | ((unitOfMeasure: typeof UnitOfMeasure) => UnitOfMeasure)
   ): this {
-    if (typeof unitOfMeasure === "function") this.unitOfMeasure = unitOfMeasure(UnitOfMeasure);
-    else this.unitOfMeasure = unitOfMeasure;
+    if (typeof unitOfMeasure === "function") {
+      this.unitOfMeasure = unitOfMeasure(UnitOfMeasure);
+    } else {
+      this.unitOfMeasure = unitOfMeasure;
+    }
     return this;
   }
+  public getItemUnitOfMeasure() {
+    return this.unitOfMeasure;
+  }
 
-  static fromObject(obj: TItem): Item {
+  public override getFields<T extends Partial<TItem>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TItem): Item {
     const item = new Item();
     item.setItemName(obj.name);
     item.setItemQuantity(obj.quantity);
@@ -107,5 +149,3 @@ class Item extends Types implements Static<ITypes, typeof Item> {
     return item;
   }
 }
-
-export default Item;

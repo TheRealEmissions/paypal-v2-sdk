@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 
 export type TErrorDetails = {
   issue: string;
@@ -8,42 +8,58 @@ export type TErrorDetails = {
   value?: string;
 };
 
-class ErrorDetails extends Types implements Static<ITypes, typeof ErrorDetails> {
-  issue?: string;
-  description?: string;
-  field?: string;
-  location?: string;
-  value?: string;
-  constructor() {
-    super();
-  }
+export class ErrorDetails extends Utility implements Static<IUtility, typeof ErrorDetails> {
+  private issue?: string;
+  private description?: string;
+  private field?: string;
+  private location?: string;
+  private value?: string;
 
-  setIssue(issue: string) {
+  public setIssue(issue: string) {
     this.issue = issue;
     return this;
   }
+  public getIssue() {
+    return this.issue;
+  }
 
-  setDescription(description: string) {
+  public setDescription(description: string) {
     this.description = description;
     return this;
   }
+  public getDescription() {
+    return this.description;
+  }
 
-  setField(field: string) {
+  public setField(field: string) {
     this.field = field;
     return this;
   }
+  public getField() {
+    return this.field;
+  }
 
-  setLocation(location: string) {
+  public setLocation(location: string) {
     this.location = location;
     return this;
   }
+  public getLocation() {
+    return this.location;
+  }
 
-  setValue(value: string) {
+  public setValue(value: string) {
     this.value = value;
     return this;
   }
+  public getValue() {
+    return this.value;
+  }
 
-  static fromObject(obj: TErrorDetails): ErrorDetails {
+  public override getFields<T extends Partial<TErrorDetails>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TErrorDetails): ErrorDetails {
     const errorDetails = new ErrorDetails();
     if (obj.issue) errorDetails.setIssue(obj.issue);
     if (obj.description) errorDetails.setDescription(obj.description);
@@ -53,5 +69,3 @@ class ErrorDetails extends Types implements Static<ITypes, typeof ErrorDetails> 
     return errorDetails;
   }
 }
-
-export default ErrorDetails;

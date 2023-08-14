@@ -1,5 +1,5 @@
-import Types, { ITypes, Static } from "../Types.js";
-import PhoneDetail, { TPhoneDetail } from "./PhoneDetail.js";
+import { Utility, IUtility, Static } from "../Utility.js";
+import { PhoneDetail, TPhoneDetail } from "./PhoneDetail.js";
 
 export type TInvoicerInfo = {
   additional_notes?: string;
@@ -10,53 +10,77 @@ export type TInvoicerInfo = {
   website?: string;
 };
 
-class InvoicerInfo extends Types implements Static<ITypes, typeof InvoicerInfo> {
-  additionalNotes?: string;
-  emailAddress?: string;
-  logoUrl?: string;
-  phones?: PhoneDetail[];
-  taxId?: string;
-  website?: string;
-  constructor() {
-    super();
-  }
+export class InvoicerInfo extends Utility implements Static<IUtility, typeof InvoicerInfo> {
+  private additionalNotes?: string;
+  private emailAddress?: string;
+  private logoUrl?: string;
+  private phones?: PhoneDetail[];
+  private taxId?: string;
+  private website?: string;
 
-  setAdditionalNotes(additionalNotes: string) {
+  public setAdditionalNotes(additionalNotes: string) {
     this.additionalNotes = additionalNotes;
     return this;
   }
+  public getAdditionalNotes() {
+    return this.additionalNotes;
+  }
 
-  setEmailAddress(emailAddress: string) {
+  public setEmailAddress(emailAddress: string) {
     this.emailAddress = emailAddress;
     return this;
   }
+  public getEmailAddress() {
+    return this.emailAddress;
+  }
 
-  setLogoUrl(logoUrl: string) {
+  public setLogoUrl(logoUrl: string) {
     this.logoUrl = logoUrl;
     return this;
   }
+  public getLogoUrl() {
+    return this.logoUrl;
+  }
 
-  setPhones(...phones: (PhoneDetail | ((phoneDetail: PhoneDetail) => void))[]) {
+  public setPhones(...phones: PhoneDetail[]): this;
+  public setPhones(...phones: ((phone: PhoneDetail) => void)[]): this;
+  public setPhones(...phones: (PhoneDetail | ((phone: PhoneDetail) => void))[]) {
     this.phones = phones.map((phone) => {
-      if (phone instanceof PhoneDetail) return phone;
-      const phoneDetail = new PhoneDetail();
-      phone(phoneDetail);
-      return phoneDetail;
+      if (phone instanceof PhoneDetail) {
+        return phone;
+      } else {
+        const phoneInstance = new PhoneDetail();
+        phone(phoneInstance);
+        return phoneInstance;
+      }
     });
     return this;
   }
+  public getPhones() {
+    return this.phones;
+  }
 
-  setTaxId(taxId: string) {
+  public setTaxId(taxId: string) {
     this.taxId = taxId;
     return this;
   }
+  public getTaxId() {
+    return this.taxId;
+  }
 
-  setWebsite(website: string) {
+  public setWebsite(website: string) {
     this.website = website;
     return this;
   }
+  public getWebsite() {
+    return this.website;
+  }
 
-  static fromObject(obj: TInvoicerInfo) {
+  public override getFields<T extends TInvoicerInfo>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TInvoicerInfo) {
     const invoicerInfo = new InvoicerInfo();
     if (obj.additional_notes) invoicerInfo.setAdditionalNotes(obj.additional_notes);
     if (obj.email_address) invoicerInfo.setEmailAddress(obj.email_address);
@@ -67,5 +91,3 @@ class InvoicerInfo extends Types implements Static<ITypes, typeof InvoicerInfo> 
     return invoicerInfo;
   }
 }
-
-export default InvoicerInfo;

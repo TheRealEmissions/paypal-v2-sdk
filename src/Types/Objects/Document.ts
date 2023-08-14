@@ -1,33 +1,38 @@
-import Types, { ITypes, Static } from "../Types";
+import { Utility, IUtility, Static } from "../Utility";
 
 export type TDocument = {
   name?: string;
   url?: string;
 };
 
-class Document extends Types implements Static<ITypes, typeof Document> {
-  name?: string;
-  url?: string;
-  constructor() {
-    super();
-  }
+export class Document extends Utility implements Static<IUtility, typeof Document> {
+  private name?: string;
+  private url?: string;
 
-  setName(name: string) {
+  public setName(name: string) {
     this.name = name;
     return this;
   }
+  public getName() {
+    return this.name;
+  }
 
-  setUrl(url: string) {
+  public setUrl(url: string) {
     this.url = url;
     return this;
   }
+  public getUrl() {
+    return this.url;
+  }
 
-  static fromObject(obj: TDocument) {
+  public override getFields<T extends TDocument>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TDocument) {
     const document = new Document();
     if (obj.name) document.setName(obj.name);
     if (obj.url) document.setUrl(obj.url);
     return document;
   }
 }
-
-export default Document;

@@ -1,14 +1,22 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 
 export type TGenerateInvoiceNumberResponse = {
   readonly invoice_number: string;
 };
 
-class GenerateInvoiceNumberResponse extends Types implements Static<ITypes, typeof GenerateInvoiceNumberResponse> {
-  readonly invoiceNumber: string;
+class GenerateInvoiceNumberResponse extends Utility implements Static<IUtility, typeof GenerateInvoiceNumberResponse> {
+  private readonly invoiceNumber: string;
   constructor(invoiceNumber: string) {
     super();
     this.invoiceNumber = invoiceNumber;
+  }
+
+  public getInvoiceNumber() {
+    return this.invoiceNumber;
+  }
+
+  public override getFields<T extends Partial<TGenerateInvoiceNumberResponse>>() {
+    return super.getFields<T>();
   }
 
   static fromObject(obj: TGenerateInvoiceNumberResponse) {

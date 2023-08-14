@@ -1,5 +1,5 @@
-import Types, { ITypes, Static } from "../Types.js";
-import Money, { TMoney } from "./Money.js";
+import { Utility, IUtility, Static } from "../Utility.js";
+import { Money, TMoney } from "./Money.js";
 
 export type TTax = {
   name: string;
@@ -7,32 +7,38 @@ export type TTax = {
   readonly amount?: TMoney;
 };
 
-class Tax extends Types implements Static<ITypes, typeof Tax> {
-  name?: string;
-  percent?: string;
-  amount?: Money;
-  constructor() {
-    super();
-  }
+export class Tax extends Utility implements Static<IUtility, typeof Tax> {
+  private name?: string;
+  private percent?: string;
+  private amount?: Money;
 
-  setName(name: string) {
+  public setName(name: string) {
     this.name = name;
     return this;
   }
+  public getName() {
+    return this.name;
+  }
 
-  setPercent(percent: string) {
-    const regex = new RegExp(/^((-?[0-9]+)|(-?([0-9]+)?[.][0-9]+))$/);
+  public setPercent(percent: string) {
+    const regex = new RegExp(/^((-?\d+)|(-?(\d+)?[.]\d+))$/);
     if (!regex.test(percent)) {
       throw new Error("Invalid percent");
     }
-    if (parseFloat(percent) < 0 || parseFloat(percent) > 100) {
+    const MAX_PERCENT = 100;
+    if (parseFloat(percent) < 0 || parseFloat(percent) > MAX_PERCENT) {
       throw new Error("Invalid percent");
     }
     this.percent = percent;
     return this;
   }
+  public getPercent() {
+    return this.percent;
+  }
 
-  setAmount(amount: Money | ((money: Money) => void)) {
+  public setAmount(amount: Money): this;
+  public setAmount(amount: (money: Money) => void): this;
+  public setAmount(amount: Money | ((money: Money) => void)) {
     if (amount instanceof Money) {
       this.amount = amount;
     } else {
@@ -42,8 +48,15 @@ class Tax extends Types implements Static<ITypes, typeof Tax> {
     }
     return this;
   }
+  public getAmount() {
+    return this.amount;
+  }
 
-  static fromObject(obj: TTax) {
+  public override getFields<T extends Partial<TTax>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TTax) {
     const tax = new Tax();
     if (obj.name) tax.setName(obj.name);
     if (obj.percent) tax.setPercent(obj.percent);
@@ -51,5 +64,3 @@ class Tax extends Types implements Static<ITypes, typeof Tax> {
     return tax;
   }
 }
-
-export default Tax;

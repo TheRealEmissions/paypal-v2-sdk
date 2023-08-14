@@ -1,7 +1,7 @@
 import { AdjudicationReason } from "../Enums/AdjudicationReason";
 import { AdjudicationType } from "../Enums/AdjudicationType";
 import { DisputeLifeCycleStage } from "../Enums/DisputeLifeCycleStage";
-import Types, { ITypes, Static } from "../Types";
+import { Utility, IUtility, Static } from "../Utility";
 
 export type TAdjudication = {
   adjudication_time: string;
@@ -10,27 +10,36 @@ export type TAdjudication = {
   reason?: keyof typeof AdjudicationReason;
 };
 
-class Adjudication extends Types implements Static<ITypes, typeof Adjudication> {
-  adjudicationTime!: string;
-  type!: AdjudicationType;
-  disputeLifeCycleStage?: DisputeLifeCycleStage;
-  reason?: AdjudicationReason;
-  constructor() {
-    super();
-  }
+export class Adjudication extends Utility implements Static<IUtility, typeof Adjudication> {
+  private adjudicationTime!: string;
+  private type!: AdjudicationType;
+  private disputeLifeCycleStage?: DisputeLifeCycleStage;
+  private reason?: AdjudicationReason;
 
-  setAdjudicationTime(adjudicationTime: string) {
+  public setAdjudicationTime(adjudicationTime: string) {
     this.adjudicationTime = adjudicationTime;
     return this;
   }
+  public getAdjudicationTime() {
+    return this.adjudicationTime;
+  }
 
-  setType(type: AdjudicationType | ((type: typeof AdjudicationType) => AdjudicationType)) {
+  public setType(type: AdjudicationType): this;
+  public setType(type: (type: typeof AdjudicationType) => AdjudicationType): this;
+  public setType(type: AdjudicationType | ((type: typeof AdjudicationType) => AdjudicationType)) {
     if (typeof type === "function") this.type = type(AdjudicationType);
     else this.type = type;
     return this;
   }
+  public getType() {
+    return this.type;
+  }
 
-  setDisputeLifeCycleStage(
+  public setDisputeLifeCycleStage(disputeLifeCycleStage: DisputeLifeCycleStage): this;
+  public setDisputeLifeCycleStage(
+    disputeLifeCycleStage: (type: typeof DisputeLifeCycleStage) => DisputeLifeCycleStage
+  ): this;
+  public setDisputeLifeCycleStage(
     disputeLifeCycleStage: DisputeLifeCycleStage | ((type: typeof DisputeLifeCycleStage) => DisputeLifeCycleStage)
   ) {
     if (typeof disputeLifeCycleStage === "function")
@@ -38,14 +47,26 @@ class Adjudication extends Types implements Static<ITypes, typeof Adjudication> 
     else this.disputeLifeCycleStage = disputeLifeCycleStage;
     return this;
   }
+  public getDisputeLifeCycleStage() {
+    return this.disputeLifeCycleStage;
+  }
 
-  setReason(reason: AdjudicationReason | ((type: typeof AdjudicationReason) => AdjudicationReason)) {
+  public setReason(reason: AdjudicationReason): this;
+  public setReason(reason: (type: typeof AdjudicationReason) => AdjudicationReason): this;
+  public setReason(reason: AdjudicationReason | ((type: typeof AdjudicationReason) => AdjudicationReason)) {
     if (typeof reason === "function") this.reason = reason(AdjudicationReason);
     else this.reason = reason;
     return this;
   }
+  public getReason() {
+    return this.reason;
+  }
 
-  static fromObject(obj: TAdjudication) {
+  public override getFields<T extends Partial<TAdjudication>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TAdjudication) {
     const adjudication = new Adjudication();
     adjudication.setAdjudicationTime(obj.adjudication_time);
     adjudication.setType(AdjudicationType[obj.type]);
@@ -55,5 +76,3 @@ class Adjudication extends Types implements Static<ITypes, typeof Adjudication> 
     return adjudication;
   }
 }
-
-export default Adjudication;

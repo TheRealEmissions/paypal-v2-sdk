@@ -1,17 +1,16 @@
-import Types, { ITypes, Static } from "../Types.js";
-import Patch, { TPatch } from "./Patch.js";
+import { Utility, IUtility, Static } from "../Utility.js";
+import { Patch, TPatch } from "./Patch.js";
 
 export type TPatchRequest = {
   patch_request: TPatch[];
 };
 
-class PatchRequest extends Types implements Static<ITypes, typeof PatchRequest> {
-  patchRequest?: Patch[];
-  constructor() {
-    super();
-  }
+export class PatchRequest extends Utility implements Static<IUtility, typeof PatchRequest> {
+  private patchRequest?: Patch[];
 
-  setPatchRequest(...patchRequest: (Patch | ((patch: Patch) => void))[]) {
+  public setPatchRequest(...patchRequest: Patch[]): this;
+  public setPatchRequest(...patchRequest: ((patch: Patch) => void)[]): this;
+  public setPatchRequest(...patchRequest: (Patch | ((patch: Patch) => void))[]) {
     this.patchRequest = patchRequest.map((patch) => {
       if (patch instanceof Patch) return patch;
       else {
@@ -22,12 +21,17 @@ class PatchRequest extends Types implements Static<ITypes, typeof PatchRequest> 
     });
     return this;
   }
+  public getPatchRequest() {
+    return this.patchRequest;
+  }
 
-  static fromObject(obj: TPatchRequest) {
+  public override getFields<T extends Partial<TPatchRequest>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TPatchRequest) {
     const patchRequest = new PatchRequest();
     if (obj.patch_request) patchRequest.setPatchRequest(...obj.patch_request.map((patch) => Patch.fromObject(patch)));
     return patchRequest;
   }
 }
-
-export default PatchRequest;

@@ -1,6 +1,6 @@
-import Types, { ITypes, Static } from "../Types.js";
-import ErrorDetails, { TErrorDetails } from "./ErrorDetails.js";
-import LinkDescription, { TLinkDescription } from "./LinkDescription.js";
+import { Utility, IUtility, Static } from "../Utility.js";
+import { ErrorDetails, TErrorDetails } from "./ErrorDetails.js";
+import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
 
 export type TError = {
   debug_id: string;
@@ -11,58 +11,87 @@ export type TError = {
   readonly links?: TLinkDescription[];
 };
 
-class Error extends Types implements Static<ITypes, typeof Error> {
-  debugId?: string;
-  message?: string;
-  name?: string;
-  details?: ErrorDetails[];
-  informationLink?: string;
-  links?: LinkDescription[];
-  constructor() {
-    super();
-  }
+export class Error extends Utility implements Static<IUtility, typeof Error> {
+  private debugId?: string;
+  private message?: string;
+  private name?: string;
+  private details?: ErrorDetails[];
+  private informationLink?: string;
+  private links?: LinkDescription[];
 
-  setDebugId(debugId: string) {
+  public setDebugId(debugId: string) {
     this.debugId = debugId;
     return this;
   }
+  public getDebugId() {
+    return this.debugId;
+  }
 
-  setMessage(message: string) {
+  public setMessage(message: string) {
     this.message = message;
     return this;
   }
+  public getMessage() {
+    return this.message;
+  }
 
-  setName(name: string) {
+  public setName(name: string) {
     this.name = name;
     return this;
   }
+  public getName() {
+    return this.name;
+  }
 
-  setDetails(...details: (ErrorDetails | ((error: ErrorDetails) => void))[]) {
+  public setDetails(...details: ErrorDetails[]): this;
+  public setDetails(...details: ((detail: ErrorDetails) => void)[]): this;
+  public setDetails(...details: (ErrorDetails | ((detail: ErrorDetails) => void))[]) {
     this.details = details.map((detail) => {
-      if (detail instanceof ErrorDetails) return detail;
-      const errorDetail = new ErrorDetails();
-      detail(errorDetail);
-      return errorDetail;
+      if (detail instanceof ErrorDetails) {
+        return detail;
+      } else {
+        const detailInstance = new ErrorDetails();
+        detail(detailInstance);
+        return detailInstance;
+      }
     });
     return this;
   }
+  public getDetails() {
+    return this.details;
+  }
 
-  setInformationLink(informationLink: string) {
+  public setInformationLink(informationLink: string) {
     this.informationLink = informationLink;
     return this;
   }
+  public getInformationLink() {
+    return this.informationLink;
+  }
 
-  setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
+  public setLinks(...links: LinkDescription[]): this;
+  public setLinks(...links: ((link: LinkDescription) => void)[]): this;
+  public setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
     this.links = links.map((link) => {
-      if (link instanceof LinkDescription) return link;
-      const linkDesc = new LinkDescription();
-      link(linkDesc);
-      return linkDesc;
+      if (link instanceof LinkDescription) {
+        return link;
+      } else {
+        const linkInstance = new LinkDescription();
+        link(linkInstance);
+        return linkInstance;
+      }
     });
     return this;
   }
+  public getLinks() {
+    return this.links;
+  }
 
-  static fromObject(obj: TError): Error {
+  public override getFields<T extends Partial<TError>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TError): Error {
     const error = new Error();
     if (obj.debug_id) error.setDebugId(obj.debug_id);
     if (obj.message) error.setMessage(obj.message);
@@ -73,5 +102,3 @@ class Error extends Types implements Static<ITypes, typeof Error> {
     return error;
   }
 }
-
-export default Error;

@@ -1,18 +1,22 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 
 export type TTemplateDisplayPreference = {
   hidden?: boolean;
 };
 
-class TemplateDisplayPreference extends Types implements Static<ITypes, typeof TemplateDisplayPreference> {
-  hidden?: boolean;
-  constructor() {
-    super();
-  }
+export class TemplateDisplayPreference extends Utility implements Static<IUtility, typeof TemplateDisplayPreference> {
+  private hidden?: boolean;
 
-  setHidden(hidden: boolean) {
+  public setHidden(hidden: boolean) {
     this.hidden = hidden;
     return this;
+  }
+  public getHidden() {
+    return this.hidden;
+  }
+
+  public override getFields<T extends TTemplateDisplayPreference>() {
+    return super.getFields<T>();
   }
 
   static fromObject(obj: TTemplateDisplayPreference) {
@@ -21,5 +25,3 @@ class TemplateDisplayPreference extends Types implements Static<ITypes, typeof T
     return templateDisplayPreference;
   }
 }
-
-export default TemplateDisplayPreference;

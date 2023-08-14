@@ -1,10 +1,10 @@
 import { AcceptClaimReason } from "../Enums/AcceptClaimReason.js";
 import { AcceptClaimType } from "../Enums/AcceptClaimType.js";
-import Types, { ITypes, Static } from "../Types.js";
-import AddressPortable, { TAddressPortable } from "./AddressPortable.js";
-import Money, { TMoney } from "./Money.js";
-import ResponseAcceptClaimType, { TResponseAcceptClaimType } from "./ResponseAcceptClaimType.js";
-import ResponseShipmentInfo, { TResponseShipmentInfo } from "./ResponseShipmentInfo.js";
+import { Utility, IUtility, Static } from "../Utility.js";
+import { AddressPortable, TAddressPortable } from "./AddressPortable.js";
+import { Money, TMoney } from "./Money.js";
+import { ResponseAcceptClaimType, TResponseAcceptClaimType } from "./ResponseAcceptClaimType.js";
+import { ResponseShipmentInfo, TResponseShipmentInfo } from "./ResponseShipmentInfo.js";
 
 export type TAcceptClaim = {
   accept_claim_types?: TResponseAcceptClaimType[];
@@ -17,20 +17,19 @@ export type TAcceptClaim = {
   return_shipping_address?: TAddressPortable;
 };
 
-class AcceptClaim extends Types implements Static<ITypes, typeof AcceptClaim> {
-  acceptClaimTypes?: ResponseAcceptClaimType[];
-  note?: string;
-  acceptClaimReason?: AcceptClaimReason;
-  acceptClaimType?: AcceptClaimType;
-  invoiceId?: string;
-  refundAmount?: Money;
-  returnShipmentInfo?: ResponseShipmentInfo[];
-  returnShippingAddress?: AddressPortable;
-  constructor() {
-    super();
-  }
+export class AcceptClaim extends Utility implements Static<IUtility, typeof AcceptClaim> {
+  private acceptClaimTypes?: ResponseAcceptClaimType[];
+  private note?: string;
+  private acceptClaimReason?: AcceptClaimReason;
+  private acceptClaimType?: AcceptClaimType;
+  private invoiceId?: string;
+  private refundAmount?: Money;
+  private returnShipmentInfo?: ResponseShipmentInfo[];
+  private returnShippingAddress?: AddressPortable;
 
-  setAcceptClaimTypes(
+  public setAcceptClaimTypes(...acceptClaimTypes: ResponseAcceptClaimType[]): this;
+  public setAcceptClaimTypes(...acceptClaimTypes: ((response: ResponseAcceptClaimType) => void)[]): this;
+  public setAcceptClaimTypes(
     ...acceptClaimTypes: (ResponseAcceptClaimType | ((response: ResponseAcceptClaimType) => void))[]
   ) {
     this.acceptClaimTypes = acceptClaimTypes.map((acceptClaimType) => {
@@ -41,30 +40,55 @@ class AcceptClaim extends Types implements Static<ITypes, typeof AcceptClaim> {
     });
     return this;
   }
+  public getAcceptClaimTypes() {
+    return this.acceptClaimTypes;
+  }
 
-  setNote(note: string) {
+  public setNote(note: string) {
     this.note = note;
     return this;
   }
+  public getNote() {
+    return this.note;
+  }
 
-  setAcceptClaimReason(acceptClaimReason: AcceptClaimReason | ((x: typeof AcceptClaimReason) => AcceptClaimReason)) {
+  public setAcceptClaimReason(acceptClaimReason: AcceptClaimReason): this;
+  public setAcceptClaimReason(
+    acceptClaimReason: (acceptClaimReason: typeof AcceptClaimReason) => AcceptClaimReason
+  ): this;
+  public setAcceptClaimReason(
+    acceptClaimReason: AcceptClaimReason | ((acceptClaimReason: typeof AcceptClaimReason) => AcceptClaimReason)
+  ) {
     if (typeof acceptClaimReason === "function") this.acceptClaimReason = acceptClaimReason(AcceptClaimReason);
     else this.acceptClaimReason = acceptClaimReason;
     return this;
   }
+  public getAcceptClaimReason() {
+    return this.acceptClaimReason;
+  }
 
-  setAcceptClaimType(acceptClaimType: AcceptClaimType | ((x: typeof AcceptClaimType) => AcceptClaimType)) {
+  public setAcceptClaimType(acceptClaimType: AcceptClaimType): this;
+  public setAcceptClaimType(acceptClaimType: (acceptClaimType: typeof AcceptClaimType) => AcceptClaimType): this;
+  public setAcceptClaimType(acceptClaimType: AcceptClaimType | ((x: typeof AcceptClaimType) => AcceptClaimType)) {
     if (typeof acceptClaimType === "function") this.acceptClaimType = acceptClaimType(AcceptClaimType);
     else this.acceptClaimType = acceptClaimType;
     return this;
   }
+  public getAcceptClaimType() {
+    return this.acceptClaimType;
+  }
 
-  setInvoiceId(invoiceId: string) {
+  public setInvoiceId(invoiceId: string) {
     this.invoiceId = invoiceId;
     return this;
   }
+  public getInvoiceId() {
+    return this.invoiceId;
+  }
 
-  setRefundAmount(refundAmount: Money | ((money: Money) => void)) {
+  public setRefundAmount(refundAmount: Money): this;
+  public setRefundAmount(refundAmount: (money: Money) => void): this;
+  public setRefundAmount(refundAmount: Money | ((money: Money) => void)) {
     if (refundAmount instanceof Money) this.refundAmount = refundAmount;
     else {
       const money = new Money();
@@ -73,8 +97,13 @@ class AcceptClaim extends Types implements Static<ITypes, typeof AcceptClaim> {
     }
     return this;
   }
+  public getRefundAmount() {
+    return this.refundAmount;
+  }
 
-  setReturnShipmentInfo(...returnShipmentInfo: (ResponseShipmentInfo | ((x: ResponseShipmentInfo) => void))[]) {
+  public setReturnShipmentInfo(...returnShipmentInfo: ResponseShipmentInfo[]): this;
+  public setReturnShipmentInfo(...returnShipmentInfo: ((x: ResponseShipmentInfo) => void)[]): this;
+  public setReturnShipmentInfo(...returnShipmentInfo: (ResponseShipmentInfo | ((x: ResponseShipmentInfo) => void))[]) {
     this.returnShipmentInfo = returnShipmentInfo.map((returnShipmentInfo) => {
       if (returnShipmentInfo instanceof ResponseShipmentInfo) return returnShipmentInfo;
       const response = new ResponseShipmentInfo();
@@ -83,8 +112,13 @@ class AcceptClaim extends Types implements Static<ITypes, typeof AcceptClaim> {
     });
     return this;
   }
+  public getReturnShipmentInfo() {
+    return this.returnShipmentInfo;
+  }
 
-  setReturnShippingAddress(returnShippingAddress: AddressPortable | ((x: AddressPortable) => void)) {
+  public setReturnShippingAddress(returnShippingAddress: AddressPortable): this;
+  public setReturnShippingAddress(returnShippingAddress: (x: AddressPortable) => void): this;
+  public setReturnShippingAddress(returnShippingAddress: AddressPortable | ((x: AddressPortable) => void)) {
     if (returnShippingAddress instanceof AddressPortable) this.returnShippingAddress = returnShippingAddress;
     else {
       const addressPortable = new AddressPortable();
@@ -93,8 +127,15 @@ class AcceptClaim extends Types implements Static<ITypes, typeof AcceptClaim> {
     }
     return this;
   }
+  public getReturnShippingAddress() {
+    return this.returnShippingAddress;
+  }
 
-  static fromObject(obj: TAcceptClaim) {
+  public override getFields<T extends TAcceptClaim>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TAcceptClaim) {
     const acceptClaim = new AcceptClaim();
     if (obj.accept_claim_types)
       acceptClaim.setAcceptClaimTypes(
@@ -114,5 +155,3 @@ class AcceptClaim extends Types implements Static<ITypes, typeof AcceptClaim> {
     return acceptClaim;
   }
 }
-
-export default AcceptClaim;

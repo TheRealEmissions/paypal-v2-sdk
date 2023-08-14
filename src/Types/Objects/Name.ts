@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 
 export type TName = {
   alternate_full_name?: string;
@@ -10,57 +10,82 @@ export type TName = {
   surname?: string;
 };
 
-class Name extends Types implements Static<ITypes, typeof Name> {
-  alternateFullName?: string;
-  fullName?: string;
-  givenName?: string;
-  middleName?: string;
-  prefix?: string;
-  suffix?: string;
-  surname?: string;
-  constructor() {
-    super();
-  }
+export class Name extends Utility implements Static<IUtility, typeof Name> {
+  private alternateFullName?: string;
+  private fullName?: string;
+  private givenName?: string;
+  private middleName?: string;
+  private prefix?: string;
+  private suffix?: string;
+  private surname?: string;
 
   /**
    * @deprecated
    */
-  setAlternateFullName(alternateFullName: string) {
+  public setAlternateFullName(alternateFullName: string) {
     this.alternateFullName = alternateFullName;
     return this;
   }
+  /**
+   * @deprecated
+   */
+  public getAlternateFullName() {
+    return this.alternateFullName;
+  }
 
-  setFullName(fullName: string) {
+  public setFullName(fullName: string) {
     this.fullName = fullName;
     return this;
   }
+  public getFullName() {
+    return this.fullName;
+  }
 
-  setGivenName(givenName: string) {
+  public setGivenName(givenName: string) {
     this.givenName = givenName;
     return this;
   }
+  public getGivenName() {
+    return this.givenName;
+  }
 
-  setMiddleName(middleName: string) {
+  public setMiddleName(middleName: string) {
     this.middleName = middleName;
     return this;
   }
+  public getMiddleName() {
+    return this.middleName;
+  }
 
-  setPrefix(prefix: string) {
+  public setPrefix(prefix: string) {
     this.prefix = prefix;
     return this;
   }
+  public getPrefix() {
+    return this.prefix;
+  }
 
-  setSuffix(suffix: string) {
+  public setSuffix(suffix: string) {
     this.suffix = suffix;
     return this;
   }
+  public getSuffix() {
+    return this.suffix;
+  }
 
-  setSurname(surname: string) {
+  public setSurname(surname: string) {
     this.surname = surname;
     return this;
   }
+  public getSurname() {
+    return this.surname;
+  }
 
-  static fromObject(obj: TName) {
+  public override getFields<T extends Partial<TName>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TName) {
     const name = new Name();
     if (obj.alternate_full_name) name.setAlternateFullName(obj.alternate_full_name);
     if (obj.full_name) name.setFullName(obj.full_name);
@@ -72,5 +97,3 @@ class Name extends Types implements Static<ITypes, typeof Name> {
     return name;
   }
 }
-
-export default Name;

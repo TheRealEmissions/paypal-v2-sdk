@@ -1,12 +1,12 @@
 import { TProduct } from "./../Types/Objects/Product.js";
 import ListProductsResponse, { TListProductsResponse } from "./../Types/APIResponses/ListProducts.js";
 import PayPal from "../PayPal.js";
-import LinkDescription from "../Types/Objects/LinkDescription.js";
-import ProductCollectionElement from "../Types/Objects/ProductCollectionElement.js";
-import Product from "../Types/Objects/Product.js";
-import PatchRequest, { TPatchRequest } from "../Types/Objects/PatchRequest.js";
+import { LinkDescription } from "../Types/Objects/LinkDescription.js";
+import { ProductCollectionElement } from "../Types/Objects/ProductCollectionElement.js";
+import { Product } from "../Types/Objects/Product.js";
+import { PatchRequest, TPatchRequest } from "../Types/Objects/PatchRequest.js";
 import ProductUpdateError from "../Errors/Products/ProductUpdateError.js";
-import { Integer } from "../Types/Types.js";
+import { Integer } from "../Types/Utility.js";
 
 class Products {
   protected PayPal: PayPal;
@@ -42,10 +42,22 @@ class Products {
     );
   }
 
-  async create(product: Product, paypalRequestId?: string, prefer?: "minimal" | "representation") {
+  async create(product: Product, paypalRequestId?: string, prefer?: "minimal" | "representation"): Promise<Product>;
+  async create(
+    product: (product: Product) => void,
+    paypalRequestId?: string,
+    prefer?: "minimal" | "representation"
+  ): Promise<Product>;
+  async create(
+    product: Product | ((product: Product) => void),
+    paypalRequestId?: string,
+    prefer?: "minimal" | "representation"
+  ) {
+    const productInstance = product instanceof Product ? product : new Product();
+    if (typeof product === "function") product(productInstance);
     const response = await this.PayPal.API.post<TProduct>(
       "/v1/catalogs/products",
-      product.toAttributeObject<TProduct>(),
+      productInstance.toAttributeObject<TProduct>(),
       {
         headers: {
           "Content-Type": "application/json",
@@ -58,25 +70,52 @@ class Products {
     return Product.fromObject(response.data);
   }
 
-  async update(product: Product | string, patchRequest: PatchRequest) {
+  async update(product: Product, patchRequest: PatchRequest): Promise<Product>;
+  async update(product: Product, patchRequest: (patchRequest: PatchRequest) => void): Promise<Product>;
+  async update(product: string, patchRequest: PatchRequest): Promise<Product>;
+  async update(product: string, patchRequest: (patchRequest: PatchRequest) => void): Promise<Product>;
+  async update(product: (product: Product) => void, patchRequest: PatchRequest): Promise<Product>;
+  async update(
+    product: (product: Product) => void,
+    patchRequest: (patchRequest: PatchRequest) => void
+  ): Promise<Product>;
+  async update(
+    product: Product | string | ((product: Product) => void),
+    patchRequest: PatchRequest | ((patchRequest: PatchRequest) => void)
+  ) {
+    const productInstance =
+      typeof product !== "string" ? (product instanceof Product ? product : new Product()) : undefined;
+    if (typeof product === "function" && productInstance) product(productInstance);
+    const productId = typeof product === "string" ? product : productInstance!.getId();
+    if (!productId) throw new Error("Product ID is required to update product");
+    const patchRequestInstance = patchRequest instanceof PatchRequest ? patchRequest : new PatchRequest();
+    if (typeof patchRequest === "function") patchRequest(patchRequestInstance);
     const response = await this.PayPal.API.patch(
-      `/v1/catalogs/products/${product instanceof Product ? product.id : product}`,
-      patchRequest.toAttributeObject<TPatchRequest>(),
+      `/v1/catalogs/products/${productId}`,
+      patchRequestInstance.toAttributeObject<TPatchRequest>(),
       {
         headers: {
           "Content-Type": "application/json",
         },
       }
     );
-    if (response.status !== 204) throw new ProductUpdateError("Unexpected response status code", response.data);
+    const SUCCESS_RESPONSE = 204;
+    if (response.status !== SUCCESS_RESPONSE)
+      throw new ProductUpdateError("Unexpected response status code", response.data);
 
-    return this.get(product);
+    return this.get(productId);
   }
 
-  async get(product: Product | string) {
-    const response = await this.PayPal.API.get<TProduct>(
-      `/v1/catalogs/products/${product instanceof Product ? product.id : product}`
-    );
+  async get(product: Product): Promise<Product>;
+  async get(product: string): Promise<Product>;
+  async get(product: (product: Product) => void): Promise<Product>;
+  async get(product: Product | string | ((product: Product) => void)) {
+    const productInstance =
+      typeof product !== "string" ? (product instanceof Product ? product : new Product()) : undefined;
+    if (typeof product === "function" && productInstance) product(productInstance);
+    const productId = typeof product === "string" ? product : productInstance!.getId();
+    if (!productId) throw new Error("Product ID is required to get product");
+    const response = await this.PayPal.API.get<TProduct>(`/v1/catalogs/products/${productId}`);
 
     return Product.fromObject(response.data);
   }

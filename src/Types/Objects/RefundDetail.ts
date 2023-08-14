@@ -1,7 +1,7 @@
 import { PaymentDetailMethod } from "../Enums/PaymentDetailMethod.js";
 import { PaymentDetailType } from "../Enums/PaymentDetailType.js";
-import Types, { ITypes, Static } from "../Types.js";
-import Money, { TMoney } from "./Money.js";
+import { Utility, IUtility, Static } from "../Utility.js";
+import { Money, TMoney } from "./Money.js";
 
 export type TRefundDetail = {
   method: keyof typeof PaymentDetailMethod;
@@ -11,23 +11,27 @@ export type TRefundDetail = {
   readonly type?: keyof typeof PaymentDetailType;
 };
 
-class RefundDetail extends Types implements Static<ITypes, typeof RefundDetail> {
-  method?: PaymentDetailMethod;
-  amount?: Money;
-  refundDate?: string;
-  refundId?: string;
-  type?: PaymentDetailType;
-  constructor() {
-    super();
-  }
+export class RefundDetail extends Utility implements Static<IUtility, typeof RefundDetail> {
+  private method?: PaymentDetailMethod;
+  private amount?: Money;
+  private refundDate?: string;
+  private refundId?: string;
+  private type?: PaymentDetailType;
 
-  setMethod(method: PaymentDetailMethod | ((method: typeof PaymentDetailMethod) => PaymentDetailMethod)) {
+  public setMethod(method: PaymentDetailMethod): this;
+  public setMethod(method: (method: typeof PaymentDetailMethod) => PaymentDetailMethod): this;
+  public setMethod(method: PaymentDetailMethod | ((method: typeof PaymentDetailMethod) => PaymentDetailMethod)) {
     if (typeof method === "function") this.method = method(PaymentDetailMethod);
     else this.method = method;
     return this;
   }
+  public getMethod() {
+    return this.method;
+  }
 
-  setAmount(amount: Money | ((money: Money) => void)) {
+  public setAmount(amount: Money): this;
+  public setAmount(amount: (money: Money) => void): this;
+  public setAmount(amount: Money | ((money: Money) => void)) {
     if (amount instanceof Money) this.amount = amount;
     else {
       const money = new Money();
@@ -36,24 +40,42 @@ class RefundDetail extends Types implements Static<ITypes, typeof RefundDetail> 
     }
     return this;
   }
+  public getAmount() {
+    return this.amount;
+  }
 
-  setRefundDate(refundDate: string) {
+  public setRefundDate(refundDate: string) {
     this.refundDate = refundDate;
     return this;
   }
+  public getRefundDate() {
+    return this.refundDate;
+  }
 
-  setRefundId(refundId: string) {
+  public setRefundId(refundId: string) {
     this.refundId = refundId;
     return this;
   }
+  public getRefundId() {
+    return this.refundId;
+  }
 
-  setType(type: PaymentDetailType | ((type: typeof PaymentDetailType) => PaymentDetailType)) {
+  public setType(type: PaymentDetailType): this;
+  public setType(type: (type: typeof PaymentDetailType) => PaymentDetailType): this;
+  public setType(type: PaymentDetailType | ((type: typeof PaymentDetailType) => PaymentDetailType)) {
     if (typeof type === "function") this.type = type(PaymentDetailType);
     else this.type = type;
     return this;
   }
+  public getType() {
+    return this.type;
+  }
 
-  static fromObject(obj: TRefundDetail) {
+  public override getFields<T extends Partial<TRefundDetail>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TRefundDetail) {
     const refundDetail = new RefundDetail();
     refundDetail.setMethod(PaymentDetailMethod[obj.method]);
     if (obj.amount) refundDetail.setAmount(Money.fromObject(obj.amount));
@@ -63,5 +85,3 @@ class RefundDetail extends Types implements Static<ITypes, typeof RefundDetail> 
     return refundDetail;
   }
 }
-
-export default RefundDetail;

@@ -1,5 +1,5 @@
-import Types, { ITypes, Static } from "../Types.js";
-import PhoneDetail, { TPhoneDetail } from "./PhoneDetail.js";
+import { Utility, IUtility, Static } from "../Utility.js";
+import { PhoneDetail, TPhoneDetail } from "./PhoneDetail.js";
 
 export type TBillingInfo = {
   additional_info?: string;
@@ -8,42 +8,59 @@ export type TBillingInfo = {
   phones?: TPhoneDetail[];
 };
 
-class BillingInfo extends Types implements Static<ITypes, typeof BillingInfo> {
-  additionalInfo?: string;
-  emailAddress?: string;
-  language?: string;
-  phones?: PhoneDetail[];
+export class BillingInfo extends Utility implements Static<IUtility, typeof BillingInfo> {
+  private additionalInfo?: string;
+  private emailAddress?: string;
+  private language?: string;
+  private phones?: PhoneDetail[];
 
-  constructor() {
-    super();
-  }
-
-  setAdditionalInfo(additionalInfo: string) {
+  public setAdditionalInfo(additionalInfo: string) {
     this.additionalInfo = additionalInfo;
     return this;
   }
+  public getAdditionalInfo() {
+    return this.additionalInfo;
+  }
 
-  setEmailAddress(emailAddress: string) {
+  public setEmailAddress(emailAddress: string) {
     this.emailAddress = emailAddress;
     return this;
   }
+  public getEmailAddress() {
+    return this.emailAddress;
+  }
 
-  setLanguage(language: string) {
+  public setLanguage(language: string) {
     this.language = language;
     return this;
   }
+  public getLanguage() {
+    return this.language;
+  }
 
-  setPhones(...phones: (PhoneDetail | ((detail: PhoneDetail) => void))[]) {
+  public setPhones(...phones: PhoneDetail[]): this;
+  public setPhones(...phones: ((phone: PhoneDetail) => void)[]): this;
+  public setPhones(...phones: (PhoneDetail | ((phone: PhoneDetail) => void))[]) {
     this.phones = phones.map((phone) => {
-      if (phone instanceof PhoneDetail) return phone;
-      const detail = new PhoneDetail();
-      phone(detail);
-      return detail;
+      if (phone instanceof PhoneDetail) {
+        return phone;
+      } else {
+        const phoneInstance = new PhoneDetail();
+        phone(phoneInstance);
+        return phoneInstance;
+      }
     });
     return this;
   }
+  public getPhones() {
+    return this.phones;
+  }
 
-  static fromObject(obj: TBillingInfo) {
+  public override getFields<T extends TBillingInfo>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TBillingInfo) {
     const billingInfo = new BillingInfo();
     if (obj.additional_info) billingInfo.setAdditionalInfo(obj.additional_info);
     if (obj.email_address) billingInfo.setEmailAddress(obj.email_address);
@@ -52,5 +69,3 @@ class BillingInfo extends Types implements Static<ITypes, typeof BillingInfo> {
     return billingInfo;
   }
 }
-
-export default BillingInfo;

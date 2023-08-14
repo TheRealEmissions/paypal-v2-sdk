@@ -1,5 +1,5 @@
 import { PatchOperation } from "../Enums/PatchOperation.js";
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 
 export type TPatch = {
   op: keyof typeof PatchOperation;
@@ -8,37 +8,52 @@ export type TPatch = {
   value?: number | string | boolean | null | any[] | object;
 };
 
-class Patch extends Types implements Static<ITypes, typeof Patch> {
-  op?: PatchOperation;
-  from?: string;
-  path?: string;
-  value?: number | string | boolean | null | any[] | object;
-  constructor() {
-    super();
-  }
+export class Patch extends Utility implements Static<IUtility, typeof Patch> {
+  private op?: PatchOperation;
+  private from?: string;
+  private path?: string;
+  private value?: number | string | boolean | null | any[] | object;
 
-  setOp(op: PatchOperation | ((op: typeof PatchOperation) => PatchOperation)) {
+  public setOp(op: PatchOperation): this;
+  public setOp(op: (op: typeof PatchOperation) => PatchOperation): this;
+  public setOp(op: PatchOperation | ((op: typeof PatchOperation) => PatchOperation)) {
     if (typeof op === "function") this.op = op(PatchOperation);
     else this.op = op;
     return this;
   }
+  public getOp() {
+    return this.op;
+  }
 
-  setFrom(from: string) {
+  public setFrom(from: string) {
     this.from = from;
     return this;
   }
+  public getFrom() {
+    return this.from;
+  }
 
-  setPath(path: string) {
+  public setPath(path: string) {
     this.path = path;
     return this;
   }
+  public getPath() {
+    return this.path;
+  }
 
-  setValue(value: number | string | boolean | null | any[] | object) {
+  public setValue(value: number | string | boolean | null | any[] | object) {
     this.value = value;
     return this;
   }
+  public getValue() {
+    return this.value;
+  }
 
-  static fromObject(obj: TPatch) {
+  public override getFields<T extends Partial<TPatch>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TPatch) {
     const patch = new Patch();
     if (obj.op) patch.setOp(PatchOperation[obj.op]);
     if (obj.from) patch.setFrom(obj.from);
@@ -47,5 +62,3 @@ class Patch extends Types implements Static<ITypes, typeof Patch> {
     return patch;
   }
 }
-
-export default Patch;

@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 
 export type TMetadata = {
   create_time?: string;
@@ -15,84 +15,121 @@ export type TMetadata = {
   recipient_view_url?: string;
 };
 
-class Metadata extends Types implements Static<ITypes, typeof Metadata> {
-  createTime?: string;
-  createdBy?: string;
-  lastUpdateTime?: string;
-  lastUpdatedBy?: string;
-  cancelTime?: string;
-  cancelledBy?: string;
-  createdByFlow?: string;
-  firstSentTime?: string;
-  invoicerViewUrl?: string;
-  lastSentBy?: string;
-  lastSentTime?: string;
-  recipientViewUrl?: string;
-  constructor() {
-    super();
-  }
+export class Metadata extends Utility implements Static<IUtility, typeof Metadata> {
+  private createTime?: string;
+  private createdBy?: string;
+  private lastUpdateTime?: string;
+  private lastUpdatedBy?: string;
+  private cancelTime?: string;
+  private cancelledBy?: string;
+  private createdByFlow?: string;
+  private firstSentTime?: string;
+  private invoicerViewUrl?: string;
+  private lastSentBy?: string;
+  private lastSentTime?: string;
+  private recipientViewUrl?: string;
 
-  setCreateTime(createTime: string) {
+  public setCreateTime(createTime: string) {
     this.createTime = createTime;
     return this;
   }
+  public getCreateTime() {
+    return this.createTime;
+  }
 
-  setCreatedBy(createdBy: string) {
+  public setCreatedBy(createdBy: string) {
     this.createdBy = createdBy;
     return this;
   }
+  public getCreatedBy() {
+    return this.createdBy;
+  }
 
-  setLastUpdateTime(lastUpdateTime: string) {
+  public setLastUpdateTime(lastUpdateTime: string) {
     this.lastUpdateTime = lastUpdateTime;
     return this;
   }
+  public getLastUpdateTime() {
+    return this.lastUpdateTime;
+  }
 
-  setLastUpdatedBy(lastUpdatedBy: string) {
+  public setLastUpdatedBy(lastUpdatedBy: string) {
     this.lastUpdatedBy = lastUpdatedBy;
     return this;
   }
+  public getLastUpdatedBy() {
+    return this.lastUpdatedBy;
+  }
 
-  setCancelTime(cancelTime: string) {
+  public setCancelTime(cancelTime: string) {
     this.cancelTime = cancelTime;
     return this;
   }
+  public getCancelTime() {
+    return this.cancelTime;
+  }
 
-  setCancelledBy(cancelledBy: string) {
+  public setCancelledBy(cancelledBy: string) {
     this.cancelledBy = cancelledBy;
     return this;
   }
+  public getCancelledBy() {
+    return this.cancelledBy;
+  }
 
-  setCreatedByFlow(createdByFlow: string) {
+  public setCreatedByFlow(createdByFlow: string) {
     this.createdByFlow = createdByFlow;
     return this;
   }
+  public getCreatedByFlow() {
+    return this.createdByFlow;
+  }
 
-  setFirstSentTime(firstSentTime: string) {
+  public setFirstSentTime(firstSentTime: string) {
     this.firstSentTime = firstSentTime;
     return this;
   }
+  public getFirstSentTime() {
+    return this.firstSentTime;
+  }
 
-  setInvoicerViewUrl(invoicerViewUrl: string) {
+  public setInvoicerViewUrl(invoicerViewUrl: string) {
     this.invoicerViewUrl = invoicerViewUrl;
     return this;
   }
+  public getInvoicerViewUrl() {
+    return this.invoicerViewUrl;
+  }
 
-  setLastSentBy(lastSentBy: string) {
+  public setLastSentBy(lastSentBy: string) {
     this.lastSentBy = lastSentBy;
     return this;
   }
+  public getLastSentBy() {
+    return this.lastSentBy;
+  }
 
-  setLastSentTime(lastSentTime: string) {
+  public setLastSentTime(lastSentTime: string) {
     this.lastSentTime = lastSentTime;
     return this;
   }
+  public getLastSentTime() {
+    return this.lastSentTime;
+  }
 
-  setRecipientViewUrl(recipientViewUrl: string) {
+  public setRecipientViewUrl(recipientViewUrl: string) {
     this.recipientViewUrl = recipientViewUrl;
     return this;
   }
+  public getRecipientViewUrl() {
+    return this.recipientViewUrl;
+  }
 
-  static fromObject(obj: TMetadata) {
+  public override getFields<T extends Partial<TMetadata>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TMetadata) {
     const metadata = new Metadata();
     if (obj.create_time) metadata.setCreateTime(obj.create_time);
     if (obj.created_by) metadata.setCreatedBy(obj.created_by);
@@ -109,5 +146,3 @@ class Metadata extends Types implements Static<ITypes, typeof Metadata> {
     return metadata;
   }
 }
-
-export default Metadata;

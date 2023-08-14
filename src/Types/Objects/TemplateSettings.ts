@@ -1,20 +1,21 @@
-import Types, { ITypes, Static } from "../Types.js";
-import TemplateItemSetting, { TTemplateItemSetting } from "./TemplateItemSetting.js";
-import TemplateSubtotalSetting, { TTemplateSubtotalSetting } from "./TemplateSubtotalSetting.js";
+import { Utility, IUtility, Static } from "../Utility.js";
+import { TemplateItemSetting, TTemplateItemSetting } from "./TemplateItemSetting.js";
+import { TemplateSubtotalSetting, TTemplateSubtotalSetting } from "./TemplateSubtotalSetting.js";
 
 export type TTemplateSettings = {
   template_item_settings?: TTemplateItemSetting[];
   template_subtotal_settings?: TTemplateSubtotalSetting[];
 };
 
-class TemplateSettings extends Types implements Static<ITypes, typeof TemplateSettings> {
-  templateItemSettings?: TemplateItemSetting[];
-  templateSubtotalSettings?: TemplateSubtotalSetting[];
-  constructor() {
-    super();
-  }
+export class TemplateSettings extends Utility implements Static<IUtility, typeof TemplateSettings> {
+  private templateItemSettings?: TemplateItemSetting[];
+  private templateSubtotalSettings?: TemplateSubtotalSetting[];
 
-  setTemplateItemSettings(...templateItemSettings: (TemplateItemSetting | ((setting: TemplateItemSetting) => void))[]) {
+  public setTemplateItemSettings(...templateItemSettings: TemplateItemSetting[]): this;
+  public setTemplateItemSettings(...templateItemSettings: ((setting: TemplateItemSetting) => void)[]): this;
+  public setTemplateItemSettings(
+    ...templateItemSettings: (TemplateItemSetting | ((setting: TemplateItemSetting) => void))[]
+  ) {
     this.templateItemSettings = templateItemSettings.map((templateItemSetting) => {
       if (templateItemSetting instanceof TemplateItemSetting) return templateItemSetting;
       else {
@@ -25,8 +26,13 @@ class TemplateSettings extends Types implements Static<ITypes, typeof TemplateSe
     });
     return this;
   }
+  public getTemplateItemSettings() {
+    return this.templateItemSettings;
+  }
 
-  setTemplateSubtotalSettings(
+  public setTemplateSubtotalSettings(...templateSubtotalSettings: TemplateSubtotalSetting[]): this;
+  public setTemplateSubtotalSettings(...templateSubtotalSettings: ((setting: TemplateSubtotalSetting) => void)[]): this;
+  public setTemplateSubtotalSettings(
     ...templateSubtotalSettings: (TemplateSubtotalSetting | ((setting: TemplateSubtotalSetting) => void))[]
   ) {
     this.templateSubtotalSettings = templateSubtotalSettings.map((templateSubtotalSetting) => {
@@ -39,8 +45,15 @@ class TemplateSettings extends Types implements Static<ITypes, typeof TemplateSe
     });
     return this;
   }
+  public getTemplateSubtotalSettings() {
+    return this.templateSubtotalSettings;
+  }
 
-  static fromObject(obj: TTemplateSettings) {
+  public override getFields<T extends TTemplateSettings>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TTemplateSettings) {
     const templateSettings = new TemplateSettings();
     if (obj.template_item_settings)
       templateSettings.setTemplateItemSettings(
@@ -55,5 +68,3 @@ class TemplateSettings extends Types implements Static<ITypes, typeof TemplateSe
     return templateSettings;
   }
 }
-
-export default TemplateSettings;

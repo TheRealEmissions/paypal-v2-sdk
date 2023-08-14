@@ -1,5 +1,5 @@
 import { HTTPMethod } from "../Enums/HTTPMethod.js";
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 
 export type TLinkDescription = {
   href: string;
@@ -7,31 +7,43 @@ export type TLinkDescription = {
   method?: keyof typeof HTTPMethod;
 };
 
-class LinkDescription extends Types implements Static<ITypes, typeof LinkDescription> {
-  href?: string;
-  rel?: string;
-  method?: HTTPMethod;
-  constructor() {
-    super();
-  }
+export class LinkDescription extends Utility implements Static<IUtility, typeof LinkDescription> {
+  private href?: string;
+  private rel?: string;
+  private method?: HTTPMethod;
 
-  setHref(href: string) {
+  public setHref(href: string) {
     this.href = href;
     return this;
   }
+  public getHref() {
+    return this.href;
+  }
 
-  setRel(rel: string) {
+  public setRel(rel: string) {
     this.rel = rel;
     return this;
   }
+  public getRel() {
+    return this.rel;
+  }
 
-  setMethod(method: HTTPMethod | ((method: typeof HTTPMethod) => HTTPMethod)) {
+  public setMethod(method: HTTPMethod): this;
+  public setMethod(method: (method: typeof HTTPMethod) => HTTPMethod): this;
+  public setMethod(method: HTTPMethod | ((method: typeof HTTPMethod) => HTTPMethod)) {
     if (typeof method === "function") this.method = method(HTTPMethod);
     else this.method = method;
     return this;
   }
+  public getMethod() {
+    return this.method;
+  }
 
-  static fromObject(obj: TLinkDescription) {
+  public override getFields<T extends Partial<TLinkDescription>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TLinkDescription) {
     const linkDescription = new LinkDescription();
     if (obj.href) linkDescription.setHref(obj.href);
     if (obj.rel) linkDescription.setRel(obj.rel);
@@ -39,5 +51,3 @@ class LinkDescription extends Types implements Static<ITypes, typeof LinkDescrip
     return linkDescription;
   }
 }
-
-export default LinkDescription;
