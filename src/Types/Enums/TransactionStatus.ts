@@ -1,0 +1,12 @@
+export enum TransactionStatus {
+  COMPLETED,
+  UNCLAIMED,
+  DENIED,
+  FAILED,
+  HELD,
+  PENDING,
+  PARTIALLY_REFUNDED,
+  REFUNDED,
+  REVERSED,
+  CANCELLED,
+}
