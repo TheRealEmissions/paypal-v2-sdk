@@ -1,14 +1,11 @@
-import { TProduct } from "./../Types/Objects/Product.js";
-import { ListProductsResponse, TListProductsResponse } from "./../Types/APIResponses/ListProducts.js";
+import { TProduct, Product } from "../Types/Objects/Product.js";
 import PayPal from "../PayPal.js";
-import { LinkDescription } from "../Types/Objects/LinkDescription.js";
-import { ProductCollectionElement } from "../Types/Objects/ProductCollectionElement.js";
-import { Product } from "../Types/Objects/Product.js";
 import { PatchRequest, TPatchRequest } from "../Types/Objects/PatchRequest.js";
 import { ProductUpdateError } from "../Errors/Products/ProductUpdateError.js";
 import { Integer } from "../Types/Utility.js";
+import { ProductCollection, TProductCollection } from "../Types/Objects/ProductCollection.js";
 
-export class Products {
+export class CatalogProducts {
   protected PayPal: PayPal;
   constructor(PayPal: PayPal) {
     this.PayPal = PayPal;
@@ -27,7 +24,7 @@ export class Products {
     pageSize?: Integer<U>,
     totalRequired?: boolean
   ) {
-    const response = await this.PayPal.getAPI().get<TListProductsResponse<number, number>>("/v1/catalogs/products", {
+    const response = await this.PayPal.getAPI().get<TProductCollection>("/v1/catalogs/products", {
       params: {
         page,
         page_size: pageSize,
@@ -38,12 +35,7 @@ export class Products {
       },
     });
 
-    return new ListProductsResponse(
-      response.data.links.map((link) => LinkDescription.fromObject(link)),
-      response.data.products.map((product) => ProductCollectionElement.fromObject(product)),
-      response.data.total_items,
-      response.data.total_pages
-    );
+    return ProductCollection.fromObject(response.data);
   }
 
   public async create(

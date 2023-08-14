@@ -1,24 +1,14 @@
 import PayPal from "../PayPal.js";
-import {
-  GenerateInvoiceNumberResponse,
-  TGenerateInvoiceNumberResponse,
-} from "../Types/APIResponses/GenerateInvoiceNumber.js";
-import { ListInvoicesResponse, TListInvoicesResponse } from "../Types/APIResponses/ListInvoices.js";
-import { ListTemplatesResponse, TListTemplatesResponse } from "../Types/APIResponses/ListTemplates.js";
-import { SearchForInvoicesResponse, TSearchForInvoicesResponse } from "../Types/APIResponses/SearchForInvoices.js";
 import { GenerateQrCodeAction } from "../Types/Enums/GenerateQrCodeAction.js";
-import { InvoiceStatus } from "../Types/Enums/InvoiceStatus.js";
-import { AddressPortable } from "../Types/Objects/AddressPortable.js";
-import { TAmountRange } from "../Types/Objects/AmountRange.js";
-import { TDateRange } from "../Types/Objects/DateRange.js";
 import { EmailAddress, TEmailAddress } from "../Types/Objects/EmailAddress.js";
-import { Field } from "../Types/Objects/Field.js";
 import { Invoice, TInvoice } from "../Types/Objects/Invoice.js";
-import { LinkDescription } from "../Types/Objects/LinkDescription.js";
+import { InvoiceNumber, TInvoiceNumber } from "../Types/Objects/InvoiceNumber.js";
+import { Invoices, TInvoices } from "../Types/Objects/Invoices.js";
 import { PaymentDetail, TPaymentDetail } from "../Types/Objects/PaymentDetail.js";
-import { PhoneDetail } from "../Types/Objects/PhoneDetail.js";
 import { RefundDetail, TRefundDetail } from "../Types/Objects/RefundDetail.js";
+import { SearchData } from "../Types/Objects/SearchData.js";
 import { Template, TTemplate } from "../Types/Objects/Template.js";
+import { TTemplates, Templates } from "../Types/Objects/Templates.js";
 import { Integer } from "../Types/Utility.js";
 
 type InvoiceDeleteArg = Invoice | string | ((invoice: Invoice) => void);
@@ -29,12 +19,9 @@ export class Invoicing {
     this.PayPal = PayPal;
   }
 
-  public async generateInvoiceNumber(): Promise<GenerateInvoiceNumberResponse> {
-    const response = await this.PayPal.getAPI().post<TGenerateInvoiceNumberResponse>(
-      "/v2/invoicing/generate-next-invoice-number"
-    );
-    const invoiceNumber = response.data.invoice_number;
-    return new GenerateInvoiceNumberResponse(invoiceNumber);
+  public async generateInvoiceNumber(): Promise<InvoiceNumber> {
+    const response = await this.PayPal.getAPI().post<TInvoiceNumber>("/v2/invoicing/generate-next-invoice-number");
+    return InvoiceNumber.fromObject(response.data);
   }
 
   /**
@@ -72,7 +59,7 @@ export class Invoicing {
       }
     }
 
-    const response = await this.PayPal.getAPI().get<TListInvoicesResponse<number, number>>("/v2/invoicing/invoices", {
+    const response = await this.PayPal.getAPI().get<TInvoices>("/v2/invoicing/invoices", {
       params: {
         fields,
         page,
@@ -81,12 +68,7 @@ export class Invoicing {
       },
     });
 
-    return new ListInvoicesResponse(
-      response.data.items.map((x) => Invoice.fromObject(x)),
-      response.data.links.map((x) => LinkDescription.fromObject(x)),
-      response.data.total_items,
-      response.data.total_pages
-    );
+    return Invoices.fromObject(response.data);
   }
 
   public async createDraft(invoice: Invoice): Promise<Invoice>;
@@ -364,21 +346,15 @@ export class Invoicing {
     return response.status === SUCCESS_RESPONSE;
   }
 
-  public async recordRefund(invoice: Invoice, refundDetail: RefundDetail): Promise<Invoice | string>;
-  public async recordRefund(invoice: string, refundDetail: RefundDetail): Promise<Invoice | string>;
-  public async recordRefund(invoice: (invoice: Invoice) => void, refundDetail: RefundDetail): Promise<Invoice | string>;
-  public async recordRefund(
-    invoice: Invoice,
-    refundDetail: (refundDetail: RefundDetail) => void
-  ): Promise<Invoice | string>;
-  public async recordRefund(
-    invoice: string,
-    refundDetail: (refundDetail: RefundDetail) => void
-  ): Promise<Invoice | string>;
+  public async recordRefund(invoice: Invoice, refundDetail: RefundDetail): Promise<Invoice>;
+  public async recordRefund(invoice: string, refundDetail: RefundDetail): Promise<Invoice>;
+  public async recordRefund(invoice: (invoice: Invoice) => void, refundDetail: RefundDetail): Promise<Invoice>;
+  public async recordRefund(invoice: Invoice, refundDetail: (refundDetail: RefundDetail) => void): Promise<Invoice>;
+  public async recordRefund(invoice: string, refundDetail: (refundDetail: RefundDetail) => void): Promise<Invoice>;
   public async recordRefund(
     invoice: (invoice: Invoice) => void,
     refundDetail: (refundDetail: RefundDetail) => void
-  ): Promise<Invoice | string>;
+  ): Promise<Invoice>;
   public async recordRefund(
     invoice: InvoiceDeleteArg,
     refundDetail: RefundDetail | ((refundDetail: RefundDetail) => void)
@@ -404,7 +380,11 @@ export class Invoicing {
     );
 
     const SUCCESS_RESPONSE = 200;
-    return response.status === SUCCESS_RESPONSE ? this.get(invoiceId) : response.statusText;
+    if (response.status !== SUCCESS_RESPONSE) {
+      throw new Error("Failed to record refund");
+    }
+
+    return this.get(invoiceId);
   }
 
   public async deleteExternalRefund(invoice: Invoice, transactionId: string): Promise<boolean>;
@@ -432,7 +412,7 @@ export class Invoicing {
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
     subject?: string
-  ): Promise<Invoice | string>;
+  ): Promise<Invoice>;
   public async sendReminder(
     invoice: string,
     additionalRecipients?: EmailAddress[],
@@ -440,7 +420,7 @@ export class Invoicing {
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
     subject?: string
-  ): Promise<Invoice | string>;
+  ): Promise<Invoice>;
   public async sendReminder(
     invoice: (invoice: Invoice) => void,
     additionalRecipients?: EmailAddress[],
@@ -448,7 +428,7 @@ export class Invoicing {
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
     subject?: string
-  ): Promise<Invoice | string>;
+  ): Promise<Invoice>;
   public async sendReminder(
     invoice: Invoice,
     additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
@@ -456,7 +436,7 @@ export class Invoicing {
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
     subject?: string
-  ): Promise<Invoice | string>;
+  ): Promise<Invoice>;
   public async sendReminder(
     invoice: string,
     additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
@@ -464,7 +444,7 @@ export class Invoicing {
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
     subject?: string
-  ): Promise<Invoice | string>;
+  ): Promise<Invoice>;
   public async sendReminder(
     invoice: (invoice: Invoice) => void,
     additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
@@ -472,7 +452,7 @@ export class Invoicing {
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
     subject?: string
-  ): Promise<Invoice | string>;
+  ): Promise<Invoice>;
   public async sendReminder(
     invoice: Invoice | string | ((invoice: Invoice) => void),
     additionalRecipients?: (EmailAddress | ((additionalRecipient: EmailAddress) => void))[],
@@ -507,7 +487,12 @@ export class Invoicing {
     });
 
     const SUCCESS_RESPONSE = 200;
-    return response.status === SUCCESS_RESPONSE ? this.get(invoiceId) : response.statusText;
+
+    if (response.status !== SUCCESS_RESPONSE) {
+      throw new Error("Failed to send reminder");
+    }
+
+    return this.get(invoiceId);
   }
 
   public async send(
@@ -517,7 +502,7 @@ export class Invoicing {
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
     subject?: string
-  ): Promise<Invoice | string>;
+  ): Promise<Invoice>;
   public async send(
     invoice: string,
     additionalRecipients?: EmailAddress[],
@@ -525,7 +510,7 @@ export class Invoicing {
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
     subject?: string
-  ): Promise<Invoice | string>;
+  ): Promise<Invoice>;
   public async send(
     invoice: (invoice: Invoice) => void,
     additionalRecipients?: EmailAddress[],
@@ -533,7 +518,7 @@ export class Invoicing {
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
     subject?: string
-  ): Promise<Invoice | string>;
+  ): Promise<Invoice>;
   public async send(
     invoice: Invoice,
     additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
@@ -541,7 +526,7 @@ export class Invoicing {
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
     subject?: string
-  ): Promise<Invoice | string>;
+  ): Promise<Invoice>;
   public async send(
     invoice: string,
     additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
@@ -549,7 +534,7 @@ export class Invoicing {
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
     subject?: string
-  ): Promise<Invoice | string>;
+  ): Promise<Invoice>;
   public async send(
     invoice: (invoice: Invoice) => void,
     additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
@@ -557,7 +542,7 @@ export class Invoicing {
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
     subject?: string
-  ): Promise<Invoice | string>;
+  ): Promise<Invoice>;
   public async send(
     invoice: Invoice | string | ((invoice: Invoice) => void),
     additionalRecipients?: (EmailAddress | ((additionalRecipient: EmailAddress) => void))[],
@@ -589,19 +574,24 @@ export class Invoicing {
       note,
     });
 
-    const SUCCESS_RESPONSE = 200;
-    return response.status === SUCCESS_RESPONSE ? this.get(invoiceId) : response.statusText;
+    const SUCCESS_RESPONSE = 202;
+
+    if (response.status !== SUCCESS_RESPONSE) {
+      throw new Error("Failed to send invoice");
+    }
+
+    return this.get(invoiceId);
   }
 
   public async search<N extends number, U extends number>(
     page: Integer<N>,
     pageSize: Integer<U>,
     totalRequired: boolean,
-    data?: TSearch
+    data?: SearchData
   ) {
-    const response = await this.PayPal.getAPI().post<TSearchForInvoicesResponse<number, number>>(
+    const response = await this.PayPal.getAPI().post<TInvoices>(
       `/v2/invoicing/search-invoices`,
-      data ?? {},
+      data?.getFields() ?? {},
       {
         params: {
           page,
@@ -611,12 +601,7 @@ export class Invoicing {
       }
     );
 
-    return new SearchForInvoicesResponse(
-      response.data.items.map((x) => Invoice.fromObject(x)),
-      response.data.links.map((x) => LinkDescription.fromObject(x)),
-      response.data.total_items,
-      response.data.total_pages
-    );
+    return Invoices.fromObject(response.data);
   }
 
   public async listTemplates<N extends number, U extends number>(
@@ -624,7 +609,7 @@ export class Invoicing {
     page?: Integer<N>,
     pageSize?: Integer<U>
   ) {
-    const response = await this.PayPal.getAPI().get<TListTemplatesResponse>(`/v2/invoicing/templates`, {
+    const response = await this.PayPal.getAPI().get<TTemplates>(`/v2/invoicing/templates`, {
       params: {
         fields,
         page,
@@ -632,13 +617,7 @@ export class Invoicing {
       },
     });
 
-    return new ListTemplatesResponse(
-      response.data.addresses.map((x) => AddressPortable.fromObject(x)),
-      response.data.emails,
-      response.data.links.map((x) => LinkDescription.fromObject(x)),
-      response.data.phones.map((x) => PhoneDetail.fromObject(x)),
-      response.data.templates.map((x) => Template.fromObject(x))
-    );
+    return Templates.fromObject(response.data);
   }
 
   public async createTemplate(template: Template): Promise<Template>;
@@ -707,22 +686,3 @@ export class Invoicing {
     return Template.fromObject(response.data).setPayPal(this.PayPal);
   }
 }
-
-type TSearch = {
-  archived?: boolean | null;
-  creation_date_range?: TDateRange;
-  currency_code?: string;
-  due_date_range?: TDateRange;
-  fields?: Field;
-  invoiceDateRange?: TDateRange;
-  invoiceNumber?: string;
-  memo?: string;
-  paymentDateRange?: TDateRange;
-  recipientBusinessName?: string;
-  recipientEmail?: string;
-  recipientFirstName?: string;
-  recipientLastName?: string;
-  reference?: string;
-  status?: (keyof typeof InvoiceStatus)[];
-  totalAmountRange?: TAmountRange;
-};

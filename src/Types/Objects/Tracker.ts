@@ -4,7 +4,7 @@ import { ShippingStatus } from "./../Enums/ShippingStatus.js";
 import { Utility, IUtility, Static } from "../Utility.js";
 import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
 import PayPal from "../../PayPal.js";
-import { AddTrackersResponse } from "../APIResponses/AddTrackers.js";
+import { BatchTrackerCollection } from "./BatchTrackerCollection.js";
 
 export type TTracker = {
   status: keyof typeof ShippingStatus;
@@ -68,8 +68,8 @@ export class Tracker extends Utility implements Static<IUtility, typeof Tracker>
     return this.PayPal.getAddTracking().get(this.transactionId);
   }
 
-  public add(...links: LinkDescription[]): Promise<AddTrackersResponse>;
-  public add(...links: ((link: LinkDescription) => void)[]): Promise<AddTrackersResponse>;
+  public add(...links: LinkDescription[]): Promise<BatchTrackerCollection>;
+  public add(...links: ((link: LinkDescription) => void)[]): Promise<BatchTrackerCollection>;
   public add(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
     if (!this.PayPal) {
       throw new Error("To use in-built methods, please provide PayPal instance when initialising the Tracker");

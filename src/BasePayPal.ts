@@ -3,7 +3,7 @@ import EventEmitter from "events";
 import { Invoicing } from "./API/Invoicing.js";
 import { Authentication } from "./API/Authentication.js";
 import { AddTracking } from "./API/AddTracking.js";
-import { Products } from "./API/Products.js";
+import { CatalogProducts } from "./API/CatalogProducts.js";
 import { Disputes } from "./API/Disputes.js";
 
 abstract class BasePayPal extends EventEmitter {
@@ -14,7 +14,7 @@ abstract class BasePayPal extends EventEmitter {
   private Invoicing: Invoicing;
   private Auth: Authentication;
   private AddTracking: AddTracking;
-  private Products: Products;
+  private CatalogProducts: CatalogProducts;
   private Disputes: Disputes;
 
   constructor() {
@@ -29,7 +29,7 @@ abstract class BasePayPal extends EventEmitter {
     this.Auth = new Authentication(this);
     this.Invoicing = new Invoicing(this);
     this.AddTracking = new AddTracking(this);
-    this.Products = new Products(this);
+    this.CatalogProducts = new CatalogProducts(this);
     this.Disputes = new Disputes(this);
   }
 
@@ -69,8 +69,8 @@ abstract class BasePayPal extends EventEmitter {
     return this.AddTracking;
   }
 
-  getProducts() {
-    return this.Products;
+  getCatalogProducts() {
+    return this.CatalogProducts;
   }
 
   getDisputes() {

@@ -45,7 +45,7 @@ export class Product extends Utility implements Static<IUtility, typeof Product>
     if (!this.PayPal) {
       throw new Error("To use in-built methods, you must pass PayPal instance to the constructor");
     }
-    return this.PayPal.getProducts().create(this, paypalRequestId, prefer);
+    return this.PayPal.getCatalogProducts().create(this, paypalRequestId, prefer);
   }
 
   public update(patchRequest: PatchRequest): Promise<Product>;
@@ -54,17 +54,17 @@ export class Product extends Utility implements Static<IUtility, typeof Product>
     if (!this.PayPal) {
       throw new Error("To use in-built methods, you must pass PayPal instance to the constructor");
     }
-    if (patchRequest instanceof PatchRequest) return this.PayPal.getProducts().update(this, patchRequest);
+    if (patchRequest instanceof PatchRequest) return this.PayPal.getCatalogProducts().update(this, patchRequest);
     const patch = new PatchRequest();
     patchRequest(patch);
-    return this.PayPal.getProducts().update(this, patch);
+    return this.PayPal.getCatalogProducts().update(this, patch);
   }
 
   public get() {
     if (!this.PayPal) {
       throw new Error("To use in-built methods, you must pass PayPal instance to the constructor");
     }
-    return this.PayPal.getProducts().get(this);
+    return this.PayPal.getCatalogProducts().get(this);
   }
 
   public setCategory(category: ProductCategory): this;

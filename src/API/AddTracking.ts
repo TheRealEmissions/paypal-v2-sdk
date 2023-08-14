@@ -1,16 +1,40 @@
-import { AddTrackersResponse, TAddTrackersResponse } from "./../Types/APIResponses/AddTrackers.js";
 import { TTracker } from "./../Types/Objects/Tracker.js";
 import PayPal from "../PayPal.js";
 import { Tracker } from "../Types/Objects/Tracker.js";
 import { LinkDescription, TLinkDescription } from "../Types/Objects/LinkDescription.js";
-import { TrackerIdentifier } from "../Types/Objects/TrackerIdentifier.js";
-import { PayPalError } from "../Types/Objects/Error.js";
 import { TrackerUpdateOrCancelError } from "../Errors/AddTracking/TrackerUpdateOrCancelError.js";
+import { BatchTrackerCollection, TBatchTrackerCollection } from "../Types/Objects/BatchTrackerCollection.js";
 
 export class AddTracking {
   protected PayPal: PayPal;
   constructor(PayPal: PayPal) {
     this.PayPal = PayPal;
+  }
+
+  public async listInformation(transactionId: string, trackingNumber?: string) {
+    const response = await this.PayPal.getAPI().get<TTracker>("/v1/shipping/trackers", {
+      params: {
+        transaction_id: transactionId,
+        tracking_number: trackingNumber,
+      },
+    });
+    return Tracker.fromObject(response.data);
+  }
+
+  public async addMany(trackers: Tracker[]): Promise<BatchTrackerCollection>;
+  public async addMany(trackers: ((tracker: Tracker) => void)[]): Promise<BatchTrackerCollection>;
+  public async addMany(trackers: (Tracker | ((tracker: Tracker) => void))[]) {
+    const trackerInstances = trackers.map((tracker) => {
+      if (tracker instanceof Tracker) return tracker;
+      const trackerInstance = new Tracker();
+      tracker(trackerInstance);
+      return trackerInstance;
+    });
+    const response = await this.PayPal.getAPI().post<TBatchTrackerCollection>("/v1/shipping/trackers-batch", {
+      trackers: trackerInstances.map((tracker) => tracker.toAttributeObject<TTracker>()),
+    });
+    if (response.status !== 201) throw new Error("Failed to add tracking information");
+    return BatchTrackerCollection.fromObject(response.data);
   }
 
   /**
@@ -62,13 +86,13 @@ export class AddTracking {
     return Tracker.fromObject(response.data);
   }
 
-  public async add(trackers: Tracker[], links: LinkDescription[]): Promise<AddTrackersResponse>;
-  public async add(trackers: Tracker[], links: ((link: LinkDescription) => void)[]): Promise<AddTrackersResponse>;
-  public async add(trackers: ((tracker: Tracker) => void)[], links: LinkDescription[]): Promise<AddTrackersResponse>;
+  public async add(trackers: Tracker[], links: LinkDescription[]): Promise<BatchTrackerCollection>;
+  public async add(trackers: Tracker[], links: ((link: LinkDescription) => void)[]): Promise<BatchTrackerCollection>;
+  public async add(trackers: ((tracker: Tracker) => void)[], links: LinkDescription[]): Promise<BatchTrackerCollection>;
   public async add(
     trackers: ((tracker: Tracker) => void)[],
     links: ((link: LinkDescription) => void)[]
-  ): Promise<AddTrackersResponse>;
+  ): Promise<BatchTrackerCollection>;
   public async add(
     trackers: (Tracker | ((tracker: Tracker) => void))[],
     links: (LinkDescription | ((link: LinkDescription) => void))[]
@@ -85,14 +109,10 @@ export class AddTracking {
       link(linkInstance);
       return linkInstance;
     });
-    const response = await this.PayPal.getAPI().post<TAddTrackersResponse>("/v1/shipping/trackers", {
+    const response = await this.PayPal.getAPI().post<TBatchTrackerCollection>("/v1/shipping/trackers", {
       trackers: trackerInstances.map((tracker) => tracker.toAttributeObject<TTracker>()),
       links: linkInstances.map((link) => link.toAttributeObject<TLinkDescription>()),
     });
-    return new AddTrackersResponse(
-      response.data.errors.map((x) => PayPalError.fromObject(x)),
-      response.data.links.map((x) => LinkDescription.fromObject(x)),
-      response.data.tracker_identifiers.map((x) => TrackerIdentifier.fromObject(x))
-    );
+    return BatchTrackerCollection.fromObject(response.data);
   }
 }

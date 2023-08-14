@@ -68,9 +68,9 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
     if (generateNextInvoiceNumber) {
       const invoiceNumber = await this.PayPal.getInvoicing().generateInvoiceNumber();
       if (this.detail) {
-        this.detail.setInvoiceNumber(invoiceNumber.getInvoiceNumber());
+        this.detail.setInvoiceNumber(invoiceNumber.getInvoiceNumber()!);
       } else {
-        this.setDetail((detail) => detail.setInvoiceNumber(invoiceNumber.getInvoiceNumber()));
+        this.setDetail((detail) => detail.setInvoiceNumber(invoiceNumber.getInvoiceNumber()!));
       }
     }
     return this.PayPal.getInvoicing().createDraft(this);
