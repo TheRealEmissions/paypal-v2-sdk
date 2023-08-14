@@ -1,5 +1,5 @@
 import { UnitOfMeasure } from "../Enums/UnitOfMeasure.js";
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 import { Discount, TDiscount } from "./Discount.js";
 import { Money, TMoney } from "./Money.js";
 import { Tax, TTax } from "./Tax.js";
@@ -16,25 +16,31 @@ export type TItem = {
   unit_of_measure?: keyof typeof UnitOfMeasure;
 };
 
-export class Item extends Types implements Static<ITypes, typeof Item> {
-  name?: string;
-  quantity?: string;
-  unitAmount?: Money;
-  description?: string;
-  discount?: Discount;
-  id?: string;
-  itemDate?: string;
-  tax?: Tax;
-  unitOfMeasure?: UnitOfMeasure;
+export class Item extends Utility implements Static<IUtility, typeof Item> {
+  private name?: string;
+  private quantity?: string;
+  private unitAmount?: Money;
+  private description?: string;
+  private discount?: Discount;
+  private id?: string;
+  private itemDate?: string;
+  private tax?: Tax;
+  private unitOfMeasure?: UnitOfMeasure;
 
   public setItemName(name: string): this {
     this.name = name;
     return this;
   }
+  public getItemName() {
+    return this.name;
+  }
 
   public setItemQuantity(quantity: string): this {
     this.quantity = quantity;
     return this;
+  }
+  public getItemQuantity() {
+    return this.quantity;
   }
 
   public setItemUnitAmount(unitAmount: Money): this;
@@ -49,10 +55,16 @@ export class Item extends Types implements Static<ITypes, typeof Item> {
     }
     return this;
   }
+  public getItemUnitAmount() {
+    return this.unitAmount;
+  }
 
   public setItemDescription(description: string): this {
     this.description = description;
     return this;
+  }
+  public getItemDescription() {
+    return this.description;
   }
 
   public setItemDiscount(discount: Discount): this;
@@ -67,15 +79,24 @@ export class Item extends Types implements Static<ITypes, typeof Item> {
     }
     return this;
   }
+  public getItemDiscount() {
+    return this.discount;
+  }
 
   public setItemId(id: string): this {
     this.id = id;
     return this;
   }
+  public getItemId() {
+    return this.id;
+  }
 
   public setItemDate(itemDate: string): this {
     this.itemDate = itemDate;
     return this;
+  }
+  public getItemDate() {
+    return this.itemDate;
   }
 
   public setItemTax(tax: Tax): this;
@@ -90,6 +111,9 @@ export class Item extends Types implements Static<ITypes, typeof Item> {
     }
     return this;
   }
+  public getItemTax() {
+    return this.tax;
+  }
 
   public setItemUnitOfMeasure(unitOfMeasure: UnitOfMeasure): this;
   public setItemUnitOfMeasure(unitOfMeasure: (unitOfMeasure: typeof UnitOfMeasure) => UnitOfMeasure): this;
@@ -103,8 +127,15 @@ export class Item extends Types implements Static<ITypes, typeof Item> {
     }
     return this;
   }
+  public getItemUnitOfMeasure() {
+    return this.unitOfMeasure;
+  }
 
-  static fromObject(obj: TItem): Item {
+  public override getFields<T extends Partial<TItem>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TItem): Item {
     const item = new Item();
     item.setItemName(obj.name);
     item.setItemQuantity(obj.quantity);

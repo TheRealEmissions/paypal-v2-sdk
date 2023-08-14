@@ -18,7 +18,7 @@ import { PaymentDetail, TPaymentDetail } from "../Types/Objects/PaymentDetail.js
 import { PhoneDetail } from "../Types/Objects/PhoneDetail.js";
 import { RefundDetail, TRefundDetail } from "../Types/Objects/RefundDetail.js";
 import { Template, TTemplate } from "../Types/Objects/Template.js";
-import { Integer } from "../Types/Types.js";
+import { Integer } from "../Types/Utility.js";
 
 class Invoicing {
   protected PayPal: PayPal;
@@ -110,7 +110,7 @@ class Invoicing {
     if (typeof invoice === "function" && invoiceInstance) {
       invoice(invoiceInstance);
     }
-    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.id;
+    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.getId();
     if (!invoiceId) {
       throw new Error("Invoice id is required");
     }
@@ -127,7 +127,7 @@ class Invoicing {
       invoice(invoiceInstance);
     }
     const response = await this.PayPal.API.put<TInvoice>(
-      `/v2/invoicing/invoices/${invoiceInstance.id ?? invoiceId}`,
+      `/v2/invoicing/invoices/${invoiceInstance.getId() ?? invoiceId}`,
       invoiceInstance.toAttributeObject<TInvoice>()
     );
 
@@ -140,7 +140,7 @@ class Invoicing {
     if (typeof invoice === "function" && invoiceInstance) {
       invoice(invoiceInstance);
     }
-    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.id;
+    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.getId();
     if (!invoiceId) {
       throw new Error("Invoice id is required");
     }
@@ -210,7 +210,7 @@ class Invoicing {
     if (typeof invoice === "function" && invoiceInstance) {
       invoice(invoiceInstance);
     }
-    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.id;
+    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.getId();
     if (!invoiceId) {
       throw new Error("Invoice id is required");
     }
@@ -279,7 +279,7 @@ class Invoicing {
     if (typeof invoice === "function" && invoiceInstance) {
       invoice(invoiceInstance);
     }
-    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.id;
+    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.getId();
     if (!invoiceId) {
       throw new Error("Invoice id is required");
     }
@@ -323,7 +323,7 @@ class Invoicing {
     if (typeof invoice === "function" && invoiceInstance) {
       invoice(invoiceInstance);
     }
-    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.id;
+    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.getId();
     if (!invoiceId) {
       throw new Error("Invoice id is required");
     }
@@ -352,7 +352,7 @@ class Invoicing {
     if (typeof invoice === "function" && invoiceInstance) {
       invoice(invoiceInstance);
     }
-    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.id;
+    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.getId();
     if (!invoiceId) {
       throw new Error("Invoice id is required");
     }
@@ -379,7 +379,7 @@ class Invoicing {
     if (typeof invoice === "function" && invoiceInstance) {
       invoice(invoiceInstance);
     }
-    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.id;
+    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.getId();
     if (!invoiceId) {
       throw new Error("Invoice id is required");
     }
@@ -410,7 +410,7 @@ class Invoicing {
     if (typeof invoice === "function" && invoiceInstance) {
       invoice(invoiceInstance);
     }
-    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.id;
+    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.getId();
     if (!invoiceId) {
       throw new Error("Invoice id is required");
     }
@@ -480,7 +480,7 @@ class Invoicing {
     if (typeof invoice === "function" && invoiceInstance) {
       invoice(invoiceInstance);
     }
-    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.id;
+    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.getId();
 
     if (!invoiceId) {
       throw new Error("Invoice id is required");
@@ -565,7 +565,7 @@ class Invoicing {
     if (typeof invoice === "function" && invoiceInstance) {
       invoice(invoiceInstance);
     }
-    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.id;
+    const invoiceId = typeof invoice === "string" ? invoice : invoiceInstance!.getId();
     if (!invoiceId) {
       throw new Error("Invoice id is required");
     }
@@ -655,7 +655,7 @@ class Invoicing {
     if (typeof template === "function" && templateInstance) {
       template(templateInstance);
     }
-    const templateId = typeof template === "string" ? template : templateInstance!.id;
+    const templateId = typeof template === "string" ? template : templateInstance!.getId();
     if (!templateId) {
       throw new Error("Template id is required");
     }
@@ -672,7 +672,7 @@ class Invoicing {
       template(templateInstance);
     }
     const response = await this.PayPal.API.put<TTemplate>(
-      `/v2/invoicing/templates/${templateInstance.id}`,
+      `/v2/invoicing/templates/${templateInstance.getId()}`,
       templateInstance.toAttributeObject<TTemplate>()
     );
 
@@ -688,7 +688,7 @@ class Invoicing {
     if (typeof template === "function" && templateInstance) {
       template(templateInstance);
     }
-    const templateId = typeof template === "string" ? template : templateInstance!.id;
+    const templateId = typeof template === "string" ? template : templateInstance!.getId();
     if (!templateId) {
       throw new Error("Template id is required");
     }

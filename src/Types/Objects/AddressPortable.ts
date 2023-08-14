@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 import { AddressDetails, TAddressDetails } from "./AddressDetails.js";
 
 export type TAddressPortable = {
@@ -14,26 +14,29 @@ export type TAddressPortable = {
   postal_code?: string;
 };
 
-export class AddressPortable extends Types implements Static<ITypes, typeof AddressPortable> {
-  countryCode?: string;
-  addressDetails?: AddressDetails;
-  addressLine1?: string;
-  addressLine2?: string;
-  addressLine3?: string;
-  adminArea1?: string;
-  adminArea2?: string;
-  adminArea3?: string;
-  adminArea4?: string;
-  postalCode?: string;
+export class AddressPortable extends Utility implements Static<IUtility, typeof AddressPortable> {
+  private countryCode?: string;
+  private addressDetails?: AddressDetails;
+  private addressLine1?: string;
+  private addressLine2?: string;
+  private addressLine3?: string;
+  private adminArea1?: string;
+  private adminArea2?: string;
+  private adminArea3?: string;
+  private adminArea4?: string;
+  private postalCode?: string;
 
-  setCountryCode(countryCode: string) {
+  public setCountryCode(countryCode: string) {
     this.countryCode = countryCode;
     return this;
   }
+  public getCountryCode() {
+    return this.countryCode;
+  }
 
-  setAddressDetails(addressDetails: AddressDetails): this;
-  setAddressDetails(addressDetails: (addressDetails: AddressDetails) => void): this;
-  setAddressDetails(addressDetails: AddressDetails | ((addressDetails: AddressDetails) => void)) {
+  public setAddressDetails(addressDetails: AddressDetails): this;
+  public setAddressDetails(addressDetails: (addressDetails: AddressDetails) => void): this;
+  public setAddressDetails(addressDetails: AddressDetails | ((addressDetails: AddressDetails) => void)) {
     if (addressDetails instanceof AddressDetails) {
       this.addressDetails = addressDetails;
     } else {
@@ -43,48 +46,79 @@ export class AddressPortable extends Types implements Static<ITypes, typeof Addr
     }
     return this;
   }
+  public getAddressDetails() {
+    return this.addressDetails;
+  }
 
-  setAddressLine1(addressLine1: string) {
+  public setAddressLine1(addressLine1: string) {
     this.addressLine1 = addressLine1;
     return this;
   }
+  public getAddressLine1() {
+    return this.addressLine1;
+  }
 
-  setAddressLine2(addressLine2: string) {
+  public setAddressLine2(addressLine2: string) {
     this.addressLine2 = addressLine2;
     return this;
   }
+  public getAddressLine2() {
+    return this.addressLine2;
+  }
 
-  setAddressLine3(addressLine3: string) {
+  public setAddressLine3(addressLine3: string) {
     this.addressLine3 = addressLine3;
     return this;
   }
+  public getAddressLine3() {
+    return this.addressLine3;
+  }
 
-  setAdminArea1(adminArea1: string) {
+  public setAdminArea1(adminArea1: string) {
     this.adminArea1 = adminArea1;
     return this;
   }
+  public getAdminArea1() {
+    return this.adminArea1;
+  }
 
-  setAdminArea2(adminArea2: string) {
+  public setAdminArea2(adminArea2: string) {
     this.adminArea2 = adminArea2;
     return this;
   }
+  public getAdminArea2() {
+    return this.adminArea2;
+  }
 
-  setAdminArea3(adminArea3: string) {
+  public setAdminArea3(adminArea3: string) {
     this.adminArea3 = adminArea3;
     return this;
   }
+  public getAdminArea3() {
+    return this.adminArea3;
+  }
 
-  setAdminArea4(adminArea4: string) {
+  public setAdminArea4(adminArea4: string) {
     this.adminArea4 = adminArea4;
     return this;
   }
+  public getAdminArea4() {
+    return this.adminArea4;
+  }
 
-  setPostalCode(postalCode: string) {
+  public setPostalCode(postalCode: string) {
     this.postalCode = postalCode;
     return this;
   }
+  public getPostalCode() {
+    return this.postalCode;
+  }
 
-  static fromObject(obj: TAddressPortable): AddressPortable {
+  public override getFields<T extends Partial<TAddressPortable>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TAddressPortable): AddressPortable {
     const addressPortable = new AddressPortable();
     if (obj.country_code) addressPortable.setCountryCode(obj.country_code);
     if (obj.address_details) addressPortable.setAddressDetails(AddressDetails.fromObject(obj.address_details));

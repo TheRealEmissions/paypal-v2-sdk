@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 import { AggregatedDiscount, TAggregatedDiscount } from "./AggregatedDiscount.js";
 import { CustomAmount, TCustomAmount } from "./CustomAmount.js";
 import { Money, TMoney } from "./Money.js";
@@ -12,16 +12,16 @@ export type TAmountWithBreakdown = {
   tax_total?: TMoney;
 };
 
-export class AmountWithBreakdown extends Types implements Static<ITypes, typeof AmountWithBreakdown> {
-  custom?: CustomAmount;
-  discount?: AggregatedDiscount;
-  itemTotal?: Money;
-  shipping?: ShippingCost;
-  taxTotal?: Money;
+export class AmountWithBreakdown extends Utility implements Static<IUtility, typeof AmountWithBreakdown> {
+  private custom?: CustomAmount;
+  private discount?: AggregatedDiscount;
+  private itemTotal?: Money;
+  private shipping?: ShippingCost;
+  private taxTotal?: Money;
 
-  setCustom(custom: CustomAmount): this;
-  setCustom(custom: (custom: CustomAmount) => void): this;
-  setCustom(custom: CustomAmount | ((custom: CustomAmount) => void)): this {
+  public setCustom(custom: CustomAmount): this;
+  public setCustom(custom: (custom: CustomAmount) => void): this;
+  public setCustom(custom: CustomAmount | ((custom: CustomAmount) => void)): this {
     if (custom instanceof CustomAmount) {
       this.custom = custom;
     } else {
@@ -31,10 +31,13 @@ export class AmountWithBreakdown extends Types implements Static<ITypes, typeof 
     }
     return this;
   }
+  public getCustom() {
+    return this.custom;
+  }
 
-  setDiscount(discount: AggregatedDiscount): this;
-  setDiscount(discount: (discount: AggregatedDiscount) => void): this;
-  setDiscount(discount: AggregatedDiscount | ((discount: AggregatedDiscount) => void)): this {
+  public setDiscount(discount: AggregatedDiscount): this;
+  public setDiscount(discount: (discount: AggregatedDiscount) => void): this;
+  public setDiscount(discount: AggregatedDiscount | ((discount: AggregatedDiscount) => void)): this {
     if (discount instanceof AggregatedDiscount) {
       this.discount = discount;
     } else {
@@ -44,10 +47,13 @@ export class AmountWithBreakdown extends Types implements Static<ITypes, typeof 
     }
     return this;
   }
+  public getDiscount() {
+    return this.discount;
+  }
 
-  setItemTotal(itemTotal: Money): this;
-  setItemTotal(itemTotal: (itemTotal: Money) => void): this;
-  setItemTotal(itemTotal: Money | ((itemTotal: Money) => void)): this {
+  public setItemTotal(itemTotal: Money): this;
+  public setItemTotal(itemTotal: (itemTotal: Money) => void): this;
+  public setItemTotal(itemTotal: Money | ((itemTotal: Money) => void)): this {
     if (itemTotal instanceof Money) {
       this.itemTotal = itemTotal;
     } else {
@@ -57,10 +63,13 @@ export class AmountWithBreakdown extends Types implements Static<ITypes, typeof 
     }
     return this;
   }
+  public getItemTotal() {
+    return this.itemTotal;
+  }
 
-  setShipping(shipping: ShippingCost): this;
-  setShipping(shipping: (shipping: ShippingCost) => void): this;
-  setShipping(shipping: ShippingCost | ((shipping: ShippingCost) => void)): this {
+  public setShipping(shipping: ShippingCost): this;
+  public setShipping(shipping: (shipping: ShippingCost) => void): this;
+  public setShipping(shipping: ShippingCost | ((shipping: ShippingCost) => void)): this {
     if (shipping instanceof ShippingCost) {
       this.shipping = shipping;
     } else {
@@ -70,10 +79,13 @@ export class AmountWithBreakdown extends Types implements Static<ITypes, typeof 
     }
     return this;
   }
+  public getShipping() {
+    return this.shipping;
+  }
 
-  setTaxTotal(taxTotal: Money): this;
-  setTaxTotal(taxTotal: (taxTotal: Money) => void): this;
-  setTaxTotal(taxTotal: Money | ((taxTotal: Money) => void)): this {
+  public setTaxTotal(taxTotal: Money): this;
+  public setTaxTotal(taxTotal: (taxTotal: Money) => void): this;
+  public setTaxTotal(taxTotal: Money | ((taxTotal: Money) => void)): this {
     if (taxTotal instanceof Money) {
       this.taxTotal = taxTotal;
     } else {
@@ -83,8 +95,15 @@ export class AmountWithBreakdown extends Types implements Static<ITypes, typeof 
     }
     return this;
   }
+  public getTaxTotal() {
+    return this.taxTotal;
+  }
 
-  static fromObject(obj: TAmountWithBreakdown) {
+  public override getFields<T extends Partial<TAmountWithBreakdown>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TAmountWithBreakdown) {
     const amountWithBreakdown = new AmountWithBreakdown();
     if (obj.custom) amountWithBreakdown.setCustom(CustomAmount.fromObject(obj.custom));
     if (obj.discount) amountWithBreakdown.setDiscount(AggregatedDiscount.fromObject(obj.discount));

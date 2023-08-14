@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
 
 export type TTrackerIdentifier = {
@@ -7,19 +7,22 @@ export type TTrackerIdentifier = {
   tracking_number?: string;
 };
 
-export class TrackerIdentifier extends Types implements Static<ITypes, typeof TrackerIdentifier> {
-  transactionId?: string;
-  links?: LinkDescription[];
-  trackingNumber?: string;
+export class TrackerIdentifier extends Utility implements Static<IUtility, typeof TrackerIdentifier> {
+  private transactionId?: string;
+  private links?: LinkDescription[];
+  private trackingNumber?: string;
 
-  setTransactionId(transactionId: string) {
+  public setTransactionId(transactionId: string) {
     this.transactionId = transactionId;
     return this;
   }
+  public getTransactionId() {
+    return this.transactionId;
+  }
 
-  setLinks(...links: LinkDescription[]): this;
-  setLinks(...links: ((link: LinkDescription) => void)[]): this;
-  setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
+  public setLinks(...links: LinkDescription[]): this;
+  public setLinks(...links: ((link: LinkDescription) => void)[]): this;
+  public setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) return link;
       const linkDesc = new LinkDescription();
@@ -28,13 +31,23 @@ export class TrackerIdentifier extends Types implements Static<ITypes, typeof Tr
     });
     return this;
   }
+  public getLinks() {
+    return this.links;
+  }
 
-  setTrackingNumber(trackingNumber: string) {
+  public setTrackingNumber(trackingNumber: string) {
     this.trackingNumber = trackingNumber;
     return this;
   }
+  public getTrackingNumber() {
+    return this.trackingNumber;
+  }
 
-  static fromObject(obj: TTrackerIdentifier): TrackerIdentifier {
+  public override getFields<T extends Partial<TTrackerIdentifier>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TTrackerIdentifier): TrackerIdentifier {
     const trackerIdentifier = new TrackerIdentifier();
     if (obj.transaction_id) trackerIdentifier.setTransactionId(obj.transaction_id);
     if (obj.links) trackerIdentifier.setLinks(...obj.links.map(LinkDescription.fromObject));

@@ -1,16 +1,16 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
 
 export type TAcceptedResponse = {
   readonly links?: TLinkDescription[];
 };
 
-export class AcceptedResponse extends Types implements Static<ITypes, typeof AcceptedResponse> {
-  links?: LinkDescription[];
+export class AcceptedResponse extends Utility implements Static<IUtility, typeof AcceptedResponse> {
+  private links?: LinkDescription[];
 
-  setLinks(...links: LinkDescription[]): this;
-  setLinks(...links: ((links: LinkDescription) => void)[]): this;
-  setLinks(...links: (LinkDescription | ((links: LinkDescription) => void))[]) {
+  public setLinks(...links: LinkDescription[]): this;
+  public setLinks(...links: ((links: LinkDescription) => void)[]): this;
+  public setLinks(...links: (LinkDescription | ((links: LinkDescription) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) {
         return link;
@@ -22,8 +22,15 @@ export class AcceptedResponse extends Types implements Static<ITypes, typeof Acc
     });
     return this;
   }
+  public getLinks() {
+    return this.links;
+  }
 
-  static fromObject(obj: TAcceptedResponse) {
+  public override getFields<T extends TAcceptedResponse>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TAcceptedResponse) {
     const acceptedResponse = new AcceptedResponse();
     if (obj.links) acceptedResponse.setLinks(...obj.links.map((link) => LinkDescription.fromObject(link)));
 

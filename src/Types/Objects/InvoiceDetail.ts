@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 import { FileReference, TFileReference } from "./FileReference.js";
 import { InvoicePaymentTerm, TInvoicePaymentTerm } from "./InvoicePaymentTerm.js";
 import { Metadata, TMetadata } from "./Metadata.js";
@@ -16,26 +16,29 @@ export type TInvoiceDetail = {
   payment_term?: TInvoicePaymentTerm;
 };
 
-export class InvoiceDetail extends Types implements Static<ITypes, typeof InvoiceDetail> {
-  currencyCode?: string;
-  attachments?: FileReference[];
-  memo?: string;
-  note?: string;
-  reference?: string;
-  termsAndConditions?: string;
-  invoiceDate?: string;
-  invoiceNumber?: string;
-  metadata?: Metadata;
-  paymentTerm?: InvoicePaymentTerm;
+export class InvoiceDetail extends Utility implements Static<IUtility, typeof InvoiceDetail> {
+  private currencyCode?: string;
+  private attachments?: FileReference[];
+  private memo?: string;
+  private note?: string;
+  private reference?: string;
+  private termsAndConditions?: string;
+  private invoiceDate?: string;
+  private invoiceNumber?: string;
+  private metadata?: Metadata;
+  private paymentTerm?: InvoicePaymentTerm;
 
-  setCurrencyCode(currencyCode: string) {
+  public setCurrencyCode(currencyCode: string) {
     this.currencyCode = currencyCode;
     return this;
   }
+  public getCurrencyCode() {
+    return this.currencyCode;
+  }
 
-  setAttachments(...attachments: FileReference[]): this;
-  setAttachments(...attachments: ((attachment: FileReference) => void)[]): this;
-  setAttachments(...attachments: (FileReference | ((attachment: FileReference) => void))[]) {
+  public setAttachments(...attachments: FileReference[]): this;
+  public setAttachments(...attachments: ((attachment: FileReference) => void)[]): this;
+  public setAttachments(...attachments: (FileReference | ((attachment: FileReference) => void))[]) {
     this.attachments = attachments.map((attachment) => {
       if (attachment instanceof FileReference) {
         return attachment;
@@ -47,40 +50,61 @@ export class InvoiceDetail extends Types implements Static<ITypes, typeof Invoic
     });
     return this;
   }
+  public getAttachments() {
+    return this.attachments;
+  }
 
-  setMemo(memo: string) {
+  public setMemo(memo: string) {
     this.memo = memo;
     return this;
   }
+  public getMemo() {
+    return this.memo;
+  }
 
-  setNote(note: string) {
+  public setNote(note: string) {
     this.note = note;
     return this;
   }
+  public getNote() {
+    return this.note;
+  }
 
-  setReference(reference: string) {
+  public setReference(reference: string) {
     this.reference = reference;
     return this;
   }
+  public getReference() {
+    return this.reference;
+  }
 
-  setTermsAndConditions(termsAndConditions: string) {
+  public setTermsAndConditions(termsAndConditions: string) {
     this.termsAndConditions = termsAndConditions;
     return this;
   }
+  public getTermsAndConditions() {
+    return this.termsAndConditions;
+  }
 
-  setInvoiceDate(invoiceDate: string) {
+  public setInvoiceDate(invoiceDate: string) {
     this.invoiceDate = invoiceDate;
     return this;
   }
+  public getInvoiceDate() {
+    return this.invoiceDate;
+  }
 
-  setInvoiceNumber(invoiceNumber: string) {
+  public setInvoiceNumber(invoiceNumber: string) {
     this.invoiceNumber = invoiceNumber;
     return this;
   }
+  public getInvoiceNumber() {
+    return this.invoiceNumber;
+  }
 
-  setMetadata(metadata: Metadata): this;
-  setMetadata(metadata: (metadata: Metadata) => void): this;
-  setMetadata(metadata: Metadata | ((metadata: Metadata) => void)) {
+  public setMetadata(metadata: Metadata): this;
+  public setMetadata(metadata: (metadata: Metadata) => void): this;
+  public setMetadata(metadata: Metadata | ((metadata: Metadata) => void)) {
     if (metadata instanceof Metadata) {
       this.metadata = metadata;
     } else {
@@ -90,10 +114,13 @@ export class InvoiceDetail extends Types implements Static<ITypes, typeof Invoic
     }
     return this;
   }
+  public getMetadata() {
+    return this.metadata;
+  }
 
-  setPaymentTerm(paymentTerm: InvoicePaymentTerm): this;
-  setPaymentTerm(paymentTerm: (paymentTerm: InvoicePaymentTerm) => void): this;
-  setPaymentTerm(paymentTerm: InvoicePaymentTerm | ((paymentTerm: InvoicePaymentTerm) => void)) {
+  public setPaymentTerm(paymentTerm: InvoicePaymentTerm): this;
+  public setPaymentTerm(paymentTerm: (paymentTerm: InvoicePaymentTerm) => void): this;
+  public setPaymentTerm(paymentTerm: InvoicePaymentTerm | ((paymentTerm: InvoicePaymentTerm) => void)) {
     if (paymentTerm instanceof InvoicePaymentTerm) {
       this.paymentTerm = paymentTerm;
     } else {
@@ -103,8 +130,15 @@ export class InvoiceDetail extends Types implements Static<ITypes, typeof Invoic
     }
     return this;
   }
+  public getPaymentTerm() {
+    return this.paymentTerm;
+  }
 
-  static fromObject(obj: TInvoiceDetail) {
+  public override getFields<T extends Partial<TInvoiceDetail>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TInvoiceDetail) {
     const invoiceDetail = new InvoiceDetail();
     if (obj.currency_code) invoiceDetail.setCurrencyCode(obj.currency_code);
     if (obj.attachments)

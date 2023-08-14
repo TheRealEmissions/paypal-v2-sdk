@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 import { Money, TMoney } from "./Money.js";
 
 export type TTax = {
@@ -7,17 +7,20 @@ export type TTax = {
   readonly amount?: TMoney;
 };
 
-export class Tax extends Types implements Static<ITypes, typeof Tax> {
-  name?: string;
-  percent?: string;
-  amount?: Money;
+export class Tax extends Utility implements Static<IUtility, typeof Tax> {
+  private name?: string;
+  private percent?: string;
+  private amount?: Money;
 
-  setName(name: string) {
+  public setName(name: string) {
     this.name = name;
     return this;
   }
+  public getName() {
+    return this.name;
+  }
 
-  setPercent(percent: string) {
+  public setPercent(percent: string) {
     const regex = new RegExp(/^((-?\d+)|(-?(\d+)?[.]\d+))$/);
     if (!regex.test(percent)) {
       throw new Error("Invalid percent");
@@ -29,10 +32,13 @@ export class Tax extends Types implements Static<ITypes, typeof Tax> {
     this.percent = percent;
     return this;
   }
+  public getPercent() {
+    return this.percent;
+  }
 
-  setAmount(amount: Money): this;
-  setAmount(amount: (money: Money) => void): this;
-  setAmount(amount: Money | ((money: Money) => void)) {
+  public setAmount(amount: Money): this;
+  public setAmount(amount: (money: Money) => void): this;
+  public setAmount(amount: Money | ((money: Money) => void)) {
     if (amount instanceof Money) {
       this.amount = amount;
     } else {
@@ -42,8 +48,15 @@ export class Tax extends Types implements Static<ITypes, typeof Tax> {
     }
     return this;
   }
+  public getAmount() {
+    return this.amount;
+  }
 
-  static fromObject(obj: TTax) {
+  public override getFields<T extends Partial<TTax>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TTax) {
     const tax = new Tax();
     if (obj.name) tax.setName(obj.name);
     if (obj.percent) tax.setPercent(obj.percent);

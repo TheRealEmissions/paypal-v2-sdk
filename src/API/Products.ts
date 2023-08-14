@@ -6,7 +6,7 @@ import { ProductCollectionElement } from "../Types/Objects/ProductCollectionElem
 import { Product } from "../Types/Objects/Product.js";
 import { PatchRequest, TPatchRequest } from "../Types/Objects/PatchRequest.js";
 import ProductUpdateError from "../Errors/Products/ProductUpdateError.js";
-import { Integer } from "../Types/Types.js";
+import { Integer } from "../Types/Utility.js";
 
 class Products {
   protected PayPal: PayPal;
@@ -86,7 +86,7 @@ class Products {
     const productInstance =
       typeof product !== "string" ? (product instanceof Product ? product : new Product()) : undefined;
     if (typeof product === "function" && productInstance) product(productInstance);
-    const productId = typeof product === "string" ? product : productInstance!.id;
+    const productId = typeof product === "string" ? product : productInstance!.getId();
     if (!productId) throw new Error("Product ID is required to update product");
     const patchRequestInstance = patchRequest instanceof PatchRequest ? patchRequest : new PatchRequest();
     if (typeof patchRequest === "function") patchRequest(patchRequestInstance);
@@ -113,7 +113,7 @@ class Products {
     const productInstance =
       typeof product !== "string" ? (product instanceof Product ? product : new Product()) : undefined;
     if (typeof product === "function" && productInstance) product(productInstance);
-    const productId = typeof product === "string" ? product : productInstance!.id;
+    const productId = typeof product === "string" ? product : productInstance!.getId();
     if (!productId) throw new Error("Product ID is required to get product");
     const response = await this.PayPal.API.get<TProduct>(`/v1/catalogs/products/${productId}`);
 

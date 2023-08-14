@@ -1,5 +1,5 @@
 import { Carrier } from "../Enums/Carrier.js";
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 
 export type TResponseTrackingInfo = {
   carrier_name?: keyof typeof Carrier;
@@ -8,36 +8,52 @@ export type TResponseTrackingInfo = {
   tracking_url?: string;
 };
 
-export class ResponseTrackingInfo extends Types implements Static<ITypes, typeof ResponseTrackingInfo> {
-  carrierName?: Carrier;
-  trackingNumber?: string;
-  carrierNameOther?: string;
-  trackingUrl?: string;
+export class ResponseTrackingInfo extends Utility implements Static<IUtility, typeof ResponseTrackingInfo> {
+  private carrierName?: Carrier;
+  private trackingNumber?: string;
+  private carrierNameOther?: string;
+  private trackingUrl?: string;
 
-  setCarrierName(carrierName: Carrier): this;
-  setCarrierName(carrierName: (carrierName: typeof Carrier) => Carrier): this;
-  setCarrierName(carrierName: Carrier | ((carrierName: typeof Carrier) => Carrier)) {
+  public setCarrierName(carrierName: Carrier): this;
+  public setCarrierName(carrierName: (carrierName: typeof Carrier) => Carrier): this;
+  public setCarrierName(carrierName: Carrier | ((carrierName: typeof Carrier) => Carrier)) {
     if (typeof carrierName === "function") this.carrierName = carrierName(Carrier);
     else this.carrierName = carrierName;
     return this;
   }
+  public getCarrierName() {
+    return this.carrierName;
+  }
 
-  setTrackingNumber(trackingNumber: string) {
+  public setTrackingNumber(trackingNumber: string) {
     this.trackingNumber = trackingNumber;
     return this;
   }
+  public getTrackingNumber() {
+    return this.trackingNumber;
+  }
 
-  setCarrierNameOther(carrierNameOther: string) {
+  public setCarrierNameOther(carrierNameOther: string) {
     this.carrierNameOther = carrierNameOther;
     return this;
   }
+  public getCarrierNameOther() {
+    return this.carrierNameOther;
+  }
 
-  setTrackingUrl(trackingUrl: string) {
+  public setTrackingUrl(trackingUrl: string) {
     this.trackingUrl = trackingUrl;
     return this;
   }
+  public getTrackingUrl() {
+    return this.trackingUrl;
+  }
 
-  static fromObject(obj: TResponseTrackingInfo) {
+  public override getFields<T extends TResponseTrackingInfo>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TResponseTrackingInfo) {
     const responseTrackingInfo = new ResponseTrackingInfo();
     if (obj.carrier_name) responseTrackingInfo.setCarrierName(Carrier[obj.carrier_name]);
     if (obj.tracking_number) responseTrackingInfo.setTrackingNumber(obj.tracking_number);

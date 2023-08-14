@@ -1,18 +1,25 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 
 export type TBusinessName = {
   business_name?: string;
 };
 
-export class BusinessName extends Types implements Static<ITypes, typeof BusinessName> {
-  businessName?: string;
+export class BusinessName extends Utility implements Static<IUtility, typeof BusinessName> {
+  private businessName?: string;
 
-  setBusinessName(businessName: string) {
+  public setBusinessName(businessName: string) {
     this.businessName = businessName;
     return this;
   }
+  public getBusinessName() {
+    return this.businessName;
+  }
 
-  static fromObject(obj: TBusinessName) {
+  public override getFields<T extends TBusinessName>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TBusinessName) {
     const businessName = new BusinessName();
     if (obj.business_name) businessName.setBusinessName(obj.business_name);
     return businessName;

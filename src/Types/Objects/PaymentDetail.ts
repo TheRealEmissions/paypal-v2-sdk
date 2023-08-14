@@ -1,6 +1,6 @@
 import { PaymentDetailMethod } from "../Enums/PaymentDetailMethod.js";
 import { PaymentDetailType } from "../Enums/PaymentDetailType.js";
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 import { ContactInformation, TContactInformation } from "./ContactInformation.js";
 import { Money, TMoney } from "./Money.js";
 
@@ -14,26 +14,29 @@ export type TPaymentDetail = {
   readonly type?: keyof typeof PaymentDetailType;
 };
 
-export class PaymentDetail extends Types implements Static<ITypes, typeof PaymentDetail> {
-  method?: PaymentDetailMethod;
-  amount?: Money;
-  note?: string;
-  paymentDate?: string;
-  paymentId?: string;
-  shippingInfo?: ContactInformation;
-  type?: PaymentDetailType;
+export class PaymentDetail extends Utility implements Static<IUtility, typeof PaymentDetail> {
+  private method?: PaymentDetailMethod;
+  private amount?: Money;
+  private note?: string;
+  private paymentDate?: string;
+  private paymentId?: string;
+  private shippingInfo?: ContactInformation;
+  private type?: PaymentDetailType;
 
-  setMethod(method: PaymentDetailMethod): this;
-  setMethod(method: (method: typeof PaymentDetailMethod) => PaymentDetailMethod): this;
-  setMethod(method: PaymentDetailMethod | ((method: typeof PaymentDetailMethod) => PaymentDetailMethod)) {
+  public setMethod(method: PaymentDetailMethod): this;
+  public setMethod(method: (method: typeof PaymentDetailMethod) => PaymentDetailMethod): this;
+  public setMethod(method: PaymentDetailMethod | ((method: typeof PaymentDetailMethod) => PaymentDetailMethod)) {
     if (typeof method === "function") this.method = method(PaymentDetailMethod);
     else this.method = method;
     return this;
   }
+  public getMethod() {
+    return this.method;
+  }
 
-  setAmount(amount: Money): this;
-  setAmount(amount: (money: Money) => void): this;
-  setAmount(amount: Money | ((money: Money) => void)) {
+  public setAmount(amount: Money): this;
+  public setAmount(amount: (money: Money) => void): this;
+  public setAmount(amount: Money | ((money: Money) => void)) {
     if (amount instanceof Money) this.amount = amount;
     else {
       const money = new Money();
@@ -42,25 +45,37 @@ export class PaymentDetail extends Types implements Static<ITypes, typeof Paymen
     }
     return this;
   }
+  public getAmount() {
+    return this.amount;
+  }
 
-  setNote(note: string) {
+  public setNote(note: string) {
     this.note = note;
     return this;
   }
+  public getNote() {
+    return this.note;
+  }
 
-  setPaymentDate(paymentDate: string) {
+  public setPaymentDate(paymentDate: string) {
     this.paymentDate = paymentDate;
     return this;
   }
+  public getPaymentDate() {
+    return this.paymentDate;
+  }
 
-  setPaymentId(paymentId: string) {
+  public setPaymentId(paymentId: string) {
     this.paymentId = paymentId;
     return this;
   }
+  public getPaymentId() {
+    return this.paymentId;
+  }
 
-  setShippingInfo(shippingInfo: ContactInformation): this;
-  setShippingInfo(shippingInfo: (contactInformation: ContactInformation) => void): this;
-  setShippingInfo(shippingInfo: ContactInformation | ((contactInformation: ContactInformation) => void)) {
+  public setShippingInfo(shippingInfo: ContactInformation): this;
+  public setShippingInfo(shippingInfo: (contactInformation: ContactInformation) => void): this;
+  public setShippingInfo(shippingInfo: ContactInformation | ((contactInformation: ContactInformation) => void)) {
     if (shippingInfo instanceof ContactInformation) this.shippingInfo = shippingInfo;
     else {
       const contactInformation = new ContactInformation();
@@ -69,16 +84,26 @@ export class PaymentDetail extends Types implements Static<ITypes, typeof Paymen
     }
     return this;
   }
+  public getShippingInfo() {
+    return this.shippingInfo;
+  }
 
-  setType(type: PaymentDetailType): this;
-  setType(type: (type: typeof PaymentDetailType) => PaymentDetailType): this;
-  setType(type: PaymentDetailType | ((type: typeof PaymentDetailType) => PaymentDetailType)) {
+  public setType(type: PaymentDetailType): this;
+  public setType(type: (type: typeof PaymentDetailType) => PaymentDetailType): this;
+  public setType(type: PaymentDetailType | ((type: typeof PaymentDetailType) => PaymentDetailType)) {
     if (typeof type === "function") this.type = type(PaymentDetailType);
     else this.type = type;
     return this;
   }
+  public getType() {
+    return this.type;
+  }
 
-  static fromObject(obj: TPaymentDetail) {
+  public override getFields<T extends Partial<TPaymentDetail>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TPaymentDetail) {
     const paymentDetail = new PaymentDetail();
     paymentDetail.setMethod(PaymentDetailMethod[obj.method]);
     if (obj.amount) paymentDetail.setAmount(Money.fromObject(obj.amount));

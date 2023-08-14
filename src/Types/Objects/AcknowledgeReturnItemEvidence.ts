@@ -1,5 +1,5 @@
 import { EvidenceType } from "../Enums/EvidenceType.js";
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 import { Document, TDocument } from "./Document.js";
 
 export type TAcknowledgeReturnItemEvidence = {
@@ -8,15 +8,15 @@ export type TAcknowledgeReturnItemEvidence = {
 };
 
 export class AcknowledgeReturnItemEvidence
-  extends Types
-  implements Static<ITypes, typeof AcknowledgeReturnItemEvidence>
+  extends Utility
+  implements Static<IUtility, typeof AcknowledgeReturnItemEvidence>
 {
-  documents?: Document[];
-  evidenceType?: EvidenceType;
+  private documents?: Document[];
+  private evidenceType?: EvidenceType;
 
-  setDocuments(...documents: Document[]): this;
-  setDocuments(...documents: ((document: Document) => void)[]): this;
-  setDocuments(...documents: (Document | ((document: Document) => void))[]) {
+  public setDocuments(...documents: Document[]): this;
+  public setDocuments(...documents: ((document: Document) => void)[]): this;
+  public setDocuments(...documents: (Document | ((document: Document) => void))[]) {
     this.documents = documents.map((document) => {
       if (document instanceof Document) return document;
       const doc = new Document();
@@ -25,16 +25,26 @@ export class AcknowledgeReturnItemEvidence
     });
     return this;
   }
+  public getDocuments() {
+    return this.documents;
+  }
 
-  setEvidenceType(evidenceType: EvidenceType): this;
-  setEvidenceType(evidenceType: (type: typeof EvidenceType) => EvidenceType): this;
-  setEvidenceType(evidenceType: EvidenceType | ((type: typeof EvidenceType) => EvidenceType)) {
+  public setEvidenceType(evidenceType: EvidenceType): this;
+  public setEvidenceType(evidenceType: (type: typeof EvidenceType) => EvidenceType): this;
+  public setEvidenceType(evidenceType: EvidenceType | ((type: typeof EvidenceType) => EvidenceType)) {
     if (typeof evidenceType === "function") this.evidenceType = evidenceType(EvidenceType);
     else this.evidenceType = evidenceType;
     return this;
   }
+  public getEvidenceType() {
+    return this.evidenceType;
+  }
 
-  static fromObject(obj: TAcknowledgeReturnItemEvidence) {
+  public override getFields<T extends TAcknowledgeReturnItemEvidence>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TAcknowledgeReturnItemEvidence) {
     const acknowledgeReturnItemEvidence = new AcknowledgeReturnItemEvidence();
     if (obj.documents)
       acknowledgeReturnItemEvidence.setDocuments(...obj.documents.map((document) => Document.fromObject(document)));

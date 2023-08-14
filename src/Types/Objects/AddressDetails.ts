@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 
 export type TAddressDetails = {
   street_number?: string;
@@ -9,45 +9,67 @@ export type TAddressDetails = {
   sub_building?: string;
 };
 
-export class AddressDetails extends Types implements Static<ITypes, typeof AddressDetails> {
-  streetNumber?: string;
-  streetName?: string;
-  streetType?: string;
-  deliveryService?: string;
-  buildingName?: string;
-  subBuilding?: string;
+export class AddressDetails extends Utility implements Static<IUtility, typeof AddressDetails> {
+  private streetNumber?: string;
+  private streetName?: string;
+  private streetType?: string;
+  private deliveryService?: string;
+  private buildingName?: string;
+  private subBuilding?: string;
 
-  setStreetNumber(number: string) {
+  public setStreetNumber(number: string) {
     this.streetNumber = number;
     return this;
   }
+  public getStreetNumber() {
+    return this.streetNumber;
+  }
 
-  setStreetName(name: string) {
+  public setStreetName(name: string) {
     this.streetName = name;
     return this;
   }
+  public getStreetName() {
+    return this.streetName;
+  }
 
-  setStreetType(type: string) {
+  public setStreetType(type: string) {
     this.streetType = type;
     return this;
   }
+  public getStreetType() {
+    return this.streetType;
+  }
 
-  setDeliveryService(service: string) {
+  public setDeliveryService(service: string) {
     this.deliveryService = service;
     return this;
   }
+  public getDeliveryService() {
+    return this.deliveryService;
+  }
 
-  setBuildingName(name: string) {
+  public setBuildingName(name: string) {
     this.buildingName = name;
     return this;
   }
+  public getBuildingName() {
+    return this.buildingName;
+  }
 
-  setSubBuilding(name: string) {
+  public setSubBuilding(name: string) {
     this.subBuilding = name;
     return this;
   }
+  public getSubBuilding() {
+    return this.subBuilding;
+  }
 
-  static fromObject(obj: TAddressDetails): AddressDetails {
+  public override getFields<T extends TAddressDetails>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TAddressDetails): AddressDetails {
     const addressDetails = new AddressDetails();
     if (obj.street_number) addressDetails.setStreetNumber(obj.street_number);
     if (obj.street_name) addressDetails.setStreetName(obj.street_name);
@@ -55,6 +77,7 @@ export class AddressDetails extends Types implements Static<ITypes, typeof Addre
     if (obj.delivery_service) addressDetails.setDeliveryService(obj.delivery_service);
     if (obj.building_name) addressDetails.setBuildingName(obj.building_name);
     if (obj.sub_building) addressDetails.setSubBuilding(obj.sub_building);
+
     return addressDetails;
   }
 }

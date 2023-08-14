@@ -1,29 +1,39 @@
 import { AssetSymbol } from "../Enums/AssetSymbol";
-import Types, { ITypes, Static } from "../Types";
+import { Utility, IUtility, Static } from "../Utility";
 
 export type TCryptocurrency = {
   asset_symbol: keyof typeof AssetSymbol;
   quantity: string;
 };
 
-export class Cryptocurrency extends Types implements Static<ITypes, typeof Cryptocurrency> {
-  assetSymbol!: AssetSymbol;
-  quantity!: string;
+export class Cryptocurrency extends Utility implements Static<IUtility, typeof Cryptocurrency> {
+  private assetSymbol!: AssetSymbol;
+  private quantity!: string;
 
-  setAssetSymbol(assetSymbol: AssetSymbol): this;
-  setAssetSymbol(assetSymbol: (assetSymbol: typeof AssetSymbol) => AssetSymbol): this;
-  setAssetSymbol(assetSymbol: AssetSymbol | ((assetSymbol: typeof AssetSymbol) => AssetSymbol)) {
+  public setAssetSymbol(assetSymbol: AssetSymbol): this;
+  public setAssetSymbol(assetSymbol: (assetSymbol: typeof AssetSymbol) => AssetSymbol): this;
+  public setAssetSymbol(assetSymbol: AssetSymbol | ((assetSymbol: typeof AssetSymbol) => AssetSymbol)) {
     if (typeof assetSymbol === "function") this.assetSymbol = assetSymbol(AssetSymbol);
     else this.assetSymbol = assetSymbol;
     return this;
   }
+  public getAssetSymbol() {
+    return this.assetSymbol;
+  }
 
-  setQuantity(quantity: string) {
+  public setQuantity(quantity: string) {
     this.quantity = quantity;
     return this;
   }
+  public getQuantity() {
+    return this.quantity;
+  }
 
-  static fromObject(obj: TCryptocurrency) {
+  public override getFields<T extends Partial<TCryptocurrency>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TCryptocurrency) {
     const cryptocurrency = new Cryptocurrency();
     cryptocurrency.setAssetSymbol(AssetSymbol[obj.asset_symbol]);
     cryptocurrency.setQuantity(obj.quantity);

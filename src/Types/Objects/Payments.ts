@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 import { Money, TMoney } from "./Money.js";
 import { PaymentDetail, TPaymentDetail } from "./PaymentDetail.js";
 
@@ -7,13 +7,13 @@ export type TPayments = {
   readonly transactions?: TPaymentDetail[];
 };
 
-export class Payments extends Types implements Static<ITypes, typeof Payments> {
-  paidAmount?: Money;
-  transactions?: PaymentDetail[];
+export class Payments extends Utility implements Static<IUtility, typeof Payments> {
+  private paidAmount?: Money;
+  private transactions?: PaymentDetail[];
 
-  setPaidAmount(paidAmount: Money): this;
-  setPaidAmount(paidAmount: (money: Money) => void): this;
-  setPaidAmount(paidAmount: Money | ((money: Money) => void)) {
+  public setPaidAmount(paidAmount: Money): this;
+  public setPaidAmount(paidAmount: (money: Money) => void): this;
+  public setPaidAmount(paidAmount: Money | ((money: Money) => void)) {
     if (paidAmount instanceof Money) this.paidAmount = paidAmount;
     else {
       const money = new Money();
@@ -22,10 +22,13 @@ export class Payments extends Types implements Static<ITypes, typeof Payments> {
     }
     return this;
   }
+  public getPaidAmount() {
+    return this.paidAmount;
+  }
 
-  setTransactions(...transactions: PaymentDetail[]): this;
-  setTransactions(...transactions: ((paymentDetail: PaymentDetail) => void)[]): this;
-  setTransactions(...transactions: (PaymentDetail | ((paymentDetail: PaymentDetail) => void))[]) {
+  public setTransactions(...transactions: PaymentDetail[]): this;
+  public setTransactions(...transactions: ((paymentDetail: PaymentDetail) => void)[]): this;
+  public setTransactions(...transactions: (PaymentDetail | ((paymentDetail: PaymentDetail) => void))[]) {
     this.transactions = transactions.map((x) => {
       if (x instanceof PaymentDetail) return x;
       else {
@@ -36,8 +39,15 @@ export class Payments extends Types implements Static<ITypes, typeof Payments> {
     });
     return this;
   }
+  public getTransactions() {
+    return this.transactions;
+  }
 
-  static fromObject(obj: TPayments) {
+  public override getFields<T extends TPayments>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TPayments) {
     const payments = new Payments();
     if (obj.paid_amount) payments.setPaidAmount(Money.fromObject(obj.paid_amount));
     if (obj.transactions) payments.setTransactions(...obj.transactions.map((x) => PaymentDetail.fromObject(x)));

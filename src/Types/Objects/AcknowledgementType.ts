@@ -1,18 +1,18 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 import { AcknowledgementType as AcknowledgementTypeEnum } from "../Enums/AcknowledgementType.js";
 
 export type TAcknowledgementType = {
   acknowledgement_type?: keyof typeof AcknowledgementTypeEnum;
 };
 
-export class AcknowledgementType extends Types implements Static<ITypes, typeof AcknowledgementType> {
-  acknowledgementType?: AcknowledgementTypeEnum;
+export class AcknowledgementType extends Utility implements Static<IUtility, typeof AcknowledgementType> {
+  private acknowledgementType?: AcknowledgementTypeEnum;
 
-  setAcknowledgementType(acknowledgementType: AcknowledgementTypeEnum): this;
-  setAcknowledgementType(
+  public setAcknowledgementType(acknowledgementType: AcknowledgementTypeEnum): this;
+  public setAcknowledgementType(
     acknowledgementType: (acknowledgementType: typeof AcknowledgementTypeEnum) => AcknowledgementTypeEnum
   ): this;
-  setAcknowledgementType(
+  public setAcknowledgementType(
     acknowledgementType:
       | AcknowledgementTypeEnum
       | ((acknowledgementType: typeof AcknowledgementTypeEnum) => AcknowledgementTypeEnum)
@@ -22,8 +22,15 @@ export class AcknowledgementType extends Types implements Static<ITypes, typeof 
     else this.acknowledgementType = acknowledgementType;
     return this;
   }
+  public getAcknowledgementType() {
+    return this.acknowledgementType;
+  }
 
-  static fromObject(obj: TAcknowledgementType) {
+  public override getFields<T extends TAcknowledgementType>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TAcknowledgementType) {
     const acknowledgementType = new AcknowledgementType();
     if (obj.acknowledgement_type !== undefined)
       acknowledgementType.setAcknowledgementType(AcknowledgementTypeEnum[obj.acknowledgement_type]);

@@ -1,6 +1,6 @@
 import PayPal from "../../PayPal.js";
 import { UnitOfMeasure } from "../Enums/UnitOfMeasure.js";
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
 import { TemplateInfo, TTemplateInfo } from "./TemplateInfo.js";
 import { TemplateSettings, TTemplateSettings } from "./TemplateSettings.js";
@@ -16,15 +16,15 @@ export type TTemplate = {
   unit_of_measure?: keyof typeof UnitOfMeasure;
 };
 
-export class Template extends Types implements Static<ITypes, typeof Template> {
-  defaultTemplate?: boolean;
-  id?: string;
-  links?: LinkDescription[];
-  name?: string;
-  settings?: TemplateSettings;
-  standardTemplate?: boolean;
-  templateInfo?: TemplateInfo;
-  unitOfMeasure?: UnitOfMeasure;
+export class Template extends Utility implements Static<IUtility, typeof Template> {
+  private defaultTemplate?: boolean;
+  private id?: string;
+  private links?: LinkDescription[];
+  private name?: string;
+  private settings?: TemplateSettings;
+  private standardTemplate?: boolean;
+  private templateInfo?: TemplateInfo;
+  private unitOfMeasure?: UnitOfMeasure;
 
   PayPal?: PayPal;
   constructor(PayPal?: PayPal) {
@@ -37,13 +37,13 @@ export class Template extends Types implements Static<ITypes, typeof Template> {
     return this;
   }
 
-  async create() {
+  public async create() {
     if (!this.PayPal)
       throw new Error("To use in-built methods, please provide PayPal instance when initialising the template");
     return this.PayPal.Invoicing.createTemplate(this);
   }
 
-  async delete() {
+  public async delete() {
     if (!this.PayPal)
       throw new Error("To use in-built methods, please provide PayPal instance when initialising the template");
     if (!this.id) {
@@ -52,7 +52,7 @@ export class Template extends Types implements Static<ITypes, typeof Template> {
     return this.PayPal.Invoicing.deleteTemplate(this);
   }
 
-  async fullyUpdate() {
+  public async fullyUpdate() {
     if (!this.PayPal)
       throw new Error("To use in-built methods, please provide PayPal instance when initialising the template");
     if (!this.id) {
@@ -61,7 +61,7 @@ export class Template extends Types implements Static<ITypes, typeof Template> {
     return this.PayPal.Invoicing.fullyUpdateTemplate(this);
   }
 
-  async get() {
+  public async get() {
     if (!this.PayPal)
       throw new Error("To use in-built methods, please provide PayPal instance when initialising the template");
     if (!this.id) {
@@ -70,19 +70,25 @@ export class Template extends Types implements Static<ITypes, typeof Template> {
     return this.PayPal.Invoicing.getTemplate(this);
   }
 
-  setDefaultTemplate(defaultTemplate: boolean) {
+  public setDefaultTemplate(defaultTemplate: boolean) {
     this.defaultTemplate = defaultTemplate;
     return this;
   }
+  public getDefaultTemplate() {
+    return this.defaultTemplate;
+  }
 
-  setId(id: string) {
+  public setId(id: string) {
     this.id = id;
     return this;
   }
+  public getId() {
+    return this.id;
+  }
 
-  setLinks(...links: LinkDescription[]): this;
-  setLinks(...links: ((link: LinkDescription) => void)[]): this;
-  setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
+  public setLinks(...links: LinkDescription[]): this;
+  public setLinks(...links: ((link: LinkDescription) => void)[]): this;
+  public setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) return link;
       const linkDesc = new LinkDescription();
@@ -91,15 +97,21 @@ export class Template extends Types implements Static<ITypes, typeof Template> {
     });
     return this;
   }
+  public getLinks() {
+    return this.links;
+  }
 
-  setName(name: string) {
+  public setName(name: string) {
     this.name = name;
     return this;
   }
+  public getName() {
+    return this.name;
+  }
 
-  setSettings(settings: TemplateSettings): this;
-  setSettings(settings: (settings: TemplateSettings) => void): this;
-  setSettings(settings: TemplateSettings | ((settings: TemplateSettings) => void)) {
+  public setSettings(settings: TemplateSettings): this;
+  public setSettings(settings: (settings: TemplateSettings) => void): this;
+  public setSettings(settings: TemplateSettings | ((settings: TemplateSettings) => void)) {
     if (settings instanceof TemplateSettings) {
       this.settings = settings;
     } else {
@@ -109,15 +121,21 @@ export class Template extends Types implements Static<ITypes, typeof Template> {
     }
     return this;
   }
+  public getSettings() {
+    return this.settings;
+  }
 
-  setStandardTemplate(standardTemplate: boolean) {
+  public setStandardTemplate(standardTemplate: boolean) {
     this.standardTemplate = standardTemplate;
     return this;
   }
+  public getStandardTemplate() {
+    return this.standardTemplate;
+  }
 
-  setTemplateInfo(templateInfo: TemplateInfo): this;
-  setTemplateInfo(templateInfo: (templateInfo: TemplateInfo) => void): this;
-  setTemplateInfo(templateInfo: TemplateInfo | ((templateInfo: TemplateInfo) => void)) {
+  public setTemplateInfo(templateInfo: TemplateInfo): this;
+  public setTemplateInfo(templateInfo: (templateInfo: TemplateInfo) => void): this;
+  public setTemplateInfo(templateInfo: TemplateInfo | ((templateInfo: TemplateInfo) => void)) {
     if (templateInfo instanceof TemplateInfo) {
       this.templateInfo = templateInfo;
     } else {
@@ -127,10 +145,13 @@ export class Template extends Types implements Static<ITypes, typeof Template> {
     }
     return this;
   }
+  public getTemplateInfo() {
+    return this.templateInfo;
+  }
 
-  setUnitOfMeasure(unitOfMeasure: UnitOfMeasure): this;
-  setUnitOfMeasure(unitOfMeasure: (unitOfMeasure: typeof UnitOfMeasure) => UnitOfMeasure): this;
-  setUnitOfMeasure(unitOfMeasure: UnitOfMeasure | ((unitOfMeasure: typeof UnitOfMeasure) => UnitOfMeasure)) {
+  public setUnitOfMeasure(unitOfMeasure: UnitOfMeasure): this;
+  public setUnitOfMeasure(unitOfMeasure: (unitOfMeasure: typeof UnitOfMeasure) => UnitOfMeasure): this;
+  public setUnitOfMeasure(unitOfMeasure: UnitOfMeasure | ((unitOfMeasure: typeof UnitOfMeasure) => UnitOfMeasure)) {
     if (typeof unitOfMeasure === "function") {
       this.unitOfMeasure = unitOfMeasure(UnitOfMeasure);
     } else {
@@ -138,8 +159,15 @@ export class Template extends Types implements Static<ITypes, typeof Template> {
     }
     return this;
   }
+  public getUnitOfMeasure() {
+    return this.unitOfMeasure;
+  }
 
-  static fromObject(obj: TTemplate) {
+  public override getFields<T extends TTemplate>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TTemplate) {
     const template = new Template();
     if (obj.default_template) template.setDefaultTemplate(obj.default_template);
     if (obj.id) template.setId(obj.id);

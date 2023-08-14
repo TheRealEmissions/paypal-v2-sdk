@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 import { Document, TDocument } from "./Document.js";
 import { ResponseTrackingInfo, TResponseTrackingInfo } from "./ResponseTrackingInfo.js";
 
@@ -7,13 +7,13 @@ export type TResponseShipmentInfo = {
   tracking_info?: TResponseTrackingInfo;
 };
 
-export class ResponseShipmentInfo extends Types implements Static<ITypes, typeof ResponseShipmentInfo> {
-  shipmentLabel?: Document;
-  trackingInfo?: ResponseTrackingInfo;
+export class ResponseShipmentInfo extends Utility implements Static<IUtility, typeof ResponseShipmentInfo> {
+  private shipmentLabel?: Document;
+  private trackingInfo?: ResponseTrackingInfo;
 
-  setShipmentLabel(shipmentLabel: Document): this;
-  setShipmentLabel(shipmentLabel: (shipmentLabel: Document) => void): this;
-  setShipmentLabel(shipmentLabel: Document | ((shipmentLabel: Document) => void)) {
+  public setShipmentLabel(shipmentLabel: Document): this;
+  public setShipmentLabel(shipmentLabel: (shipmentLabel: Document) => void): this;
+  public setShipmentLabel(shipmentLabel: Document | ((shipmentLabel: Document) => void)) {
     if (shipmentLabel instanceof Document) this.shipmentLabel = shipmentLabel;
     else {
       const label = new Document();
@@ -22,10 +22,13 @@ export class ResponseShipmentInfo extends Types implements Static<ITypes, typeof
     }
     return this;
   }
+  public getShipmentLabel() {
+    return this.shipmentLabel;
+  }
 
-  setTrackingInfo(trackingInfo: ResponseTrackingInfo): this;
-  setTrackingInfo(trackingInfo: (trackingInfo: ResponseTrackingInfo) => void): this;
-  setTrackingInfo(trackingInfo: ResponseTrackingInfo | ((trackingInfo: ResponseTrackingInfo) => void)) {
+  public setTrackingInfo(trackingInfo: ResponseTrackingInfo): this;
+  public setTrackingInfo(trackingInfo: (trackingInfo: ResponseTrackingInfo) => void): this;
+  public setTrackingInfo(trackingInfo: ResponseTrackingInfo | ((trackingInfo: ResponseTrackingInfo) => void)) {
     if (trackingInfo instanceof ResponseTrackingInfo) this.trackingInfo = trackingInfo;
     else {
       const info = new ResponseTrackingInfo();
@@ -34,8 +37,15 @@ export class ResponseShipmentInfo extends Types implements Static<ITypes, typeof
     }
     return this;
   }
+  public getTrackingInfo() {
+    return this.trackingInfo;
+  }
 
-  static fromObject(obj: TResponseShipmentInfo) {
+  public override getFields<T extends TResponseShipmentInfo>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TResponseShipmentInfo) {
     const responseShipmentInfo = new ResponseShipmentInfo();
     if (obj.shipment_label) responseShipmentInfo.setShipmentLabel(Document.fromObject(obj.shipment_label));
     if (obj.tracking_info) responseShipmentInfo.setTrackingInfo(ResponseTrackingInfo.fromObject(obj.tracking_info));

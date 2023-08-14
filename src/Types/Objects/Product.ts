@@ -1,6 +1,6 @@
 import { ProductType } from "./../Enums/ProductType.js";
 import { ProductCategory } from "./../Enums/ProductCategory.js";
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
 import PayPal from "../../PayPal.js";
 import { PatchRequest } from "./PatchRequest.js";
@@ -18,17 +18,17 @@ export type TProduct = {
   update_time?: string;
 };
 
-export class Product extends Types implements Static<ITypes, typeof Product> {
-  category?: ProductCategory;
-  createTime?: string;
-  description?: string;
-  homeUrl?: string;
-  id?: string;
-  imageUrl?: string;
-  links?: LinkDescription[];
-  name?: string;
-  type?: ProductType;
-  updateTime?: string;
+export class Product extends Utility implements Static<IUtility, typeof Product> {
+  private category?: ProductCategory;
+  private createTime?: string;
+  private description?: string;
+  private homeUrl?: string;
+  private id?: string;
+  private imageUrl?: string;
+  private links?: LinkDescription[];
+  private name?: string;
+  private type?: ProductType;
+  private updateTime?: string;
 
   private PayPal?: PayPal;
   constructor(PayPal?: PayPal) {
@@ -36,16 +36,16 @@ export class Product extends Types implements Static<ITypes, typeof Product> {
     this.PayPal = PayPal;
   }
 
-  create(paypalRequestId?: string, prefer?: "minimal" | "representation") {
+  public create(paypalRequestId?: string, prefer?: "minimal" | "representation") {
     if (!this.PayPal) {
       throw new Error("To use in-built methods, you must pass PayPal instance to the constructor");
     }
     return this.PayPal.Products.create(this, paypalRequestId, prefer);
   }
 
-  update(patchRequest: PatchRequest): Promise<Product>;
-  update(patchRequest: (patchRequest: PatchRequest) => void): Promise<Product>;
-  update(patchRequest: PatchRequest | ((patchRequest: PatchRequest) => void)) {
+  public update(patchRequest: PatchRequest): Promise<Product>;
+  public update(patchRequest: (patchRequest: PatchRequest) => void): Promise<Product>;
+  public update(patchRequest: PatchRequest | ((patchRequest: PatchRequest) => void)) {
     if (!this.PayPal) {
       throw new Error("To use in-built methods, you must pass PayPal instance to the constructor");
     }
@@ -55,49 +55,67 @@ export class Product extends Types implements Static<ITypes, typeof Product> {
     return this.PayPal.Products.update(this, patch);
   }
 
-  get() {
+  public get() {
     if (!this.PayPal) {
       throw new Error("To use in-built methods, you must pass PayPal instance to the constructor");
     }
     return this.PayPal.Products.get(this);
   }
 
-  setCategory(category: ProductCategory): this;
-  setCategory(category: (category: typeof ProductCategory) => ProductCategory): this;
-  setCategory(category: ProductCategory | ((category: typeof ProductCategory) => ProductCategory)) {
+  public setCategory(category: ProductCategory): this;
+  public setCategory(category: (category: typeof ProductCategory) => ProductCategory): this;
+  public setCategory(category: ProductCategory | ((category: typeof ProductCategory) => ProductCategory)) {
     if (typeof category === "function") this.category = category(ProductCategory);
     else this.category = category;
     return this;
   }
+  public getCategory() {
+    return this.category;
+  }
 
-  setCreateTime(createTime: string) {
+  public setCreateTime(createTime: string) {
     this.createTime = createTime;
     return this;
   }
+  public getCreateTime() {
+    return this.createTime;
+  }
 
-  setDescription(description: string) {
+  public setDescription(description: string) {
     this.description = description;
     return this;
   }
+  public getDescription() {
+    return this.description;
+  }
 
-  setHomeUrl(homeUrl: string) {
+  public setHomeUrl(homeUrl: string) {
     this.homeUrl = homeUrl;
     return this;
   }
+  public getHomeUrl() {
+    return this.homeUrl;
+  }
 
-  setId(id: string) {
+  public setId(id: string) {
     this.id = id;
     return this;
   }
+  public getId() {
+    return this.id;
+  }
 
-  setImageUrl(imageUrl: string) {
+  public setImageUrl(imageUrl: string) {
     this.imageUrl = imageUrl;
     return this;
   }
+  public getImageUrl() {
+    return this.imageUrl;
+  }
 
-  setLinks(...links: LinkDescription[]): this;
-  setLinks(...links: ((link: LinkDescription) => void)[]): this;
-  setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
+  public setLinks(...links: LinkDescription[]): this;
+  public setLinks(...links: ((link: LinkDescription) => void)[]): this;
+  public setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) return link;
       const linkDesc = new LinkDescription();
@@ -106,26 +124,42 @@ export class Product extends Types implements Static<ITypes, typeof Product> {
     });
     return this;
   }
+  public getLinks() {
+    return this.links;
+  }
 
-  setName(name: string) {
+  public setName(name: string) {
     this.name = name;
     return this;
   }
+  public getName() {
+    return this.name;
+  }
 
-  setType(type: ProductType): this;
-  setType(type: (type: typeof ProductType) => ProductType): this;
-  setType(type: ProductType | ((type: typeof ProductType) => ProductType)) {
+  public setType(type: ProductType): this;
+  public setType(type: (type: typeof ProductType) => ProductType): this;
+  public setType(type: ProductType | ((type: typeof ProductType) => ProductType)) {
     if (typeof type === "function") this.type = type(ProductType);
     else this.type = type;
     return this;
   }
+  public getType() {
+    return this.type;
+  }
 
-  setUpdateTime(updateTime: string) {
+  public setUpdateTime(updateTime: string) {
     this.updateTime = updateTime;
     return this;
   }
+  public getUpdateTime() {
+    return this.updateTime;
+  }
 
-  static fromObject(obj: TProduct): Product {
+  public override getFields<T extends TProduct>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TProduct): Product {
     const product = new Product();
     if (obj.category) product.setCategory(ProductCategory[obj.category]);
     if (obj.create_time) product.setCreateTime(obj.create_time);

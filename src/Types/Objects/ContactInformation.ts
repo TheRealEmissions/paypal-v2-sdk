@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 import { AddressPortable, TAddressPortable } from "./AddressPortable.js";
 import { Name, TName } from "./Name.js";
 
@@ -8,19 +8,22 @@ export type TContactInformation = {
   name?: TName;
 };
 
-export class ContactInformation extends Types implements Static<ITypes, typeof ContactInformation> {
-  businessName?: string;
-  address?: AddressPortable;
-  name?: Name;
+export class ContactInformation extends Utility implements Static<IUtility, typeof ContactInformation> {
+  private businessName?: string;
+  private address?: AddressPortable;
+  private name?: Name;
 
-  setBusinessName(businessName: string) {
+  public setBusinessName(businessName: string) {
     this.businessName = businessName;
     return this;
   }
+  public getBusinessName() {
+    return this.businessName;
+  }
 
-  setAddress(address: AddressPortable): this;
-  setAddress(address: (address: AddressPortable) => void): this;
-  setAddress(address: AddressPortable | ((address: AddressPortable) => void)) {
+  public setAddress(address: AddressPortable): this;
+  public setAddress(address: (address: AddressPortable) => void): this;
+  public setAddress(address: AddressPortable | ((address: AddressPortable) => void)) {
     if (address instanceof AddressPortable) {
       this.address = address;
     } else {
@@ -30,10 +33,13 @@ export class ContactInformation extends Types implements Static<ITypes, typeof C
     }
     return this;
   }
+  public getAddress() {
+    return this.address;
+  }
 
-  setName(name: Name): this;
-  setName(name: (name: Name) => void): this;
-  setName(name: Name | ((name: Name) => void)): this {
+  public setName(name: Name): this;
+  public setName(name: (name: Name) => void): this;
+  public setName(name: Name | ((name: Name) => void)): this {
     if (name instanceof Name) {
       this.name = name;
     } else {
@@ -43,8 +49,15 @@ export class ContactInformation extends Types implements Static<ITypes, typeof C
     }
     return this;
   }
+  public getName() {
+    return this.name;
+  }
 
-  static fromObject(obj: TContactInformation) {
+  public override getFields<T extends TContactInformation>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TContactInformation) {
     const contactInformation = new ContactInformation();
     if (obj.business_name) contactInformation.setBusinessName(obj.business_name);
     if (obj.address) contactInformation.setAddress(AddressPortable.fromObject(obj.address));

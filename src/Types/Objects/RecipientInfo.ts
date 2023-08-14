@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 import { BillingInfo, TBillingInfo } from "./BillingInfo.js";
 import { ContactInformation, TContactInformation } from "./ContactInformation.js";
 
@@ -7,13 +7,13 @@ export type TRecipientInfo = {
   shipping_info?: TContactInformation;
 };
 
-export class RecipientInfo extends Types implements Static<ITypes, typeof RecipientInfo> {
-  billingInfo?: BillingInfo;
-  shippingInfo?: ContactInformation;
+export class RecipientInfo extends Utility implements Static<IUtility, typeof RecipientInfo> {
+  private billingInfo?: BillingInfo;
+  private shippingInfo?: ContactInformation;
 
-  setBillingInfo(billingInfo: BillingInfo): this;
-  setBillingInfo(billingInfo: (billingInfo: BillingInfo) => void): this;
-  setBillingInfo(billingInfo: BillingInfo | ((billingInfo: BillingInfo) => void)) {
+  public setBillingInfo(billingInfo: BillingInfo): this;
+  public setBillingInfo(billingInfo: (billingInfo: BillingInfo) => void): this;
+  public setBillingInfo(billingInfo: BillingInfo | ((billingInfo: BillingInfo) => void)) {
     if (billingInfo instanceof BillingInfo) this.billingInfo = billingInfo;
     else {
       const info = new BillingInfo();
@@ -22,10 +22,13 @@ export class RecipientInfo extends Types implements Static<ITypes, typeof Recipi
     }
     return this;
   }
+  public getBillingInfo() {
+    return this.billingInfo;
+  }
 
-  setShippingInfo(shippingInfo: ContactInformation): this;
-  setShippingInfo(shippingInfo: (contactInformation: ContactInformation) => void): this;
-  setShippingInfo(shippingInfo: ContactInformation | ((contactInformation: ContactInformation) => void)) {
+  public setShippingInfo(shippingInfo: ContactInformation): this;
+  public setShippingInfo(shippingInfo: (contactInformation: ContactInformation) => void): this;
+  public setShippingInfo(shippingInfo: ContactInformation | ((contactInformation: ContactInformation) => void)) {
     if (shippingInfo instanceof ContactInformation) this.shippingInfo = shippingInfo;
     else {
       const info = new ContactInformation();
@@ -34,8 +37,15 @@ export class RecipientInfo extends Types implements Static<ITypes, typeof Recipi
     }
     return this;
   }
+  public getShippingInfo() {
+    return this.shippingInfo;
+  }
 
-  static fromObject(obj: TRecipientInfo) {
+  public override getFields<T extends TRecipientInfo>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TRecipientInfo) {
     const recipientInfo = new RecipientInfo();
     if (obj.billing_info) recipientInfo.setBillingInfo(BillingInfo.fromObject(obj.billing_info));
     if (obj.shipping_info) recipientInfo.setShippingInfo(ContactInformation.fromObject(obj.shipping_info));

@@ -1,18 +1,25 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 
 export type TField = {
   field?: string;
 };
 
-export class Field extends Types implements Static<ITypes, typeof Field> {
-  field?: string;
+export class Field extends Utility implements Static<IUtility, typeof Field> {
+  private field?: string;
 
-  setField(field: string) {
+  public setField(field: string) {
     this.field = field;
     return this;
   }
+  public getField() {
+    return this.field;
+  }
 
-  static fromObject(obj: TField) {
+  public override getFields<T extends Partial<TField>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TField) {
     const field = new Field();
     if (obj.field) field.setField(obj.field);
     return field;

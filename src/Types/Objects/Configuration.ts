@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 import { PartialPayment, TPartialPayment } from "./PartialPayment.js";
 
 export type TConfiguration = {
@@ -9,21 +9,24 @@ export type TConfiguration = {
   template_id?: string;
 };
 
-export class Configuration extends Types implements Static<ITypes, typeof Configuration> {
-  allowTip?: boolean;
-  partialPayment?: PartialPayment;
-  taxCalculatedAfterDiscount?: boolean;
-  taxInclusive?: boolean;
-  templateId?: string;
+export class Configuration extends Utility implements Static<IUtility, typeof Configuration> {
+  private allowTip?: boolean;
+  private partialPayment?: PartialPayment;
+  private taxCalculatedAfterDiscount?: boolean;
+  private taxInclusive?: boolean;
+  private templateId?: string;
 
-  setAllowTip(allowTip: boolean) {
+  public setAllowTip(allowTip: boolean) {
     this.allowTip = allowTip;
     return this;
   }
+  public getAllowTip() {
+    return this.allowTip;
+  }
 
-  setPartialPayment(partialPayment: PartialPayment): this;
-  setPartialPayment(partialPayment: (partialPayment: PartialPayment) => void): this;
-  setPartialPayment(partialPayment: PartialPayment | ((partialPayment: PartialPayment) => void)): this {
+  public setPartialPayment(partialPayment: PartialPayment): this;
+  public setPartialPayment(partialPayment: (partialPayment: PartialPayment) => void): this;
+  public setPartialPayment(partialPayment: PartialPayment | ((partialPayment: PartialPayment) => void)): this {
     if (partialPayment instanceof PartialPayment) {
       this.partialPayment = partialPayment;
     } else {
@@ -33,23 +36,39 @@ export class Configuration extends Types implements Static<ITypes, typeof Config
     }
     return this;
   }
+  public getPartialPayment() {
+    return this.partialPayment;
+  }
 
-  setTaxCalculatedAfterDiscount(taxCalculatedAfterDiscount: boolean) {
+  public setTaxCalculatedAfterDiscount(taxCalculatedAfterDiscount: boolean) {
     this.taxCalculatedAfterDiscount = taxCalculatedAfterDiscount;
     return this;
   }
+  public getTaxCalculatedAfterDiscount() {
+    return this.taxCalculatedAfterDiscount;
+  }
 
-  setTaxInclusive(taxInclusive: boolean) {
+  public setTaxInclusive(taxInclusive: boolean) {
     this.taxInclusive = taxInclusive;
     return this;
   }
+  public getTaxInclusive() {
+    return this.taxInclusive;
+  }
 
-  setTemplateId(templateId: string) {
+  public setTemplateId(templateId: string) {
     this.templateId = templateId;
     return this;
   }
+  public getTemplateId() {
+    return this.templateId;
+  }
 
-  static fromObject(obj: TConfiguration) {
+  public override getFields<T extends TConfiguration>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TConfiguration) {
     const configuration = new Configuration();
     if (obj.allow_tip) configuration.setAllowTip(obj.allow_tip);
     if (obj.partial_payment) configuration.setPartialPayment(PartialPayment.fromObject(obj.partial_payment));

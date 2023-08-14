@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types";
+import { Utility, IUtility, Static } from "../Utility";
 import { AddressPortable, TAddressPortable } from "./AddressPortable";
 import { Money, TMoney } from "./Money";
 import { OfferType, TOfferType } from "./OfferType";
@@ -12,17 +12,17 @@ export type TMakeOffer = {
   return_shipping_address?: TAddressPortable;
 };
 
-export class MakeOffer extends Types implements Static<ITypes, typeof MakeOffer> {
-  offerTypes?: OfferType[];
-  note!: string;
-  offerType!: OfferType;
-  invoiceId?: string;
-  offerAmount?: Money;
-  returnShippingAddress?: AddressPortable;
+export class MakeOffer extends Utility implements Static<IUtility, typeof MakeOffer> {
+  private offerTypes?: OfferType[];
+  private note!: string;
+  private offerType!: OfferType;
+  private invoiceId?: string;
+  private offerAmount?: Money;
+  private returnShippingAddress?: AddressPortable;
 
-  setOfferTypes(...offerTypes: OfferType[]): this;
-  setOfferTypes(...offerTypes: ((offerType: OfferType) => void)[]): this;
-  setOfferTypes(...offerTypes: (OfferType | ((offerType: OfferType) => void))[]) {
+  public setOfferTypes(...offerTypes: OfferType[]): this;
+  public setOfferTypes(...offerTypes: ((offerType: OfferType) => void)[]): this;
+  public setOfferTypes(...offerTypes: (OfferType | ((offerType: OfferType) => void))[]) {
     this.offerTypes = offerTypes.map((offerType) => {
       if (offerType instanceof OfferType) return offerType;
       const _offerType = new OfferType();
@@ -31,15 +31,21 @@ export class MakeOffer extends Types implements Static<ITypes, typeof MakeOffer>
     });
     return this;
   }
+  public getOfferTypes() {
+    return this.offerTypes;
+  }
 
-  setNote(note: string) {
+  public setNote(note: string) {
     this.note = note;
     return this;
   }
+  public getNote() {
+    return this.note;
+  }
 
-  setOfferType(offerType: OfferType): this;
-  setOfferType(offerType: (offerType: OfferType) => void): this;
-  setOfferType(offerType: OfferType | ((offerType: OfferType) => void)) {
+  public setOfferType(offerType: OfferType): this;
+  public setOfferType(offerType: (offerType: OfferType) => void): this;
+  public setOfferType(offerType: OfferType | ((offerType: OfferType) => void)) {
     if (offerType instanceof OfferType) this.offerType = offerType;
     else {
       const _offerType = new OfferType();
@@ -48,15 +54,21 @@ export class MakeOffer extends Types implements Static<ITypes, typeof MakeOffer>
     }
     return this;
   }
+  public getOfferType() {
+    return this.offerType;
+  }
 
-  setInvoiceId(invoiceId: string) {
+  public setInvoiceId(invoiceId: string) {
     this.invoiceId = invoiceId;
     return this;
   }
+  public getInvoiceId() {
+    return this.invoiceId;
+  }
 
-  setOfferAmount(offerAmount: Money): this;
-  setOfferAmount(offerAmount: (money: Money) => void): this;
-  setOfferAmount(offerAmount: Money | ((money: Money) => void)) {
+  public setOfferAmount(offerAmount: Money): this;
+  public setOfferAmount(offerAmount: (money: Money) => void): this;
+  public setOfferAmount(offerAmount: Money | ((money: Money) => void)) {
     if (offerAmount instanceof Money) this.offerAmount = offerAmount;
     else {
       const money = new Money();
@@ -65,10 +77,13 @@ export class MakeOffer extends Types implements Static<ITypes, typeof MakeOffer>
     }
     return this;
   }
+  public getOfferAmount() {
+    return this.offerAmount;
+  }
 
-  setReturnShippingAddress(returnShippingAddress: AddressPortable): this;
-  setReturnShippingAddress(returnShippingAddress: (address: AddressPortable) => void): this;
-  setReturnShippingAddress(returnShippingAddress: AddressPortable | ((address: AddressPortable) => void)) {
+  public setReturnShippingAddress(returnShippingAddress: AddressPortable): this;
+  public setReturnShippingAddress(returnShippingAddress: (address: AddressPortable) => void): this;
+  public setReturnShippingAddress(returnShippingAddress: AddressPortable | ((address: AddressPortable) => void)) {
     if (returnShippingAddress instanceof AddressPortable) this.returnShippingAddress = returnShippingAddress;
     else {
       const address = new AddressPortable();
@@ -77,8 +92,15 @@ export class MakeOffer extends Types implements Static<ITypes, typeof MakeOffer>
     }
     return this;
   }
+  public getReturnShippingAddress() {
+    return this.returnShippingAddress;
+  }
 
-  static fromObject(obj: TMakeOffer) {
+  public override getFields<T extends TMakeOffer>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TMakeOffer) {
     const makeOffer = new MakeOffer();
     if (obj.offer_types)
       makeOffer.setOfferTypes(...obj.offer_types.map((offerType) => OfferType.fromObject(offerType)));

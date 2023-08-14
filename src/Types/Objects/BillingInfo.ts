@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 import { PhoneDetail, TPhoneDetail } from "./PhoneDetail.js";
 
 export type TBillingInfo = {
@@ -8,30 +8,39 @@ export type TBillingInfo = {
   phones?: TPhoneDetail[];
 };
 
-export class BillingInfo extends Types implements Static<ITypes, typeof BillingInfo> {
-  additionalInfo?: string;
-  emailAddress?: string;
-  language?: string;
-  phones?: PhoneDetail[];
+export class BillingInfo extends Utility implements Static<IUtility, typeof BillingInfo> {
+  private additionalInfo?: string;
+  private emailAddress?: string;
+  private language?: string;
+  private phones?: PhoneDetail[];
 
-  setAdditionalInfo(additionalInfo: string) {
+  public setAdditionalInfo(additionalInfo: string) {
     this.additionalInfo = additionalInfo;
     return this;
   }
+  public getAdditionalInfo() {
+    return this.additionalInfo;
+  }
 
-  setEmailAddress(emailAddress: string) {
+  public setEmailAddress(emailAddress: string) {
     this.emailAddress = emailAddress;
     return this;
   }
+  public getEmailAddress() {
+    return this.emailAddress;
+  }
 
-  setLanguage(language: string) {
+  public setLanguage(language: string) {
     this.language = language;
     return this;
   }
+  public getLanguage() {
+    return this.language;
+  }
 
-  setPhones(...phones: PhoneDetail[]): this;
-  setPhones(...phones: ((phone: PhoneDetail) => void)[]): this;
-  setPhones(...phones: (PhoneDetail | ((phone: PhoneDetail) => void))[]) {
+  public setPhones(...phones: PhoneDetail[]): this;
+  public setPhones(...phones: ((phone: PhoneDetail) => void)[]): this;
+  public setPhones(...phones: (PhoneDetail | ((phone: PhoneDetail) => void))[]) {
     this.phones = phones.map((phone) => {
       if (phone instanceof PhoneDetail) {
         return phone;
@@ -43,8 +52,15 @@ export class BillingInfo extends Types implements Static<ITypes, typeof BillingI
     });
     return this;
   }
+  public getPhones() {
+    return this.phones;
+  }
 
-  static fromObject(obj: TBillingInfo) {
+  public override getFields<T extends TBillingInfo>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TBillingInfo) {
     const billingInfo = new BillingInfo();
     if (obj.additional_info) billingInfo.setAdditionalInfo(obj.additional_info);
     if (obj.email_address) billingInfo.setEmailAddress(obj.email_address);

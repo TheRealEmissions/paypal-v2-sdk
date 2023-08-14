@@ -1,20 +1,23 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 
 export type TMoney = {
   currency_code: string;
   value: string;
 };
 
-export class Money extends Types implements Static<ITypes, typeof Money> {
-  currencyCode?: string;
-  value?: string;
+export class Money extends Utility implements Static<IUtility, typeof Money> {
+  private currencyCode?: string;
+  private value?: string;
 
-  setCurrencyCode(currencyCode: string) {
+  public setCurrencyCode(currencyCode: string) {
     this.currencyCode = currencyCode;
     return this;
   }
+  public getCurrencyCode() {
+    return this.currencyCode;
+  }
 
-  setValue(value: string) {
+  public setValue(value: string) {
     const regex = new RegExp(/^((-?\d+)|(-?(\d+)?[.]\d+))$/);
     if (!regex.test(value)) {
       throw new Error("Invalid value");
@@ -23,8 +26,15 @@ export class Money extends Types implements Static<ITypes, typeof Money> {
     this.value = value;
     return this;
   }
+  public getValue() {
+    return this.value;
+  }
 
-  static fromObject(obj: TMoney) {
+  public override getFields<T extends Partial<TMoney>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TMoney) {
     const money = new Money();
     if (obj.currency_code) money.setCurrencyCode(obj.currency_code);
     if (obj.value) money.setValue(obj.value);

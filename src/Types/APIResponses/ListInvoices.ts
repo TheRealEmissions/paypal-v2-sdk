@@ -1,6 +1,6 @@
-import Invoice, { TInvoice } from "../Objects/Invoice.js";
-import LinkDescription, { TLinkDescription } from "../Objects/LinkDescription.js";
-import Types, { ITypes, Integer, Static } from "../Types.js";
+import { Invoice, TInvoice } from "../Objects/Invoice.js";
+import { LinkDescription, TLinkDescription } from "../Objects/LinkDescription.js";
+import { Utility, IUtility, Integer, Static } from "../Utility.js";
 
 export type TListInvoicesResponse<N extends number, U extends number> = {
   readonly items: TInvoice[];
@@ -10,19 +10,39 @@ export type TListInvoicesResponse<N extends number, U extends number> = {
 };
 
 class ListInvoicesResponse<N extends number, U extends number>
-  extends Types
-  implements Static<ITypes, typeof ListInvoicesResponse>
+  extends Utility
+  implements Static<IUtility, typeof ListInvoicesResponse>
 {
-  readonly items: Invoice[];
-  readonly links: LinkDescription[];
-  readonly totalItems: Integer<N>;
-  readonly totalPages: Integer<U>;
+  private readonly items: Invoice[];
+  private readonly links: LinkDescription[];
+  private readonly totalItems: Integer<N>;
+  private readonly totalPages: Integer<U>;
   constructor(items: Invoice[], links: LinkDescription[], totalItems: Integer<N>, totalPages: Integer<U>) {
     super();
     this.items = items;
     this.links = links;
     this.totalItems = totalItems;
     this.totalPages = totalPages;
+  }
+
+  public getItems() {
+    return this.items;
+  }
+
+  public getLinks() {
+    return this.links;
+  }
+
+  public getTotalItems() {
+    return this.totalItems;
+  }
+
+  public getTotalPages() {
+    return this.totalPages;
+  }
+
+  public override getFields<T extends Partial<TListInvoicesResponse<N, U>>>() {
+    return super.getFields<T>();
   }
 
   static fromObject<N extends number, U extends number>(obj: TListInvoicesResponse<N, U>) {

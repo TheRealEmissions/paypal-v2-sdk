@@ -6,7 +6,7 @@ import PartialUpdateDisputeResponse, {
 import { DisputeState } from "../Types/Enums/DisputeState";
 import { Patch } from "../Types/Objects/Patch";
 import { TPatchRequest } from "../Types/Objects/PatchRequest";
-import { Integer } from "../Types/Types";
+import { Integer } from "../Types/Utility";
 
 class Disputes {
   protected PayPal: PayPal;

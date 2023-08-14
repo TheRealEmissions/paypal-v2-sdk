@@ -1,15 +1,22 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 
 export type TAcceptOffer = {
   note?: string;
 };
 
-export class AcceptOffer extends Types implements Static<ITypes, typeof AcceptOffer> {
-  note?: string;
+export class AcceptOffer extends Utility implements Static<IUtility, typeof AcceptOffer> {
+  private note?: string;
 
-  setNote(note: string) {
+  public setNote(note: string) {
     this.note = note;
     return this;
+  }
+  public getNote() {
+    return this.note;
+  }
+
+  public override getFields<T extends TAcceptOffer>() {
+    return super.getFields<T>();
   }
 
   static fromObject(obj: TAcceptOffer) {

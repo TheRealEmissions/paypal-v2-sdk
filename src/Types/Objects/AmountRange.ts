@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types.js";
+import { Utility, IUtility, Static } from "../Utility.js";
 import { Money, TMoney } from "./Money.js";
 
 export type TAmountRange = {
@@ -6,13 +6,13 @@ export type TAmountRange = {
   upper_amount: TMoney;
 };
 
-export class AmountRange extends Types implements Static<ITypes, typeof AmountRange> {
-  lowerAmount?: Money;
-  upperAmount?: Money;
+export class AmountRange extends Utility implements Static<IUtility, typeof AmountRange> {
+  private lowerAmount?: Money;
+  private upperAmount?: Money;
 
-  setLowerAmount(lowerAmount: Money): this;
-  setLowerAmount(lowerAmount: (lowerAmount: Money) => void): this;
-  setLowerAmount(lowerAmount: Money | ((lowerAmount: Money) => void)): this {
+  public setLowerAmount(lowerAmount: Money): this;
+  public setLowerAmount(lowerAmount: (lowerAmount: Money) => void): this;
+  public setLowerAmount(lowerAmount: Money | ((lowerAmount: Money) => void)): this {
     if (lowerAmount instanceof Money) {
       this.lowerAmount = lowerAmount;
     } else {
@@ -22,10 +22,13 @@ export class AmountRange extends Types implements Static<ITypes, typeof AmountRa
     }
     return this;
   }
+  public getLowerAmount() {
+    return this.lowerAmount;
+  }
 
-  setUpperAmount(upperAmount: Money): this;
-  setUpperAmount(upperAmount: (upperAmount: Money) => void): this;
-  setUpperAmount(upperAmount: Money | ((upperAmount: Money) => void)): this {
+  public setUpperAmount(upperAmount: Money): this;
+  public setUpperAmount(upperAmount: (upperAmount: Money) => void): this;
+  public setUpperAmount(upperAmount: Money | ((upperAmount: Money) => void)): this {
     if (upperAmount instanceof Money) {
       this.upperAmount = upperAmount;
     } else {
@@ -34,6 +37,13 @@ export class AmountRange extends Types implements Static<ITypes, typeof AmountRa
       this.upperAmount = upperAmountInstance;
     }
     return this;
+  }
+  public getUpperAmount() {
+    return this.upperAmount;
+  }
+
+  public override getFields<T extends Partial<TAmountRange>>() {
+    return super.getFields<T>();
   }
 
   static fromObject(obj: TAmountRange) {
