@@ -57,7 +57,7 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
     this.PayPal = PayPal;
   }
 
-  setPayPal(PayPal: PayPal) {
+  public setPayPal(PayPal: PayPal) {
     this.PayPal = PayPal;
     return this;
   }

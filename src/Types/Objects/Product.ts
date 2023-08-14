@@ -36,6 +36,11 @@ export class Product extends Utility implements Static<IUtility, typeof Product>
     this.PayPal = PayPal;
   }
 
+  setPayPal(PayPal: PayPal) {
+    this.PayPal = PayPal;
+    return this;
+  }
+
   public create(paypalRequestId?: string, prefer?: "minimal" | "representation") {
     if (!this.PayPal) {
       throw new Error("To use in-built methods, you must pass PayPal instance to the constructor");

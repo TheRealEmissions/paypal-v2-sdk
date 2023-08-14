@@ -125,6 +125,6 @@ export class Products {
     if (!productId) throw new Error("Product ID is required to get product");
     const response = await this.PayPal.getAPI().get<TProduct>(`/v1/catalogs/products/${productId}`);
 
-    return Product.fromObject(response.data);
+    return Product.fromObject(response.data).setPayPal(this.PayPal);
   }
 }

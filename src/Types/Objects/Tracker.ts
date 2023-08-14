@@ -43,6 +43,11 @@ export class Tracker extends Utility implements Static<IUtility, typeof Tracker>
     this.PayPal = PayPal;
   }
 
+  public setPayPal(PayPal: PayPal) {
+    this.PayPal = PayPal;
+    return this;
+  }
+
   public updateOrCancel() {
     if (!this.PayPal) {
       throw new Error("To use in-built methods, please provide PayPal instance when initialising the Tracker");
