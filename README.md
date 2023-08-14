@@ -43,7 +43,7 @@ try {
 import { PayPal, Invoice } from "paypal-v2-sdk";
 // Specifying Invoice as the type is not necessary as #get() returns Invoice as the type, it
 // is displayed here for information purposes only
-const invoice: Invoice = await PayPal.Invoicing.get("id of invoice");
+const invoice: Invoice = await PayPal.getInvoicing().get("id of invoice");
 ```
 
 - Getting an invoice and then deleting it
@@ -51,7 +51,7 @@ const invoice: Invoice = await PayPal.Invoicing.get("id of invoice");
 ```ts
 import { PayPal, Invoice } from "paypal-v2-sdk";
 
-const invoice: Invoice = await PayPal.Invoicing.get("id of invoice");
+const invoice: Invoice = await PayPal.getInvoicing().get("id of invoice");
 const deleted = await invoice.delete();
 console.log(deleted); // true if deleted, false if not
 ```
@@ -354,5 +354,5 @@ console.log(invoice); // contains all updated details for the invoice
 You can output debug messages:
 
 ```js
-PayPal.on("debug", (str) => console.debug(str));
+PayPal.on("debug", (str) => { console.debug(str) } );
 ```

@@ -8,7 +8,7 @@ import { PatchRequest, TPatchRequest } from "../Types/Objects/PatchRequest.js";
 import ProductUpdateError from "../Errors/Products/ProductUpdateError.js";
 import { Integer } from "../Types/Utility.js";
 
-class Products {
+export class Products {
   protected PayPal: PayPal;
   constructor(PayPal: PayPal) {
     this.PayPal = PayPal;
@@ -18,11 +18,15 @@ class Products {
    *
    * @deprecated Use Products#getMany()
    */
-  listProducts(page?: number, pageSize?: number, totalRequired?: boolean) {
+  public listProducts(page?: number, pageSize?: number, totalRequired?: boolean) {
     return this.getMany(page, pageSize, totalRequired);
   }
 
-  async getMany<N extends number, U extends number>(page?: Integer<N>, pageSize?: Integer<U>, totalRequired?: boolean) {
+  public async getMany<N extends number, U extends number>(
+    page?: Integer<N>,
+    pageSize?: Integer<U>,
+    totalRequired?: boolean
+  ) {
     const response = await this.PayPal.getAPI().get<TListProductsResponse<number, number>>("/v1/catalogs/products", {
       params: {
         page,
@@ -42,13 +46,17 @@ class Products {
     );
   }
 
-  async create(product: Product, paypalRequestId?: string, prefer?: "minimal" | "representation"): Promise<Product>;
-  async create(
+  public async create(
+    product: Product,
+    paypalRequestId?: string,
+    prefer?: "minimal" | "representation"
+  ): Promise<Product>;
+  public async create(
     product: (product: Product) => void,
     paypalRequestId?: string,
     prefer?: "minimal" | "representation"
   ): Promise<Product>;
-  async create(
+  public async create(
     product: Product | ((product: Product) => void),
     paypalRequestId?: string,
     prefer?: "minimal" | "representation"
@@ -70,16 +78,16 @@ class Products {
     return Product.fromObject(response.data);
   }
 
-  async update(product: Product, patchRequest: PatchRequest): Promise<Product>;
-  async update(product: Product, patchRequest: (patchRequest: PatchRequest) => void): Promise<Product>;
-  async update(product: string, patchRequest: PatchRequest): Promise<Product>;
-  async update(product: string, patchRequest: (patchRequest: PatchRequest) => void): Promise<Product>;
-  async update(product: (product: Product) => void, patchRequest: PatchRequest): Promise<Product>;
-  async update(
+  public async update(product: Product, patchRequest: PatchRequest): Promise<Product>;
+  public async update(product: Product, patchRequest: (patchRequest: PatchRequest) => void): Promise<Product>;
+  public async update(product: string, patchRequest: PatchRequest): Promise<Product>;
+  public async update(product: string, patchRequest: (patchRequest: PatchRequest) => void): Promise<Product>;
+  public async update(product: (product: Product) => void, patchRequest: PatchRequest): Promise<Product>;
+  public async update(
     product: (product: Product) => void,
     patchRequest: (patchRequest: PatchRequest) => void
   ): Promise<Product>;
-  async update(
+  public async update(
     product: Product | string | ((product: Product) => void),
     patchRequest: PatchRequest | ((patchRequest: PatchRequest) => void)
   ) {
@@ -106,10 +114,10 @@ class Products {
     return this.get(productId);
   }
 
-  async get(product: Product): Promise<Product>;
-  async get(product: string): Promise<Product>;
-  async get(product: (product: Product) => void): Promise<Product>;
-  async get(product: Product | string | ((product: Product) => void)) {
+  public async get(product: Product): Promise<Product>;
+  public async get(product: string): Promise<Product>;
+  public async get(product: (product: Product) => void): Promise<Product>;
+  public async get(product: Product | string | ((product: Product) => void)) {
     const productInstance =
       typeof product !== "string" ? (product instanceof Product ? product : new Product()) : undefined;
     if (typeof product === "function" && productInstance) product(productInstance);
@@ -120,5 +128,3 @@ class Products {
     return Product.fromObject(response.data);
   }
 }
-
-export default Products;

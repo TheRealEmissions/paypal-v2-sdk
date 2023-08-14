@@ -1,10 +1,10 @@
-import API from "./API/API.js";
+import { API } from "./API/API.js";
 import EventEmitter from "events";
-import Invoicing from "./API/Invoicing.js";
-import Authentication from "./API/Authentication.js";
-import AddTracking from "./API/AddTracking.js";
-import Products from "./API/Products.js";
-import Disputes from "./API/Disputes.js";
+import { Invoicing } from "./API/Invoicing.js";
+import { Authentication } from "./API/Authentication.js";
+import { AddTracking } from "./API/AddTracking.js";
+import { Products } from "./API/Products.js";
+import { Disputes } from "./API/Disputes.js";
 
 abstract class BasePayPal extends EventEmitter {
   private clientId: string | null;

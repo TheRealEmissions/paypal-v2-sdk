@@ -1,19 +1,19 @@
 import PayPal from "../PayPal.js";
 import { Integer } from "../Types/Utility.js";
 
-class Authentication {
+export class Authentication {
   protected PayPal: PayPal;
-  scope?: string;
-  token?: string;
-  tokenType?: string;
-  appId?: string;
-  expiry?: number;
-  nonce?: string;
+  private scope?: string;
+  private token?: string;
+  private tokenType?: string;
+  private appId?: string;
+  private expiry?: number;
+  private nonce?: string;
   constructor(PayPal: PayPal) {
     this.PayPal = PayPal;
   }
 
-  async requestNewToken(clientId: string, clientSecret: string, sandbox: boolean) {
+  public async requestNewToken(clientId: string, clientSecret: string, sandbox: boolean) {
     const response = await this.PayPal.getAPI().post<any>(
       `https://${sandbox ? "api-m.sandbox" : "api-m"}.paypal.com/v1/oauth2/token`,
       "grant_type=client_credentials",
@@ -47,7 +47,7 @@ class Authentication {
     }, this.expiry);
   }
 
-  setAxiosDefaults(sandbox: boolean) {
+  public setAxiosDefaults(sandbox: boolean) {
     if (!this.token) throw new Error("Token not set! Please retry configuration and authentication!");
     this.PayPal.getAPI()
       .setDefaultAuthorizationHeader(this.token)
@@ -56,35 +56,51 @@ class Authentication {
     return this;
   }
 
-  setScope(scope: string) {
+  public setScope(scope: string) {
     this.scope = scope;
     return this;
   }
+  public getScope() {
+    return this.scope;
+  }
 
-  setAccessToken(token: string) {
+  public setAccessToken(token: string) {
     this.token = token;
     return this;
   }
+  public getAccessToken() {
+    return this.token;
+  }
 
-  setTokenType(tokenType: string) {
+  public setTokenType(tokenType: string) {
     this.tokenType = tokenType;
     return this;
   }
+  public getTokenType() {
+    return this.tokenType;
+  }
 
-  setAppId(appId: string) {
+  public setAppId(appId: string) {
     this.appId = appId;
     return this;
   }
+  public getAppId() {
+    return this.appId;
+  }
 
-  setExpiry<N extends number>(expiry: Integer<N>) {
+  public setExpiry<N extends number>(expiry: Integer<N>) {
     this.expiry = expiry;
     return this;
   }
+  public getExpiry() {
+    return this.expiry;
+  }
 
-  setNonce(nonce: string) {
+  public setNonce(nonce: string) {
     this.nonce = nonce;
     return this;
   }
+  public getNonce() {
+    return this.nonce;
+  }
 }
-
-export default Authentication;

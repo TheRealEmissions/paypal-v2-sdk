@@ -7,7 +7,7 @@ import { TrackerIdentifier } from "../Types/Objects/TrackerIdentifier.js";
 import { Error as PayPalError } from "../Types/Objects/Error.js";
 import TrackerUpdateOrCancelError from "../Errors/AddTracking/TrackerUpdateOrCancelError.js";
 
-class AddTracking {
+export class AddTracking {
   protected PayPal: PayPal;
   constructor(PayPal: PayPal) {
     this.PayPal = PayPal;
@@ -19,9 +19,12 @@ class AddTracking {
    * @param tracker
    * @returns {Promise<Tracker>}
    */
-  async updateOrCancel(transactionIdTrackingNumber: string, tracker: Tracker): Promise<Tracker>;
-  async updateOrCancel(transactionIdTrackingNumber: string, tracker: (tracker: Tracker) => void): Promise<Tracker>;
-  async updateOrCancel(
+  public async updateOrCancel(transactionIdTrackingNumber: string, tracker: Tracker): Promise<Tracker>;
+  public async updateOrCancel(
+    transactionIdTrackingNumber: string,
+    tracker: (tracker: Tracker) => void
+  ): Promise<Tracker>;
+  public async updateOrCancel(
     transactionIdTrackingNumber: string,
     tracker: Tracker | ((tracker: Tracker) => void)
   ): Promise<Tracker> {
@@ -38,10 +41,12 @@ class AddTracking {
     return this.get(transactionIdTrackingNumber);
   }
 
-  async get(tracker: Tracker): Promise<Tracker>;
-  async get(tracker: string): Promise<Tracker>;
-  async get(tracker: (tracker: Tracker) => void): Promise<Tracker>;
-  async get(trackerOrTransactionIdTrackingNumber: Tracker | string | ((tracker: Tracker) => void)): Promise<Tracker> {
+  public async get(tracker: Tracker): Promise<Tracker>;
+  public async get(tracker: string): Promise<Tracker>;
+  public async get(tracker: (tracker: Tracker) => void): Promise<Tracker>;
+  public async get(
+    trackerOrTransactionIdTrackingNumber: Tracker | string | ((tracker: Tracker) => void)
+  ): Promise<Tracker> {
     let transactionIdTrackingNumber: string | undefined;
     if (typeof trackerOrTransactionIdTrackingNumber === "string") {
       transactionIdTrackingNumber = trackerOrTransactionIdTrackingNumber;
@@ -57,14 +62,14 @@ class AddTracking {
     return Tracker.fromObject(response.data);
   }
 
-  async add(trackers: Tracker[], links: LinkDescription[]): Promise<AddTrackersResponse>;
-  async add(trackers: Tracker[], links: ((link: LinkDescription) => void)[]): Promise<AddTrackersResponse>;
-  async add(trackers: ((tracker: Tracker) => void)[], links: LinkDescription[]): Promise<AddTrackersResponse>;
-  async add(
+  public async add(trackers: Tracker[], links: LinkDescription[]): Promise<AddTrackersResponse>;
+  public async add(trackers: Tracker[], links: ((link: LinkDescription) => void)[]): Promise<AddTrackersResponse>;
+  public async add(trackers: ((tracker: Tracker) => void)[], links: LinkDescription[]): Promise<AddTrackersResponse>;
+  public async add(
     trackers: ((tracker: Tracker) => void)[],
     links: ((link: LinkDescription) => void)[]
   ): Promise<AddTrackersResponse>;
-  async add(
+  public async add(
     trackers: (Tracker | ((tracker: Tracker) => void))[],
     links: (LinkDescription | ((link: LinkDescription) => void))[]
   ) {
@@ -91,5 +96,3 @@ class AddTracking {
     );
   }
 }
-
-export default AddTracking;

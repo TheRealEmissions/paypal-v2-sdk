@@ -9,7 +9,7 @@ import { Patch } from "../Types/Objects/Patch";
 import { TPatchRequest } from "../Types/Objects/PatchRequest";
 import { Integer } from "../Types/Utility";
 
-class Disputes {
+export class Disputes {
   protected PayPal: PayPal;
   constructor(PayPal: PayPal) {
     this.PayPal = PayPal;
@@ -19,7 +19,7 @@ class Disputes {
    *
    * @deprecated Use Disputes#getMany()
    */
-  async listDisputes(
+  public async listDisputes(
     disputeState?: DisputeState,
     disputedTransactionId?: string,
     nextPageToken?: string,
@@ -28,7 +28,7 @@ class Disputes {
     updateTimeAfter?: string,
     updateTimeBefore?: string
   ): Promise<ListDisputesResponse>;
-  async listDisputes(
+  public async listDisputes(
     disputeState?: (disputeState: typeof DisputeState) => DisputeState,
     disputedTransactionId?: string,
     nextPageToken?: string,
@@ -37,7 +37,7 @@ class Disputes {
     updateTimeAfter?: string,
     updateTimeBefore?: string
   ): Promise<ListDisputesResponse>;
-  listDisputes(
+  public async listDisputes(
     disputeState?: DisputeState | ((disputeState: typeof DisputeState) => DisputeState),
     disputedTransactionId?: string,
     nextPageToken?: string,
@@ -57,7 +57,7 @@ class Disputes {
     );
   }
 
-  async getMany<N extends number>(
+  public async getMany<N extends number>(
     disputeState?: DisputeState,
     disputedTransactionId?: string,
     nextPageToken?: string,
@@ -66,7 +66,7 @@ class Disputes {
     updateTimeAfter?: string,
     updateTimeBefore?: string
   ): Promise<ListDisputesResponse>;
-  async getMany<N extends number>(
+  public async getMany<N extends number>(
     disputeState?: (disputeState: typeof DisputeState) => DisputeState,
     disputedTransactionId?: string,
     nextPageToken?: string,
@@ -75,7 +75,7 @@ class Disputes {
     updateTimeAfter?: string,
     updateTimeBefore?: string
   ): Promise<ListDisputesResponse>;
-  async getMany<N extends number>(
+  public async getMany<N extends number>(
     disputeState?: DisputeState | ((disputeState: typeof DisputeState) => DisputeState),
     disputedTransactionId?: string,
     nextPageToken?: string,
@@ -121,12 +121,12 @@ class Disputes {
     return ListDisputesResponse.fromObject(response.data);
   }
 
-  async partialUpdate(disputeId: string, patchRequest: Patch[]): Promise<PartialUpdateDisputeResponse>;
-  async partialUpdate(
+  public async partialUpdate(disputeId: string, patchRequest: Patch[]): Promise<PartialUpdateDisputeResponse>;
+  public async partialUpdate(
     disputeId: string,
     patchRequest: ((patchRequest: Patch) => void)[]
   ): Promise<PartialUpdateDisputeResponse>;
-  async partialUpdate(disputeId: string, patchRequest: (Patch | ((patchRequest: Patch) => void))[]) {
+  public async partialUpdate(disputeId: string, patchRequest: (Patch | ((patchRequest: Patch) => void))[]) {
     const response = await this.PayPal.getAPI().patch<TPartialUpdateDisputeResponse>(
       `/v1/customer/disputes/${disputeId}`,
       {
@@ -142,11 +142,9 @@ class Disputes {
     return PartialUpdateDisputeResponse.fromObject(response.data);
   }
 
-  async get(disputeId: string) {
+  public async get(disputeId: string) {
     const response = await this.PayPal.getAPI().get<TDispute>(`/v1/customer/disputes/${disputeId}`);
 
     return Dispute.fromObject(response.data);
   }
 }
-
-export default Disputes;
