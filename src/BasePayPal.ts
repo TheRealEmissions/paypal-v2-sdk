@@ -7,15 +7,15 @@ import Products from "./API/Products.js";
 import Disputes from "./API/Disputes.js";
 
 abstract class BasePayPal extends EventEmitter {
-  clientId: string | null;
-  clientSecret: string | null;
-  sandbox: boolean;
-  API: API;
-  Invoicing: Invoicing;
-  Auth: Authentication;
-  AddTracking: AddTracking;
-  Products: Products;
-  Disputes: Disputes;
+  private clientId: string | null;
+  private clientSecret: string | null;
+  private sandbox: boolean;
+  private API: API;
+  private Invoicing: Invoicing;
+  private Auth: Authentication;
+  private AddTracking: AddTracking;
+  private Products: Products;
+  private Disputes: Disputes;
 
   constructor() {
     super({
@@ -39,6 +39,42 @@ abstract class BasePayPal extends EventEmitter {
     this.sandbox = sandbox;
 
     this.emit("debug", `PayPal Configured!\nID: ${id}\nSecret: ${secret}\nSandbox? ${sandbox}`);
+  }
+
+  getClientId() {
+    return this.clientId;
+  }
+
+  getClientSecret() {
+    return this.clientSecret;
+  }
+
+  isSandbox() {
+    return this.sandbox;
+  }
+
+  getAPI() {
+    return this.API;
+  }
+
+  getInvoicing() {
+    return this.Invoicing;
+  }
+
+  getAuth() {
+    return this.Auth;
+  }
+
+  getAddTracking() {
+    return this.AddTracking;
+  }
+
+  getProducts() {
+    return this.Products;
+  }
+
+  getDisputes() {
+    return this.Disputes;
   }
 
   abstract authenticate(): Promise<void>;

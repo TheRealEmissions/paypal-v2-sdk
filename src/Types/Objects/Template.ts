@@ -40,7 +40,7 @@ export class Template extends Utility implements Static<IUtility, typeof Templat
   public async create() {
     if (!this.PayPal)
       throw new Error("To use in-built methods, please provide PayPal instance when initialising the template");
-    return this.PayPal.Invoicing.createTemplate(this);
+    return this.PayPal.getInvoicing().createTemplate(this);
   }
 
   public async delete() {
@@ -49,7 +49,7 @@ export class Template extends Utility implements Static<IUtility, typeof Templat
     if (!this.id) {
       throw new Error("Template ID is required to delete template");
     }
-    return this.PayPal.Invoicing.deleteTemplate(this);
+    return this.PayPal.getInvoicing().deleteTemplate(this);
   }
 
   public async fullyUpdate() {
@@ -58,7 +58,7 @@ export class Template extends Utility implements Static<IUtility, typeof Templat
     if (!this.id) {
       throw new Error("Template ID is required to update template");
     }
-    return this.PayPal.Invoicing.fullyUpdateTemplate(this);
+    return this.PayPal.getInvoicing().fullyUpdateTemplate(this);
   }
 
   public async get() {
@@ -67,7 +67,7 @@ export class Template extends Utility implements Static<IUtility, typeof Templat
     if (!this.id) {
       throw new Error("Template ID is required to get template");
     }
-    return this.PayPal.Invoicing.getTemplate(this);
+    return this.PayPal.getInvoicing().getTemplate(this);
   }
 
   public setDefaultTemplate(defaultTemplate: boolean) {

@@ -27,7 +27,7 @@ class Invoicing {
   }
 
   async generateInvoiceNumber(): Promise<GenerateInvoiceNumberResponse> {
-    const response = await this.PayPal.API.post<TGenerateInvoiceNumberResponse>(
+    const response = await this.PayPal.getAPI().post<TGenerateInvoiceNumberResponse>(
       "/v2/invoicing/generate-next-invoice-number"
     );
     const invoiceNumber = response.data.invoice_number;
@@ -69,7 +69,7 @@ class Invoicing {
       }
     }
 
-    const response = await this.PayPal.API.get<TListInvoicesResponse<number, number>>("/v2/invoicing/invoices", {
+    const response = await this.PayPal.getAPI().get<TListInvoicesResponse<number, number>>("/v2/invoicing/invoices", {
       params: {
         fields,
         page,
@@ -93,7 +93,7 @@ class Invoicing {
     if (typeof invoice === "function") {
       invoice(invoiceInstance);
     }
-    const response = await this.PayPal.API.post<TInvoice>(
+    const response = await this.PayPal.getAPI().post<TInvoice>(
       "/v2/invoicing/invoices",
       invoiceInstance.toAttributeObject<TInvoice>()
     );
@@ -114,7 +114,7 @@ class Invoicing {
     if (!invoiceId) {
       throw new Error("Invoice id is required");
     }
-    const response = await this.PayPal.API.delete(`/v2/invoicing/invoices/${invoiceId}`);
+    const response = await this.PayPal.getAPI().delete(`/v2/invoicing/invoices/${invoiceId}`);
     const SUCCESS_RESPONSE = 204;
     return response.status === SUCCESS_RESPONSE;
   }
@@ -126,7 +126,7 @@ class Invoicing {
     if (typeof invoice === "function") {
       invoice(invoiceInstance);
     }
-    const response = await this.PayPal.API.put<TInvoice>(
+    const response = await this.PayPal.getAPI().put<TInvoice>(
       `/v2/invoicing/invoices/${invoiceInstance.getId() ?? invoiceId}`,
       invoiceInstance.toAttributeObject<TInvoice>()
     );
@@ -144,7 +144,7 @@ class Invoicing {
     if (!invoiceId) {
       throw new Error("Invoice id is required");
     }
-    const response = await this.PayPal.API.get<TInvoice>(`/v2/invoicing/invoices/${invoiceId}`);
+    const response = await this.PayPal.getAPI().get<TInvoice>(`/v2/invoicing/invoices/${invoiceId}`);
 
     return Invoice.fromObject(response.data).setPayPal(this.PayPal);
   }
@@ -214,7 +214,7 @@ class Invoicing {
     if (!invoiceId) {
       throw new Error("Invoice id is required");
     }
-    const response = await this.PayPal.API.post<TInvoice>(`/v2/invoicing/invoices/${invoiceId}/cancel`, {
+    const response = await this.PayPal.getAPI().post<TInvoice>(`/v2/invoicing/invoices/${invoiceId}/cancel`, {
       additional_recipients: additionalRecipients?.map((x) => {
         const additionalRecipient = x instanceof EmailAddress ? x : new EmailAddress();
         if (typeof x === "function") {
@@ -283,7 +283,7 @@ class Invoicing {
     if (!invoiceId) {
       throw new Error("Invoice id is required");
     }
-    const response = await this.PayPal.API.get<string>(`/v2/invoicing/invoices/${invoiceId}/generate-qr-code`, {
+    const response = await this.PayPal.getAPI().get<string>(`/v2/invoicing/invoices/${invoiceId}/generate-qr-code`, {
       params: {
         ...(action
           ? {
@@ -331,7 +331,7 @@ class Invoicing {
     if (typeof paymentDetail === "function") {
       paymentDetail(paymentDetailInstance);
     }
-    const response = await this.PayPal.API.post<TInvoice>(
+    const response = await this.PayPal.getAPI().post<TInvoice>(
       `/v2/invoicing/invoices/${invoiceId}/payments`,
       paymentDetailInstance.toAttributeObject<TPaymentDetail>()
     );
@@ -356,7 +356,7 @@ class Invoicing {
     if (!invoiceId) {
       throw new Error("Invoice id is required");
     }
-    const response = await this.PayPal.API.delete(`/v2/invoicing/invoices/${invoiceId}/payments/${transactionId}`);
+    const response = await this.PayPal.getAPI().delete(`/v2/invoicing/invoices/${invoiceId}/payments/${transactionId}`);
     const SUCCESS_RESPONSE = 204;
     return response.status === SUCCESS_RESPONSE;
   }
@@ -389,7 +389,7 @@ class Invoicing {
       refundDetail(refundDetailInstance);
     }
 
-    const response = await this.PayPal.API.post<TInvoice>(
+    const response = await this.PayPal.getAPI().post<TInvoice>(
       `/v2/invoicing/invoices/${invoiceId}/refunds`,
       refundDetailInstance.toAttributeObject<TRefundDetail>()
     );
@@ -414,7 +414,7 @@ class Invoicing {
     if (!invoiceId) {
       throw new Error("Invoice id is required");
     }
-    const response = await this.PayPal.API.delete(`/v2/invoicing/invoices/${invoiceId}/refunds/${transactionId}`);
+    const response = await this.PayPal.getAPI().delete(`/v2/invoicing/invoices/${invoiceId}/refunds/${transactionId}`);
     const SUCCESS_RESPONSE = 204;
     return response.status === SUCCESS_RESPONSE;
   }
@@ -486,7 +486,7 @@ class Invoicing {
       throw new Error("Invoice id is required");
     }
 
-    const response = await this.PayPal.API.post<TInvoice>(`/v2/invoicing/invoices/${invoiceId}/remind`, {
+    const response = await this.PayPal.getAPI().post<TInvoice>(`/v2/invoicing/invoices/${invoiceId}/remind`, {
       additional_recipients: additionalRecipients?.map((x) => {
         const additionalRecipient = x instanceof EmailAddress ? x : new EmailAddress();
         if (typeof x === "function") {
@@ -569,7 +569,7 @@ class Invoicing {
     if (!invoiceId) {
       throw new Error("Invoice id is required");
     }
-    const response = await this.PayPal.API.post<TInvoice>(`/v2/invoicing/invoices/${invoiceId}/send`, {
+    const response = await this.PayPal.getAPI().post<TInvoice>(`/v2/invoicing/invoices/${invoiceId}/send`, {
       additional_recipients: additionalRecipients?.map((x) => {
         const additionalRecipient = x instanceof EmailAddress ? x : new EmailAddress();
         if (typeof x === "function") {
@@ -593,7 +593,7 @@ class Invoicing {
     totalRequired: boolean,
     data?: TSearch
   ) {
-    const response = await this.PayPal.API.post<TSearchForInvoicesResponse<number, number>>(
+    const response = await this.PayPal.getAPI().post<TSearchForInvoicesResponse<number, number>>(
       `/v2/invoicing/search-invoices`,
       data ?? {},
       {
@@ -614,7 +614,7 @@ class Invoicing {
   }
 
   async listTemplates<N extends number, U extends number>(fields?: string, page?: Integer<N>, pageSize?: Integer<U>) {
-    const response = await this.PayPal.API.get<TListTemplatesResponse>(`/v2/invoicing/templates`, {
+    const response = await this.PayPal.getAPI().get<TListTemplatesResponse>(`/v2/invoicing/templates`, {
       params: {
         fields,
         page,
@@ -638,7 +638,7 @@ class Invoicing {
     if (typeof template === "function") {
       template(templateInstance);
     }
-    const response = await this.PayPal.API.post<TTemplate>(
+    const response = await this.PayPal.getAPI().post<TTemplate>(
       `/v2/invoicing/templates`,
       templateInstance.toAttributeObject<TTemplate>()
     );
@@ -659,7 +659,7 @@ class Invoicing {
     if (!templateId) {
       throw new Error("Template id is required");
     }
-    const response = await this.PayPal.API.delete(`/v2/invoicing/templates/${templateId}`);
+    const response = await this.PayPal.getAPI().delete(`/v2/invoicing/templates/${templateId}`);
     const SUCCESS_RESPONSE = 204;
     return response.status === SUCCESS_RESPONSE;
   }
@@ -671,7 +671,7 @@ class Invoicing {
     if (typeof template === "function") {
       template(templateInstance);
     }
-    const response = await this.PayPal.API.put<TTemplate>(
+    const response = await this.PayPal.getAPI().put<TTemplate>(
       `/v2/invoicing/templates/${templateInstance.getId()}`,
       templateInstance.toAttributeObject<TTemplate>()
     );
@@ -692,7 +692,7 @@ class Invoicing {
     if (!templateId) {
       throw new Error("Template id is required");
     }
-    const response = await this.PayPal.API.get<TTemplate>(`/v2/invoicing/templates/${templateId}`);
+    const response = await this.PayPal.getAPI().get<TTemplate>(`/v2/invoicing/templates/${templateId}`);
 
     return Template.fromObject(response.data).setPayPal(this.PayPal);
   }

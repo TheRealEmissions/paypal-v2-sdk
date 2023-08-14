@@ -27,7 +27,7 @@ class AddTracking {
   ): Promise<Tracker> {
     const trackerInstance = tracker instanceof Tracker ? tracker : new Tracker();
     if (typeof tracker === "function") tracker(trackerInstance);
-    const response = await this.PayPal.API.put(
+    const response = await this.PayPal.getAPI().put(
       `/v1/shipping/trackers/${transactionIdTrackingNumber}`,
       trackerInstance.toJson<TTracker>()
     );
@@ -53,7 +53,7 @@ class AddTracking {
       transactionIdTrackingNumber = tracker.getTransactionId();
     }
     if (!transactionIdTrackingNumber) throw new Error("Transaction ID or Tracking Number is required");
-    const response = await this.PayPal.API.get<TTracker>(`/v1/shipping/trackers/${transactionIdTrackingNumber}`);
+    const response = await this.PayPal.getAPI().get<TTracker>(`/v1/shipping/trackers/${transactionIdTrackingNumber}`);
     return Tracker.fromObject(response.data);
   }
 
@@ -80,7 +80,7 @@ class AddTracking {
       link(linkInstance);
       return linkInstance;
     });
-    const response = await this.PayPal.API.post<TAddTrackersResponse>("/v1/shipping/trackers", {
+    const response = await this.PayPal.getAPI().post<TAddTrackersResponse>("/v1/shipping/trackers", {
       trackers: trackerInstances.map((tracker) => tracker.toAttributeObject<TTracker>()),
       links: linkInstances.map((link) => link.toAttributeObject<TLinkDescription>()),
     });

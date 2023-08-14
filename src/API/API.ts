@@ -1,9 +1,13 @@
 import Axios, { AxiosInstance, AxiosRequestConfig } from "axios";
 
 class API {
-  Axios: AxiosInstance;
+  private Axios: AxiosInstance;
   constructor() {
     this.Axios = Axios.create();
+  }
+
+  getAxios() {
+    return this.Axios;
   }
 
   setDefaultBaseUrl(baseUrl: string) {

@@ -50,7 +50,7 @@ export class Tracker extends Utility implements Static<IUtility, typeof Tracker>
     if (!this.transactionId) {
       throw new Error("Transaction ID is required");
     }
-    return this.PayPal.AddTracking.updateOrCancel(this.transactionId, this);
+    return this.PayPal.getAddTracking().updateOrCancel(this.transactionId, this);
   }
 
   public get() {
@@ -60,7 +60,7 @@ export class Tracker extends Utility implements Static<IUtility, typeof Tracker>
     if (!this.transactionId) {
       throw new Error("Transaction ID is required");
     }
-    return this.PayPal.AddTracking.get(this.transactionId);
+    return this.PayPal.getAddTracking().get(this.transactionId);
   }
 
   public add(...links: LinkDescription[]): Promise<AddTrackersResponse>;
@@ -70,7 +70,7 @@ export class Tracker extends Utility implements Static<IUtility, typeof Tracker>
       throw new Error("To use in-built methods, please provide PayPal instance when initialising the Tracker");
     }
 
-    return this.PayPal.AddTracking.add(
+    return this.PayPal.getAddTracking().add(
       [this],
       links.map((x) => {
         if (x instanceof LinkDescription) return x;

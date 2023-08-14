@@ -66,14 +66,14 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
     if (!this.PayPal)
       throw new Error("To use in-built methods, please provide PayPal instance when initialising the invoice");
     if (generateNextInvoiceNumber) {
-      const invoiceNumber = await this.PayPal.Invoicing.generateInvoiceNumber();
+      const invoiceNumber = await this.PayPal.getInvoicing().generateInvoiceNumber();
       if (this.detail) {
         this.detail.setInvoiceNumber(invoiceNumber.getInvoiceNumber());
       } else {
         this.setDetail((detail) => detail.setInvoiceNumber(invoiceNumber.getInvoiceNumber()));
       }
     }
-    return this.PayPal.Invoicing.createDraft(this);
+    return this.PayPal.getInvoicing().createDraft(this);
   }
 
   public delete() {
@@ -82,7 +82,7 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
     if (!this.id) {
       throw new Error("Invoice ID is required to delete the invoice");
     }
-    return this.PayPal.Invoicing.delete(this);
+    return this.PayPal.getInvoicing().delete(this);
   }
 
   public fullyUpdate() {
@@ -91,7 +91,7 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
     if (!this.id) {
       throw new Error("Invoice ID is required to update the invoice");
     }
-    return this.PayPal.Invoicing.fullyUpdate(this);
+    return this.PayPal.getInvoicing().fullyUpdate(this);
   }
 
   public get() {
@@ -100,7 +100,7 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
     if (!this.id) {
       throw new Error("Invoice ID is required to get the invoice");
     }
-    return this.PayPal.Invoicing.get(this);
+    return this.PayPal.getInvoicing().get(this);
   }
 
   public async generateQrCode(action?: GenerateQrCodeAction, height?: number, width?: number): Promise<string>;
@@ -119,7 +119,7 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
     if (!this.id) {
       throw new Error("Invoice ID is required to generate QR code");
     }
-    return this.PayPal.Invoicing.generateQrCode(
+    return this.PayPal.getInvoicing().generateQrCode(
       this,
       typeof action === "function" ? action(GenerateQrCodeAction) : action,
       height,
@@ -136,11 +136,11 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
       throw new Error("Invoice ID is required to record payment");
     }
     if (paymentDetail instanceof PaymentDetail) {
-      return this.PayPal.Invoicing.recordPayment(this, paymentDetail);
+      return this.PayPal.getInvoicing().recordPayment(this, paymentDetail);
     } else {
       const paymentDetailInstance = new PaymentDetail();
       paymentDetail(paymentDetailInstance);
-      return this.PayPal.Invoicing.recordPayment(this, paymentDetailInstance);
+      return this.PayPal.getInvoicing().recordPayment(this, paymentDetailInstance);
     }
   }
 
@@ -150,7 +150,7 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
     if (!this.id) {
       throw new Error("Invoice ID is required to delete external payment");
     }
-    return this.PayPal.Invoicing.deleteExternalPayment(this, paymentId);
+    return this.PayPal.getInvoicing().deleteExternalPayment(this, paymentId);
   }
 
   public async recordRefund(refundDetail: RefundDetail): Promise<string | Invoice>;
@@ -162,11 +162,11 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
       throw new Error("Invoice ID is required to record refund");
     }
     if (refundDetail instanceof RefundDetail) {
-      return this.PayPal.Invoicing.recordRefund(this, refundDetail);
+      return this.PayPal.getInvoicing().recordRefund(this, refundDetail);
     } else {
       const refundDetailInstance = new RefundDetail();
       refundDetail(refundDetailInstance);
-      return this.PayPal.Invoicing.recordRefund(this, refundDetailInstance);
+      return this.PayPal.getInvoicing().recordRefund(this, refundDetailInstance);
     }
   }
 
@@ -176,7 +176,7 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
     if (!this.id) {
       throw new Error("Invoice ID is required to delete external refund");
     }
-    return this.PayPal.Invoicing.deleteExternalRefund(this, transactionId);
+    return this.PayPal.getInvoicing().deleteExternalRefund(this, transactionId);
   }
 
   public async sendReminder(
@@ -205,7 +205,7 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
     if (!this.id) {
       throw new Error("Invoice ID is required to send reminder");
     }
-    return this.PayPal.Invoicing.sendReminder(
+    return this.PayPal.getInvoicing().sendReminder(
       this,
       additionalRecipients?.map((additionalRecipient) => {
         if (additionalRecipient instanceof EmailAddress) {
@@ -249,7 +249,7 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
     if (!this.id) {
       throw new Error("Invoice ID is required to send invoice");
     }
-    return this.PayPal.Invoicing.send(
+    return this.PayPal.getInvoicing().send(
       this,
       additionalRecipients?.map((recipient) => {
         if (recipient instanceof EmailAddress) {

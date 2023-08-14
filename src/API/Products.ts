@@ -23,7 +23,7 @@ class Products {
   }
 
   async getMany<N extends number, U extends number>(page?: Integer<N>, pageSize?: Integer<U>, totalRequired?: boolean) {
-    const response = await this.PayPal.API.get<TListProductsResponse<number, number>>("/v1/catalogs/products", {
+    const response = await this.PayPal.getAPI().get<TListProductsResponse<number, number>>("/v1/catalogs/products", {
       params: {
         page,
         page_size: pageSize,
@@ -55,7 +55,7 @@ class Products {
   ) {
     const productInstance = product instanceof Product ? product : new Product();
     if (typeof product === "function") product(productInstance);
-    const response = await this.PayPal.API.post<TProduct>(
+    const response = await this.PayPal.getAPI().post<TProduct>(
       "/v1/catalogs/products",
       productInstance.toAttributeObject<TProduct>(),
       {
@@ -90,7 +90,7 @@ class Products {
     if (!productId) throw new Error("Product ID is required to update product");
     const patchRequestInstance = patchRequest instanceof PatchRequest ? patchRequest : new PatchRequest();
     if (typeof patchRequest === "function") patchRequest(patchRequestInstance);
-    const response = await this.PayPal.API.patch(
+    const response = await this.PayPal.getAPI().patch(
       `/v1/catalogs/products/${productId}`,
       patchRequestInstance.toAttributeObject<TPatchRequest>(),
       {
@@ -115,7 +115,7 @@ class Products {
     if (typeof product === "function" && productInstance) product(productInstance);
     const productId = typeof product === "string" ? product : productInstance!.getId();
     if (!productId) throw new Error("Product ID is required to get product");
-    const response = await this.PayPal.API.get<TProduct>(`/v1/catalogs/products/${productId}`);
+    const response = await this.PayPal.getAPI().get<TProduct>(`/v1/catalogs/products/${productId}`);
 
     return Product.fromObject(response.data);
   }

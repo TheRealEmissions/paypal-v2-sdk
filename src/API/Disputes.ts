@@ -101,7 +101,7 @@ class Disputes {
       }
     }
 
-    const response = await this.PayPal.API.get<TListDisputesResponse>("/v1/customer/disputes", {
+    const response = await this.PayPal.getAPI().get<TListDisputesResponse>("/v1/customer/disputes", {
       params: {
         ...(disputeState !== undefined
           ? {
@@ -127,20 +127,23 @@ class Disputes {
     patchRequest: ((patchRequest: Patch) => void)[]
   ): Promise<PartialUpdateDisputeResponse>;
   async partialUpdate(disputeId: string, patchRequest: (Patch | ((patchRequest: Patch) => void))[]) {
-    const response = await this.PayPal.API.patch<TPartialUpdateDisputeResponse>(`/v1/customer/disputes/${disputeId}`, {
-      data: patchRequest.map((x) => {
-        if (x instanceof Patch) return x.toAttributeObject<TPatchRequest>();
-        const patch = new Patch();
-        x(patch);
-        return patch.toAttributeObject<TPatchRequest>();
-      }),
-    });
+    const response = await this.PayPal.getAPI().patch<TPartialUpdateDisputeResponse>(
+      `/v1/customer/disputes/${disputeId}`,
+      {
+        data: patchRequest.map((x) => {
+          if (x instanceof Patch) return x.toAttributeObject<TPatchRequest>();
+          const patch = new Patch();
+          x(patch);
+          return patch.toAttributeObject<TPatchRequest>();
+        }),
+      }
+    );
 
     return PartialUpdateDisputeResponse.fromObject(response.data);
   }
 
   async get(disputeId: string) {
-    const response = await this.PayPal.API.get<TDispute>(`/v1/customer/disputes/${disputeId}`);
+    const response = await this.PayPal.getAPI().get<TDispute>(`/v1/customer/disputes/${disputeId}`);
 
     return Dispute.fromObject(response.data);
   }
