@@ -1,7 +1,7 @@
 import { Utility, IUtility, Static } from "../Utility.js";
 import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
 import { TrackerIdentifier, TTrackerIdentifier } from "./TrackerIdentifier.js";
-import { Error, TError } from "./Error.js";
+import { PayPalError, TError } from "./Error.js";
 
 export type TBatchTrackerCollection = {
   errors?: TError[];
@@ -10,18 +10,18 @@ export type TBatchTrackerCollection = {
 };
 
 export class BatchTrackerCollection extends Utility implements Static<IUtility, typeof BatchTrackerCollection> {
-  private errors?: Error[];
+  private errors?: PayPalError[];
   private links?: LinkDescription[];
   private trackerIdentifiers?: TrackerIdentifier[];
 
-  public setErrors(...errors: Error[]): this;
-  public setErrors(...errors: ((error: Error) => void)[]): this;
-  public setErrors(...errors: (Error | ((error: Error) => void))[]) {
+  public setErrors(...errors: PayPalError[]): this;
+  public setErrors(...errors: ((error: PayPalError) => void)[]): this;
+  public setErrors(...errors: (PayPalError | ((error: PayPalError) => void))[]) {
     this.errors = errors.map((error) => {
-      if (error instanceof Error) {
+      if (error instanceof PayPalError) {
         return error;
       } else {
-        const errorInstance = new Error();
+        const errorInstance = new PayPalError();
         error(errorInstance);
         return errorInstance;
       }
@@ -76,7 +76,7 @@ export class BatchTrackerCollection extends Utility implements Static<IUtility, 
 
   public static fromObject(obj: TBatchTrackerCollection): BatchTrackerCollection {
     const batchTrackerCollection = new BatchTrackerCollection();
-    if (obj.errors) batchTrackerCollection.setErrors(...obj.errors.map((error) => Error.fromObject(error)));
+    if (obj.errors) batchTrackerCollection.setErrors(...obj.errors.map((error) => PayPalError.fromObject(error)));
     if (obj.links) batchTrackerCollection.setLinks(...obj.links.map((link) => LinkDescription.fromObject(link)));
     if (obj.tracker_identifiers)
       batchTrackerCollection.setTrackerIdentifiers(

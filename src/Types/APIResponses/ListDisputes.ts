@@ -7,7 +7,7 @@ export type TListDisputesResponse = {
   readonly links: TLinkDescription[];
 };
 
-class ListDisputesResponse extends Utility implements Static<IUtility, typeof ListDisputesResponse> {
+export class ListDisputesResponse extends Utility implements Static<IUtility, typeof ListDisputesResponse> {
   private readonly items: DisputeInfo[];
   private readonly links: LinkDescription[];
   constructor(items: DisputeInfo[], links: LinkDescription[]) {
@@ -35,5 +35,3 @@ class ListDisputesResponse extends Utility implements Static<IUtility, typeof Li
     );
   }
 }
-
-export default ListDisputesResponse;

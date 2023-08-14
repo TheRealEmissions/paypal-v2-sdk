@@ -11,7 +11,7 @@ export type TError = {
   readonly links?: TLinkDescription[];
 };
 
-export class Error extends Utility implements Static<IUtility, typeof Error> {
+export class PayPalError extends Utility implements Static<IUtility, typeof PayPalError> {
   private debugId?: string;
   private message?: string;
   private name?: string;
@@ -91,8 +91,8 @@ export class Error extends Utility implements Static<IUtility, typeof Error> {
     return super.getFields<T>();
   }
 
-  public static fromObject(obj: TError): Error {
-    const error = new Error();
+  public static fromObject(obj: TError): PayPalError {
+    const error = new PayPalError();
     if (obj.debug_id) error.setDebugId(obj.debug_id);
     if (obj.message) error.setMessage(obj.message);
     if (obj.name) error.setName(obj.name);

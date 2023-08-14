@@ -1,5 +1,5 @@
 import { TLinkDescription } from "./../Objects/LinkDescription.js";
-import { Error, TError } from "../Objects/Error.js";
+import { PayPalError, TError } from "../Objects/Error.js";
 import { LinkDescription } from "../Objects/LinkDescription.js";
 import { TrackerIdentifier, TTrackerIdentifier } from "../Objects/TrackerIdentifier.js";
 import { Utility, IUtility, Static } from "../Utility.js";
@@ -10,11 +10,11 @@ export type TAddTrackersResponse = {
   readonly tracker_identifiers: TTrackerIdentifier[];
 };
 
-class AddTrackersResponse extends Utility implements Static<IUtility, typeof AddTrackersResponse> {
-  private readonly errors: Error[];
+export class AddTrackersResponse extends Utility implements Static<IUtility, typeof AddTrackersResponse> {
+  private readonly errors: PayPalError[];
   private readonly links: LinkDescription[];
   private readonly trackerIdentifiers: TrackerIdentifier[];
-  constructor(errors: Error[], links: LinkDescription[], trackerIdentifiers: TrackerIdentifier[]) {
+  constructor(errors: PayPalError[], links: LinkDescription[], trackerIdentifiers: TrackerIdentifier[]) {
     super();
     this.errors = errors;
     this.links = links;
@@ -39,11 +39,9 @@ class AddTrackersResponse extends Utility implements Static<IUtility, typeof Add
 
   static fromObject(obj: TAddTrackersResponse): AddTrackersResponse {
     return new AddTrackersResponse(
-      obj.errors.map((error) => Error.fromObject(error)),
+      obj.errors.map((error) => PayPalError.fromObject(error)),
       obj.links.map((link) => LinkDescription.fromObject(link)),
       obj.tracker_identifiers.map((trackerIdentifier) => TrackerIdentifier.fromObject(trackerIdentifier))
     );
   }
 }
-
-export default AddTrackersResponse;

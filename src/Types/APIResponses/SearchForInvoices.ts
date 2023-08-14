@@ -9,7 +9,7 @@ export type TSearchForInvoicesResponse<N extends number, U extends number> = {
   readonly total_pages: Integer<U>;
 };
 
-class SearchForInvoicesResponse<N extends number, U extends number>
+export class SearchForInvoicesResponse<N extends number, U extends number>
   extends Utility
   implements Static<IUtility, typeof SearchForInvoicesResponse>
 {
@@ -54,5 +54,3 @@ class SearchForInvoicesResponse<N extends number, U extends number>
     );
   }
 }
-
-export default SearchForInvoicesResponse;

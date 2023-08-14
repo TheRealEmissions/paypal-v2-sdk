@@ -1,10 +1,11 @@
 import PayPal from "../PayPal.js";
-import GenerateInvoiceNumberResponse, {
+import {
+  GenerateInvoiceNumberResponse,
   TGenerateInvoiceNumberResponse,
 } from "../Types/APIResponses/GenerateInvoiceNumber.js";
-import ListInvoicesResponse, { TListInvoicesResponse } from "../Types/APIResponses/ListInvoices.js";
-import ListTemplatesResponse, { TListTemplatesResponse } from "../Types/APIResponses/ListTemplates.js";
-import SearchForInvoicesResponse, { TSearchForInvoicesResponse } from "../Types/APIResponses/SearchForInvoices.js";
+import { ListInvoicesResponse, TListInvoicesResponse } from "../Types/APIResponses/ListInvoices.js";
+import { ListTemplatesResponse, TListTemplatesResponse } from "../Types/APIResponses/ListTemplates.js";
+import { SearchForInvoicesResponse, TSearchForInvoicesResponse } from "../Types/APIResponses/SearchForInvoices.js";
 import { GenerateQrCodeAction } from "../Types/Enums/GenerateQrCodeAction.js";
 import { InvoiceStatus } from "../Types/Enums/InvoiceStatus.js";
 import { AddressPortable } from "../Types/Objects/AddressPortable.js";
@@ -19,6 +20,8 @@ import { PhoneDetail } from "../Types/Objects/PhoneDetail.js";
 import { RefundDetail, TRefundDetail } from "../Types/Objects/RefundDetail.js";
 import { Template, TTemplate } from "../Types/Objects/Template.js";
 import { Integer } from "../Types/Utility.js";
+
+type InvoiceDeleteArg = Invoice | string | ((invoice: Invoice) => void);
 
 export class Invoicing {
   protected PayPal: PayPal;
@@ -104,7 +107,7 @@ export class Invoicing {
   public async delete(invoice: Invoice): Promise<boolean>;
   public async delete(invoice: string): Promise<boolean>;
   public async delete(invoice: (invoice: Invoice) => void): Promise<boolean>;
-  public async delete(invoice: Invoice | string | ((invoice: Invoice) => void)): Promise<boolean> {
+  public async delete(invoice: InvoiceDeleteArg): Promise<boolean> {
     const invoiceInstance =
       typeof invoice !== "string" ? (invoice instanceof Invoice ? invoice : new Invoice()) : undefined;
     if (typeof invoice === "function" && invoiceInstance) {
@@ -134,7 +137,10 @@ export class Invoicing {
     return Invoice.fromObject(response.data).setPayPal(this.PayPal);
   }
 
-  public async get(invoice: Invoice | string | ((invoice: Invoice) => void)) {
+  public async get(invoice: Invoice): Promise<Invoice>;
+  public async get(invoice: string): Promise<Invoice>;
+  public async get(invoice: (invoice: Invoice) => void): Promise<Invoice>;
+  public async get(invoice: InvoiceDeleteArg) {
     const invoiceInstance =
       typeof invoice !== "string" ? (invoice instanceof Invoice ? invoice : new Invoice()) : undefined;
     if (typeof invoice === "function" && invoiceInstance) {
@@ -198,7 +204,7 @@ export class Invoicing {
     subject?: string
   ): Promise<boolean>;
   public async cancel(
-    invoice: Invoice | string | ((invoice: Invoice) => void),
+    invoice: InvoiceDeleteArg,
     additionalRecipients?: (EmailAddress | ((additionalRecipient: EmailAddress) => void))[],
     note?: string,
     sendToInvoicer?: boolean,
@@ -269,7 +275,7 @@ export class Invoicing {
     width?: Integer<U>
   ): Promise<string>;
   public async generateQrCode<N extends number, U extends number>(
-    invoice: Invoice | string | ((invoice: Invoice) => void),
+    invoice: InvoiceDeleteArg,
     action?: GenerateQrCodeAction | ((action: typeof GenerateQrCodeAction) => GenerateQrCodeAction),
     height?: Integer<N>,
     width?: Integer<U>
@@ -315,7 +321,7 @@ export class Invoicing {
   ): Promise<Invoice>;
 
   public async recordPayment(
-    invoice: Invoice | string | ((invoice: Invoice) => void),
+    invoice: InvoiceDeleteArg,
     paymentDetail: PaymentDetail | ((paymentDetail: PaymentDetail) => void)
   ) {
     const invoiceInstance =
@@ -343,10 +349,7 @@ export class Invoicing {
   public async deleteExternalPayment(invoice: Invoice, transactionId: string): Promise<boolean>;
   public async deleteExternalPayment(invoice: string, transactionId: string): Promise<boolean>;
   public async deleteExternalPayment(invoice: (invoice: Invoice) => void, transactionId: string): Promise<boolean>;
-  public async deleteExternalPayment(
-    invoice: Invoice | string | ((invoice: Invoice) => void),
-    transactionId: string
-  ): Promise<boolean> {
+  public async deleteExternalPayment(invoice: InvoiceDeleteArg, transactionId: string): Promise<boolean> {
     const invoiceInstance =
       typeof invoice !== "string" ? (invoice instanceof Invoice ? invoice : new Invoice()) : undefined;
     if (typeof invoice === "function" && invoiceInstance) {
@@ -377,7 +380,7 @@ export class Invoicing {
     refundDetail: (refundDetail: RefundDetail) => void
   ): Promise<Invoice | string>;
   public async recordRefund(
-    invoice: Invoice | string | ((invoice: Invoice) => void),
+    invoice: InvoiceDeleteArg,
     refundDetail: RefundDetail | ((refundDetail: RefundDetail) => void)
   ) {
     const invoiceInstance =
@@ -407,10 +410,7 @@ export class Invoicing {
   public async deleteExternalRefund(invoice: Invoice, transactionId: string): Promise<boolean>;
   public async deleteExternalRefund(invoice: string, transactionId: string): Promise<boolean>;
   public async deleteExternalRefund(invoice: (invoice: Invoice) => void, transactionId: string): Promise<boolean>;
-  public async deleteExternalRefund(
-    invoice: Invoice | string | ((invoice: Invoice) => void),
-    transactionId: string
-  ): Promise<boolean> {
+  public async deleteExternalRefund(invoice: InvoiceDeleteArg, transactionId: string): Promise<boolean> {
     const invoiceInstance =
       typeof invoice !== "string" ? (invoice instanceof Invoice ? invoice : new Invoice()) : undefined;
     if (typeof invoice === "function" && invoiceInstance) {

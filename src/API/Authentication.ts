@@ -41,10 +41,12 @@ export class Authentication {
       .setScope(response.data.scope)
       .setAxiosDefaults(sandbox);
 
+    const EXPIRY_DELAY = 20_000;
+
     setTimeout(() => {
       this.PayPal.emit("debug", "Token expired, requesting new token...");
       this.requestNewToken(clientId, clientSecret, sandbox);
-    }, this.expiry);
+    }, this.expiry! - EXPIRY_DELAY);
   }
 
   public setAxiosDefaults(sandbox: boolean) {

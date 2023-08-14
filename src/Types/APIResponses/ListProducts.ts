@@ -10,7 +10,7 @@ export type TListProductsResponse<N extends number, U extends number> = {
   readonly total_pages: Integer<U>;
 };
 
-class ListProductsResponse<N extends number, U extends number>
+export class ListProductsResponse<N extends number, U extends number>
   extends Utility
   implements Static<IUtility, typeof ListProductsResponse>
 {
@@ -60,5 +60,3 @@ class ListProductsResponse<N extends number, U extends number>
     );
   }
 }
-
-export default ListProductsResponse;

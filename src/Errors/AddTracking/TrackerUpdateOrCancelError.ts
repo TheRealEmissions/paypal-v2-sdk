@@ -1,7 +1,5 @@
 import APIError from "../APIError.js";
 
-class TrackerUpdateOrCancelError extends APIError {
+export class TrackerUpdateOrCancelError extends APIError {
   declare data: unknown;
 }
-
-export default TrackerUpdateOrCancelError;

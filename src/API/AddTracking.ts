@@ -1,11 +1,11 @@
-import AddTrackersResponse, { TAddTrackersResponse } from "./../Types/APIResponses/AddTrackers.js";
+import { AddTrackersResponse, TAddTrackersResponse } from "./../Types/APIResponses/AddTrackers.js";
 import { TTracker } from "./../Types/Objects/Tracker.js";
 import PayPal from "../PayPal.js";
 import { Tracker } from "../Types/Objects/Tracker.js";
 import { LinkDescription, TLinkDescription } from "../Types/Objects/LinkDescription.js";
 import { TrackerIdentifier } from "../Types/Objects/TrackerIdentifier.js";
-import { Error as PayPalError } from "../Types/Objects/Error.js";
-import TrackerUpdateOrCancelError from "../Errors/AddTracking/TrackerUpdateOrCancelError.js";
+import { PayPalError } from "../Types/Objects/Error.js";
+import { TrackerUpdateOrCancelError } from "../Errors/AddTracking/TrackerUpdateOrCancelError.js";
 
 export class AddTracking {
   protected PayPal: PayPal;

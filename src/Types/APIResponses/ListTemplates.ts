@@ -12,7 +12,7 @@ export type TListTemplatesResponse = {
   readonly templates: TTemplate[];
 };
 
-class ListTemplatesResponse extends Utility implements Static<IUtility, typeof ListTemplatesResponse> {
+export class ListTemplatesResponse extends Utility implements Static<IUtility, typeof ListTemplatesResponse> {
   private readonly addresses: AddressPortable[];
   private readonly emails: string;
   private readonly links: LinkDescription[];
@@ -67,5 +67,3 @@ class ListTemplatesResponse extends Utility implements Static<IUtility, typeof L
     );
   }
 }
-
-export default ListTemplatesResponse;

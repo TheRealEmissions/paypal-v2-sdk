@@ -1,18 +1,20 @@
 import { PatchOperation } from "../Enums/PatchOperation.js";
 import { Utility, IUtility, Static } from "../Utility.js";
 
+type PatchValue = number | string | boolean | null | any[] | object;
+
 export type TPatch = {
   op: keyof typeof PatchOperation;
   from?: string;
   path?: string;
-  value?: number | string | boolean | null | any[] | object;
+  value?: PatchValue;
 };
 
 export class Patch extends Utility implements Static<IUtility, typeof Patch> {
   private op?: PatchOperation;
   private from?: string;
   private path?: string;
-  private value?: number | string | boolean | null | any[] | object;
+  private value?: PatchValue;
 
   public setOp(op: PatchOperation): this;
   public setOp(op: (op: typeof PatchOperation) => PatchOperation): this;
@@ -41,7 +43,7 @@ export class Patch extends Utility implements Static<IUtility, typeof Patch> {
     return this.path;
   }
 
-  public setValue(value: number | string | boolean | null | any[] | object) {
+  public setValue(value: PatchValue) {
     this.value = value;
     return this;
   }

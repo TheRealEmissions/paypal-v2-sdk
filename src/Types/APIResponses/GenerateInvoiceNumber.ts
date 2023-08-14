@@ -4,7 +4,10 @@ export type TGenerateInvoiceNumberResponse = {
   readonly invoice_number: string;
 };
 
-class GenerateInvoiceNumberResponse extends Utility implements Static<IUtility, typeof GenerateInvoiceNumberResponse> {
+export class GenerateInvoiceNumberResponse
+  extends Utility
+  implements Static<IUtility, typeof GenerateInvoiceNumberResponse>
+{
   private readonly invoiceNumber: string;
   constructor(invoiceNumber: string) {
     super();
@@ -23,5 +26,3 @@ class GenerateInvoiceNumberResponse extends Utility implements Static<IUtility, 
     return new GenerateInvoiceNumberResponse(obj.invoice_number);
   }
 }
-
-export default GenerateInvoiceNumberResponse;

@@ -5,7 +5,10 @@ export type TPartialUpdateDisputeResponse = {
   readonly links: TLinkDescription[];
 };
 
-class PartialUpdateDisputeResponse extends Utility implements Static<IUtility, typeof PartialUpdateDisputeResponse> {
+export class PartialUpdateDisputeResponse
+  extends Utility
+  implements Static<IUtility, typeof PartialUpdateDisputeResponse>
+{
   private readonly links!: LinkDescription[];
   constructor(links?: LinkDescription[]) {
     super();
@@ -24,5 +27,3 @@ class PartialUpdateDisputeResponse extends Utility implements Static<IUtility, t
     return new PartialUpdateDisputeResponse(obj.links.map((link) => LinkDescription.fromObject(link)));
   }
 }
-
-export default PartialUpdateDisputeResponse;

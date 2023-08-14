@@ -4,7 +4,7 @@ import { ShippingStatus } from "./../Enums/ShippingStatus.js";
 import { Utility, IUtility, Static } from "../Utility.js";
 import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
 import PayPal from "../../PayPal.js";
-import AddTrackersResponse from "../APIResponses/AddTrackers.js";
+import { AddTrackersResponse } from "../APIResponses/AddTrackers.js";
 
 export type TTracker = {
   status: keyof typeof ShippingStatus;

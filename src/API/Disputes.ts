@@ -1,6 +1,7 @@
 import PayPal from "../PayPal";
-import ListDisputesResponse, { TListDisputesResponse } from "../Types/APIResponses/ListDisputes";
-import PartialUpdateDisputeResponse, {
+import { ListDisputesResponse, TListDisputesResponse } from "../Types/APIResponses/ListDisputes";
+import {
+  PartialUpdateDisputeResponse,
   TPartialUpdateDisputeResponse,
 } from "../Types/APIResponses/PartialUpdateDispute";
 import { DisputeState } from "../Types/Enums/DisputeState";
