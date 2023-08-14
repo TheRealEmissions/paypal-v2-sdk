@@ -1,23 +1,23 @@
-import { DisputeChannel } from "../Enums/DisputeChannel";
-import { DisputeLifeCycleStage } from "../Enums/DisputeLifeCycleStage";
-import { DisputeReason } from "../Enums/DisputeReason";
-import { DisputeStatus } from "../Enums/DisputeStatus";
-import Adjudication, { TAdjudication } from "./Adjudication";
-import AllowedResponseOptions, { TAllowedResponseOptions } from "./AllowedResponseOptions";
-import CommunicationDetails, { TCommunicationDetails } from "./CommunicationDetails";
-import Cryptocurrency, { TCryptocurrency } from "./Cryptocurrency";
-import DisputeOutcome, { TDisputeOutcome } from "./DisputeOutcome";
-import Evidence, { TEvidence } from "./Evidence";
-import Extensions, { TExtensions } from "./Extensions";
-import LinkDescription, { TLinkDescription } from "./LinkDescription";
-import Message, { TMessage } from "./Message";
-import Money, { TMoney } from "./Money";
-import MoneyMovement, { TMoneyMovement } from "./MoneyMovement";
-import Offer, { TOffer } from "./Offer";
-import ResponseRefundDetails, { TResponseRefundDetails } from "./ResponseRefundDetails";
-import TransactionInfo, { TTransactionInfo } from "./TransactionInfo";
-import Types, { ITypes, Static } from "../Types";
-import SupportingInfo, { TSupportingInfo } from "./SupportingInfo";
+import { DisputeChannel } from "../Enums/DisputeChannel.js";
+import { DisputeLifeCycleStage } from "../Enums/DisputeLifeCycleStage.js";
+import { DisputeReason } from "../Enums/DisputeReason.js";
+import { DisputeStatus } from "../Enums/DisputeStatus.js";
+import { Adjudication, TAdjudication } from "./Adjudication.js";
+import { AllowedResponseOptions, TAllowedResponseOptions } from "./AllowedResponseOptions.js";
+import { CommunicationDetails, TCommunicationDetails } from "./CommunicationDetails.js";
+import { Cryptocurrency, TCryptocurrency } from "./Cryptocurrency.js";
+import { DisputeOutcome, TDisputeOutcome } from "./DisputeOutcome.js";
+import { Evidence, TEvidence } from "./Evidence.js";
+import { Extensions, TExtensions } from "./Extensions.js";
+import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
+import { Message, TMessage } from "./Message.js";
+import { Money, TMoney } from "./Money.js";
+import { MoneyMovement, TMoneyMovement } from "./MoneyMovement.js";
+import { Offer, TOffer } from "./Offer.js";
+import { ResponseRefundDetails, TResponseRefundDetails } from "./ResponseRefundDetails.js";
+import { TransactionInfo, TTransactionInfo } from "./TransactionInfo.js";
+import { SupportingInfo, TSupportingInfo } from "./SupportingInfo.js";
+import { IUtility, Static, Utility } from "../Utility.js";
 
 export type TDispute = {
   adjudications?: TAdjudication[];
@@ -48,44 +48,42 @@ export type TDispute = {
   update_time?: string;
 };
 
-class Dispute extends Types implements Static<ITypes, typeof Dispute> {
-  adjudications!: Adjudication[];
-  allowedResponseOptions!: AllowedResponseOptions;
-  buyerResponseDueDate!: string;
-  communicationDetails!: CommunicationDetails;
-  createTime!: string;
-  disputeAmount!: Money;
-  disputeAsset!: Cryptocurrency;
-  disputeChannel!: DisputeChannel;
-  disputeId!: string;
-  disputeLifeCycleStage!: DisputeLifeCycleStage;
-  disputeOutcome!: DisputeOutcome;
-  disputedTransactions!: TransactionInfo[];
-  evidences!: Evidence[];
-  extensions!: Extensions;
-  externalReasonCode?: string;
+export class Dispute extends Utility implements Static<IUtility, typeof Dispute> {
+  private adjudications!: Adjudication[];
+  private allowedResponseOptions!: AllowedResponseOptions;
+  private buyerResponseDueDate!: string;
+  private communicationDetails!: CommunicationDetails;
+  private createTime!: string;
+  private disputeAmount!: Money;
+  private disputeAsset!: Cryptocurrency;
+  private disputeChannel!: DisputeChannel;
+  private disputeId!: string;
+  private disputeLifeCycleStage!: DisputeLifeCycleStage;
+  private disputeOutcome!: DisputeOutcome;
+  private disputedTransactions!: TransactionInfo[];
+  private evidences!: Evidence[];
+  private extensions!: Extensions;
+  private externalReasonCode?: string;
 
   /**
    * @deprecated
    */
-  feePolicy = {};
+  private feePolicy = {};
 
-  links!: LinkDescription[];
-  messages?: Message[];
-  moneyMovements?: MoneyMovement[];
-  offer?: Offer;
-  reason?: DisputeReason;
-  refundDetails?: ResponseRefundDetails;
-  sellerResponseDueDate?: string;
-  status?: DisputeStatus;
-  supportingInfo?: SupportingInfo[];
-  updateTime?: string;
+  private links!: LinkDescription[];
+  private messages?: Message[];
+  private moneyMovements?: MoneyMovement[];
+  private offer?: Offer;
+  private reason?: DisputeReason;
+  private refundDetails?: ResponseRefundDetails;
+  private sellerResponseDueDate?: string;
+  private status?: DisputeStatus;
+  private supportingInfo?: SupportingInfo[];
+  private updateTime?: string;
 
-  constructor() {
-    super();
-  }
-
-  setAdjudications(...adjudications: (Adjudication | ((adjudication: Adjudication) => void))[]) {
+  public setAdjudications(...adjudications: Adjudication[]): this;
+  public setAdjudications(...adjudications: ((adjudication: Adjudication) => void)[]): this;
+  public setAdjudications(...adjudications: (Adjudication | ((adjudication: Adjudication) => void))[]) {
     this.adjudications = adjudications.map((adjudication) => {
       if (adjudication instanceof Adjudication) return adjudication;
       else {
@@ -96,56 +94,102 @@ class Dispute extends Types implements Static<ITypes, typeof Dispute> {
     });
     return this;
   }
+  public getAdjudications() {
+    return this.adjudications;
+  }
 
-  setAllowedResponseOptions(
+  public setAllowedResponseOptions(allowedResponseOptions: AllowedResponseOptions): this;
+  public setAllowedResponseOptions(
+    allowedResponseOptions: (allowedResponseOptions: AllowedResponseOptions) => void
+  ): this;
+  public setAllowedResponseOptions(
     allowedResponseOptions: AllowedResponseOptions | ((allowedResponseOptions: AllowedResponseOptions) => void)
   ) {
     if (allowedResponseOptions instanceof AllowedResponseOptions) this.allowedResponseOptions = allowedResponseOptions;
     else allowedResponseOptions((this.allowedResponseOptions = new AllowedResponseOptions()));
     return this;
   }
+  public getAllowedResponseOptions() {
+    return this.allowedResponseOptions;
+  }
 
-  setBuyerResponseDueDate(buyerResponseDueDate: string) {
+  public setBuyerResponseDueDate(buyerResponseDueDate: string) {
     this.buyerResponseDueDate = buyerResponseDueDate;
     return this;
   }
+  public getBuyerResponseDueDate() {
+    return this.buyerResponseDueDate;
+  }
 
-  setCommunicationDetails(
+  public setCommunicationDetails(communicationDetails: CommunicationDetails): this;
+  public setCommunicationDetails(communicationDetails: (communicationDetails: CommunicationDetails) => void): this;
+  public setCommunicationDetails(
     communicationDetails: CommunicationDetails | ((communicationDetails: CommunicationDetails) => void)
   ) {
     if (communicationDetails instanceof CommunicationDetails) this.communicationDetails = communicationDetails;
     else communicationDetails((this.communicationDetails = new CommunicationDetails()));
     return this;
   }
+  public getCommunicationDetails() {
+    return this.communicationDetails;
+  }
 
-  setCreateTime(createTime: string) {
+  public setCreateTime(createTime: string) {
     this.createTime = createTime;
     return this;
   }
+  public getCreateTime() {
+    return this.createTime;
+  }
 
-  setDisputeAmount(disputeAmount: Money | ((disputeAmount: Money) => void)) {
+  public setDisputeAmount(disputeAmount: Money): this;
+  public setDisputeAmount(disputeAmount: (disputeAmount: Money) => void): this;
+  public setDisputeAmount(disputeAmount: Money | ((disputeAmount: Money) => void)) {
     if (disputeAmount instanceof Money) this.disputeAmount = disputeAmount;
     else disputeAmount((this.disputeAmount = new Money()));
     return this;
   }
+  public getDisputeAmount() {
+    return this.disputeAmount;
+  }
 
-  setDisputeAsset(disputeAsset: Cryptocurrency | ((disputeAsset: Cryptocurrency) => void)) {
+  public setDisputeAsset(disputeAsset: Cryptocurrency): this;
+  public setDisputeAsset(disputeAsset: (disputeAsset: Cryptocurrency) => void): this;
+  public setDisputeAsset(disputeAsset: Cryptocurrency | ((disputeAsset: Cryptocurrency) => void)) {
     if (disputeAsset instanceof Cryptocurrency) this.disputeAsset = disputeAsset;
     else disputeAsset((this.disputeAsset = new Cryptocurrency()));
     return this;
   }
-
-  setDisputeChannel(disputeChannel: DisputeChannel) {
-    this.disputeChannel = disputeChannel;
-    return this;
+  public getDisputeAsset() {
+    return this.disputeAsset;
   }
 
-  setDisputeId(disputeId: string) {
+  public setDisputeChannel(disputeChannel: DisputeChannel): this;
+  public setDisputeChannel(disputeChannel: (disputeChannel: typeof DisputeChannel) => DisputeChannel): this;
+  public setDisputeChannel(
+    disputeChannel: DisputeChannel | ((disputeChannel: typeof DisputeChannel) => DisputeChannel)
+  ) {
+    if (typeof disputeChannel === "function") this.disputeChannel = disputeChannel(DisputeChannel);
+    else this.disputeChannel = disputeChannel;
+    return this;
+  }
+  public getDisputeChannel() {
+    return this.disputeChannel;
+  }
+
+  public setDisputeId(disputeId: string) {
     this.disputeId = disputeId;
     return this;
   }
+  public getDisputeId() {
+    return this.disputeId;
+  }
 
-  setDisputeLifeCycleStage(
+  public setDisputeLifeCycleStage(disputeLifeCycleStage: DisputeLifeCycleStage): this;
+  public setDisputeLifeCycleStage(
+    disputeLifeCycleStage: (disputeLifeCycleStage: typeof DisputeLifeCycleStage) => DisputeLifeCycleStage
+  ): this;
+  public setDisputeLifeCycleStage(
     disputeLifeCycleStage:
       | DisputeLifeCycleStage
       | ((disputeLifeCycleStage: typeof DisputeLifeCycleStage) => DisputeLifeCycleStage)
@@ -155,14 +199,26 @@ class Dispute extends Types implements Static<ITypes, typeof Dispute> {
     else this.disputeLifeCycleStage = disputeLifeCycleStage;
     return this;
   }
+  public getDisputeLifeCycleStage() {
+    return this.disputeLifeCycleStage;
+  }
 
-  setDisputeOutcome(disputeOutcome: DisputeOutcome | ((disputeOutcome: DisputeOutcome) => void)) {
+  public setDisputeOutcome(disputeOutcome: DisputeOutcome): this;
+  public setDisputeOutcome(disputeOutcome: (disputeOutcome: DisputeOutcome) => void): this;
+  public setDisputeOutcome(disputeOutcome: DisputeOutcome | ((disputeOutcome: DisputeOutcome) => void)) {
     if (disputeOutcome instanceof DisputeOutcome) this.disputeOutcome = disputeOutcome;
     else disputeOutcome((this.disputeOutcome = new DisputeOutcome()));
     return this;
   }
+  public getDisputeOutcome() {
+    return this.disputeOutcome;
+  }
 
-  setDisputedTransactions(...disputedTransactions: (TransactionInfo | ((transactionInfo: TransactionInfo) => void))[]) {
+  public setDisputedTransactions(...disputedTransactions: TransactionInfo[]): this;
+  public setDisputedTransactions(...disputedTransactions: ((transactionInfo: TransactionInfo) => void)[]): this;
+  public setDisputedTransactions(
+    ...disputedTransactions: (TransactionInfo | ((transactionInfo: TransactionInfo) => void))[]
+  ) {
     this.disputedTransactions = disputedTransactions.map((transactionInfo) => {
       if (transactionInfo instanceof TransactionInfo) return transactionInfo;
       else {
@@ -173,8 +229,13 @@ class Dispute extends Types implements Static<ITypes, typeof Dispute> {
     });
     return this;
   }
+  public getDisputedTransactions() {
+    return this.disputedTransactions;
+  }
 
-  setEvidences(...evidences: (Evidence | ((evidence: Evidence) => void))[]) {
+  public setEvidences(...evidences: Evidence[]): this;
+  public setEvidences(...evidences: ((evidence: Evidence) => void)[]): this;
+  public setEvidences(...evidences: (Evidence | ((evidence: Evidence) => void))[]) {
     this.evidences = evidences.map((evidence) => {
       if (evidence instanceof Evidence) return evidence;
       else {
@@ -185,24 +246,40 @@ class Dispute extends Types implements Static<ITypes, typeof Dispute> {
     });
     return this;
   }
+  public getEvidences() {
+    return this.evidences;
+  }
 
-  setExtensions(extensions: Extensions | ((extensions: Extensions) => void)) {
+  public setExtensions(extensions: Extensions): this;
+  public setExtensions(extensions: (extensions: Extensions) => void): this;
+  public setExtensions(extensions: Extensions | ((extensions: Extensions) => void)) {
     if (extensions instanceof Extensions) this.extensions = extensions;
     else extensions((this.extensions = new Extensions()));
     return this;
   }
+  public getExtensions() {
+    return this.extensions;
+  }
 
-  setExternalReasonCode(externalReasonCode: string) {
+  public setExternalReasonCode(externalReasonCode: string) {
     this.externalReasonCode = externalReasonCode;
     return this;
   }
+  public getExternalReasonCode() {
+    return this.externalReasonCode;
+  }
 
-  setFeePolicy(feePolicy: {}) {
+  public setFeePolicy(feePolicy: {}) {
     this.feePolicy = feePolicy;
     return this;
   }
+  public getFeePolicy() {
+    return this.feePolicy;
+  }
 
-  setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
+  public setLinks(...links: LinkDescription[]): this;
+  public setLinks(...links: ((link: LinkDescription) => void)[]): this;
+  public setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) return link;
       else {
@@ -213,8 +290,13 @@ class Dispute extends Types implements Static<ITypes, typeof Dispute> {
     });
     return this;
   }
+  public getLinks() {
+    return this.links;
+  }
 
-  setMessages(...messages: (Message | ((message: Message) => void))[]) {
+  public setMessages(...messages: Message[]): this;
+  public setMessages(...messages: ((message: Message) => void)[]): this;
+  public setMessages(...messages: (Message | ((message: Message) => void))[]) {
     this.messages = messages.map((message) => {
       if (message instanceof Message) return message;
       else {
@@ -225,8 +307,13 @@ class Dispute extends Types implements Static<ITypes, typeof Dispute> {
     });
     return this;
   }
+  public getMessages() {
+    return this.messages;
+  }
 
-  setMoneyMovements(...moneyMovements: (MoneyMovement | ((moneyMovement: MoneyMovement) => void))[]) {
+  public setMoneyMovements(...moneyMovements: MoneyMovement[]): this;
+  public setMoneyMovements(...moneyMovements: ((moneyMovement: MoneyMovement) => void)[]): this;
+  public setMoneyMovements(...moneyMovements: (MoneyMovement | ((moneyMovement: MoneyMovement) => void))[]) {
     this.moneyMovements = moneyMovements.map((moneyMovement) => {
       if (moneyMovement instanceof MoneyMovement) return moneyMovement;
       else {
@@ -237,37 +324,65 @@ class Dispute extends Types implements Static<ITypes, typeof Dispute> {
     });
     return this;
   }
+  public getMoneyMovements() {
+    return this.moneyMovements;
+  }
 
-  setOffer(offer: Offer | ((offer: Offer) => void)) {
+  public setOffer(offer: Offer): this;
+  public setOffer(offer: (offer: Offer) => void): this;
+  public setOffer(offer: Offer | ((offer: Offer) => void)) {
     if (offer instanceof Offer) this.offer = offer;
     else offer((this.offer = new Offer()));
     return this;
   }
+  public getOffer() {
+    return this.offer;
+  }
 
-  setReason(reason: DisputeReason | ((reason: typeof DisputeReason) => DisputeReason)) {
+  public setReason(reason: DisputeReason): this;
+  public setReason(reason: (reason: typeof DisputeReason) => DisputeReason): this;
+  public setReason(reason: DisputeReason | ((reason: typeof DisputeReason) => DisputeReason)) {
     if (typeof reason === "function") this.reason = reason(DisputeReason);
     else this.reason = reason;
     return this;
   }
+  public getReason() {
+    return this.reason;
+  }
 
-  setRefundDetails(refundDetails: ResponseRefundDetails | ((refundDetails: ResponseRefundDetails) => void)) {
+  public setRefundDetails(refundDetails: ResponseRefundDetails): this;
+  public setRefundDetails(refundDetails: (refundDetails: ResponseRefundDetails) => void): this;
+  public setRefundDetails(refundDetails: ResponseRefundDetails | ((refundDetails: ResponseRefundDetails) => void)) {
     if (refundDetails instanceof ResponseRefundDetails) this.refundDetails = refundDetails;
     else refundDetails((this.refundDetails = new ResponseRefundDetails()));
     return this;
   }
+  public getRefundDetails() {
+    return this.refundDetails;
+  }
 
-  setSellerResponseDueDate(sellerResponseDueDate: string) {
+  public setSellerResponseDueDate(sellerResponseDueDate: string) {
     this.sellerResponseDueDate = sellerResponseDueDate;
     return this;
   }
+  public getSellerResponseDueDate() {
+    return this.sellerResponseDueDate;
+  }
 
-  setStatus(status: DisputeStatus | ((status: typeof DisputeStatus) => DisputeStatus)) {
+  public setStatus(status: DisputeStatus): this;
+  public setStatus(status: (status: typeof DisputeStatus) => DisputeStatus): this;
+  public setStatus(status: DisputeStatus | ((status: typeof DisputeStatus) => DisputeStatus)) {
     if (typeof status === "function") this.status = status(DisputeStatus);
     else this.status = status;
     return this;
   }
+  public getStatus() {
+    return this.status;
+  }
 
-  setSupportingInfo(...supportingInfo: (SupportingInfo | ((supportingInfo: SupportingInfo) => void))[]) {
+  public setSupportingInfo(...supportingInfo: SupportingInfo[]): this;
+  public setSupportingInfo(...supportingInfo: ((supportingInfo: SupportingInfo) => void)[]): this;
+  public setSupportingInfo(...supportingInfo: (SupportingInfo | ((supportingInfo: SupportingInfo) => void))[]) {
     this.supportingInfo = supportingInfo.map((supportingInfo) => {
       if (supportingInfo instanceof SupportingInfo) return supportingInfo;
       else {
@@ -278,13 +393,23 @@ class Dispute extends Types implements Static<ITypes, typeof Dispute> {
     });
     return this;
   }
+  public getSupportingInfo() {
+    return this.supportingInfo;
+  }
 
-  setUpdateTime(updateTime: string) {
+  public setUpdateTime(updateTime: string) {
     this.updateTime = updateTime;
     return this;
   }
+  public getUpdateTime() {
+    return this.updateTime;
+  }
 
-  static fromObject(obj: TDispute) {
+  public override getFields<T extends TDispute>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TDispute) {
     const dispute = new Dispute();
     if (obj.adjudications) dispute.setAdjudications(...obj.adjudications.map(Adjudication.fromObject));
     if (obj.allowed_response_options)
@@ -318,5 +443,3 @@ class Dispute extends Types implements Static<ITypes, typeof Dispute> {
     return dispute;
   }
 }
-
-export default Dispute;

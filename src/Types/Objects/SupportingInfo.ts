@@ -1,7 +1,7 @@
-import { DisputeLifeCycleStage } from "../Enums/DisputeLifeCycleStage";
-import { EvidenceSource } from "../Enums/EvidenceSource";
-import Types, { Static, ITypes } from "../Types";
-import Document, { TDocument } from "./Document";
+import { DisputeLifeCycleStage } from "../Enums/DisputeLifeCycleStage.js";
+import { EvidenceSource } from "../Enums/EvidenceSource.js";
+import { IUtility, Static, Utility } from "../Utility.js";
+import { Document, TDocument } from "./Document.js";
 
 export type TSupportingInfo = {
   dispute_life_cycle_stage?: keyof typeof DisputeLifeCycleStage;
@@ -11,18 +11,18 @@ export type TSupportingInfo = {
   source?: Exclude<keyof typeof EvidenceSource, "REQUESTED_FROM_BUYER" | "REQUESTED_FROM_SELLER">;
 };
 
-class SupportingInfo extends Types implements Static<ITypes, typeof SupportingInfo> {
-  disputeLifeCycleStage?: DisputeLifeCycleStage;
-  documents?: Document[];
-  notes?: string;
-  providedTime?: string;
-  source?: Exclude<EvidenceSource, EvidenceSource.REQUESTED_FROM_BUYER | EvidenceSource.REQUESTED_FROM_SELLER>;
+export class SupportingInfo extends Utility implements Static<IUtility, typeof SupportingInfo> {
+  private disputeLifeCycleStage?: DisputeLifeCycleStage;
+  private documents?: Document[];
+  private notes?: string;
+  private providedTime?: string;
+  private source?: Exclude<EvidenceSource, EvidenceSource.REQUESTED_FROM_BUYER | EvidenceSource.REQUESTED_FROM_SELLER>;
 
-  constructor() {
-    super();
-  }
-
-  setDisputeLifeCycleStage(
+  public setDisputeLifeCycleStage(disputeLifeCycleStage: DisputeLifeCycleStage): this;
+  public setDisputeLifeCycleStage(
+    disputeLifeCycleStage: (type: typeof DisputeLifeCycleStage) => DisputeLifeCycleStage
+  ): this;
+  public setDisputeLifeCycleStage(
     disputeLifeCycleStage: DisputeLifeCycleStage | ((type: typeof DisputeLifeCycleStage) => DisputeLifeCycleStage)
   ) {
     if (typeof disputeLifeCycleStage === "function")
@@ -30,8 +30,13 @@ class SupportingInfo extends Types implements Static<ITypes, typeof SupportingIn
     else this.disputeLifeCycleStage = disputeLifeCycleStage;
     return this;
   }
+  public getDisputeLifeCycleStage() {
+    return this.disputeLifeCycleStage;
+  }
 
-  setDocuments(...documents: (Document | ((document: Document) => void))[]) {
+  public setDocuments(...documents: Document[]): this;
+  public setDocuments(...documents: ((document: Document) => void)[]): this;
+  public setDocuments(...documents: (Document | ((document: Document) => void))[]) {
     this.documents = documents.map((document) => {
       if (document instanceof Document) return document;
       else {
@@ -42,18 +47,35 @@ class SupportingInfo extends Types implements Static<ITypes, typeof SupportingIn
     });
     return this;
   }
+  public getDocuments() {
+    return this.documents;
+  }
 
-  setNotes(notes: string) {
+  public setNotes(notes: string) {
     this.notes = notes;
     return this;
   }
+  public getNotes() {
+    return this.notes;
+  }
 
-  setProvidedTime(providedTime: string) {
+  public setProvidedTime(providedTime: string) {
     this.providedTime = providedTime;
     return this;
   }
+  public getProvidedTime() {
+    return this.providedTime;
+  }
 
-  setSource(
+  public setSource(
+    source: Exclude<EvidenceSource, EvidenceSource.REQUESTED_FROM_BUYER | EvidenceSource.REQUESTED_FROM_SELLER>
+  ): this;
+  public setSource(
+    source: (
+      type: Exclude<typeof EvidenceSource, EvidenceSource.REQUESTED_FROM_BUYER | EvidenceSource.REQUESTED_FROM_SELLER>
+    ) => Exclude<EvidenceSource, EvidenceSource.REQUESTED_FROM_BUYER | EvidenceSource.REQUESTED_FROM_SELLER>
+  ): this;
+  public setSource(
     source:
       | Exclude<EvidenceSource, EvidenceSource.REQUESTED_FROM_BUYER | EvidenceSource.REQUESTED_FROM_SELLER>
       | ((
@@ -63,18 +85,19 @@ class SupportingInfo extends Types implements Static<ITypes, typeof SupportingIn
           >
         ) => Exclude<EvidenceSource, EvidenceSource.REQUESTED_FROM_BUYER | EvidenceSource.REQUESTED_FROM_SELLER>)
   ) {
-    if (typeof source === "function")
-      this.source = source(
-        EvidenceSource as Exclude<
-          typeof EvidenceSource,
-          EvidenceSource.REQUESTED_FROM_BUYER | EvidenceSource.REQUESTED_FROM_SELLER
-        >
-      );
+    if (typeof source === "function") this.source = source(EvidenceSource);
     else this.source = source;
     return this;
   }
+  public getSource() {
+    return this.source;
+  }
 
-  static fromObject(obj: TSupportingInfo) {
+  public override getFields<T extends TSupportingInfo>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TSupportingInfo) {
     const supportingInfo = new SupportingInfo();
     if (obj.dispute_life_cycle_stage)
       supportingInfo.setDisputeLifeCycleStage(DisputeLifeCycleStage[obj.dispute_life_cycle_stage]);
@@ -85,5 +108,3 @@ class SupportingInfo extends Types implements Static<ITypes, typeof SupportingIn
     return supportingInfo;
   }
 }
-
-export default SupportingInfo;

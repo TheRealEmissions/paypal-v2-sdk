@@ -1,29 +1,32 @@
-import Types, { Static, ITypes } from "../Types";
-import Money, { TMoney } from "./Money";
+import { IUtility, Static, Utility } from "../Utility.js";
+import { Money, TMoney } from "./Money.js";
 
 export type TResponseRefundDetails = {
   allowed_refund_amount?: TMoney;
 };
 
-class ResponseRefundDetails extends Types implements Static<ITypes, typeof ResponseRefundDetails> {
-  allowedRefundAmount?: Money;
+export class ResponseRefundDetails extends Utility implements Static<IUtility, typeof ResponseRefundDetails> {
+  private allowedRefundAmount?: Money;
 
-  constructor() {
-    super();
-  }
-
-  setAllowedRefundAmount(allowedRefundAmount: Money | ((type: Money) => void)) {
+  public setAllowedRefundAmount(allowedRefundAmount: Money): this;
+  public setAllowedRefundAmount(allowedRefundAmount: (type: Money) => void): this;
+  public setAllowedRefundAmount(allowedRefundAmount: Money | ((type: Money) => void)) {
     if (allowedRefundAmount instanceof Money) this.allowedRefundAmount = allowedRefundAmount;
     else allowedRefundAmount((this.allowedRefundAmount = new Money()));
     return this;
   }
+  public getAllowedRefundAmount() {
+    return this.allowedRefundAmount;
+  }
 
-  static fromObject(obj: TResponseRefundDetails) {
+  public override getFields<T extends TResponseRefundDetails>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TResponseRefundDetails) {
     const responseRefundDetails = new ResponseRefundDetails();
     if (obj.allowed_refund_amount)
       responseRefundDetails.setAllowedRefundAmount(Money.fromObject(obj.allowed_refund_amount));
     return responseRefundDetails;
   }
 }
-
-export default ResponseRefundDetails;

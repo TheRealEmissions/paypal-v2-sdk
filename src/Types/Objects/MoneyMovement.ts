@@ -1,9 +1,9 @@
-import { MoneyMovementAffectedParty } from "../Enums/MoneyMovementAffectedParty";
-import { MoneyMovementReason } from "../Enums/MoneyMovementReason";
-import { MoneyMovementType } from "../Enums/MoneyMovementType";
-import Types, { ITypes, Static } from "../Types";
-import Cryptocurrency, { TCryptocurrency } from "./Cryptocurrency";
-import Money, { TMoney } from "./Money";
+import { MoneyMovementAffectedParty } from "../Enums/MoneyMovementAffectedParty.js";
+import { MoneyMovementReason } from "../Enums/MoneyMovementReason.js";
+import { MoneyMovementType } from "../Enums/MoneyMovementType.js";
+import { IUtility, Static, Utility } from "../Utility.js";
+import { Cryptocurrency, TCryptocurrency } from "./Cryptocurrency.js";
+import { Money, TMoney } from "./Money.js";
 
 export type TMoneyMovement = {
   affected_party?: keyof typeof MoneyMovementAffectedParty;
@@ -14,19 +14,19 @@ export type TMoneyMovement = {
   type?: keyof typeof MoneyMovementType;
 };
 
-class MoneyMovement extends Types implements Static<ITypes, typeof MoneyMovement> {
-  affectedParty?: MoneyMovementAffectedParty;
-  amount?: Money;
-  asset?: Cryptocurrency;
-  initiatedTime?: string;
-  reason?: MoneyMovementReason;
-  type?: MoneyMovementType;
+export class MoneyMovement extends Utility implements Static<IUtility, typeof MoneyMovement> {
+  private affectedParty?: MoneyMovementAffectedParty;
+  private amount?: Money;
+  private asset?: Cryptocurrency;
+  private initiatedTime?: string;
+  private reason?: MoneyMovementReason;
+  private type?: MoneyMovementType;
 
-  constructor() {
-    super();
-  }
-
-  setAffectedParty(
+  public setAffectedParty(affectedParty: MoneyMovementAffectedParty): this;
+  public setAffectedParty(
+    affectedParty: (affectedParty: typeof MoneyMovementAffectedParty) => MoneyMovementAffectedParty
+  ): this;
+  public setAffectedParty(
     affectedParty:
       | MoneyMovementAffectedParty
       | ((affectedParty: typeof MoneyMovementAffectedParty) => MoneyMovementAffectedParty)
@@ -35,37 +35,67 @@ class MoneyMovement extends Types implements Static<ITypes, typeof MoneyMovement
     else this.affectedParty = affectedParty;
     return this;
   }
+  public getAffectedParty() {
+    return this.affectedParty;
+  }
 
-  setAmount(amount: Money | ((amount: Money) => void)) {
+  public setAmount(amount: Money): this;
+  public setAmount(amount: (amount: Money) => void): this;
+  public setAmount(amount: Money | ((amount: Money) => void)) {
     if (amount instanceof Money) this.amount = amount;
     else amount((this.amount = new Money()));
     return this;
   }
+  public getAmount() {
+    return this.amount;
+  }
 
-  setAsset(asset: Cryptocurrency | ((asset: Cryptocurrency) => void)) {
+  public setAsset(asset: Cryptocurrency): this;
+  public setAsset(asset: (asset: Cryptocurrency) => void): this;
+  public setAsset(asset: Cryptocurrency | ((asset: Cryptocurrency) => void)) {
     if (asset instanceof Cryptocurrency) this.asset = asset;
     else asset((this.asset = new Cryptocurrency()));
     return this;
   }
+  public getAsset() {
+    return this.asset;
+  }
 
-  setInitiatedTime(initiatedTime: string) {
+  public setInitiatedTime(initiatedTime: string) {
     this.initiatedTime = initiatedTime;
     return this;
   }
+  public getInitiatedTime() {
+    return this.initiatedTime;
+  }
 
-  setReason(reason: MoneyMovementReason | ((reason: typeof MoneyMovementReason) => MoneyMovementReason)) {
+  public setReason(reason: MoneyMovementReason): this;
+  public setReason(reason: (reason: typeof MoneyMovementReason) => MoneyMovementReason): this;
+  public setReason(reason: MoneyMovementReason | ((reason: typeof MoneyMovementReason) => MoneyMovementReason)) {
     if (typeof reason === "function") this.reason = reason(MoneyMovementReason);
     else this.reason = reason;
     return this;
   }
+  public getReason() {
+    return this.reason;
+  }
 
-  setType(type: MoneyMovementType | ((type: typeof MoneyMovementType) => MoneyMovementType)) {
+  public setType(type: MoneyMovementType): this;
+  public setType(type: (type: typeof MoneyMovementType) => MoneyMovementType): this;
+  public setType(type: MoneyMovementType | ((type: typeof MoneyMovementType) => MoneyMovementType)) {
     if (typeof type === "function") this.type = type(MoneyMovementType);
     else this.type = type;
     return this;
   }
+  public getType() {
+    return this.type;
+  }
 
-  static fromObject(obj: TMoneyMovement) {
+  public override getFields<T extends TMoneyMovement>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TMoneyMovement) {
     const moneyMovement = new MoneyMovement();
     if (obj.affected_party) moneyMovement.setAffectedParty(MoneyMovementAffectedParty[obj.affected_party]);
     if (obj.amount) moneyMovement.setAmount(Money.fromObject(obj.amount));
@@ -76,5 +106,3 @@ class MoneyMovement extends Types implements Static<ITypes, typeof MoneyMovement
     return moneyMovement;
   }
 }
-
-export default MoneyMovement;

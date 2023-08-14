@@ -1,5 +1,5 @@
-import { CancellationMode } from "../Enums/CancellationMode";
-import Types, { ITypes, Static } from "../Types";
+import { CancellationMode } from "../Enums/CancellationMode.js";
+import { IUtility, Static, Utility } from "../Utility.js";
 
 export type TCancellationDetails = {
   cancellation_date?: string;
@@ -8,40 +8,54 @@ export type TCancellationDetails = {
   cancelled?: boolean;
 };
 
-class CancellationDetails extends Types implements Static<ITypes, typeof CancellationDetails> {
-  cancellationDate?: string;
-  cancellationMode?: CancellationMode;
-  cancellationNumber?: string;
-  cancelled?: boolean;
+export class CancellationDetails extends Utility implements Static<IUtility, typeof CancellationDetails> {
+  private cancellationDate?: string;
+  private cancellationMode?: CancellationMode;
+  private cancellationNumber?: string;
+  private cancelled?: boolean;
 
-  constructor() {
-    super();
-  }
-
-  setCancellationDate(cancellationDate: string) {
+  public setCancellationDate(cancellationDate: string) {
     this.cancellationDate = cancellationDate;
     return this;
   }
+  public getCancellationDate() {
+    return this.cancellationDate;
+  }
 
-  setCancellationMode(
+  public setCancellationMode(cancellationMode: CancellationMode): this;
+  public setCancellationMode(cancellationMode: (cancellationMode: typeof CancellationMode) => CancellationMode): this;
+  public setCancellationMode(
     cancellationMode: CancellationMode | ((cancellationMode: typeof CancellationMode) => CancellationMode)
   ) {
     if (typeof cancellationMode === "function") this.cancellationMode = cancellationMode(CancellationMode);
     else this.cancellationMode = cancellationMode;
     return this;
   }
+  public getCancellationMode() {
+    return this.cancellationMode;
+  }
 
-  setCancellationNumber(cancellationNumber: string) {
+  public setCancellationNumber(cancellationNumber: string) {
     this.cancellationNumber = cancellationNumber;
     return this;
   }
+  public getCancellationNumber() {
+    return this.cancellationNumber;
+  }
 
-  setCancelled(cancelled: boolean) {
+  public setCancelled(cancelled: boolean) {
     this.cancelled = cancelled;
     return this;
   }
+  public getCancelled() {
+    return this.cancelled;
+  }
 
-  static fromObject(obj: TCancellationDetails) {
+  public override getFields<T extends TCancellationDetails>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TCancellationDetails) {
     const cancellationDetails = new CancellationDetails();
     if (obj.cancellation_date) cancellationDetails.setCancellationDate(obj.cancellation_date);
     if (obj.cancellation_mode) cancellationDetails.setCancellationMode(CancellationMode[obj.cancellation_mode]);
@@ -50,5 +64,3 @@ class CancellationDetails extends Types implements Static<ITypes, typeof Cancell
     return cancellationDetails;
   }
 }
-
-export default CancellationDetails;

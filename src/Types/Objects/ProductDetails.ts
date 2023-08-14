@@ -1,7 +1,7 @@
-import { ProductReceived } from "../Enums/ProductReceived";
-import Types, { ITypes, Static } from "../Types";
-import ReturnDetails, { TReturnDetails } from "./ReturnDetails";
-import SubReason, { TSubReason } from "./SubReason";
+import { ProductReceived } from "../Enums/ProductReceived.js";
+import { IUtility, Static, Utility } from "../Utility.js";
+import { ReturnDetails, TReturnDetails } from "./ReturnDetails.js";
+import { SubReason, TSubReason } from "./SubReason.js";
 
 export type TProductDetails = {
   description?: string;
@@ -13,54 +13,74 @@ export type TProductDetails = {
   sub_reasons?: TSubReason[];
 };
 
-class ProductDetails extends Types implements Static<ITypes, typeof ProductDetails> {
-  description?: string;
-  expectedDeliveryDate?: string;
-  productReceived?: ProductReceived;
-  productReceivedTime?: string;
-  purchaseUrl?: string;
-  returnDetails?: ReturnDetails;
-  subReasons?: SubReason[];
+export class ProductDetails extends Utility implements Static<IUtility, typeof ProductDetails> {
+  private description?: string;
+  private expectedDeliveryDate?: string;
+  private productReceived?: ProductReceived;
+  private productReceivedTime?: string;
+  private purchaseUrl?: string;
+  private returnDetails?: ReturnDetails;
+  private subReasons?: SubReason[];
 
-  constructor() {
-    super();
-  }
-
-  setDescription(description: string) {
+  public setDescription(description: string) {
     this.description = description;
     return this;
   }
+  public getDescription() {
+    return this.description;
+  }
 
-  setExpectedDeliveryDate(expectedDeliveryDate: string) {
+  public setExpectedDeliveryDate(expectedDeliveryDate: string) {
     this.expectedDeliveryDate = expectedDeliveryDate;
     return this;
   }
+  public getExpectedDeliveryDate() {
+    return this.expectedDeliveryDate;
+  }
 
-  setProductReceived(
+  public setProductReceived(productReceived: ProductReceived): this;
+  public setProductReceived(productReceived: (productReceived: typeof ProductReceived) => ProductReceived): this;
+  public setProductReceived(
     productReceived: ProductReceived | ((productReceived: typeof ProductReceived) => ProductReceived)
   ) {
     if (typeof productReceived === "function") this.productReceived = productReceived(ProductReceived);
     else this.productReceived = productReceived;
     return this;
   }
+  public getProductReceived() {
+    return this.productReceived;
+  }
 
-  setProductReceivedTime(productReceivedTime: string) {
+  public setProductReceivedTime(productReceivedTime: string) {
     this.productReceivedTime = productReceivedTime;
     return this;
   }
+  public getProductReceivedTime() {
+    return this.productReceivedTime;
+  }
 
-  setPurchaseUrl(purchaseUrl: string) {
+  public setPurchaseUrl(purchaseUrl: string) {
     this.purchaseUrl = purchaseUrl;
     return this;
   }
+  public getPurchaseUrl() {
+    return this.purchaseUrl;
+  }
 
-  setReturnDetails(returnDetails: ReturnDetails | ((returnDetails: ReturnDetails) => void)) {
+  public setReturnDetails(returnDetails: ReturnDetails): this;
+  public setReturnDetails(returnDetails: (returnDetails: ReturnDetails) => void): this;
+  public setReturnDetails(returnDetails: ReturnDetails | ((returnDetails: ReturnDetails) => void)) {
     if (returnDetails instanceof ReturnDetails) this.returnDetails = returnDetails;
     else returnDetails((this.returnDetails = new ReturnDetails()));
     return this;
   }
+  public getReturnDetails() {
+    return this.returnDetails;
+  }
 
-  setSubReasons(...subReasons: (SubReason | ((subReason: SubReason) => void))[]) {
+  public setSubReasons(...subReasons: SubReason[]): this;
+  public setSubReasons(...subReasons: ((subReason: SubReason) => void)[]): this;
+  public setSubReasons(...subReasons: (SubReason | ((subReason: SubReason) => void))[]) {
     this.subReasons = subReasons.map((subReason) => {
       if (subReason instanceof SubReason) return subReason;
       else {
@@ -71,8 +91,15 @@ class ProductDetails extends Types implements Static<ITypes, typeof ProductDetai
     });
     return this;
   }
+  public getSubReasons() {
+    return this.subReasons;
+  }
 
-  static fromObject(obj: TProductDetails) {
+  public override getFields<T extends TProductDetails>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TProductDetails) {
     const productDetails = new ProductDetails();
     if (obj.description) productDetails.setDescription(obj.description);
     if (obj.expected_delivery_date) productDetails.setExpectedDeliveryDate(obj.expected_delivery_date);
@@ -84,5 +111,3 @@ class ProductDetails extends Types implements Static<ITypes, typeof ProductDetai
     return productDetails;
   }
 }
-
-export default ProductDetails;

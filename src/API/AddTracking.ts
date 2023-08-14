@@ -46,11 +46,11 @@ class AddTracking {
     if (typeof trackerOrTransactionIdTrackingNumber === "string") {
       transactionIdTrackingNumber = trackerOrTransactionIdTrackingNumber;
     } else if (trackerOrTransactionIdTrackingNumber instanceof Tracker) {
-      transactionIdTrackingNumber = trackerOrTransactionIdTrackingNumber.transactionId;
+      transactionIdTrackingNumber = trackerOrTransactionIdTrackingNumber.getTransactionId();
     } else {
       const tracker = new Tracker();
       trackerOrTransactionIdTrackingNumber(tracker);
-      transactionIdTrackingNumber = tracker.transactionId;
+      transactionIdTrackingNumber = tracker.getTransactionId();
     }
     if (!transactionIdTrackingNumber) throw new Error("Transaction ID or Tracking Number is required");
     const response = await this.PayPal.API.get<TTracker>(`/v1/shipping/trackers/${transactionIdTrackingNumber}`);

@@ -1,21 +1,19 @@
-import Types, { ITypes, Static } from "../Types";
-import RefundId, { TRefundId } from "./RefundId";
-import ResponseTrackingInfo, { TResponseTrackingInfo } from "./ResponseTrackingInfo";
+import { IUtility, Static, Utility } from "../Utility.js";
+import { RefundId, TRefundId } from "./RefundId.js";
+import { ResponseTrackingInfo, TResponseTrackingInfo } from "./ResponseTrackingInfo.js";
 
 export type TEvidenceInfo = {
   refund_ids?: TRefundId[];
   tracking_info?: TResponseTrackingInfo[];
 };
 
-class EvidenceInfo extends Types implements Static<ITypes, typeof EvidenceInfo> {
-  refundIds?: RefundId[];
-  trackingInfo?: ResponseTrackingInfo[];
+export class EvidenceInfo extends Utility implements Static<IUtility, typeof EvidenceInfo> {
+  private refundIds?: RefundId[];
+  private trackingInfo?: ResponseTrackingInfo[];
 
-  constructor() {
-    super();
-  }
-
-  setRefundIds(...refundIds: (RefundId | ((refundId: RefundId) => void))[]) {
+  public setRefundIds(...refundIds: RefundId[]): this;
+  public setRefundIds(...refundIds: ((refundId: RefundId) => void)[]): this;
+  public setRefundIds(...refundIds: (RefundId | ((refundId: RefundId) => void))[]) {
     this.refundIds = refundIds.map((refundId) => {
       if (refundId instanceof RefundId) return refundId;
       else {
@@ -26,8 +24,13 @@ class EvidenceInfo extends Types implements Static<ITypes, typeof EvidenceInfo> 
     });
     return this;
   }
+  public getRefundIds() {
+    return this.refundIds;
+  }
 
-  setTrackingInfo(...trackingInfo: (ResponseTrackingInfo | ((trackingInfo: ResponseTrackingInfo) => void))[]) {
+  public setTrackingInfo(...trackingInfo: ResponseTrackingInfo[]): this;
+  public setTrackingInfo(...trackingInfo: ((trackingInfo: ResponseTrackingInfo) => void)[]): this;
+  public setTrackingInfo(...trackingInfo: (ResponseTrackingInfo | ((trackingInfo: ResponseTrackingInfo) => void))[]) {
     this.trackingInfo = trackingInfo.map((trackingInfo) => {
       if (trackingInfo instanceof ResponseTrackingInfo) return trackingInfo;
       else {
@@ -38,8 +41,15 @@ class EvidenceInfo extends Types implements Static<ITypes, typeof EvidenceInfo> 
     });
     return this;
   }
+  public getTrackingInfo() {
+    return this.trackingInfo;
+  }
 
-  static fromObject(obj: TEvidenceInfo) {
+  public override getFields<T extends TEvidenceInfo>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TEvidenceInfo) {
     const evidenceInfo = new EvidenceInfo();
     if (obj.refund_ids) evidenceInfo.setRefundIds(...obj.refund_ids.map((refundId) => RefundId.fromObject(refundId)));
     if (obj.tracking_info)
@@ -49,5 +59,3 @@ class EvidenceInfo extends Types implements Static<ITypes, typeof EvidenceInfo> 
     return evidenceInfo;
   }
 }
-
-export default EvidenceInfo;

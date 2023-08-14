@@ -1,10 +1,10 @@
-import { TransactionStatus } from "../Enums/TransactionStatus";
-import Types, { Static, ITypes } from "../Types";
-import Buyer, { TBuyer } from "./Buyer";
-import Cryptocurrency, { TCryptocurrency } from "./Cryptocurrency";
-import ItemInfo, { TItemInfo } from "./ItemInfo";
-import Money, { TMoney } from "./Money";
-import Seller, { TSeller } from "./Seller";
+import { TransactionStatus } from "../Enums/TransactionStatus.js";
+import { IUtility, Static, Utility } from "../Utility.js";
+import { Buyer, TBuyer } from "./Buyer.js";
+import { Cryptocurrency, TCryptocurrency } from "./Cryptocurrency.js";
+import { ItemInfo, TItemInfo } from "./ItemInfo.js";
+import { Money, TMoney } from "./Money.js";
+import { Seller, TSeller } from "./Seller.js";
 
 export type TTransactionInfo = {
   buyer?: TBuyer;
@@ -21,62 +21,88 @@ export type TTransactionInfo = {
   transaction_status?: keyof typeof TransactionStatus;
 };
 
-class TransactionInfo extends Types implements Static<ITypes, typeof TransactionInfo> {
-  buyer!: Buyer;
-  buyerTransactionId?: string;
-  createTime?: string;
-  custom?: string;
-  grossAmount?: Money;
-  grossAsset?: Cryptocurrency;
-  invoiceNumber?: string;
-  items?: ItemInfo[];
-  referenceId?: string;
-  seller?: Seller;
-  sellerTransactionId?: string;
-  transactionStatus?: TransactionStatus;
+export class TransactionInfo extends Utility implements Static<IUtility, typeof TransactionInfo> {
+  private buyer!: Buyer;
+  private buyerTransactionId?: string;
+  private createTime?: string;
+  private custom?: string;
+  private grossAmount?: Money;
+  private grossAsset?: Cryptocurrency;
+  private invoiceNumber?: string;
+  private items?: ItemInfo[];
+  private referenceId?: string;
+  private seller?: Seller;
+  private sellerTransactionId?: string;
+  private transactionStatus?: TransactionStatus;
 
-  constructor() {
-    super();
-  }
-
-  setBuyer(buyer: Buyer | ((buyer: Buyer) => void)) {
+  public setBuyer(buyer: Buyer): this;
+  public setBuyer(buyer: (buyer: Buyer) => void): this;
+  public setBuyer(buyer: Buyer | ((buyer: Buyer) => void)) {
     if (buyer instanceof Buyer) this.buyer = buyer;
     else buyer((this.buyer = new Buyer()));
+    return this;
+  }
+  public getBuyer() {
+    return this.buyer;
   }
 
-  setBuyerTransactionId(buyerTransactionId: string) {
+  public setBuyerTransactionId(buyerTransactionId: string) {
     this.buyerTransactionId = buyerTransactionId;
     return this;
   }
+  public getBuyerTransactionId() {
+    return this.buyerTransactionId;
+  }
 
-  setCreateTime(createTime: string) {
+  public setCreateTime(createTime: string) {
     this.createTime = createTime;
     return this;
   }
+  public getCreateTime() {
+    return this.createTime;
+  }
 
-  setCustom(custom: string) {
+  public setCustom(custom: string) {
     this.custom = custom;
     return this;
   }
+  public getCustom() {
+    return this.custom;
+  }
 
-  setGrossAmount(grossAmount: Money | ((grossAmount: Money) => void)) {
+  public setGrossAmount(grossAmount: Money): this;
+  public setGrossAmount(grossAmount: (grossAmount: Money) => void): this;
+  public setGrossAmount(grossAmount: Money | ((grossAmount: Money) => void)) {
     if (grossAmount instanceof Money) this.grossAmount = grossAmount;
     else grossAmount((this.grossAmount = new Money()));
     return this;
   }
+  public getGrossAmount() {
+    return this.grossAmount;
+  }
 
-  setGrossAsset(grossAsset: Cryptocurrency | ((grossAsset: Cryptocurrency) => void)) {
+  public setGrossAsset(grossAsset: Cryptocurrency): this;
+  public setGrossAsset(grossAsset: (grossAsset: Cryptocurrency) => void): this;
+  public setGrossAsset(grossAsset: Cryptocurrency | ((grossAsset: Cryptocurrency) => void)) {
     if (grossAsset instanceof Cryptocurrency) this.grossAsset = grossAsset;
     else grossAsset((this.grossAsset = new Cryptocurrency()));
     return this;
   }
+  public getGrossAsset() {
+    return this.grossAsset;
+  }
 
-  setInvoiceNumber(invoiceNumber: string) {
+  public setInvoiceNumber(invoiceNumber: string) {
     this.invoiceNumber = invoiceNumber;
     return this;
   }
+  public getInvoiceNumber() {
+    return this.invoiceNumber;
+  }
 
-  setItems(...items: (ItemInfo | ((item: ItemInfo) => void))[]) {
+  public setItems(...items: ItemInfo[]): this;
+  public setItems(...items: ((item: ItemInfo) => void)[]): this;
+  public setItems(...items: (ItemInfo | ((item: ItemInfo) => void))[]) {
     this.items = items.map((item) => {
       if (item instanceof ItemInfo) return item;
       else {
@@ -87,30 +113,55 @@ class TransactionInfo extends Types implements Static<ITypes, typeof Transaction
     });
     return this;
   }
+  public getItems() {
+    return this.items;
+  }
 
-  setReferenceId(referenceId: string) {
+  public setReferenceId(referenceId: string) {
     this.referenceId = referenceId;
     return this;
   }
+  public getReferenceId() {
+    return this.referenceId;
+  }
 
-  setSeller(seller: Seller | ((seller: Seller) => void)) {
+  public setSeller(seller: Seller): this;
+  public setSeller(seller: (seller: Seller) => void): this;
+  public setSeller(seller: Seller | ((seller: Seller) => void)) {
     if (seller instanceof Seller) this.seller = seller;
     else seller((this.seller = new Seller()));
     return this;
   }
+  public getSeller() {
+    return this.seller;
+  }
 
-  setSellerTransactionId(sellerTransactionId: string) {
+  public setSellerTransactionId(sellerTransactionId: string) {
     this.sellerTransactionId = sellerTransactionId;
     return this;
   }
+  public getSellerTransactionId() {
+    return this.sellerTransactionId;
+  }
 
-  setTransactionStatus(transactionStatus: TransactionStatus | ((type: typeof TransactionStatus) => TransactionStatus)) {
+  public setTransactionStatus(transactionStatus: TransactionStatus): this;
+  public setTransactionStatus(transactionStatus: (type: typeof TransactionStatus) => TransactionStatus): this;
+  public setTransactionStatus(
+    transactionStatus: TransactionStatus | ((type: typeof TransactionStatus) => TransactionStatus)
+  ) {
     if (typeof transactionStatus === "function") this.transactionStatus = transactionStatus(TransactionStatus);
     else this.transactionStatus = transactionStatus;
     return this;
   }
+  public getTransactionStatus() {
+    return this.transactionStatus;
+  }
 
-  static fromObject(obj: TTransactionInfo) {
+  public override getFields<T extends TTransactionInfo>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TTransactionInfo) {
     const transactionInfo = new TransactionInfo();
     if (obj.buyer) transactionInfo.setBuyer(Buyer.fromObject(obj.buyer));
     if (obj.buyer_transaction_id) transactionInfo.setBuyerTransactionId(obj.buyer_transaction_id);
@@ -127,5 +178,3 @@ class TransactionInfo extends Types implements Static<ITypes, typeof Transaction
     return transactionInfo;
   }
 }
-
-export default TransactionInfo;

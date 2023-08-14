@@ -1,7 +1,7 @@
-import { OfferType } from "../Enums/OfferType";
-import Types, { ITypes, Static } from "../Types";
-import Money, { TMoney } from "./Money";
-import OfferHistory, { TOfferHistory } from "./OfferHistory";
+import { OfferType } from "../Enums/OfferType.js";
+import { IUtility, Static, Utility } from "../Utility.js";
+import { Money, TMoney } from "./Money.js";
+import { OfferHistory, TOfferHistory } from "./OfferHistory.js";
 
 export type TOffer = {
   buyer_requested_amount?: TMoney;
@@ -10,23 +10,26 @@ export type TOffer = {
   seller_offered_amount?: TMoney;
 };
 
-class Offer extends Types implements Static<ITypes, typeof Offer> {
-  buyerRequestedAmount?: Money;
-  history?: OfferHistory[];
-  offerType?: OfferType;
-  sellerOfferedAmount?: Money;
+export class Offer extends Utility implements Static<IUtility, typeof Offer> {
+  private buyerRequestedAmount?: Money;
+  private history?: OfferHistory[];
+  private offerType?: OfferType;
+  private sellerOfferedAmount?: Money;
 
-  constructor() {
-    super();
-  }
-
-  setBuyerRequestedAmount(buyerRequestedAmount: Money | ((type: Money) => void)) {
+  public setBuyerRequestedAmount(buyerRequestedAmount: Money): this;
+  public setBuyerRequestedAmount(buyerRequestedAmount: (type: Money) => void): this;
+  public setBuyerRequestedAmount(buyerRequestedAmount: Money | ((type: Money) => void)) {
     if (buyerRequestedAmount instanceof Money) this.buyerRequestedAmount = buyerRequestedAmount;
     else buyerRequestedAmount((this.buyerRequestedAmount = new Money()));
     return this;
   }
+  public getBuyerRequestedAmount() {
+    return this.buyerRequestedAmount;
+  }
 
-  setHistory(...history: (OfferHistory | ((type: OfferHistory) => void))[]) {
+  public setHistory(...history: OfferHistory[]): this;
+  public setHistory(...history: ((type: OfferHistory) => void)[]): this;
+  public setHistory(...history: (OfferHistory | ((type: OfferHistory) => void))[]) {
     this.history = history.map((item) => {
       if (item instanceof OfferHistory) return item;
       else {
@@ -37,20 +40,37 @@ class Offer extends Types implements Static<ITypes, typeof Offer> {
     });
     return this;
   }
+  public getHistory() {
+    return this.history;
+  }
 
-  setOfferType(offerType: OfferType | ((type: typeof OfferType) => OfferType)) {
+  public setOfferType(offerType: OfferType): this;
+  public setOfferType(offerType: (type: typeof OfferType) => OfferType): this;
+  public setOfferType(offerType: OfferType | ((type: typeof OfferType) => OfferType)) {
     if (typeof offerType === "function") this.offerType = offerType(OfferType);
     else this.offerType = offerType;
     return this;
   }
+  public getOfferType() {
+    return this.offerType;
+  }
 
-  setSellerOfferedAmount(sellerOfferedAmount: Money | ((type: Money) => void)) {
+  public setSellerOfferedAmount(sellerOfferedAmount: Money): this;
+  public setSellerOfferedAmount(sellerOfferedAmount: (type: Money) => void): this;
+  public setSellerOfferedAmount(sellerOfferedAmount: Money | ((type: Money) => void)) {
     if (sellerOfferedAmount instanceof Money) this.sellerOfferedAmount = sellerOfferedAmount;
     else sellerOfferedAmount((this.sellerOfferedAmount = new Money()));
     return this;
   }
+  public getSellerOfferedAmount() {
+    return this.sellerOfferedAmount;
+  }
 
-  static fromObject(obj: TOffer) {
+  public override getFields<T extends TOffer>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TOffer) {
     const offer = new Offer();
     if (obj.buyer_requested_amount) offer.setBuyerRequestedAmount(Money.fromObject(obj.buyer_requested_amount));
     if (obj.history) offer.setHistory(...obj.history.map((item) => OfferHistory.fromObject(item)));
@@ -59,5 +79,3 @@ class Offer extends Types implements Static<ITypes, typeof Offer> {
     return offer;
   }
 }
-
-export default Offer;

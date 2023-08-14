@@ -1,26 +1,27 @@
-import Types, { ITypes, Static } from "../Types";
+import { IUtility, Static, Utility } from "../Utility.js";
 
 export type TRefundId = {
   refund_id?: string;
 };
 
-class RefundId extends Types implements Static<ITypes, typeof RefundId> {
-  refundId!: string;
+export class RefundId extends Utility implements Static<IUtility, typeof RefundId> {
+  private refundId!: string;
 
-  constructor() {
-    super();
-  }
-
-  setRefundId(refundId: string) {
+  public setRefundId(refundId: string) {
     this.refundId = refundId;
     return this;
   }
+  public getRefundId() {
+    return this.refundId;
+  }
 
-  static fromObject(obj: TRefundId) {
+  public override getFields<T extends TRefundId>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TRefundId) {
     const refundId = new RefundId();
     if (obj.refund_id) refundId.setRefundId(obj.refund_id);
     return refundId;
   }
 }
-
-export default RefundId;

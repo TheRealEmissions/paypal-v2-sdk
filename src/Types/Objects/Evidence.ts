@@ -1,11 +1,11 @@
-import { DisputeLifeCycleStage } from "../Enums/DisputeLifeCycleStage";
-import { EvidenceSource } from "../Enums/EvidenceSource";
-import { DisputeEvidenceType } from "../Enums/EvidenceType";
-import { ItemType } from "../Enums/ItemType";
-import Types, { Static, ITypes } from "../Types";
-import ActionInfo, { TActionInfo } from "./ActionInfo";
-import Document, { TDocument } from "./Document";
-import EvidenceInfo, { TEvidenceInfo } from "./EvidenceInfo";
+import { DisputeLifeCycleStage } from "../Enums/DisputeLifeCycleStage.js";
+import { EvidenceSource } from "../Enums/EvidenceSource.js";
+import { DisputeEvidenceType } from "../Enums/EvidenceType.js";
+import { ItemType } from "../Enums/ItemType.js";
+import { IUtility, Static, Utility } from "../Utility.js";
+import { ActionInfo, TActionInfo } from "./ActionInfo.js";
+import { Document, TDocument } from "./Document.js";
+import { EvidenceInfo, TEvidenceInfo } from "./EvidenceInfo.js";
 
 export type TEvidence = {
   action_info?: TActionInfo;
@@ -20,34 +20,42 @@ export type TEvidence = {
   source?: keyof typeof EvidenceSource;
 };
 
-class Evidence extends Types implements Static<ITypes, typeof Evidence> {
-  actionInfo?: ActionInfo;
-  date?: string;
-  disputeLifeCycleStage?: DisputeLifeCycleStage;
-  documents?: Document[];
-  evidenceInfo?: EvidenceInfo;
-  evidenceType?: DisputeEvidenceType;
-  itemId?: string;
-  itemType?: ItemType;
-  notes?: string;
-  source?: EvidenceSource;
+export class Evidence extends Utility implements Static<IUtility, typeof Evidence> {
+  private actionInfo?: ActionInfo;
+  private date?: string;
+  private disputeLifeCycleStage?: DisputeLifeCycleStage;
+  private documents?: Document[];
+  private evidenceInfo?: EvidenceInfo;
+  private evidenceType?: DisputeEvidenceType;
+  private itemId?: string;
+  private itemType?: ItemType;
+  private notes?: string;
+  private source?: EvidenceSource;
 
-  constructor() {
-    super();
-  }
-
-  setActionInfo(actionInfo: ActionInfo | ((type: ActionInfo) => void)) {
+  public setActionInfo(actionInfo: ActionInfo): this;
+  public setActionInfo(actionInfo: (type: ActionInfo) => void): this;
+  public setActionInfo(actionInfo: ActionInfo | ((type: ActionInfo) => void)) {
     if (actionInfo instanceof ActionInfo) this.actionInfo = actionInfo;
     else actionInfo((this.actionInfo = new ActionInfo()));
     return this;
   }
+  public getActionInfo() {
+    return this.actionInfo;
+  }
 
-  setDate(date: string) {
+  public setDate(date: string) {
     this.date = date;
     return this;
   }
+  public getDate() {
+    return this.date;
+  }
 
-  setDisputeLifeCycleStage(
+  public setDisputeLifeCycleStage(disputeLifeCycleStage: DisputeLifeCycleStage): this;
+  public setDisputeLifeCycleStage(
+    disputeLifeCycleStage: (type: typeof DisputeLifeCycleStage) => DisputeLifeCycleStage
+  ): this;
+  public setDisputeLifeCycleStage(
     disputeLifeCycleStage: DisputeLifeCycleStage | ((type: typeof DisputeLifeCycleStage) => DisputeLifeCycleStage)
   ) {
     if (typeof disputeLifeCycleStage === "function")
@@ -55,8 +63,13 @@ class Evidence extends Types implements Static<ITypes, typeof Evidence> {
     else this.disputeLifeCycleStage = disputeLifeCycleStage;
     return this;
   }
+  public getDisputeLifeCycleStage() {
+    return this.disputeLifeCycleStage;
+  }
 
-  setDocuments(...documents: (Document | ((document: Document) => void))[]) {
+  public setDocuments(...documents: Document[]): this;
+  public setDocuments(...documents: ((document: Document) => void)[]): this;
+  public setDocuments(...documents: (Document | ((document: Document) => void))[]) {
     this.documents = documents.map((document) => {
       if (document instanceof Document) return document;
       else {
@@ -67,42 +80,77 @@ class Evidence extends Types implements Static<ITypes, typeof Evidence> {
     });
     return this;
   }
+  public getDocuments() {
+    return this.documents;
+  }
 
-  setEvidenceInfo(evidenceInfo: EvidenceInfo | ((type: EvidenceInfo) => void)) {
+  public setEvidenceInfo(evidenceInfo: EvidenceInfo): this;
+  public setEvidenceInfo(evidenceInfo: (type: EvidenceInfo) => void): this;
+  public setEvidenceInfo(evidenceInfo: EvidenceInfo | ((type: EvidenceInfo) => void)) {
     if (evidenceInfo instanceof EvidenceInfo) this.evidenceInfo = evidenceInfo;
     else evidenceInfo((this.evidenceInfo = new EvidenceInfo()));
     return this;
   }
+  public getEvidenceInfo() {
+    return this.evidenceInfo;
+  }
 
-  setEvidenceType(evidenceType: DisputeEvidenceType | ((type: typeof DisputeEvidenceType) => DisputeEvidenceType)) {
+  public setEvidenceType(evidenceType: DisputeEvidenceType): this;
+  public setEvidenceType(evidenceType: (type: typeof DisputeEvidenceType) => DisputeEvidenceType): this;
+  public setEvidenceType(
+    evidenceType: DisputeEvidenceType | ((type: typeof DisputeEvidenceType) => DisputeEvidenceType)
+  ) {
     if (typeof evidenceType === "function") this.evidenceType = evidenceType(DisputeEvidenceType);
     else this.evidenceType = evidenceType;
     return this;
   }
+  public getEvidenceType() {
+    return this.evidenceType;
+  }
 
-  setItemId(itemId: string) {
+  public setItemId(itemId: string) {
     this.itemId = itemId;
     return this;
   }
+  public getItemId() {
+    return this.itemId;
+  }
 
-  setItemType(itemType: ItemType | ((type: typeof ItemType) => ItemType)) {
+  public setItemType(itemType: ItemType): this;
+  public setItemType(itemType: (type: typeof ItemType) => ItemType): this;
+  public setItemType(itemType: ItemType | ((type: typeof ItemType) => ItemType)) {
     if (typeof itemType === "function") this.itemType = itemType(ItemType);
     else this.itemType = itemType;
     return this;
   }
+  public getItemType() {
+    return this.itemType;
+  }
 
-  setNotes(notes: string) {
+  public setNotes(notes: string) {
     this.notes = notes;
     return this;
   }
+  public getNotes() {
+    return this.notes;
+  }
 
-  setSource(source: EvidenceSource | ((type: typeof EvidenceSource) => EvidenceSource)) {
+  public setSource(source: EvidenceSource): this;
+  public setSource(source: (type: typeof EvidenceSource) => EvidenceSource): this;
+  public setSource(source: EvidenceSource | ((type: typeof EvidenceSource) => EvidenceSource)) {
     if (typeof source === "function") this.source = source(EvidenceSource);
     else this.source = source;
     return this;
   }
+  public getSource() {
+    return this.source;
+  }
 
-  static fromObject(obj: TEvidence) {
+  public override getFields<T extends TEvidence>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TEvidence) {
     const evidence = new Evidence();
     if (obj.action_info) evidence.setActionInfo(ActionInfo.fromObject(obj.action_info));
     if (obj.date) evidence.setDate(obj.date);
@@ -118,5 +166,3 @@ class Evidence extends Types implements Static<ITypes, typeof Evidence> {
     return evidence;
   }
 }
-
-export default Evidence;

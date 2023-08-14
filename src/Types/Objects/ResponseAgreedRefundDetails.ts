@@ -1,29 +1,38 @@
-import Types, { Static, ITypes } from "../Types";
+import { IUtility, Static, Utility } from "../Utility.js";
 
 export type TResponseAgreedRefundDetails = {
   merchant_agreed_refund?: boolean;
   merchant_agreed_refund_time?: string;
 };
 
-class ResponseAgreedRefundDetails extends Types implements Static<ITypes, typeof ResponseAgreedRefundDetails> {
-  merchantAgreedRefund?: boolean;
-  merchantAgreedRefundTime?: string;
+export class ResponseAgreedRefundDetails
+  extends Utility
+  implements Static<IUtility, typeof ResponseAgreedRefundDetails>
+{
+  private merchantAgreedRefund?: boolean;
+  private merchantAgreedRefundTime?: string;
 
-  constructor() {
-    super();
-  }
-
-  setMerchantAgreedRefund(merchantAgreedRefund: boolean) {
+  public setMerchantAgreedRefund(merchantAgreedRefund: boolean) {
     this.merchantAgreedRefund = merchantAgreedRefund;
     return this;
   }
+  public getMerchantAgreedRefund() {
+    return this.merchantAgreedRefund;
+  }
 
-  setMerchantAgreedRefundTime(merchantAgreedRefundTime: string) {
+  public setMerchantAgreedRefundTime(merchantAgreedRefundTime: string) {
     this.merchantAgreedRefundTime = merchantAgreedRefundTime;
     return this;
   }
+  public getMerchantAgreedRefundTime() {
+    return this.merchantAgreedRefundTime;
+  }
 
-  static fromObject(obj: TResponseAgreedRefundDetails) {
+  public override getFields<T extends TResponseAgreedRefundDetails>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TResponseAgreedRefundDetails) {
     const responseAgreedRefundDetails = new ResponseAgreedRefundDetails();
     if (obj.merchant_agreed_refund) responseAgreedRefundDetails.setMerchantAgreedRefund(obj.merchant_agreed_refund);
     if (obj.merchant_agreed_refund_time)
@@ -31,5 +40,3 @@ class ResponseAgreedRefundDetails extends Types implements Static<ITypes, typeof
     return responseAgreedRefundDetails;
   }
 }
-
-export default ResponseAgreedRefundDetails;

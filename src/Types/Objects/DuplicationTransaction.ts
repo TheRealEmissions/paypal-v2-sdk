@@ -1,31 +1,39 @@
-import Types, { ITypes, Static } from "../Types";
-import TransactionInfo, { TTransactionInfo } from "./TransactionInfo";
+import { IUtility, Static, Utility } from "../Utility.js";
+import { TransactionInfo, TTransactionInfo } from "./TransactionInfo.js";
 
 export type TDuplicationTransaction = {
   original_transaction?: TTransactionInfo;
   received_duplicate?: boolean;
 };
 
-class DuplicationTransaction extends Types implements Static<ITypes, typeof DuplicationTransaction> {
-  originalTransaction?: TransactionInfo;
-  receivedDuplicate?: boolean;
+export class DuplicationTransaction extends Utility implements Static<IUtility, typeof DuplicationTransaction> {
+  private originalTransaction?: TransactionInfo;
+  private receivedDuplicate?: boolean;
 
-  constructor() {
-    super();
-  }
-
-  setOriginalTransaction(originalTransaction: TransactionInfo | ((t: TransactionInfo) => void)) {
+  public setOriginalTransaction(originalTransaction: TransactionInfo): this;
+  public setOriginalTransaction(originalTransaction: (t: TransactionInfo) => void): this;
+  public setOriginalTransaction(originalTransaction: TransactionInfo | ((t: TransactionInfo) => void)) {
     if (originalTransaction instanceof TransactionInfo) this.originalTransaction = originalTransaction;
     else originalTransaction((this.originalTransaction = new TransactionInfo()));
     return this;
   }
+  public getOriginalTransaction() {
+    return this.originalTransaction;
+  }
 
-  setReceivedDuplicate(receivedDuplicate: boolean) {
+  public setReceivedDuplicate(receivedDuplicate: boolean) {
     this.receivedDuplicate = receivedDuplicate;
     return this;
   }
+  public getReceivedDuplicate() {
+    return this.receivedDuplicate;
+  }
 
-  static fromObject(obj: TDuplicationTransaction) {
+  public override getFields<T extends TDuplicationTransaction>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TDuplicationTransaction) {
     const duplicationTransaction = new DuplicationTransaction();
     if (obj.original_transaction)
       duplicationTransaction.setOriginalTransaction(TransactionInfo.fromObject(obj.original_transaction));
@@ -33,5 +41,3 @@ class DuplicationTransaction extends Types implements Static<ITypes, typeof Dupl
     return duplicationTransaction;
   }
 }
-
-export default DuplicationTransaction;

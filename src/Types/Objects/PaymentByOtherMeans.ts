@@ -1,5 +1,5 @@
-import { PaymentDetailMethod } from "../Enums/PaymentDetailMethod";
-import Types, { ITypes, Static } from "../Types";
+import { PaymentDetailMethod } from "../Enums/PaymentDetailMethod.js";
+import { IUtility, Static, Utility } from "../Utility.js";
 
 export type TPaymentByOtherMeans = {
   charge_different_from_original?: boolean;
@@ -8,27 +8,37 @@ export type TPaymentByOtherMeans = {
   received_duplicate?: boolean;
 };
 
-class PaymentByOtherMeans extends Types implements Static<ITypes, typeof PaymentByOtherMeans> {
-  chargeDifferentFromOriginal?: boolean;
-  paymentInstrumentSuffix?: string;
-  paymentMethod?: Exclude<PaymentDetailMethod, PaymentDetailMethod.WIRE_TRANSFER | PaymentDetailMethod.OTHER>;
-  receivedDuplicate?: boolean;
+export class PaymentByOtherMeans extends Utility implements Static<IUtility, typeof PaymentByOtherMeans> {
+  private chargeDifferentFromOriginal?: boolean;
+  private paymentInstrumentSuffix?: string;
+  private paymentMethod?: Exclude<PaymentDetailMethod, PaymentDetailMethod.WIRE_TRANSFER | PaymentDetailMethod.OTHER>;
+  private receivedDuplicate?: boolean;
 
-  constructor() {
-    super();
-  }
-
-  setChargeDifferentFromOriginal(chargeDifferentFromOriginal: boolean) {
+  public setChargeDifferentFromOriginal(chargeDifferentFromOriginal: boolean) {
     this.chargeDifferentFromOriginal = chargeDifferentFromOriginal;
     return this;
   }
+  public getChargeDifferentFromOriginal() {
+    return this.chargeDifferentFromOriginal;
+  }
 
-  setPaymentInstrumentSuffix(paymentInstrumentSuffix: string) {
+  public setPaymentInstrumentSuffix(paymentInstrumentSuffix: string) {
     this.paymentInstrumentSuffix = paymentInstrumentSuffix;
     return this;
   }
+  public getPaymentInstrumentSuffix() {
+    return this.paymentInstrumentSuffix;
+  }
 
-  setPaymentMethod(
+  public setPaymentMethod(
+    paymentMethod: Exclude<PaymentDetailMethod, PaymentDetailMethod.WIRE_TRANSFER | PaymentDetailMethod.OTHER>
+  ): this;
+  public setPaymentMethod(
+    paymentMethod: (
+      paymentMethod: Exclude<typeof PaymentDetailMethod, PaymentDetailMethod.WIRE_TRANSFER | PaymentDetailMethod.OTHER>
+    ) => Exclude<PaymentDetailMethod, PaymentDetailMethod.WIRE_TRANSFER | PaymentDetailMethod.OTHER>
+  ): this;
+  public setPaymentMethod(
     paymentMethod:
       | Exclude<PaymentDetailMethod, PaymentDetailMethod.WIRE_TRANSFER | PaymentDetailMethod.OTHER>
       | ((
@@ -42,13 +52,23 @@ class PaymentByOtherMeans extends Types implements Static<ITypes, typeof Payment
     else this.paymentMethod = paymentMethod;
     return this;
   }
+  public getPaymentMethod() {
+    return this.paymentMethod;
+  }
 
-  setReceivedDuplicate(receivedDuplicate: boolean) {
+  public setReceivedDuplicate(receivedDuplicate: boolean) {
     this.receivedDuplicate = receivedDuplicate;
     return this;
   }
+  public getReceivedDuplicate() {
+    return this.receivedDuplicate;
+  }
 
-  static fromObject(obj: TPaymentByOtherMeans) {
+  public override getFields<T extends TPaymentByOtherMeans>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TPaymentByOtherMeans) {
     const paymentByOtherMeans = new PaymentByOtherMeans();
     if (obj.charge_different_from_original)
       paymentByOtherMeans.setChargeDifferentFromOriginal(obj.charge_different_from_original);
@@ -58,5 +78,3 @@ class PaymentByOtherMeans extends Types implements Static<ITypes, typeof Payment
     return paymentByOtherMeans;
   }
 }
-
-export default PaymentByOtherMeans;

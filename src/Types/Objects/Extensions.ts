@@ -1,8 +1,8 @@
-import { MerchantContactedMode } from "../Enums/MerchantContactedMode";
-import { MerchantContactedOutcome } from "../Enums/MerchantContactedOutcome";
-import Types, { ITypes, Static } from "../Types";
-import BillingDisputeProperties, { TBillingDisputeProperties } from "./BillingDisputeProperties";
-import MerchandiseDisputeProperties, { TMerchandiseDisputeProperties } from "./MerchandiseDisputeProperties";
+import { MerchantContactedMode } from "../Enums/MerchantContactedMode.js";
+import { MerchantContactedOutcome } from "../Enums/MerchantContactedOutcome.js";
+import { IUtility, Static, Utility } from "../Utility.js";
+import { BillingDisputeProperties, TBillingDisputeProperties } from "./BillingDisputeProperties.js";
+import { MerchandiseDisputeProperties, TMerchandiseDisputeProperties } from "./MerchandiseDisputeProperties.js";
 
 export type TExtensions = {
   billing_dispute_properties?: TBillingDisputeProperties;
@@ -15,21 +15,21 @@ export type TExtensions = {
   merchant_contacted_time?: string;
 };
 
-class Extensions extends Types implements Static<ITypes, typeof Extensions> {
-  billingDisputeProperties?: BillingDisputeProperties;
-  buyerContactedChannel?: string;
-  buyerContactedTime?: string;
-  merchandizeDisputeProperties?: MerchandiseDisputeProperties;
-  merchantContacted?: boolean;
-  merchantContactedMode?: MerchantContactedMode;
-  merchantContactedOutcome?: MerchantContactedOutcome;
-  merchantContactedTime?: string;
+export class Extensions extends Utility implements Static<IUtility, typeof Extensions> {
+  private billingDisputeProperties?: BillingDisputeProperties;
+  private buyerContactedChannel?: string;
+  private buyerContactedTime?: string;
+  private merchandizeDisputeProperties?: MerchandiseDisputeProperties;
+  private merchantContacted?: boolean;
+  private merchantContactedMode?: MerchantContactedMode;
+  private merchantContactedOutcome?: MerchantContactedOutcome;
+  private merchantContactedTime?: string;
 
-  constructor() {
-    super();
-  }
-
-  setBillingDisputeProperties(
+  public setBillingDisputeProperties(billingDisputeProperties: BillingDisputeProperties): this;
+  public setBillingDisputeProperties(
+    billingDisputeProperties: (billingDisputeProperties: BillingDisputeProperties) => void
+  ): this;
+  public setBillingDisputeProperties(
     billingDisputeProperties: BillingDisputeProperties | ((x: BillingDisputeProperties) => void)
   ) {
     if (billingDisputeProperties instanceof BillingDisputeProperties)
@@ -37,18 +37,31 @@ class Extensions extends Types implements Static<ITypes, typeof Extensions> {
     else billingDisputeProperties((this.billingDisputeProperties = new BillingDisputeProperties()));
     return this;
   }
+  public getBillingDisputeProperties() {
+    return this.billingDisputeProperties;
+  }
 
-  setBuyerContactedChannel(buyerContactedChannel: string) {
+  public setBuyerContactedChannel(buyerContactedChannel: string) {
     this.buyerContactedChannel = buyerContactedChannel;
     return this;
   }
+  public getBuyerContactedChannel() {
+    return this.buyerContactedChannel;
+  }
 
-  setBuyerContactedTime(buyerContactedTime: string) {
+  public setBuyerContactedTime(buyerContactedTime: string) {
     this.buyerContactedTime = buyerContactedTime;
     return this;
   }
+  public getBuyerContactedTime() {
+    return this.buyerContactedTime;
+  }
 
-  setMerchandizeDisputeProperties(
+  public setMerchandizeDisputeProperties(merchandizeDisputeProperties: MerchandiseDisputeProperties): this;
+  public setMerchandizeDisputeProperties(
+    merchandizeDisputeProperties: (merchandizeDisputeProperties: MerchandiseDisputeProperties) => void
+  ): this;
+  public setMerchandizeDisputeProperties(
     merchandizeDisputeProperties: MerchandiseDisputeProperties | ((x: MerchandiseDisputeProperties) => void)
   ) {
     if (merchandizeDisputeProperties instanceof MerchandiseDisputeProperties)
@@ -56,13 +69,23 @@ class Extensions extends Types implements Static<ITypes, typeof Extensions> {
     else merchandizeDisputeProperties((this.merchandizeDisputeProperties = new MerchandiseDisputeProperties()));
     return this;
   }
+  public getMerchandizeDisputeProperties() {
+    return this.merchandizeDisputeProperties;
+  }
 
-  setMerchantContacted(merchantContacted: boolean) {
+  public setMerchantContacted(merchantContacted: boolean) {
     this.merchantContacted = merchantContacted;
     return this;
   }
+  public getMerchantContacted() {
+    return this.merchantContacted;
+  }
 
-  setMerchantContactedMode(
+  public setMerchantContactedMode(merchantContactedMode: MerchantContactedMode): this;
+  public setMerchantContactedMode(
+    merchantContactedMode: (merchantContactedMode: typeof MerchantContactedMode) => MerchantContactedMode
+  ): this;
+  public setMerchantContactedMode(
     merchantContactedMode: MerchantContactedMode | ((x: typeof MerchantContactedMode) => MerchantContactedMode)
   ) {
     if (typeof merchantContactedMode === "function")
@@ -70,8 +93,15 @@ class Extensions extends Types implements Static<ITypes, typeof Extensions> {
     else this.merchantContactedMode = merchantContactedMode;
     return this;
   }
+  public getMerchantContactedMode() {
+    return this.merchantContactedMode;
+  }
 
-  setMerchantContactedOutcome(
+  public setMerchantContactedOutcome(merchantContactedOutcome: MerchantContactedOutcome): this;
+  public setMerchantContactedOutcome(
+    merchantContactedOutcome: (merchantContactedOutcome: typeof MerchantContactedOutcome) => MerchantContactedOutcome
+  ): this;
+  public setMerchantContactedOutcome(
     merchantContactedOutcome:
       | MerchantContactedOutcome
       | ((x: typeof MerchantContactedOutcome) => MerchantContactedOutcome)
@@ -81,13 +111,23 @@ class Extensions extends Types implements Static<ITypes, typeof Extensions> {
     else this.merchantContactedOutcome = merchantContactedOutcome;
     return this;
   }
+  public getMerchantContactedOutcome() {
+    return this.merchantContactedOutcome;
+  }
 
-  setMerchantContactedTime(merchantContactedTime: string) {
+  public setMerchantContactedTime(merchantContactedTime: string) {
     this.merchantContactedTime = merchantContactedTime;
     return this;
   }
+  public getMerchantContactedTime() {
+    return this.merchantContactedTime;
+  }
 
-  static fromObject(obj: TExtensions) {
+  public override getFields<T extends TExtensions>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TExtensions) {
     const extensions = new Extensions();
     if (obj.billing_dispute_properties)
       extensions.setBillingDisputeProperties(BillingDisputeProperties.fromObject(obj.billing_dispute_properties));
@@ -106,5 +146,3 @@ class Extensions extends Types implements Static<ITypes, typeof Extensions> {
     return extensions;
   }
 }
-
-export default Extensions;

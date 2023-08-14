@@ -1,9 +1,9 @@
-import { DisputeLifeCycleStage } from "../Enums/DisputeLifeCycleStage";
-import { OfferActor } from "../Enums/OfferActor";
-import { OfferEventType } from "../Enums/OfferEventType";
-import { OfferType } from "../Enums/OfferType";
-import Types, { ITypes, Static } from "../Types";
-import Money, { TMoney } from "./Money";
+import { DisputeLifeCycleStage } from "../Enums/DisputeLifeCycleStage.js";
+import { OfferActor } from "../Enums/OfferActor.js";
+import { OfferEventType } from "../Enums/OfferEventType.js";
+import { OfferType } from "../Enums/OfferType.js";
+import { IUtility, Static, Utility } from "../Utility.js";
+import { Money, TMoney } from "./Money.js";
 
 export type TOfferHistory = {
   actor?: keyof typeof OfferActor;
@@ -15,26 +15,31 @@ export type TOfferHistory = {
   offer_type?: keyof typeof OfferType;
 };
 
-class OfferHistory extends Types implements Static<ITypes, typeof OfferHistory> {
-  actor?: OfferActor;
-  disputeLifeCycleStage?: DisputeLifeCycleStage;
-  eventType?: OfferEventType;
-  notes?: string;
-  offerAmount?: Money;
-  offerTime?: string;
-  offerType?: OfferType;
+export class OfferHistory extends Utility implements Static<IUtility, typeof OfferHistory> {
+  private actor?: OfferActor;
+  private disputeLifeCycleStage?: DisputeLifeCycleStage;
+  private eventType?: OfferEventType;
+  private notes?: string;
+  private offerAmount?: Money;
+  private offerTime?: string;
+  private offerType?: OfferType;
 
-  constructor() {
-    super();
-  }
-
-  setActor(actor: OfferActor | ((type: typeof OfferActor) => OfferActor)) {
+  public setActor(actor: OfferActor): this;
+  public setActor(actor: (type: typeof OfferActor) => OfferActor): this;
+  public setActor(actor: OfferActor | ((type: typeof OfferActor) => OfferActor)) {
     if (typeof actor === "function") this.actor = actor(OfferActor);
     else this.actor = actor;
     return this;
   }
+  public getActor() {
+    return this.actor;
+  }
 
-  setDisputeLifeCycleStage(
+  public setDisputeLifeCycleStage(disputeLifeCycleStage: DisputeLifeCycleStage): this;
+  public setDisputeLifeCycleStage(
+    disputeLifeCycleStage: (type: typeof DisputeLifeCycleStage) => DisputeLifeCycleStage
+  ): this;
+  public setDisputeLifeCycleStage(
     disputeLifeCycleStage: DisputeLifeCycleStage | ((type: typeof DisputeLifeCycleStage) => DisputeLifeCycleStage)
   ) {
     if (typeof disputeLifeCycleStage === "function")
@@ -42,36 +47,64 @@ class OfferHistory extends Types implements Static<ITypes, typeof OfferHistory> 
     else this.disputeLifeCycleStage = disputeLifeCycleStage;
     return this;
   }
+  public getDisputeLifeCycleStage() {
+    return this.disputeLifeCycleStage;
+  }
 
-  setEventType(eventType: OfferEventType | ((type: typeof OfferEventType) => OfferEventType)) {
+  public setEventType(eventType: OfferEventType): this;
+  public setEventType(eventType: (type: typeof OfferEventType) => OfferEventType): this;
+  public setEventType(eventType: OfferEventType | ((type: typeof OfferEventType) => OfferEventType)) {
     if (typeof eventType === "function") this.eventType = eventType(OfferEventType);
     else this.eventType = eventType;
     return this;
   }
+  public getEventType() {
+    return this.eventType;
+  }
 
-  setNotes(notes: string) {
+  public setNotes(notes: string) {
     this.notes = notes;
     return this;
   }
+  public getNotes() {
+    return this.notes;
+  }
 
-  setOfferAmount(offerAmount: Money | ((type: Money) => void)) {
+  public setOfferAmount(offerAmount: Money): this;
+  public setOfferAmount(offerAmount: (type: Money) => void): this;
+  public setOfferAmount(offerAmount: Money | ((type: Money) => void)) {
     if (offerAmount instanceof Money) this.offerAmount = offerAmount;
     else offerAmount((this.offerAmount = new Money()));
     return this;
   }
+  public getOfferAmount() {
+    return this.offerAmount;
+  }
 
-  setOfferTime(offerTime: string) {
+  public setOfferTime(offerTime: string) {
     this.offerTime = offerTime;
     return this;
   }
+  public getOfferTime() {
+    return this.offerTime;
+  }
 
-  setOfferType(offerType: OfferType | ((type: typeof OfferType) => OfferType)) {
+  public setOfferType(offerType: OfferType): this;
+  public setOfferType(offerType: (type: typeof OfferType) => OfferType): this;
+  public setOfferType(offerType: OfferType | ((type: typeof OfferType) => OfferType)) {
     if (typeof offerType === "function") this.offerType = offerType(OfferType);
     else this.offerType = offerType;
     return this;
   }
+  public getOfferType() {
+    return this.offerType;
+  }
 
-  static fromObject(obj: TOfferHistory) {
+  public override getFields<T extends TOfferHistory>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TOfferHistory) {
     const offerHistory = new OfferHistory();
     if (obj.actor) offerHistory.setActor(OfferActor[obj.actor]);
     if (obj.dispute_life_cycle_stage)
@@ -84,5 +117,3 @@ class OfferHistory extends Types implements Static<ITypes, typeof OfferHistory> 
     return offerHistory;
   }
 }
-
-export default OfferHistory;

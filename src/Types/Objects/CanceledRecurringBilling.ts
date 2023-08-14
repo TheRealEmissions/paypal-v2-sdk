@@ -1,35 +1,45 @@
-import Types, { ITypes, Static } from "../Types";
-import CancellationDetails, { TCancellationDetails } from "./CancellationDetails";
-import Money, { TMoney } from "./Money";
+import { IUtility, Static, Utility } from "../Utility.js";
+import { CancellationDetails, TCancellationDetails } from "./CancellationDetails.js";
+import { Money, TMoney } from "./Money.js";
 
 export type TCanceledRecurringBilling = {
   cancellation_details?: TCancellationDetails;
   expected_refund?: TMoney;
 };
 
-class CanceledRecurringBilling extends Types implements Static<ITypes, typeof CanceledRecurringBilling> {
-  cancellationDetails?: CancellationDetails;
-  expectedRefund?: Money;
+export class CanceledRecurringBilling extends Utility implements Static<IUtility, typeof CanceledRecurringBilling> {
+  private cancellationDetails?: CancellationDetails;
+  private expectedRefund?: Money;
 
-  constructor() {
-    super();
-  }
-
-  setCancellationDetails(
+  public setCancellationDetails(cancellationDetails: CancellationDetails): this;
+  public setCancellationDetails(cancellationDetails: (cancellationDetails: CancellationDetails) => void): this;
+  public setCancellationDetails(
     cancellationDetails: CancellationDetails | ((cancellationDetails: CancellationDetails) => void)
   ) {
     if (cancellationDetails instanceof CancellationDetails) this.cancellationDetails = cancellationDetails;
     else cancellationDetails((this.cancellationDetails = new CancellationDetails()));
     return this;
   }
+  public getCancellationDetails() {
+    return this.cancellationDetails;
+  }
 
-  setExpectedRefund(expectedRefund: Money | ((expectedRefund: Money) => void)) {
+  public setExpectedRefund(expectedRefund: Money): this;
+  public setExpectedRefund(expectedRefund: (expectedRefund: Money) => void): this;
+  public setExpectedRefund(expectedRefund: Money | ((expectedRefund: Money) => void)) {
     if (expectedRefund instanceof Money) this.expectedRefund = expectedRefund;
     else expectedRefund((this.expectedRefund = new Money()));
     return this;
   }
+  public getExpectedRefund() {
+    return this.expectedRefund;
+  }
 
-  static fromObject(obj: TCanceledRecurringBilling) {
+  public override getFields<T extends TCanceledRecurringBilling>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TCanceledRecurringBilling) {
     const canceledRecurringBilling = new CanceledRecurringBilling();
     if (obj.cancellation_details)
       canceledRecurringBilling.setCancellationDetails(CancellationDetails.fromObject(obj.cancellation_details));
@@ -37,5 +47,3 @@ class CanceledRecurringBilling extends Types implements Static<ITypes, typeof Ca
     return canceledRecurringBilling;
   }
 }
-
-export default CanceledRecurringBilling;

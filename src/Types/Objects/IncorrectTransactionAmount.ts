@@ -1,6 +1,6 @@
-import Types, { ITypes, Static } from "../Types";
-import Cryptocurrency, { TCryptocurrency } from "./Cryptocurrency";
-import Money, { TMoney } from "./Money";
+import { IUtility, Utility, Static } from "../Utility.js";
+import { Cryptocurrency, TCryptocurrency } from "./Cryptocurrency.js";
+import { Money, TMoney } from "./Money.js";
 
 export type TIncorrectTransactionAmount = {
   correct_transaction_amount?: TMoney;
@@ -8,35 +8,48 @@ export type TIncorrectTransactionAmount = {
   correct_transaction_time?: string;
 };
 
-class IncorrectTransactionAmount extends Types implements Static<ITypes, typeof IncorrectTransactionAmount> {
-  correctTransactionAmount?: Money;
-  correctTransactionAsset?: Cryptocurrency;
-  correctTransactionTime?: string;
+export class IncorrectTransactionAmount extends Utility implements Static<IUtility, typeof IncorrectTransactionAmount> {
+  private correctTransactionAmount?: Money;
+  private correctTransactionAsset?: Cryptocurrency;
+  private correctTransactionTime?: string;
 
-  constructor() {
-    super();
-  }
-
-  setCorrectTransactionAmount(correctTransactionAmount: Money | ((correctTransactionAmount: Money) => void)) {
+  public setCorrectTransactionAmount(correctTransactionAmount: Money): this;
+  public setCorrectTransactionAmount(correctTransactionAmount: (correctTransactionAmount: Money) => void): this;
+  public setCorrectTransactionAmount(correctTransactionAmount: Money | ((correctTransactionAmount: Money) => void)) {
     if (correctTransactionAmount instanceof Money) this.correctTransactionAmount = correctTransactionAmount;
     else correctTransactionAmount((this.correctTransactionAmount = new Money()));
     return this;
   }
+  public getCorrectTransactionAmount() {
+    return this.correctTransactionAmount;
+  }
 
-  setCorrectTransactionAsset(
+  public setCorrectTransactionAsset(correctTransactionAsset: Cryptocurrency): this;
+  public setCorrectTransactionAsset(correctTransactionAsset: (correctTransactionAsset: Cryptocurrency) => void): this;
+  public setCorrectTransactionAsset(
     correctTransactionAsset: Cryptocurrency | ((correctTransactionAsset: Cryptocurrency) => void)
   ) {
     if (correctTransactionAsset instanceof Cryptocurrency) this.correctTransactionAsset = correctTransactionAsset;
     else correctTransactionAsset((this.correctTransactionAsset = new Cryptocurrency()));
     return this;
   }
+  public getCorrectTransactionAsset() {
+    return this.correctTransactionAsset;
+  }
 
-  setCorrectTransactionTime(correctTransactionTime: string) {
+  public setCorrectTransactionTime(correctTransactionTime: string) {
     this.correctTransactionTime = correctTransactionTime;
     return this;
   }
+  public getCorrectTransactionTime() {
+    return this.correctTransactionTime;
+  }
 
-  static fromObject(obj: TIncorrectTransactionAmount) {
+  public override getFields<T extends TIncorrectTransactionAmount>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TIncorrectTransactionAmount) {
     const incorrectTransactionAmount = new IncorrectTransactionAmount();
     if (obj.correct_transaction_amount)
       incorrectTransactionAmount.setCorrectTransactionAmount(Money.fromObject(obj.correct_transaction_amount));
@@ -47,5 +60,3 @@ class IncorrectTransactionAmount extends Types implements Static<ITypes, typeof 
     return incorrectTransactionAmount;
   }
 }
-
-export default IncorrectTransactionAmount;

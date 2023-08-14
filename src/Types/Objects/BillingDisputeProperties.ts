@@ -1,9 +1,9 @@
-import Types, { ITypes, Static } from "../Types";
-import CanceledRecurringBilling, { TCanceledRecurringBilling } from "./CanceledRecurringBilling";
-import CreditNotProcessed, { TCreditNotProcessed } from "./CreditNotProcessed";
-import DuplicationTransaction, { TDuplicationTransaction } from "./DuplicationTransaction";
-import IncorrectTransactionAmount, { TIncorrectTransactionAmount } from "./IncorrectTransactionAmount";
-import PaymentByOtherMeans, { TPaymentByOtherMeans } from "./PaymentByOtherMeans";
+import { IUtility, Static, Utility } from "../Utility.js";
+import { CanceledRecurringBilling, TCanceledRecurringBilling } from "./CanceledRecurringBilling.js";
+import { CreditNotProcessed, TCreditNotProcessed } from "./CreditNotProcessed.js";
+import { DuplicationTransaction, TDuplicationTransaction } from "./DuplicationTransaction.js";
+import { IncorrectTransactionAmount, TIncorrectTransactionAmount } from "./IncorrectTransactionAmount.js";
+import { PaymentByOtherMeans, TPaymentByOtherMeans } from "./PaymentByOtherMeans.js";
 
 export type TBillingDisputeProperties = {
   canceled_recurring_billing?: TCanceledRecurringBilling;
@@ -13,18 +13,18 @@ export type TBillingDisputeProperties = {
   payment_by_other_means?: TPaymentByOtherMeans;
 };
 
-class BillingDisputeProperties extends Types implements Static<ITypes, typeof BillingDisputeProperties> {
-  canceledRecurringBilling?: CanceledRecurringBilling;
-  creditNotProcessed?: CreditNotProcessed;
-  duplicateTransaction?: DuplicationTransaction;
-  incorrectTransactionAmount?: IncorrectTransactionAmount;
-  paymentByOtherMeans?: PaymentByOtherMeans;
+export class BillingDisputeProperties extends Utility implements Static<IUtility, typeof BillingDisputeProperties> {
+  private canceledRecurringBilling?: CanceledRecurringBilling;
+  private creditNotProcessed?: CreditNotProcessed;
+  private duplicateTransaction?: DuplicationTransaction;
+  private incorrectTransactionAmount?: IncorrectTransactionAmount;
+  private paymentByOtherMeans?: PaymentByOtherMeans;
 
-  constructor() {
-    super();
-  }
-
-  setCanceledRecurringBilling(
+  public setCanceledRecurringBilling(canceledRecurringBilling: CanceledRecurringBilling): this;
+  public setCanceledRecurringBilling(
+    canceledRecurringBilling: (canceledRecurringBilling: CanceledRecurringBilling) => void
+  ): this;
+  public setCanceledRecurringBilling(
     canceledRecurringBilling: CanceledRecurringBilling | ((canceledRecurringBilling: CanceledRecurringBilling) => void)
   ) {
     if (canceledRecurringBilling instanceof CanceledRecurringBilling)
@@ -32,22 +32,41 @@ class BillingDisputeProperties extends Types implements Static<ITypes, typeof Bi
     else canceledRecurringBilling((this.canceledRecurringBilling = new CanceledRecurringBilling()));
     return this;
   }
+  public getCanceledRecurringBilling() {
+    return this.canceledRecurringBilling;
+  }
 
-  setCreditNotProcessed(creditNotProcessed: CreditNotProcessed | ((creditNotProcessed: CreditNotProcessed) => void)) {
+  public setCreditNotProcessed(creditNotProcessed: CreditNotProcessed): this;
+  public setCreditNotProcessed(creditNotProcessed: (creditNotProcessed: CreditNotProcessed) => void): this;
+  public setCreditNotProcessed(
+    creditNotProcessed: CreditNotProcessed | ((creditNotProcessed: CreditNotProcessed) => void)
+  ) {
     if (creditNotProcessed instanceof CreditNotProcessed) this.creditNotProcessed = creditNotProcessed;
     else creditNotProcessed((this.creditNotProcessed = new CreditNotProcessed()));
     return this;
   }
+  public getCreditNotProcessed() {
+    return this.creditNotProcessed;
+  }
 
-  setDuplicateTransaction(
+  public setDuplicateTransaction(duplicateTransaction: DuplicationTransaction): this;
+  public setDuplicateTransaction(duplicateTransaction: (duplicateTransaction: DuplicationTransaction) => void): this;
+  public setDuplicateTransaction(
     duplicateTransaction: DuplicationTransaction | ((duplicateTransaction: DuplicationTransaction) => void)
   ) {
     if (duplicateTransaction instanceof DuplicationTransaction) this.duplicateTransaction = duplicateTransaction;
     else duplicateTransaction((this.duplicateTransaction = new DuplicationTransaction()));
     return this;
   }
+  public getDuplicateTransaction() {
+    return this.duplicateTransaction;
+  }
 
-  setIncorrectTransactionAmount(
+  public setIncorrectTransactionAmount(incorrectTransactionAmount: IncorrectTransactionAmount): this;
+  public setIncorrectTransactionAmount(
+    incorrectTransactionAmount: (incorrectTransactionAmount: IncorrectTransactionAmount) => void
+  ): this;
+  public setIncorrectTransactionAmount(
     incorrectTransactionAmount:
       | IncorrectTransactionAmount
       | ((incorrectTransactionAmount: IncorrectTransactionAmount) => void)
@@ -57,16 +76,28 @@ class BillingDisputeProperties extends Types implements Static<ITypes, typeof Bi
     else incorrectTransactionAmount((this.incorrectTransactionAmount = new IncorrectTransactionAmount()));
     return this;
   }
+  public getIncorrectTransactionAmount() {
+    return this.incorrectTransactionAmount;
+  }
 
-  setPaymentByOtherMeans(
+  public setPaymentByOtherMeans(paymentByOtherMeans: PaymentByOtherMeans): this;
+  public setPaymentByOtherMeans(paymentByOtherMeans: (paymentByOtherMeans: PaymentByOtherMeans) => void): this;
+  public setPaymentByOtherMeans(
     paymentByOtherMeans: PaymentByOtherMeans | ((paymentByOtherMeans: PaymentByOtherMeans) => void)
   ) {
     if (paymentByOtherMeans instanceof PaymentByOtherMeans) this.paymentByOtherMeans = paymentByOtherMeans;
     else paymentByOtherMeans((this.paymentByOtherMeans = new PaymentByOtherMeans()));
     return this;
   }
+  public getPaymentByOtherMeans() {
+    return this.paymentByOtherMeans;
+  }
 
-  static fromObject(obj: TBillingDisputeProperties) {
+  public override getFields<T extends Partial<TBillingDisputeProperties>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TBillingDisputeProperties) {
     const billingDisputeProperties = new BillingDisputeProperties();
     if (obj.canceled_recurring_billing)
       billingDisputeProperties.setCanceledRecurringBilling(
@@ -85,5 +116,3 @@ class BillingDisputeProperties extends Types implements Static<ITypes, typeof Bi
     return billingDisputeProperties;
   }
 }
-
-export default BillingDisputeProperties;

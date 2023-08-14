@@ -1,7 +1,7 @@
-import { ItemType } from "../Enums/ItemType";
-import Types, { Static, ITypes } from "../Types";
-import Money, { TMoney } from "./Money";
-import { DisputeReason } from "../Enums/DisputeReason";
+import { ItemType } from "../Enums/ItemType.js";
+import { Money, TMoney } from "./Money.js";
+import { DisputeReason } from "../Enums/DisputeReason.js";
+import { IUtility, Static, Utility } from "../Utility.js";
 
 export type TItemInfo = {
   dispute_amount?: TMoney;
@@ -15,70 +15,103 @@ export type TItemInfo = {
   reason?: keyof typeof DisputeReason;
 };
 
-class ItemInfo extends Types implements Static<ITypes, typeof ItemInfo> {
-  disputeAmount?: Money;
-  itemDescription?: string;
-  itemId?: string;
-  itemName?: string;
-  itemQuantity?: string;
-  itemType?: ItemType;
-  notes?: string;
-  partnerTransactionId?: string;
-  reason?: DisputeReason;
+export class ItemInfo extends Utility implements Static<IUtility, typeof ItemInfo> {
+  private disputeAmount?: Money;
+  private itemDescription?: string;
+  private itemId?: string;
+  private itemName?: string;
+  private itemQuantity?: string;
+  private itemType?: ItemType;
+  private notes?: string;
+  private partnerTransactionId?: string;
+  private reason?: DisputeReason;
 
-  constructor() {
-    super();
-  }
-
-  setDisputeAmount(disputeAmount: Money | ((type: Money) => void)) {
+  public setDisputeAmount(disputeAmount: Money): this;
+  public setDisputeAmount(disputeAmount: (type: Money) => void): this;
+  public setDisputeAmount(disputeAmount: Money | ((type: Money) => void)) {
     if (disputeAmount instanceof Money) this.disputeAmount = disputeAmount;
     else disputeAmount((this.disputeAmount = new Money()));
     return this;
   }
+  public getDisputeAmount() {
+    return this.disputeAmount;
+  }
 
-  setItemDescription(itemDescription: string) {
+  public setItemDescription(itemDescription: string) {
     this.itemDescription = itemDescription;
     return this;
   }
+  public getItemDescription() {
+    return this.itemDescription;
+  }
 
-  setItemId(itemId: string) {
+  public setItemId(itemId: string) {
     this.itemId = itemId;
     return this;
   }
+  public getItemId() {
+    return this.itemId;
+  }
 
-  setItemName(itemName: string) {
+  public setItemName(itemName: string) {
     this.itemName = itemName;
     return this;
   }
+  public getItemName() {
+    return this.itemName;
+  }
 
-  setItemQuantity(itemQuantity: string) {
+  public setItemQuantity(itemQuantity: string) {
     this.itemQuantity = itemQuantity;
     return this;
   }
+  public getItemQuantity() {
+    return this.itemQuantity;
+  }
 
-  setItemType(itemType: ItemType | ((type: typeof ItemType) => ItemType)) {
+  public setItemType(itemType: ItemType): this;
+  public setItemType(itemType: (type: typeof ItemType) => ItemType): this;
+  public setItemType(itemType: ItemType | ((type: typeof ItemType) => ItemType)) {
     if (typeof itemType === "function") this.itemType = itemType(ItemType);
     else this.itemType = itemType;
     return this;
   }
+  public getItemType() {
+    return this.itemType;
+  }
 
-  setNotes(notes: string) {
+  public setNotes(notes: string) {
     this.notes = notes;
     return this;
   }
+  public getNotes() {
+    return this.notes;
+  }
 
-  setPartnerTransactionId(partnerTransactionId: string) {
+  public setPartnerTransactionId(partnerTransactionId: string) {
     this.partnerTransactionId = partnerTransactionId;
     return this;
   }
+  public getPartnerTransactionId() {
+    return this.partnerTransactionId;
+  }
 
-  setReason(reason: DisputeReason | ((type: typeof DisputeReason) => DisputeReason)) {
+  public setReason(reason: DisputeReason): this;
+  public setReason(reason: (type: typeof DisputeReason) => DisputeReason): this;
+  public setReason(reason: DisputeReason | ((type: typeof DisputeReason) => DisputeReason)) {
     if (typeof reason === "function") this.reason = reason(DisputeReason);
     else this.reason = reason;
     return this;
   }
+  public getReason() {
+    return this.reason;
+  }
 
-  static fromObject(obj: TItemInfo) {
+  public override getFields<T extends Partial<TItemInfo>>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TItemInfo) {
     const itemInfo = new ItemInfo();
     if (obj.dispute_amount) itemInfo.setDisputeAmount(Money.fromObject(obj.dispute_amount));
     if (obj.item_description) itemInfo.setItemDescription(obj.item_description);
@@ -92,5 +125,3 @@ class ItemInfo extends Types implements Static<ITypes, typeof ItemInfo> {
     return itemInfo;
   }
 }
-
-export default ItemInfo;

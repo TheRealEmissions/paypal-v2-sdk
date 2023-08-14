@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types";
+import { Utility, Static, IUtility } from "../Utility.js";
 
 export type TCommunicationDetails = {
   email?: string;
@@ -6,31 +6,40 @@ export type TCommunicationDetails = {
   time_posted?: string;
 };
 
-class CommunicationDetails extends Types implements Static<ITypes, typeof CommunicationDetails> {
-  email?: string;
-  note?: string;
-  timePosted?: string;
+export class CommunicationDetails extends Utility implements Static<IUtility, typeof CommunicationDetails> {
+  private email?: string;
+  private note?: string;
+  private timePosted?: string;
 
-  constructor() {
-    super();
-  }
-
-  setEmail(email: string) {
+  public setEmail(email: string) {
     this.email = email;
     return this;
   }
+  public getEmail() {
+    return this.email;
+  }
 
-  setNote(note: string) {
+  public setNote(note: string) {
     this.note = note;
     return this;
   }
+  public getNote() {
+    return this.note;
+  }
 
-  setTimePosted(timePosted: string) {
+  public setTimePosted(timePosted: string) {
     this.timePosted = timePosted;
     return this;
   }
+  public getTimePosted() {
+    return this.timePosted;
+  }
 
-  static fromObject(obj: TCommunicationDetails) {
+  public override getFields<T extends TCommunicationDetails>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TCommunicationDetails) {
     const communicationDetails = new CommunicationDetails();
     if (obj.email) communicationDetails.setEmail(obj.email);
     if (obj.note) communicationDetails.setNote(obj.note);

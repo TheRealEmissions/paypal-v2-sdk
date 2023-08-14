@@ -1,9 +1,9 @@
-import { IssueType } from "../Enums/IssueType";
-import Types, { ITypes, Static } from "../Types";
-import AddressPortable, { TAddressPortable } from "./AddressPortable";
-import CancellationDetails, { TCancellationDetails } from "./CancellationDetails";
-import ProductDetails, { TProductDetails } from "./ProductDetails";
-import ServiceDetails, { TServiceDetails } from "./ServiceDetails";
+import { IssueType } from "../Enums/IssueType.js";
+import { IUtility, Static, Utility } from "../Utility.js";
+import { AddressPortable, TAddressPortable } from "./AddressPortable.js";
+import { CancellationDetails, TCancellationDetails } from "./CancellationDetails.js";
+import { ProductDetails, TProductDetails } from "./ProductDetails.js";
+import { ServiceDetails, TServiceDetails } from "./ServiceDetails.js";
 
 export type TMerchandiseDisputeProperties = {
   cancellation_details?: TCancellationDetails;
@@ -13,52 +13,80 @@ export type TMerchandiseDisputeProperties = {
   service_details?: TServiceDetails;
 };
 
-class MerchandiseDisputeProperties extends Types implements Static<ITypes, typeof MerchandiseDisputeProperties> {
-  cancellationDetails?: CancellationDetails;
-  issueType?: IssueType;
-  productDetails?: ProductDetails;
-  returnShippingAddress?: AddressPortable;
-  serviceDetails?: ServiceDetails;
+export class MerchandiseDisputeProperties
+  extends Utility
+  implements Static<IUtility, typeof MerchandiseDisputeProperties>
+{
+  private cancellationDetails?: CancellationDetails;
+  private issueType?: IssueType;
+  private productDetails?: ProductDetails;
+  private returnShippingAddress?: AddressPortable;
+  private serviceDetails?: ServiceDetails;
 
-  constructor() {
-    super();
-  }
-
-  setCancellationDetails(
+  public setCancellationDetails(cancellationDetails: CancellationDetails): this;
+  public setCancellationDetails(cancellationDetails: (cancellationDetails: CancellationDetails) => void): this;
+  public setCancellationDetails(
     cancellationDetails: CancellationDetails | ((cancellationDetails: CancellationDetails) => void)
   ) {
     if (cancellationDetails instanceof CancellationDetails) this.cancellationDetails = cancellationDetails;
     else cancellationDetails((this.cancellationDetails = new CancellationDetails()));
     return this;
   }
+  public getCancellationDetails() {
+    return this.cancellationDetails;
+  }
 
-  setIssueType(issueType: IssueType | ((issueType: typeof IssueType) => IssueType)) {
+  public setIssueType(issueType: IssueType): this;
+  public setIssueType(issueType: (issueType: typeof IssueType) => IssueType): this;
+  public setIssueType(issueType: IssueType | ((issueType: typeof IssueType) => IssueType)) {
     if (typeof issueType === "function") this.issueType = issueType(IssueType);
     else this.issueType = issueType;
     return this;
   }
+  public getIssueType() {
+    return this.issueType;
+  }
 
-  setProductDetails(productDetails: ProductDetails | ((productDetails: ProductDetails) => void)) {
+  public setProductDetails(productDetails: ProductDetails): this;
+  public setProductDetails(productDetails: (productDetails: ProductDetails) => void): this;
+  public setProductDetails(productDetails: ProductDetails | ((productDetails: ProductDetails) => void)) {
     if (productDetails instanceof ProductDetails) this.productDetails = productDetails;
     else productDetails((this.productDetails = new ProductDetails()));
     return this;
   }
+  public getProductDetails() {
+    return this.productDetails;
+  }
 
-  setReturnShippingAddress(
+  public setReturnShippingAddress(returnShippingAddress: AddressPortable): this;
+  public setReturnShippingAddress(returnShippingAddress: (returnShippingAddress: AddressPortable) => void): this;
+  public setReturnShippingAddress(
     returnShippingAddress: AddressPortable | ((returnShippingAddress: AddressPortable) => void)
   ) {
     if (returnShippingAddress instanceof AddressPortable) this.returnShippingAddress = returnShippingAddress;
     else returnShippingAddress((this.returnShippingAddress = new AddressPortable()));
     return this;
   }
+  public getReturnShippingAddress() {
+    return this.returnShippingAddress;
+  }
 
-  setServiceDetails(serviceDetails: ServiceDetails | ((serviceDetails: ServiceDetails) => void)) {
+  public setServiceDetails(serviceDetails: ServiceDetails): this;
+  public setServiceDetails(serviceDetails: (serviceDetails: ServiceDetails) => void): this;
+  public setServiceDetails(serviceDetails: ServiceDetails | ((serviceDetails: ServiceDetails) => void)) {
     if (serviceDetails instanceof ServiceDetails) this.serviceDetails = serviceDetails;
     else serviceDetails((this.serviceDetails = new ServiceDetails()));
     return this;
   }
+  public getServiceDetails() {
+    return this.serviceDetails;
+  }
 
-  static fromObject(obj: TMerchandiseDisputeProperties) {
+  public override getFields<T extends TMerchandiseDisputeProperties>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TMerchandiseDisputeProperties) {
     const merchandiseDisputeProperties = new MerchandiseDisputeProperties();
     if (obj.cancellation_details)
       merchandiseDisputeProperties.setCancellationDetails(CancellationDetails.fromObject(obj.cancellation_details));
@@ -72,5 +100,3 @@ class MerchandiseDisputeProperties extends Types implements Static<ITypes, typeo
     return merchandiseDisputeProperties;
   }
 }
-
-export default MerchandiseDisputeProperties;

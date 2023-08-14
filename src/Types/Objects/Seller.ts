@@ -1,4 +1,4 @@
-import Types, { ITypes, Static } from "../Types";
+import { IUtility, Static, Utility } from "../Utility.js";
 
 export type TSeller = {
   email?: string;
@@ -6,31 +6,40 @@ export type TSeller = {
   name?: string;
 };
 
-class Seller extends Types implements Static<ITypes, typeof Seller> {
-  email?: string;
-  merchantId?: string;
-  name?: string;
+export class Seller extends Utility implements Static<IUtility, typeof Seller> {
+  private email?: string;
+  private merchantId?: string;
+  private name?: string;
 
-  constructor() {
-    super();
-  }
-
-  setEmail(email: string) {
+  public setEmail(email: string) {
     this.email = email;
     return this;
   }
+  public getEmail() {
+    return this.email;
+  }
 
-  setMerchantId(merchantId: string) {
+  public setMerchantId(merchantId: string) {
     this.merchantId = merchantId;
     return this;
   }
+  public getMerchantId() {
+    return this.merchantId;
+  }
 
-  setName(name: string) {
+  public setName(name: string) {
     this.name = name;
     return this;
   }
+  public getName() {
+    return this.name;
+  }
 
-  static fromObject(obj: TSeller) {
+  public override getFields<T extends TSeller>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TSeller) {
     const seller = new Seller();
     if (obj.email) seller.setEmail(obj.email);
     if (obj.merchant_id) seller.setMerchantId(obj.merchant_id);
@@ -38,5 +47,3 @@ class Seller extends Types implements Static<ITypes, typeof Seller> {
     return seller;
   }
 }
-
-export default Seller;

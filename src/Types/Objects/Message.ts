@@ -1,6 +1,6 @@
-import { MessageAuthor } from "../Enums/MessageAuthor";
-import Types, { ITypes, Static } from "../Types";
-import Document, { TDocument } from "./Document";
+import { MessageAuthor } from "../Enums/MessageAuthor.js";
+import { IUtility, Static, Utility } from "../Utility.js";
+import { Document, TDocument } from "./Document.js";
 
 export type TMessage = {
   content?: string;
@@ -9,22 +9,23 @@ export type TMessage = {
   time_posted?: string;
 };
 
-class Message extends Types implements Static<ITypes, typeof Message> {
-  content?: string;
-  documents?: Document[];
-  postedBy?: MessageAuthor;
-  timePosted?: string;
+export class Message extends Utility implements Static<IUtility, typeof Message> {
+  private content?: string;
+  private documents?: Document[];
+  private postedBy?: MessageAuthor;
+  private timePosted?: string;
 
-  constructor() {
-    super();
-  }
-
-  setContent(content: string) {
+  public setContent(content: string) {
     this.content = content;
     return this;
   }
+  public getContent() {
+    return this.content;
+  }
 
-  setDocuments(...documents: (Document | ((document: Document) => void))[]) {
+  public setDocuments(...documents: Document[]): this;
+  public setDocuments(...documents: ((document: Document) => void)[]): this;
+  public setDocuments(...documents: (Document | ((document: Document) => void))[]) {
     this.documents = documents.map((document) => {
       if (document instanceof Document) return document;
       else {
@@ -35,19 +36,34 @@ class Message extends Types implements Static<ITypes, typeof Message> {
     });
     return this;
   }
+  public getDocuments() {
+    return this.documents;
+  }
 
-  setPostedBy(postedBy: MessageAuthor | ((postedBy: typeof MessageAuthor) => MessageAuthor)) {
+  public setPostedBy(postedBy: MessageAuthor): this;
+  public setPostedBy(postedBy: (postedBy: typeof MessageAuthor) => MessageAuthor): this;
+  public setPostedBy(postedBy: MessageAuthor | ((postedBy: typeof MessageAuthor) => MessageAuthor)) {
     if (typeof postedBy === "function") this.postedBy = postedBy(MessageAuthor);
     else this.postedBy = postedBy;
     return this;
   }
+  public getPostedBy() {
+    return this.postedBy;
+  }
 
-  setTimePosted(timePosted: string) {
+  public setTimePosted(timePosted: string) {
     this.timePosted = timePosted;
     return this;
   }
+  public getTimePosted() {
+    return this.timePosted;
+  }
 
-  static fromObject(obj: TMessage) {
+  public override getFields<T extends TMessage>() {
+    return super.getFields<T>();
+  }
+
+  public static fromObject(obj: TMessage) {
     const message = new Message();
     if (obj.content) message.setContent(obj.content);
     if (obj.documents) message.setDocuments(...obj.documents.map(Document.fromObject));
@@ -56,5 +72,3 @@ class Message extends Types implements Static<ITypes, typeof Message> {
     return message;
   }
 }
-
-export default Message;
