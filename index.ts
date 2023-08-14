@@ -16,7 +16,7 @@ export * from "./src/Types/Enums/AssetSymbol.js";
 export * from "./src/Types/Enums/Carrier.js";
 export * from "./src/Types/Enums/DisputeChannel.js";
 export * from "./src/Types/Enums/DisputeLifeCycleStage.js";
-export * from "./src/Types/Enums/DisputeOutcome.js";
+export { DisputeOutcome as DisputeOutcomeEnum } from "./src/Types/Enums/DisputeOutcome.js";
 export * from "./src/Types/Enums/DisputeReason.js";
 export * from "./src/Types/Enums/DisputeState.js";
 export * from "./src/Types/Enums/DisputeStatus.js";
