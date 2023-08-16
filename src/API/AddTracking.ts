@@ -1,15 +1,14 @@
-import { TTracker } from "./../Types/Objects/Tracker.js";
-import PayPal from "../PayPal.js";
-import { Tracker } from "../Types/Objects/Tracker.js";
-import { LinkDescription, TLinkDescription } from "../Types/Objects/LinkDescription.js";
 import { TrackerUpdateOrCancelError } from "../Errors/AddTracking/TrackerUpdateOrCancelError.js";
-import { BatchTrackerCollection, TBatchTrackerCollection } from "../Types/Objects/BatchTrackerCollection.js";
+import PayPal from "../PayPal.js";
+import {
+  BatchTrackerCollection,
+  TBatchTrackerCollection,
+} from "../Types/AddTracking/Objects/BatchTrackerCollection.js";
+import { LinkDescription, TLinkDescription } from "../Types/AddTracking/Objects/LinkDescription.js";
+import { TTracker, Tracker } from "../Types/AddTracking/Objects/Tracker.js";
 
 export class AddTracking {
-  protected PayPal: PayPal;
-  constructor(PayPal: PayPal) {
-    this.PayPal = PayPal;
-  }
+  constructor(protected PayPal: PayPal) {}
 
   public async listInformation(transactionId: string, trackingNumber?: string) {
     const response = await this.PayPal.getAPI().get<TTracker>("/v1/shipping/trackers", {
@@ -18,6 +17,7 @@ export class AddTracking {
         tracking_number: trackingNumber,
       },
     });
+
     return Tracker.fromObject(response.data);
   }
 
@@ -30,10 +30,13 @@ export class AddTracking {
       tracker(trackerInstance);
       return trackerInstance;
     });
+
     const response = await this.PayPal.getAPI().post<TBatchTrackerCollection>("/v1/shipping/trackers-batch", {
       trackers: trackerInstances.map((tracker) => tracker.toAttributeObject<TTracker>()),
     });
+
     if (response.status !== 201) throw new Error("Failed to add tracking information");
+
     return BatchTrackerCollection.fromObject(response.data);
   }
 

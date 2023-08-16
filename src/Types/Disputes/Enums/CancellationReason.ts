@@ -1,0 +1,7 @@
+export enum CancellationReason {
+  ITEM_RECEIVED,
+  REFUND_RECEIVED,
+  OTHER,
+  SHIPMENT_INFO_RECEIVED,
+  REPLACEMENT_RECEIVED,
+}

@@ -1,6 +1,6 @@
 import { Utility, IUtility, Static } from "../Utility.js";
 import { ErrorDetails, TErrorDetails } from "./ErrorDetails.js";
-import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
+import { LinkDescription, TLinkDescription } from "../AddTracking/Objects/LinkDescription.js";
 
 export type TError = {
   debug_id: string;

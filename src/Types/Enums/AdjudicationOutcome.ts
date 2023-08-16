@@ -1,6 +1,0 @@
-export enum AdjudicationOutcome {
-  BUYER_FAVOR,
-  SELLER_FAVOR,
-  RESOLVED_BUYER_FAVOR,
-  RESOLVED_SELLER_FAVOR,
-}

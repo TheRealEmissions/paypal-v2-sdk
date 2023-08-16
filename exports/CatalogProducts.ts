@@ -1,0 +1,11 @@
+export { LinkDescription } from "../src/Types/CatalogProducts/Objects/LinkDescription";
+export { Patch } from "../src/Types/CatalogProducts/Objects/Patch";
+export { PatchRequest } from "../src/Types/CatalogProducts/Objects/PatchRequest";
+export { Product } from "../src/Types/CatalogProducts/Objects/Product";
+export { ProductCollection } from "../src/Types/CatalogProducts/Objects/ProductCollection";
+export { ProductCollectionElement } from "../src/Types/CatalogProducts/Objects/ProductCollectionElement";
+export { ProductRequest } from "../src/Types/CatalogProducts/Objects/ProductRequest";
+export { HTTPMethod } from "../src/Types/CatalogProducts/Enums/HTTPMethod";
+export { PatchOperation } from "../src/Types/CatalogProducts/Enums/PatchOperation";
+export { ProductCategory } from "../src/Types/CatalogProducts/Enums/ProductCategory";
+export { ProductType } from "../src/Types/CatalogProducts/Enums/ProductType";

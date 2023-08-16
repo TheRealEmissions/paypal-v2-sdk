@@ -1,15 +1,12 @@
-import { TProduct, Product } from "../Types/Objects/Product.js";
 import PayPal from "../PayPal.js";
-import { PatchRequest, TPatchRequest } from "../Types/Objects/PatchRequest.js";
 import { ProductUpdateError } from "../Errors/Products/ProductUpdateError.js";
 import { Integer } from "../Types/Utility.js";
-import { ProductCollection, TProductCollection } from "../Types/Objects/ProductCollection.js";
+import { ProductCollection, TProductCollection } from "../Types/CatalogProducts/Objects/ProductCollection.js";
+import { Product, TProduct } from "../Types/CatalogProducts/Objects/Product.js";
+import { PatchRequest, TPatchRequest } from "../Types/CatalogProducts/Objects/PatchRequest.js";
 
 export class CatalogProducts {
-  protected PayPal: PayPal;
-  constructor(PayPal: PayPal) {
-    this.PayPal = PayPal;
-  }
+  constructor(protected PayPal: PayPal) {}
 
   /**
    *

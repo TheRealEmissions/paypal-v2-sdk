@@ -1,22 +1,19 @@
 import PayPal from "../PayPal";
-import { DisputeState } from "../Types/Enums/DisputeState";
-import { AcceptOffer, TAcceptOffer } from "../Types/Objects/AcceptOffer";
-import { Adjudicate, TAdjudicate } from "../Types/Objects/Adjudicate";
-import { DenyOffer, TDenyOffer } from "../Types/Objects/DenyOffer";
-import { Dispute, TDispute } from "../Types/Objects/Dispute";
-import { DisputeSearch, TDisputeSearch } from "../Types/Objects/DisputeSearch";
-import { Escalate, TEscalate } from "../Types/Objects/Escalate";
-import { MakeOffer, TMakeOffer } from "../Types/Objects/MakeOffer";
-import { Patch, TPatch } from "../Types/Objects/Patch";
-import { RequireEvidenceRequest } from "../Types/Objects/RequireEvidenceRequest";
-import { SubsequentAction, TSubsequentAction } from "../Types/Objects/SubsequentAction";
+import { DisputeState } from "../Types/Disputes/Enums/DisputeState";
+import { AcceptOffer, TAcceptOffer } from "../Types/Disputes/Objects/AcceptOffer";
+import { Adjudicate, TAdjudicate } from "../Types/Disputes/Objects/Adjudicate";
+import { DenyOffer, TDenyOffer } from "../Types/Disputes/Objects/DenyOffer";
+import { Dispute, TDispute } from "../Types/Disputes/Objects/Dispute";
+import { DisputeSearch, TDisputeSearch } from "../Types/Disputes/Objects/DisputeSearch";
+import { Escalate, TEscalate } from "../Types/Disputes/Objects/Escalate";
+import { MakeOffer, TMakeOffer } from "../Types/Disputes/Objects/MakeOffer";
+import { Patch, TPatch } from "../Types/Disputes/Objects/Patch";
+import { RequireEvidenceRequest } from "../Types/Disputes/Objects/RequireEvidenceRequest";
+import { SubsequentAction, TSubsequentAction } from "../Types/Disputes/Objects/SubsequentAction";
 import { Integer } from "../Types/Utility";
 
 export class Disputes {
-  protected PayPal: PayPal;
-  constructor(PayPal: PayPal) {
-    this.PayPal = PayPal;
-  }
+  constructor(protected PayPal: PayPal) {}
 
   /**
    *

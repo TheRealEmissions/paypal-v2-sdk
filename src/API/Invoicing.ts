@@ -1,23 +1,19 @@
 import PayPal from "../PayPal.js";
-import { GenerateQrCodeAction } from "../Types/Enums/GenerateQrCodeAction.js";
-import { EmailAddress, TEmailAddress } from "../Types/Objects/EmailAddress.js";
-import { Invoice, TInvoice } from "../Types/Objects/Invoice.js";
-import { InvoiceNumber, TInvoiceNumber } from "../Types/Objects/InvoiceNumber.js";
-import { Invoices, TInvoices } from "../Types/Objects/Invoices.js";
-import { PaymentDetail, TPaymentDetail } from "../Types/Objects/PaymentDetail.js";
-import { RefundDetail, TRefundDetail } from "../Types/Objects/RefundDetail.js";
-import { SearchData } from "../Types/Objects/SearchData.js";
-import { Template, TTemplate } from "../Types/Objects/Template.js";
-import { TTemplates, Templates } from "../Types/Objects/Templates.js";
+import { QrConfigAction } from "../Types/Invoicing/Enums/QrConfigAction.js";
+import { Invoice, TInvoice } from "../Types/Invoicing/Objects/Invoice.js";
+import { InvoiceNumber, TInvoiceNumber } from "../Types/Invoicing/Objects/InvoiceNumber.js";
+import { Invoices, TInvoices } from "../Types/Invoicing/Objects/Invoices.js";
+import { PaymentDetail, TPaymentDetail } from "../Types/Invoicing/Objects/PaymentDetail.js";
+import { RefundDetail, TRefundDetail } from "../Types/Invoicing/Objects/RefundDetail.js";
+import { SearchData } from "../Types/Invoicing/Objects/SearchData.js";
+import { Template, TTemplate } from "../Types/Invoicing/Objects/Template.js";
+import { TTemplates, Templates } from "../Types/Invoicing/Objects/Templates.js";
 import { Integer } from "../Types/Utility.js";
 
 type InvoiceDeleteArg = Invoice | string | ((invoice: Invoice) => void);
 
 export class Invoicing {
-  protected PayPal: PayPal;
-  constructor(PayPal: PayPal) {
-    this.PayPal = PayPal;
-  }
+  constructor(protected PayPal: PayPal) {}
 
   public async generateInvoiceNumber(): Promise<InvoiceNumber> {
     const response = await this.PayPal.getAPI().post<TInvoiceNumber>("/v2/invoicing/generate-next-invoice-number");
@@ -139,7 +135,7 @@ export class Invoicing {
 
   public async cancel(
     invoice: Invoice,
-    additionalRecipients?: EmailAddress[],
+    additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
@@ -147,7 +143,7 @@ export class Invoicing {
   ): Promise<boolean>;
   public async cancel(
     invoice: string,
-    additionalRecipients?: EmailAddress[],
+    additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
@@ -155,7 +151,7 @@ export class Invoicing {
   ): Promise<boolean>;
   public async cancel(
     invoice: (invoice: Invoice) => void,
-    additionalRecipients?: EmailAddress[],
+    additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
@@ -163,7 +159,7 @@ export class Invoicing {
   ): Promise<boolean>;
   public async cancel(
     invoice: Invoice,
-    additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
+    additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
@@ -171,7 +167,7 @@ export class Invoicing {
   ): Promise<boolean>;
   public async cancel(
     invoice: string,
-    additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
+    additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
@@ -179,7 +175,7 @@ export class Invoicing {
   ): Promise<boolean>;
   public async cancel(
     invoice: (invoice: Invoice) => void,
-    additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
+    additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
@@ -187,7 +183,7 @@ export class Invoicing {
   ): Promise<boolean>;
   public async cancel(
     invoice: InvoiceDeleteArg,
-    additionalRecipients?: (EmailAddress | ((additionalRecipient: EmailAddress) => void))[],
+    additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
@@ -203,13 +199,7 @@ export class Invoicing {
       throw new Error("Invoice id is required");
     }
     const response = await this.PayPal.getAPI().post<TInvoice>(`/v2/invoicing/invoices/${invoiceId}/cancel`, {
-      additional_recipients: additionalRecipients?.map((x) => {
-        const additionalRecipient = x instanceof EmailAddress ? x : new EmailAddress();
-        if (typeof x === "function") {
-          x(additionalRecipient);
-        }
-        return additionalRecipient.toAttributeObject<TEmailAddress>();
-      }),
+      additional_recipients: additionalRecipients,
       send_to_invoicer: sendToInvoicer,
       send_to_recipient: sendToRecipient,
       subject,
@@ -222,43 +212,43 @@ export class Invoicing {
 
   public async generateQrCode<N extends number, U extends number>(
     invoice: Invoice,
-    action?: GenerateQrCodeAction,
+    action?: QrConfigAction,
     height?: Integer<N>,
     width?: Integer<U>
   ): Promise<string>;
   public async generateQrCode<N extends number, U extends number>(
     invoice: string,
-    action?: GenerateQrCodeAction,
+    action?: QrConfigAction,
     height?: Integer<N>,
     width?: Integer<U>
   ): Promise<string>;
   public async generateQrCode<N extends number, U extends number>(
     invoice: (invoice: Invoice) => void,
-    action?: GenerateQrCodeAction,
+    action?: QrConfigAction,
     height?: Integer<N>,
     width?: Integer<U>
   ): Promise<string>;
   public async generateQrCode<N extends number, U extends number>(
     invoice: Invoice,
-    action?: (action: typeof GenerateQrCodeAction) => GenerateQrCodeAction,
+    action?: (action: typeof QrConfigAction) => QrConfigAction,
     height?: Integer<N>,
     width?: Integer<U>
   ): Promise<string>;
   public async generateQrCode<N extends number, U extends number>(
     invoice: string,
-    action?: (action: typeof GenerateQrCodeAction) => GenerateQrCodeAction,
+    action?: (action: typeof QrConfigAction) => QrConfigAction,
     height?: Integer<N>,
     width?: Integer<U>
   ): Promise<string>;
   public async generateQrCode<N extends number, U extends number>(
     invoice: (invoice: Invoice) => void,
-    action?: (action: typeof GenerateQrCodeAction) => GenerateQrCodeAction,
+    action?: (action: typeof QrConfigAction) => QrConfigAction,
     height?: Integer<N>,
     width?: Integer<U>
   ): Promise<string>;
   public async generateQrCode<N extends number, U extends number>(
     invoice: InvoiceDeleteArg,
-    action?: GenerateQrCodeAction | ((action: typeof GenerateQrCodeAction) => GenerateQrCodeAction),
+    action?: QrConfigAction | ((action: typeof QrConfigAction) => QrConfigAction),
     height?: Integer<N>,
     width?: Integer<U>
   ) {
@@ -276,11 +266,11 @@ export class Invoicing {
         ...(action
           ? {
               action:
-                GenerateQrCodeAction[
+                QrConfigAction[
                   (typeof action === "function"
-                    ? action(GenerateQrCodeAction)
+                    ? action(QrConfigAction)
                     : action
-                  ).toUpperCase() as keyof typeof GenerateQrCodeAction
+                  ).toUpperCase() as keyof typeof QrConfigAction
                 ],
             }
           : {}),
@@ -407,7 +397,7 @@ export class Invoicing {
 
   public async sendReminder(
     invoice: Invoice,
-    additionalRecipients?: EmailAddress[],
+    additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
@@ -415,7 +405,7 @@ export class Invoicing {
   ): Promise<Invoice>;
   public async sendReminder(
     invoice: string,
-    additionalRecipients?: EmailAddress[],
+    additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
@@ -423,23 +413,7 @@ export class Invoicing {
   ): Promise<Invoice>;
   public async sendReminder(
     invoice: (invoice: Invoice) => void,
-    additionalRecipients?: EmailAddress[],
-    note?: string,
-    sendToInvoicer?: boolean,
-    sendToRecipient?: boolean,
-    subject?: string
-  ): Promise<Invoice>;
-  public async sendReminder(
-    invoice: Invoice,
-    additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
-    note?: string,
-    sendToInvoicer?: boolean,
-    sendToRecipient?: boolean,
-    subject?: string
-  ): Promise<Invoice>;
-  public async sendReminder(
-    invoice: string,
-    additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
+    additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
@@ -447,7 +421,7 @@ export class Invoicing {
   ): Promise<Invoice>;
   public async sendReminder(
     invoice: (invoice: Invoice) => void,
-    additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
+    additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
@@ -455,7 +429,7 @@ export class Invoicing {
   ): Promise<Invoice>;
   public async sendReminder(
     invoice: Invoice | string | ((invoice: Invoice) => void),
-    additionalRecipients?: (EmailAddress | ((additionalRecipient: EmailAddress) => void))[],
+    additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
@@ -473,13 +447,7 @@ export class Invoicing {
     }
 
     const response = await this.PayPal.getAPI().post<TInvoice>(`/v2/invoicing/invoices/${invoiceId}/remind`, {
-      additional_recipients: additionalRecipients?.map((x) => {
-        const additionalRecipient = x instanceof EmailAddress ? x : new EmailAddress();
-        if (typeof x === "function") {
-          x(additionalRecipient);
-        }
-        return additionalRecipient.toAttributeObject<TEmailAddress>();
-      }),
+      additional_recipients: additionalRecipients,
       send_to_invoicer: sendToInvoicer,
       send_to_recipient: sendToRecipient,
       subject,
@@ -497,7 +465,7 @@ export class Invoicing {
 
   public async send(
     invoice: Invoice,
-    additionalRecipients?: EmailAddress[],
+    additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
@@ -505,7 +473,7 @@ export class Invoicing {
   ): Promise<Invoice>;
   public async send(
     invoice: string,
-    additionalRecipients?: EmailAddress[],
+    additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
@@ -513,7 +481,7 @@ export class Invoicing {
   ): Promise<Invoice>;
   public async send(
     invoice: (invoice: Invoice) => void,
-    additionalRecipients?: EmailAddress[],
+    additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
@@ -521,7 +489,7 @@ export class Invoicing {
   ): Promise<Invoice>;
   public async send(
     invoice: Invoice,
-    additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
+    additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
@@ -529,7 +497,7 @@ export class Invoicing {
   ): Promise<Invoice>;
   public async send(
     invoice: string,
-    additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
+    additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
@@ -537,7 +505,7 @@ export class Invoicing {
   ): Promise<Invoice>;
   public async send(
     invoice: (invoice: Invoice) => void,
-    additionalRecipients?: ((additionalRecipient: EmailAddress) => void)[],
+    additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
@@ -545,7 +513,7 @@ export class Invoicing {
   ): Promise<Invoice>;
   public async send(
     invoice: Invoice | string | ((invoice: Invoice) => void),
-    additionalRecipients?: (EmailAddress | ((additionalRecipient: EmailAddress) => void))[],
+    additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
     sendToRecipient?: boolean,
@@ -561,13 +529,7 @@ export class Invoicing {
       throw new Error("Invoice id is required");
     }
     const response = await this.PayPal.getAPI().post<TInvoice>(`/v2/invoicing/invoices/${invoiceId}/send`, {
-      additional_recipients: additionalRecipients?.map((x) => {
-        const additionalRecipient = x instanceof EmailAddress ? x : new EmailAddress();
-        if (typeof x === "function") {
-          x(additionalRecipient);
-        }
-        return additionalRecipient.toAttributeObject<TEmailAddress>();
-      }),
+      additional_recipients: additionalRecipients,
       send_to_invoicer: sendToInvoicer,
       send_to_recipient: sendToRecipient,
       subject,
