@@ -13,7 +13,7 @@ To write an app using this unofficial PayPal SDK (for v2 api)
 - Import `paypal-v2-sdk` in your file
 
 ```ts
-import PayPal from "paypal-v2-sdk";
+import { PayPal } from "paypal-v2-sdk";
 ```
 
 - Configure your PayPal instance (last param, true = sandbox, false = live)
@@ -32,24 +32,73 @@ try {
 }
 ```
 
-# Samples
+# Using Types
+Using types is completely optional as all methods return the correct type and wherever a type is required as an argument, you can use the callback method which will return the correct type.
 
+## Explicit Definition of Return Types
+### Option 1
+```ts
+import { PayPal, Invoicing } from "paypal-v2-sdk";
+import Invoice = Invoicing.Invoice;
+
+const invoice: Invoice = await PayPal.getInvoicing().get("id of invoice");
+```
+### Option 2
+```ts
+import { PayPal, Invoicing } from "paypal-v2-sdk";
+
+const invoice: Invoicing.Invoice = await PayPal.getInvoicing().get("id of invoice");
+```
+### This is not necessary, because
+```ts
+import { PayPal } from "paypal-v2-sdk";
+
+const invoice = await PayPal.getInvoicing().get("id of invoice");
+//                                          ^^^^^^^^^
+// The #get() method returns Invoice as a type
+```
+
+## Explicit Definition of Argument Types
+### Creating object instances
+```ts
+import { PayPal, Invoicing } from "paypal-v2-sdk";
+import Invoice = Invoicing.Invoice;
+
+const draftInvoice = new Invoice().setPayPal(PayPal).<methods>;
+const returnedInvoice = draftInvoice.createDraft();
+```
+```ts
+import { PayPal, Invoicing } from "paypal-v2-sdk";
+
+const draftInvoice = new Invoicing.Invoice().<methods>;
+const returnedInvoice = await PayPal.getInvoicing().createDraft(draftInvoice);
+```
+### Using callback methods
+```ts
+import { PayPal } from "paypal-v2-sdk";
+
+const returnedInvoice = await PayPal.getInvoicing().createDraft((invoice) => invoice.<methods>);
+```
+
+# Samples
 ## Invoices
 
 - Getting an invoice
   Returns instance of Invoice
 
 ```ts
-import { PayPal, Invoice } from "paypal-v2-sdk";
+import { PayPal, Invoicing } from "paypal-v2-sdk";
+import Invoice = Invoicing.Invoice;
 // Specifying Invoice as the type is not necessary as #get() returns Invoice as the type, it
-// is displayed here for information purposes only
+// is displayed here for information purposes only, but this is how to import types
 const invoice: Invoice = await PayPal.getInvoicing().get("id of invoice");
 ```
 
 - Getting an invoice and then deleting it
 
 ```ts
-import { PayPal, Invoice } from "paypal-v2-sdk";
+import { PayPal, Invoicing } from "paypal-v2-sdk";
+import Invoice = Invoicing.Invoice;
 
 const invoice: Invoice = await PayPal.getInvoicing().get("id of invoice");
 const deleted = await invoice.delete();
@@ -59,7 +108,8 @@ console.log(deleted); // true if deleted, false if not
 - Creating an invoice object and then creating a draft invoice on PayPal (fetches next invoice number for you)
 
 ```ts
-import { PayPal, Invoice } from "paypal-v2-sdk";
+import { PayPal, Invoicing } from "paypal-v2-sdk";
+import Invoice = Invoicing.Invoice;
 let invoice: Invoice = new Invoice(PayPal)
   .setAdditionalRecipients(
     (recipient) => recipient.setEmailAddress("some@email.com"),
@@ -166,7 +216,8 @@ console.log(invoice.toJson()); // the updated invoice
 - Getting the next invoice number & creating an invoice **via an object**
 
 ```js
-import { PayPal, Invoice } from "paypal-v2-sdk";
+import { PayPal, Invoicing } from "paypal-v2-sdk";
+import Invoice = Invoicing.Invoice;
 
 let invoice: Invoice = Invoice.fromObject({
   detail: {
