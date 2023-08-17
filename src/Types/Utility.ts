@@ -1,3 +1,5 @@
+import { Invoice } from "./Invoicing/Objects/Invoice";
+
 export interface IUtility {
   new (...args: any[]): Utility;
   fromObject(obj: object): Utility;
@@ -51,3 +53,7 @@ export type Integer<N extends number> = number extends N ? N : `${N}` extends `$
 
 // export type EnumLambda<T extends { [key: string]: number | string }> = (x: T) => T[keyof T];
 // export type VoidLambda<T> = (x: T) => void;
+
+export type OnlySetters<T> = {
+  [K in keyof T as K extends `set${infer R}` ? K : never]: T[K];
+};

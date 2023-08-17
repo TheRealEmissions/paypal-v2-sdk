@@ -1,9 +1,10 @@
-import PayPal from "../PayPal.js";
-import { ProductUpdateError } from "../Errors/Products/ProductUpdateError.js";
-import { Integer } from "../Types/Utility.js";
-import { ProductCollection, TProductCollection } from "../Types/CatalogProducts/Objects/ProductCollection.js";
-import { Product, TProduct } from "../Types/CatalogProducts/Objects/Product.js";
-import { PatchRequest, TPatchRequest } from "../Types/CatalogProducts/Objects/PatchRequest.js";
+import PayPal from "../../PayPal.js";
+import { ProductUpdateError } from "../../Errors/Products/ProductUpdateError.js";
+import { Integer } from "../../Types/Utility.js";
+import { ProductCollection, TProductCollection } from "../../Types/CatalogProducts/Objects/ProductCollection.js";
+import { Product, TProduct } from "../../Types/CatalogProducts/Objects/Product.js";
+import { PatchRequest, TPatchRequest } from "../../Types/CatalogProducts/Objects/PatchRequest.js";
+import { OnlySetters } from "../../Types/Utility";
 
 export class CatalogProducts {
   constructor(protected PayPal: PayPal) {}
@@ -41,12 +42,12 @@ export class CatalogProducts {
     prefer?: "minimal" | "representation"
   ): Promise<Product>;
   public async create(
-    product: (product: Product) => void,
+    product: (product: OnlySetters<Product>) => void,
     paypalRequestId?: string,
     prefer?: "minimal" | "representation"
   ): Promise<Product>;
   public async create(
-    product: Product | ((product: Product) => void),
+    product: Product | ((product: OnlySetters<Product>) => void),
     paypalRequestId?: string,
     prefer?: "minimal" | "representation"
   ) {
@@ -68,17 +69,23 @@ export class CatalogProducts {
   }
 
   public async update(product: Product, patchRequest: PatchRequest): Promise<Product>;
-  public async update(product: Product, patchRequest: (patchRequest: PatchRequest) => void): Promise<Product>;
-  public async update(product: string, patchRequest: PatchRequest): Promise<Product>;
-  public async update(product: string, patchRequest: (patchRequest: PatchRequest) => void): Promise<Product>;
-  public async update(product: (product: Product) => void, patchRequest: PatchRequest): Promise<Product>;
   public async update(
-    product: (product: Product) => void,
-    patchRequest: (patchRequest: PatchRequest) => void
+    product: Product,
+    patchRequest: (patchRequest: OnlySetters<PatchRequest>) => void
+  ): Promise<Product>;
+  public async update(product: string, patchRequest: PatchRequest): Promise<Product>;
+  public async update(
+    product: string,
+    patchRequest: (patchRequest: OnlySetters<PatchRequest>) => void
+  ): Promise<Product>;
+  public async update(product: (product: OnlySetters<Product>) => void, patchRequest: PatchRequest): Promise<Product>;
+  public async update(
+    product: (product: OnlySetters<Product>) => void,
+    patchRequest: (patchRequest: OnlySetters<PatchRequest>) => void
   ): Promise<Product>;
   public async update(
-    product: Product | string | ((product: Product) => void),
-    patchRequest: PatchRequest | ((patchRequest: PatchRequest) => void)
+    product: Product | string | ((product: OnlySetters<Product>) => void),
+    patchRequest: PatchRequest | ((patchRequest: OnlySetters<PatchRequest>) => void)
   ) {
     const productInstance =
       typeof product !== "string" ? (product instanceof Product ? product : new Product()) : undefined;
@@ -105,8 +112,8 @@ export class CatalogProducts {
 
   public async get(product: Product): Promise<Product>;
   public async get(product: string): Promise<Product>;
-  public async get(product: (product: Product) => void): Promise<Product>;
-  public async get(product: Product | string | ((product: Product) => void)) {
+  public async get(product: (product: OnlySetters<Product>) => void): Promise<Product>;
+  public async get(product: Product | string | ((product: OnlySetters<Product>) => void)) {
     const productInstance =
       typeof product !== "string" ? (product instanceof Product ? product : new Product()) : undefined;
     if (typeof product === "function" && productInstance) product(productInstance);

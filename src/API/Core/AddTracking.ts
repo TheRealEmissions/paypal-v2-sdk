@@ -1,11 +1,12 @@
-import { TrackerUpdateOrCancelError } from "../Errors/AddTracking/TrackerUpdateOrCancelError.js";
-import PayPal from "../PayPal.js";
+import { TrackerUpdateOrCancelError } from "../../Errors/AddTracking/TrackerUpdateOrCancelError.js";
+import PayPal from "../../PayPal.js";
 import {
   BatchTrackerCollection,
   TBatchTrackerCollection,
-} from "../Types/AddTracking/Objects/BatchTrackerCollection.js";
-import { LinkDescription, TLinkDescription } from "../Types/AddTracking/Objects/LinkDescription.js";
-import { TTracker, Tracker } from "../Types/AddTracking/Objects/Tracker.js";
+} from "../../Types/AddTracking/Objects/BatchTrackerCollection.js";
+import { LinkDescription, TLinkDescription } from "../../Types/AddTracking/Objects/LinkDescription.js";
+import { TTracker, Tracker } from "../../Types/AddTracking/Objects/Tracker.js";
+import { OnlySetters } from "../../Types/Utility.js";
 
 export class AddTracking {
   constructor(protected PayPal: PayPal) {}
@@ -21,9 +22,9 @@ export class AddTracking {
     return Tracker.fromObject(response.data);
   }
 
-  public async addMany(trackers: Tracker[]): Promise<BatchTrackerCollection>;
-  public async addMany(trackers: ((tracker: Tracker) => void)[]): Promise<BatchTrackerCollection>;
-  public async addMany(trackers: (Tracker | ((tracker: Tracker) => void))[]) {
+  public async addMany(...trackers: Tracker[]): Promise<BatchTrackerCollection>;
+  public async addMany(...trackers: ((tracker: OnlySetters<Tracker>) => void)[]): Promise<BatchTrackerCollection>;
+  public async addMany(...trackers: (Tracker | ((tracker: OnlySetters<Tracker>) => void))[]) {
     const trackerInstances = trackers.map((tracker) => {
       if (tracker instanceof Tracker) return tracker;
       const trackerInstance = new Tracker();
@@ -49,11 +50,11 @@ export class AddTracking {
   public async updateOrCancel(transactionIdTrackingNumber: string, tracker: Tracker): Promise<Tracker>;
   public async updateOrCancel(
     transactionIdTrackingNumber: string,
-    tracker: (tracker: Tracker) => void
+    tracker: (tracker: OnlySetters<Tracker>) => void
   ): Promise<Tracker>;
   public async updateOrCancel(
     transactionIdTrackingNumber: string,
-    tracker: Tracker | ((tracker: Tracker) => void)
+    tracker: Tracker | ((tracker: OnlySetters<Tracker>) => void)
   ): Promise<Tracker> {
     const trackerInstance = tracker instanceof Tracker ? tracker : new Tracker();
     if (typeof tracker === "function") tracker(trackerInstance);
@@ -70,9 +71,9 @@ export class AddTracking {
 
   public async get(tracker: Tracker): Promise<Tracker>;
   public async get(tracker: string): Promise<Tracker>;
-  public async get(tracker: (tracker: Tracker) => void): Promise<Tracker>;
+  public async get(tracker: (tracker: OnlySetters<Tracker>) => void): Promise<Tracker>;
   public async get(
-    trackerOrTransactionIdTrackingNumber: Tracker | string | ((tracker: Tracker) => void)
+    trackerOrTransactionIdTrackingNumber: Tracker | string | ((tracker: OnlySetters<Tracker>) => void)
   ): Promise<Tracker> {
     let transactionIdTrackingNumber: string | undefined;
     if (typeof trackerOrTransactionIdTrackingNumber === "string") {
@@ -90,15 +91,21 @@ export class AddTracking {
   }
 
   public async add(trackers: Tracker[], links: LinkDescription[]): Promise<BatchTrackerCollection>;
-  public async add(trackers: Tracker[], links: ((link: LinkDescription) => void)[]): Promise<BatchTrackerCollection>;
-  public async add(trackers: ((tracker: Tracker) => void)[], links: LinkDescription[]): Promise<BatchTrackerCollection>;
   public async add(
-    trackers: ((tracker: Tracker) => void)[],
-    links: ((link: LinkDescription) => void)[]
+    trackers: Tracker[],
+    links: ((link: OnlySetters<LinkDescription>) => void)[]
   ): Promise<BatchTrackerCollection>;
   public async add(
-    trackers: (Tracker | ((tracker: Tracker) => void))[],
-    links: (LinkDescription | ((link: LinkDescription) => void))[]
+    trackers: ((tracker: OnlySetters<Tracker>) => void)[],
+    links: LinkDescription[]
+  ): Promise<BatchTrackerCollection>;
+  public async add(
+    trackers: ((tracker: OnlySetters<Tracker>) => void)[],
+    links: ((link: OnlySetters<LinkDescription>) => void)[]
+  ): Promise<BatchTrackerCollection>;
+  public async add(
+    trackers: (Tracker | ((tracker: OnlySetters<Tracker>) => void))[],
+    links: (LinkDescription | ((link: OnlySetters<LinkDescription>) => void))[]
   ) {
     const trackerInstances = trackers.map((tracker) => {
       if (tracker instanceof Tracker) return tracker;

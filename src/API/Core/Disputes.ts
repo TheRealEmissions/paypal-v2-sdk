@@ -1,16 +1,16 @@
-import PayPal from "../PayPal";
-import { DisputeState } from "../Types/Disputes/Enums/DisputeState";
-import { AcceptOffer, TAcceptOffer } from "../Types/Disputes/Objects/AcceptOffer";
-import { Adjudicate, TAdjudicate } from "../Types/Disputes/Objects/Adjudicate";
-import { DenyOffer, TDenyOffer } from "../Types/Disputes/Objects/DenyOffer";
-import { Dispute, TDispute } from "../Types/Disputes/Objects/Dispute";
-import { DisputeSearch, TDisputeSearch } from "../Types/Disputes/Objects/DisputeSearch";
-import { Escalate, TEscalate } from "../Types/Disputes/Objects/Escalate";
-import { MakeOffer, TMakeOffer } from "../Types/Disputes/Objects/MakeOffer";
-import { Patch, TPatch } from "../Types/Disputes/Objects/Patch";
-import { RequireEvidenceRequest } from "../Types/Disputes/Objects/RequireEvidenceRequest";
-import { SubsequentAction, TSubsequentAction } from "../Types/Disputes/Objects/SubsequentAction";
-import { Integer } from "../Types/Utility";
+import PayPal from "../../PayPal";
+import { DisputeState } from "../../Types/Disputes/Enums/DisputeState";
+import { AcceptOffer, TAcceptOffer } from "../../Types/Disputes/Objects/AcceptOffer";
+import { Adjudicate, TAdjudicate } from "../../Types/Disputes/Objects/Adjudicate";
+import { DenyOffer, TDenyOffer } from "../../Types/Disputes/Objects/DenyOffer";
+import { Dispute, TDispute } from "../../Types/Disputes/Objects/Dispute";
+import { DisputeSearch, TDisputeSearch } from "../../Types/Disputes/Objects/DisputeSearch";
+import { Escalate, TEscalate } from "../../Types/Disputes/Objects/Escalate";
+import { MakeOffer, TMakeOffer } from "../../Types/Disputes/Objects/MakeOffer";
+import { Patch, TPatch } from "../../Types/Disputes/Objects/Patch";
+import { RequireEvidenceRequest } from "../../Types/Disputes/Objects/RequireEvidenceRequest";
+import { SubsequentAction, TSubsequentAction } from "../../Types/Disputes/Objects/SubsequentAction";
+import { Integer, OnlySetters } from "../../Types/Utility";
 
 export class Disputes {
   constructor(protected PayPal: PayPal) {}
@@ -122,8 +122,14 @@ export class Disputes {
   }
 
   public async partiallyUpdate(disputeId: string, patchRequest: Patch[]): Promise<boolean>;
-  public async partiallyUpdate(disputeId: string, patchRequest: ((patchRequest: Patch) => void)[]): Promise<boolean>;
-  public async partiallyUpdate(disputeId: string, patchRequest: (Patch | ((patchRequest: Patch) => void))[]) {
+  public async partiallyUpdate(
+    disputeId: string,
+    patchRequest: ((patchRequest: OnlySetters<Patch>) => void)[]
+  ): Promise<boolean>;
+  public async partiallyUpdate(
+    disputeId: string,
+    patchRequest: (Patch | ((patchRequest: OnlySetters<Patch>) => void))[]
+  ) {
     const response = await this.PayPal.getAPI().patch(`/v1/customer/disputes/${disputeId}`, {
       data: patchRequest.map((x) => {
         if (x instanceof Patch) return x.toAttributeObject<TPatch>();
@@ -143,17 +149,17 @@ export class Disputes {
   }
 
   public async makeOffer(dispute: Dispute, offer: MakeOffer): Promise<SubsequentAction>;
-  public async makeOffer(dispute: Dispute, offer: (offer: MakeOffer) => void): Promise<SubsequentAction>;
+  public async makeOffer(dispute: Dispute, offer: (offer: OnlySetters<MakeOffer>) => void): Promise<SubsequentAction>;
   public async makeOffer(dispute: string, offer: MakeOffer): Promise<SubsequentAction>;
-  public async makeOffer(dispute: string, offer: (offer: MakeOffer) => void): Promise<SubsequentAction>;
-  public async makeOffer(dispute: (dispute: Dispute) => void, offer: MakeOffer): Promise<SubsequentAction>;
+  public async makeOffer(dispute: string, offer: (offer: OnlySetters<MakeOffer>) => void): Promise<SubsequentAction>;
+  public async makeOffer(dispute: (dispute: OnlySetters<Dispute>) => void, offer: MakeOffer): Promise<SubsequentAction>;
   public async makeOffer(
-    dispute: (dispute: Dispute) => void,
-    offer: (offer: MakeOffer) => void
+    dispute: (dispute: OnlySetters<Dispute>) => void,
+    offer: (offer: OnlySetters<MakeOffer>) => void
   ): Promise<SubsequentAction>;
   public async makeOffer(
-    dispute: string | Dispute | ((dispute: Dispute) => void),
-    offer: MakeOffer | ((offer: MakeOffer) => void)
+    dispute: string | Dispute | ((dispute: OnlySetters<Dispute>) => void),
+    offer: MakeOffer | ((offer: OnlySetters<MakeOffer>) => void)
   ) {
     const disputeInstance =
       typeof dispute === "string" ? await this.get(dispute) : typeof dispute === "function" ? new Dispute() : dispute;
@@ -174,14 +180,17 @@ export class Disputes {
   }
 
   public async escalate(dispute: Dispute, note: Escalate): Promise<SubsequentAction>;
-  public async escalate(dispute: Dispute, note: (note: Escalate) => void): Promise<SubsequentAction>;
+  public async escalate(dispute: Dispute, note: (note: OnlySetters<Escalate>) => void): Promise<SubsequentAction>;
   public async escalate(dispute: string, note: Escalate): Promise<SubsequentAction>;
-  public async escalate(dispute: string, note: (note: Escalate) => void): Promise<SubsequentAction>;
-  public async escalate(dispute: (dispute: Dispute) => void, note: Escalate): Promise<SubsequentAction>;
-  public async escalate(dispute: (dispute: Dispute) => void, note: (note: Escalate) => void): Promise<SubsequentAction>;
+  public async escalate(dispute: string, note: (note: OnlySetters<Escalate>) => void): Promise<SubsequentAction>;
+  public async escalate(dispute: (dispute: OnlySetters<Dispute>) => void, note: Escalate): Promise<SubsequentAction>;
   public async escalate(
-    dispute: string | Dispute | ((dispute: Dispute) => void),
-    note: Escalate | ((escalate: Escalate) => void)
+    dispute: (dispute: OnlySetters<Dispute>) => void,
+    note: (note: OnlySetters<Escalate>) => void
+  ): Promise<SubsequentAction>;
+  public async escalate(
+    dispute: string | Dispute | ((dispute: OnlySetters<Dispute>) => void),
+    note: Escalate | ((escalate: OnlySetters<Escalate>) => void)
   ): Promise<SubsequentAction> {
     const disputeInstance =
       typeof dispute === "string" ? await this.get(dispute) : typeof dispute === "function" ? new Dispute() : dispute;
@@ -202,17 +211,20 @@ export class Disputes {
   }
 
   public async acceptOffer(dispute: Dispute, note: AcceptOffer): Promise<SubsequentAction>;
-  public async acceptOffer(dispute: Dispute, note: (note: AcceptOffer) => void): Promise<SubsequentAction>;
+  public async acceptOffer(dispute: Dispute, note: (note: OnlySetters<AcceptOffer>) => void): Promise<SubsequentAction>;
   public async acceptOffer(dispute: string, note: AcceptOffer): Promise<SubsequentAction>;
-  public async acceptOffer(dispute: string, note: (note: AcceptOffer) => void): Promise<SubsequentAction>;
-  public async acceptOffer(dispute: (dispute: Dispute) => void, note: AcceptOffer): Promise<SubsequentAction>;
+  public async acceptOffer(dispute: string, note: (note: OnlySetters<AcceptOffer>) => void): Promise<SubsequentAction>;
   public async acceptOffer(
-    dispute: (dispute: Dispute) => void,
-    note: (note: AcceptOffer) => void
+    dispute: (dispute: OnlySetters<Dispute>) => void,
+    note: AcceptOffer
   ): Promise<SubsequentAction>;
   public async acceptOffer(
-    dispute: string | Dispute | ((dispute: Dispute) => void),
-    note: AcceptOffer | ((note: AcceptOffer) => void)
+    dispute: (dispute: OnlySetters<Dispute>) => void,
+    note: (note: OnlySetters<AcceptOffer>) => void
+  ): Promise<SubsequentAction>;
+  public async acceptOffer(
+    dispute: string | Dispute | ((dispute: OnlySetters<Dispute>) => void),
+    note: AcceptOffer | ((note: OnlySetters<AcceptOffer>) => void)
   ) {
     const disputeInstance =
       typeof dispute === "string" ? await this.get(dispute) : typeof dispute === "function" ? new Dispute() : dispute;
@@ -236,24 +248,24 @@ export class Disputes {
   public async updateDisputeStatus(dispute: Dispute, status: RequireEvidenceRequest): Promise<SubsequentAction>;
   public async updateDisputeStatus(
     dispute: Dispute,
-    status: (status: RequireEvidenceRequest) => void
+    status: (status: OnlySetters<RequireEvidenceRequest>) => void
   ): Promise<SubsequentAction>;
   public async updateDisputeStatus(dispute: string, status: RequireEvidenceRequest): Promise<SubsequentAction>;
   public async updateDisputeStatus(
     dispute: string,
-    status: (status: RequireEvidenceRequest) => void
+    status: (status: OnlySetters<RequireEvidenceRequest>) => void
   ): Promise<SubsequentAction>;
   public async updateDisputeStatus(
-    dispute: (dispute: Dispute) => void,
+    dispute: (dispute: OnlySetters<Dispute>) => void,
     status: RequireEvidenceRequest
   ): Promise<SubsequentAction>;
   public async updateDisputeStatus(
-    dispute: (dispute: Dispute) => void,
-    status: (status: RequireEvidenceRequest) => void
+    dispute: (dispute: OnlySetters<Dispute>) => void,
+    status: (status: OnlySetters<RequireEvidenceRequest>) => void
   ): Promise<SubsequentAction>;
   public async updateDisputeStatus(
-    dispute: string | Dispute | ((dispute: Dispute) => void),
-    status: RequireEvidenceRequest | ((status: RequireEvidenceRequest) => void)
+    dispute: string | Dispute | ((dispute: OnlySetters<Dispute>) => void),
+    status: RequireEvidenceRequest | ((status: OnlySetters<RequireEvidenceRequest>) => void)
   ) {
     const disputeInstance =
       typeof dispute === "string" ? await this.get(dispute) : typeof dispute === "function" ? new Dispute() : dispute;
@@ -275,17 +287,26 @@ export class Disputes {
   }
 
   public async settle(dispute: Dispute, adjudicate: Adjudicate): Promise<SubsequentAction>;
-  public async settle(dispute: Dispute, adjudicate: (adjudicate: Adjudicate) => void): Promise<SubsequentAction>;
-  public async settle(dispute: string, adjudicate: Adjudicate): Promise<SubsequentAction>;
-  public async settle(dispute: string, adjudicate: (adjudicate: Adjudicate) => void): Promise<SubsequentAction>;
-  public async settle(dispute: (dispute: Dispute) => void, adjudicate: Adjudicate): Promise<SubsequentAction>;
   public async settle(
-    dispute: (dispute: Dispute) => void,
-    adjudicate: (adjudicate: Adjudicate) => void
+    dispute: Dispute,
+    adjudicate: (adjudicate: OnlySetters<Adjudicate>) => void
+  ): Promise<SubsequentAction>;
+  public async settle(dispute: string, adjudicate: Adjudicate): Promise<SubsequentAction>;
+  public async settle(
+    dispute: string,
+    adjudicate: (adjudicate: OnlySetters<Adjudicate>) => void
   ): Promise<SubsequentAction>;
   public async settle(
-    dispute: string | Dispute | ((dispute: Dispute) => void),
-    adjudicate: Adjudicate | ((adjudicate: Adjudicate) => void)
+    dispute: (dispute: OnlySetters<Dispute>) => void,
+    adjudicate: Adjudicate
+  ): Promise<SubsequentAction>;
+  public async settle(
+    dispute: (dispute: OnlySetters<Dispute>) => void,
+    adjudicate: (adjudicate: OnlySetters<Adjudicate>) => void
+  ): Promise<SubsequentAction>;
+  public async settle(
+    dispute: string | Dispute | ((dispute: OnlySetters<Dispute>) => void),
+    adjudicate: Adjudicate | ((adjudicate: OnlySetters<Adjudicate>) => void)
   ) {
     const disputeInstance =
       typeof dispute === "string" ? await this.get(dispute) : typeof dispute === "function" ? new Dispute() : dispute;
@@ -307,8 +328,8 @@ export class Disputes {
   }
 
   public async denyOffer(
-    dispute: string | Dispute | ((dispute: Dispute) => void),
-    note: DenyOffer | ((note: DenyOffer) => void)
+    dispute: string | Dispute | ((dispute: OnlySetters<Dispute>) => void),
+    note: DenyOffer | ((note: OnlySetters<DenyOffer>) => void)
   ) {
     const disputeInstance =
       typeof dispute === "string" ? await this.get(dispute) : typeof dispute === "function" ? new Dispute() : dispute;

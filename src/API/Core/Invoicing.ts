@@ -1,16 +1,16 @@
-import PayPal from "../PayPal.js";
-import { QrConfigAction } from "../Types/Invoicing/Enums/QrConfigAction.js";
-import { Invoice, TInvoice } from "../Types/Invoicing/Objects/Invoice.js";
-import { InvoiceNumber, TInvoiceNumber } from "../Types/Invoicing/Objects/InvoiceNumber.js";
-import { Invoices, TInvoices } from "../Types/Invoicing/Objects/Invoices.js";
-import { PaymentDetail, TPaymentDetail } from "../Types/Invoicing/Objects/PaymentDetail.js";
-import { RefundDetail, TRefundDetail } from "../Types/Invoicing/Objects/RefundDetail.js";
-import { SearchData } from "../Types/Invoicing/Objects/SearchData.js";
-import { Template, TTemplate } from "../Types/Invoicing/Objects/Template.js";
-import { TTemplates, Templates } from "../Types/Invoicing/Objects/Templates.js";
-import { Integer } from "../Types/Utility.js";
+import PayPal from "../../PayPal.js";
+import { QrConfigAction } from "../../Types/Invoicing/Enums/QrConfigAction.js";
+import { Invoice, TInvoice } from "../../Types/Invoicing/Objects/Invoice.js";
+import { InvoiceNumber, TInvoiceNumber } from "../../Types/Invoicing/Objects/InvoiceNumber.js";
+import { Invoices, TInvoices } from "../../Types/Invoicing/Objects/Invoices.js";
+import { PaymentDetail, TPaymentDetail } from "../../Types/Invoicing/Objects/PaymentDetail.js";
+import { RefundDetail, TRefundDetail } from "../../Types/Invoicing/Objects/RefundDetail.js";
+import { SearchData } from "../../Types/Invoicing/Objects/SearchData.js";
+import { Template, TTemplate } from "../../Types/Invoicing/Objects/Template.js";
+import { TTemplates, Templates } from "../../Types/Invoicing/Objects/Templates.js";
+import { Integer, OnlySetters } from "../../Types/Utility.js";
 
-type InvoiceDeleteArg = Invoice | string | ((invoice: Invoice) => void);
+type InvoiceDeleteArg = Invoice | string | ((invoice: OnlySetters<Invoice>) => void);
 
 export class Invoicing {
   constructor(protected PayPal: PayPal) {}
@@ -68,8 +68,8 @@ export class Invoicing {
   }
 
   public async createDraft(invoice: Invoice): Promise<Invoice>;
-  public async createDraft(invoice: (invoice: Invoice) => void): Promise<Invoice>;
-  public async createDraft(invoice: Invoice | ((invoice: Invoice) => void)) {
+  public async createDraft(invoice: (invoice: OnlySetters<Invoice>) => void): Promise<Invoice>;
+  public async createDraft(invoice: Invoice | ((invoice: OnlySetters<Invoice>) => void)) {
     const invoiceInstance = invoice instanceof Invoice ? invoice : new Invoice();
     if (typeof invoice === "function") {
       invoice(invoiceInstance);
@@ -84,7 +84,7 @@ export class Invoicing {
 
   public async delete(invoice: Invoice): Promise<boolean>;
   public async delete(invoice: string): Promise<boolean>;
-  public async delete(invoice: (invoice: Invoice) => void): Promise<boolean>;
+  public async delete(invoice: (invoice: OnlySetters<Invoice>) => void): Promise<boolean>;
   public async delete(invoice: InvoiceDeleteArg): Promise<boolean> {
     const invoiceInstance =
       typeof invoice !== "string" ? (invoice instanceof Invoice ? invoice : new Invoice()) : undefined;
@@ -101,8 +101,8 @@ export class Invoicing {
   }
 
   public async fullyUpdate(invoice: Invoice): Promise<Invoice>;
-  public async fullyUpdate(invoice: (invoice: Invoice) => void, invoiceId?: string): Promise<Invoice>;
-  public async fullyUpdate(invoice: Invoice | ((invoice: Invoice) => void), invoiceId?: string) {
+  public async fullyUpdate(invoice: (invoice: OnlySetters<Invoice>) => void, invoiceId?: string): Promise<Invoice>;
+  public async fullyUpdate(invoice: Invoice | ((invoice: OnlySetters<Invoice>) => void), invoiceId?: string) {
     const invoiceInstance = invoice instanceof Invoice ? invoice : new Invoice();
     if (typeof invoice === "function") {
       invoice(invoiceInstance);
@@ -117,7 +117,7 @@ export class Invoicing {
 
   public async get(invoice: Invoice): Promise<Invoice>;
   public async get(invoice: string): Promise<Invoice>;
-  public async get(invoice: (invoice: Invoice) => void): Promise<Invoice>;
+  public async get(invoice: (invoice: OnlySetters<Invoice>) => void): Promise<Invoice>;
   public async get(invoice: InvoiceDeleteArg) {
     const invoiceInstance =
       typeof invoice !== "string" ? (invoice instanceof Invoice ? invoice : new Invoice()) : undefined;
@@ -150,7 +150,7 @@ export class Invoicing {
     subject?: string
   ): Promise<boolean>;
   public async cancel(
-    invoice: (invoice: Invoice) => void,
+    invoice: (invoice: OnlySetters<Invoice>) => void,
     additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
@@ -174,7 +174,7 @@ export class Invoicing {
     subject?: string
   ): Promise<boolean>;
   public async cancel(
-    invoice: (invoice: Invoice) => void,
+    invoice: (invoice: OnlySetters<Invoice>) => void,
     additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
@@ -223,7 +223,7 @@ export class Invoicing {
     width?: Integer<U>
   ): Promise<string>;
   public async generateQrCode<N extends number, U extends number>(
-    invoice: (invoice: Invoice) => void,
+    invoice: (invoice: OnlySetters<Invoice>) => void,
     action?: QrConfigAction,
     height?: Integer<N>,
     width?: Integer<U>
@@ -241,7 +241,7 @@ export class Invoicing {
     width?: Integer<U>
   ): Promise<string>;
   public async generateQrCode<N extends number, U extends number>(
-    invoice: (invoice: Invoice) => void,
+    invoice: (invoice: OnlySetters<Invoice>) => void,
     action?: (action: typeof QrConfigAction) => QrConfigAction,
     height?: Integer<N>,
     width?: Integer<U>
@@ -284,17 +284,26 @@ export class Invoicing {
 
   public async recordPayment(invoice: Invoice, paymentDetail: PaymentDetail): Promise<Invoice>;
   public async recordPayment(invoice: string, paymentDetail: PaymentDetail): Promise<Invoice>;
-  public async recordPayment(invoice: (invoice: Invoice) => void, paymentDetail: PaymentDetail): Promise<Invoice>;
-  public async recordPayment(invoice: Invoice, paymentDetail: (paymentDetail: PaymentDetail) => void): Promise<Invoice>;
-  public async recordPayment(invoice: string, paymentDetail: (paymentDetail: PaymentDetail) => void): Promise<Invoice>;
   public async recordPayment(
-    invoice: (invoice: Invoice) => void,
-    paymentDetail: (paymentDetail: PaymentDetail) => void
+    invoice: (invoice: OnlySetters<Invoice>) => void,
+    paymentDetail: PaymentDetail
+  ): Promise<Invoice>;
+  public async recordPayment(
+    invoice: Invoice,
+    paymentDetail: (paymentDetail: OnlySetters<PaymentDetail>) => void
+  ): Promise<Invoice>;
+  public async recordPayment(
+    invoice: string,
+    paymentDetail: (paymentDetail: OnlySetters<PaymentDetail>) => void
+  ): Promise<Invoice>;
+  public async recordPayment(
+    invoice: (invoice: OnlySetters<Invoice>) => void,
+    paymentDetail: (paymentDetail: OnlySetters<PaymentDetail>) => void
   ): Promise<Invoice>;
 
   public async recordPayment(
     invoice: InvoiceDeleteArg,
-    paymentDetail: PaymentDetail | ((paymentDetail: PaymentDetail) => void)
+    paymentDetail: PaymentDetail | ((paymentDetail: OnlySetters<PaymentDetail>) => void)
   ) {
     const invoiceInstance =
       typeof invoice !== "string" ? (invoice instanceof Invoice ? invoice : new Invoice()) : undefined;
@@ -320,7 +329,10 @@ export class Invoicing {
 
   public async deleteExternalPayment(invoice: Invoice, transactionId: string): Promise<boolean>;
   public async deleteExternalPayment(invoice: string, transactionId: string): Promise<boolean>;
-  public async deleteExternalPayment(invoice: (invoice: Invoice) => void, transactionId: string): Promise<boolean>;
+  public async deleteExternalPayment(
+    invoice: (invoice: OnlySetters<Invoice>) => void,
+    transactionId: string
+  ): Promise<boolean>;
   public async deleteExternalPayment(invoice: InvoiceDeleteArg, transactionId: string): Promise<boolean> {
     const invoiceInstance =
       typeof invoice !== "string" ? (invoice instanceof Invoice ? invoice : new Invoice()) : undefined;
@@ -338,16 +350,25 @@ export class Invoicing {
 
   public async recordRefund(invoice: Invoice, refundDetail: RefundDetail): Promise<Invoice>;
   public async recordRefund(invoice: string, refundDetail: RefundDetail): Promise<Invoice>;
-  public async recordRefund(invoice: (invoice: Invoice) => void, refundDetail: RefundDetail): Promise<Invoice>;
-  public async recordRefund(invoice: Invoice, refundDetail: (refundDetail: RefundDetail) => void): Promise<Invoice>;
-  public async recordRefund(invoice: string, refundDetail: (refundDetail: RefundDetail) => void): Promise<Invoice>;
   public async recordRefund(
-    invoice: (invoice: Invoice) => void,
-    refundDetail: (refundDetail: RefundDetail) => void
+    invoice: (invoice: OnlySetters<Invoice>) => void,
+    refundDetail: RefundDetail
+  ): Promise<Invoice>;
+  public async recordRefund(
+    invoice: Invoice,
+    refundDetail: (refundDetail: OnlySetters<RefundDetail>) => void
+  ): Promise<Invoice>;
+  public async recordRefund(
+    invoice: string,
+    refundDetail: (refundDetail: OnlySetters<RefundDetail>) => void
+  ): Promise<Invoice>;
+  public async recordRefund(
+    invoice: (invoice: OnlySetters<Invoice>) => void,
+    refundDetail: (refundDetail: OnlySetters<RefundDetail>) => void
   ): Promise<Invoice>;
   public async recordRefund(
     invoice: InvoiceDeleteArg,
-    refundDetail: RefundDetail | ((refundDetail: RefundDetail) => void)
+    refundDetail: RefundDetail | ((refundDetail: OnlySetters<RefundDetail>) => void)
   ) {
     const invoiceInstance =
       typeof invoice !== "string" ? (invoice instanceof Invoice ? invoice : new Invoice()) : undefined;
@@ -379,7 +400,10 @@ export class Invoicing {
 
   public async deleteExternalRefund(invoice: Invoice, transactionId: string): Promise<boolean>;
   public async deleteExternalRefund(invoice: string, transactionId: string): Promise<boolean>;
-  public async deleteExternalRefund(invoice: (invoice: Invoice) => void, transactionId: string): Promise<boolean>;
+  public async deleteExternalRefund(
+    invoice: (invoice: OnlySetters<Invoice>) => void,
+    transactionId: string
+  ): Promise<boolean>;
   public async deleteExternalRefund(invoice: InvoiceDeleteArg, transactionId: string): Promise<boolean> {
     const invoiceInstance =
       typeof invoice !== "string" ? (invoice instanceof Invoice ? invoice : new Invoice()) : undefined;
@@ -412,7 +436,7 @@ export class Invoicing {
     subject?: string
   ): Promise<Invoice>;
   public async sendReminder(
-    invoice: (invoice: Invoice) => void,
+    invoice: (invoice: OnlySetters<Invoice>) => void,
     additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
@@ -420,7 +444,7 @@ export class Invoicing {
     subject?: string
   ): Promise<Invoice>;
   public async sendReminder(
-    invoice: (invoice: Invoice) => void,
+    invoice: (invoice: OnlySetters<Invoice>) => void,
     additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
@@ -428,7 +452,7 @@ export class Invoicing {
     subject?: string
   ): Promise<Invoice>;
   public async sendReminder(
-    invoice: Invoice | string | ((invoice: Invoice) => void),
+    invoice: Invoice | string | ((invoice: OnlySetters<Invoice>) => void),
     additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
@@ -480,7 +504,7 @@ export class Invoicing {
     subject?: string
   ): Promise<Invoice>;
   public async send(
-    invoice: (invoice: Invoice) => void,
+    invoice: (invoice: OnlySetters<Invoice>) => void,
     additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
@@ -504,7 +528,7 @@ export class Invoicing {
     subject?: string
   ): Promise<Invoice>;
   public async send(
-    invoice: (invoice: Invoice) => void,
+    invoice: (invoice: OnlySetters<Invoice>) => void,
     additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
@@ -512,7 +536,7 @@ export class Invoicing {
     subject?: string
   ): Promise<Invoice>;
   public async send(
-    invoice: Invoice | string | ((invoice: Invoice) => void),
+    invoice: Invoice | string | ((invoice: OnlySetters<Invoice>) => void),
     additionalRecipients?: string[],
     note?: string,
     sendToInvoicer?: boolean,
@@ -549,11 +573,13 @@ export class Invoicing {
     page: Integer<N>,
     pageSize: Integer<U>,
     totalRequired: boolean,
-    data?: SearchData
+    data?: SearchData | ((searchData: OnlySetters<SearchData>) => void)
   ) {
+    const dataInstance = data instanceof SearchData ? data : new SearchData();
+    if (typeof data === "function") data(dataInstance);
     const response = await this.PayPal.getAPI().post<TInvoices>(
       `/v2/invoicing/search-invoices`,
-      data?.getFields() ?? {},
+      dataInstance?.getFields() ?? {},
       {
         params: {
           page,
@@ -583,8 +609,8 @@ export class Invoicing {
   }
 
   public async createTemplate(template: Template): Promise<Template>;
-  public async createTemplate(template: (template: Template) => void): Promise<Template>;
-  public async createTemplate(template: Template | ((template: Template) => void)) {
+  public async createTemplate(template: (template: OnlySetters<Template>) => void): Promise<Template>;
+  public async createTemplate(template: Template | ((template: OnlySetters<Template>) => void)) {
     const templateInstance = template instanceof Template ? template : new Template();
     if (typeof template === "function") {
       template(templateInstance);
@@ -599,8 +625,8 @@ export class Invoicing {
 
   public async deleteTemplate(template: Template): Promise<boolean>;
   public async deleteTemplate(template: string): Promise<boolean>;
-  public async deleteTemplate(template: (template: Template) => void): Promise<boolean>;
-  public async deleteTemplate(template: Template | string | ((template: Template) => void)) {
+  public async deleteTemplate(template: (template: OnlySetters<Template>) => void): Promise<boolean>;
+  public async deleteTemplate(template: Template | string | ((template: OnlySetters<Template>) => void)) {
     const templateInstance =
       typeof template !== "string" ? (template instanceof Template ? template : new Template()) : undefined;
     if (typeof template === "function" && templateInstance) {
@@ -616,8 +642,8 @@ export class Invoicing {
   }
 
   public async fullyUpdateTemplate(template: Template): Promise<Template>;
-  public async fullyUpdateTemplate(template: (template: Template) => void): Promise<Template>;
-  public async fullyUpdateTemplate(template: Template | ((template: Template) => void)) {
+  public async fullyUpdateTemplate(template: (template: OnlySetters<Template>) => void): Promise<Template>;
+  public async fullyUpdateTemplate(template: Template | ((template: OnlySetters<Template>) => void)) {
     const templateInstance = template instanceof Template ? template : new Template();
     if (typeof template === "function") {
       template(templateInstance);
@@ -632,8 +658,8 @@ export class Invoicing {
 
   public async getTemplate(template: Template): Promise<Template>;
   public async getTemplate(template: string): Promise<Template>;
-  public async getTemplate(template: (template: Template) => void): Promise<Template>;
-  public async getTemplate(template: Template | string | ((template: Template) => void)) {
+  public async getTemplate(template: (template: OnlySetters<Template>) => void): Promise<Template>;
+  public async getTemplate(template: Template | string | ((template: OnlySetters<Template>) => void)) {
     const templateInstance =
       typeof template !== "string" ? (template instanceof Template ? template : new Template()) : undefined;
     if (typeof template === "function" && templateInstance) {

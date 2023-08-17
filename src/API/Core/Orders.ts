@@ -1,4 +1,4 @@
-import PayPal from "../PayPal";
+import PayPal from "../../PayPal";
 
 export class Orders {
   constructor(protected PayPal: PayPal) {}

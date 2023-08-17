@@ -5,7 +5,6 @@ class PayPal extends BasePayPal {
     if (this.getClientId() === null || this.getClientSecret() === null) {
       throw new Error("PayPal not configured! Try PayPal.Configure() first!");
     }
-
     try {
       await this.getAuth().requestNewToken(
         this.getClientId() as string,
