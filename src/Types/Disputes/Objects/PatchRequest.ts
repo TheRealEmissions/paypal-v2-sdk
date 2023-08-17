@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { Patch, TPatch } from "./Patch.js";
 
 export type TPatchRequest = {
@@ -9,8 +9,8 @@ export class PatchRequest extends Utility implements Static<IUtility, typeof Pat
   private patchRequest?: Patch[];
 
   public setPatchRequest(...patchRequest: Patch[]): this;
-  public setPatchRequest(...patchRequest: ((patch: Patch) => void)[]): this;
-  public setPatchRequest(...patchRequest: (Patch | ((patch: Patch) => void))[]) {
+  public setPatchRequest(...patchRequest: ((patch: OnlySetters<Patch>) => void)[]): this;
+  public setPatchRequest(...patchRequest: (Patch | ((patch: OnlySetters<Patch>) => void))[]) {
     this.patchRequest = patchRequest.map((patch) => {
       if (patch instanceof Patch) return patch;
       else {

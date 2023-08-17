@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { AmountSummaryDetail, TAmountSummaryDetail } from "./AmountSummaryDetail.js";
 import { Configuration, TConfiguration } from "./Configuration.js";
 import { InvoicerInfo, TInvoicerInfo } from "./InvoicerInfo.js";
@@ -37,8 +37,8 @@ export class TemplateInfo extends Utility implements Static<IUtility, typeof Tem
   }
 
   public setAmount(amount: AmountSummaryDetail): this;
-  public setAmount(amount: (amountSummaryDetail: AmountSummaryDetail) => void): this;
-  public setAmount(amount: AmountSummaryDetail | ((amountSummaryDetail: AmountSummaryDetail) => void)) {
+  public setAmount(amount: (amountSummaryDetail: OnlySetters<AmountSummaryDetail>) => void): this;
+  public setAmount(amount: AmountSummaryDetail | ((amountSummaryDetail: OnlySetters<AmountSummaryDetail>) => void)) {
     if (amount instanceof AmountSummaryDetail) this.amount = amount;
     else {
       const amountSummaryDetail = new AmountSummaryDetail();
@@ -52,8 +52,8 @@ export class TemplateInfo extends Utility implements Static<IUtility, typeof Tem
   }
 
   public setConfiguration(configuration: Configuration): this;
-  public setConfiguration(configuration: (configuration: Configuration) => void): this;
-  public setConfiguration(configuration: Configuration | ((configuration: Configuration) => void)) {
+  public setConfiguration(configuration: (configuration: OnlySetters<Configuration>) => void): this;
+  public setConfiguration(configuration: Configuration | ((configuration: OnlySetters<Configuration>) => void)) {
     if (configuration instanceof Configuration) this.configuration = configuration;
     else {
       const config = new Configuration();
@@ -67,8 +67,8 @@ export class TemplateInfo extends Utility implements Static<IUtility, typeof Tem
   }
 
   public setDetail(detail: TemplateDetail): this;
-  public setDetail(detail: (templateDetail: TemplateDetail) => void): this;
-  public setDetail(detail: TemplateDetail | ((templateDetail: TemplateDetail) => void)) {
+  public setDetail(detail: (templateDetail: OnlySetters<TemplateDetail>) => void): this;
+  public setDetail(detail: TemplateDetail | ((templateDetail: OnlySetters<TemplateDetail>) => void)) {
     if (detail instanceof TemplateDetail) this.detail = detail;
     else {
       const templateDetail = new TemplateDetail();
@@ -82,8 +82,8 @@ export class TemplateInfo extends Utility implements Static<IUtility, typeof Tem
   }
 
   public setDueAmount(dueAmount: Money): this;
-  public setDueAmount(dueAmount: (money: Money) => void): this;
-  public setDueAmount(dueAmount: Money | ((money: Money) => void)) {
+  public setDueAmount(dueAmount: (money: OnlySetters<Money>) => void): this;
+  public setDueAmount(dueAmount: Money | ((money: OnlySetters<Money>) => void)) {
     if (dueAmount instanceof Money) this.dueAmount = dueAmount;
     else {
       const money = new Money();
@@ -97,8 +97,8 @@ export class TemplateInfo extends Utility implements Static<IUtility, typeof Tem
   }
 
   public setInvoicer(invoicer: InvoicerInfo): this;
-  public setInvoicer(invoicer: (invoicerInfo: InvoicerInfo) => void): this;
-  public setInvoicer(invoicer: InvoicerInfo | ((invoicerInfo: InvoicerInfo) => void)) {
+  public setInvoicer(invoicer: (invoicerInfo: OnlySetters<InvoicerInfo>) => void): this;
+  public setInvoicer(invoicer: InvoicerInfo | ((invoicerInfo: OnlySetters<InvoicerInfo>) => void)) {
     if (invoicer instanceof InvoicerInfo) this.invoicer = invoicer;
     else {
       const invoicerInfo = new InvoicerInfo();
@@ -112,8 +112,8 @@ export class TemplateInfo extends Utility implements Static<IUtility, typeof Tem
   }
 
   public setItems(...items: Item[]): this;
-  public setItems(...items: ((item: Item) => void)[]): this;
-  public setItems(...items: (Item | ((item: Item) => void))[]) {
+  public setItems(...items: ((item: OnlySetters<Item>) => void)[]): this;
+  public setItems(...items: (Item | ((item: OnlySetters<Item>) => void))[]) {
     this.items = items.map((x) => {
       if (x instanceof Item) return x;
       else {
@@ -129,8 +129,10 @@ export class TemplateInfo extends Utility implements Static<IUtility, typeof Tem
   }
 
   public setPrimaryRecipients(...primaryRecipients: RecipientInfo[]): this;
-  public setPrimaryRecipients(...primaryRecipients: ((recipientInfo: RecipientInfo) => void)[]): this;
-  public setPrimaryRecipients(...primaryRecipients: (RecipientInfo | ((recipientInfo: RecipientInfo) => void))[]) {
+  public setPrimaryRecipients(...primaryRecipients: ((recipientInfo: OnlySetters<RecipientInfo>) => void)[]): this;
+  public setPrimaryRecipients(
+    ...primaryRecipients: (RecipientInfo | ((recipientInfo: OnlySetters<RecipientInfo>) => void))[]
+  ) {
     this.primaryRecipients = primaryRecipients.map((x) => {
       if (x instanceof RecipientInfo) return x;
       else {

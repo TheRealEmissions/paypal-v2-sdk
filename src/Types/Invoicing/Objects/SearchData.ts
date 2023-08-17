@@ -1,5 +1,5 @@
 import { InvoiceStatus } from "../Enums/InvoiceStatus";
-import { IUtility, Static, Utility } from "../../Utility";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility";
 import { AmountRange, TAmountRange } from "./AmountRange";
 import { DateRange, TDateRange } from "./DateRange";
 
@@ -80,8 +80,8 @@ export class SearchData extends Utility implements Static<IUtility, typeof Searc
     return this.invoiceNumber;
   }
 
-  public setStatus(status: InvoiceStatus) {
-    this.status = status;
+  public setStatus(status: InvoiceStatus | ((status: typeof InvoiceStatus) => InvoiceStatus)) {
+    this.status = typeof status === "function" ? status(InvoiceStatus) : status;
     return this;
   }
   public getStatus() {
@@ -105,8 +105,8 @@ export class SearchData extends Utility implements Static<IUtility, typeof Searc
   }
 
   public setPaymentDateRange(paymentDateRange: DateRange): this;
-  public setPaymentDateRange(paymentDateRange: (dateRange: DateRange) => void): this;
-  public setPaymentDateRange(paymentDateRange: DateRange | ((dateRange: DateRange) => void)) {
+  public setPaymentDateRange(paymentDateRange: (dateRange: OnlySetters<DateRange>) => void): this;
+  public setPaymentDateRange(paymentDateRange: DateRange | ((dateRange: OnlySetters<DateRange>) => void)) {
     const dateRange = paymentDateRange instanceof DateRange ? paymentDateRange : new DateRange();
     if (typeof paymentDateRange === "function") paymentDateRange(dateRange);
     this.paymentDateRange = dateRange;
@@ -141,8 +141,8 @@ export class SearchData extends Utility implements Static<IUtility, typeof Searc
   }
 
   public setTotalAmountRange(totalAmountRange: AmountRange): this;
-  public setTotalAmountRange(totalAmountRange: (amountRange: AmountRange) => void): this;
-  public setTotalAmountRange(totalAmountRange: AmountRange | ((amountRange: AmountRange) => void)) {
+  public setTotalAmountRange(totalAmountRange: (amountRange: OnlySetters<AmountRange>) => void): this;
+  public setTotalAmountRange(totalAmountRange: AmountRange | ((amountRange: OnlySetters<AmountRange>) => void)) {
     const amountRange = totalAmountRange instanceof AmountRange ? totalAmountRange : new AmountRange();
     if (typeof totalAmountRange === "function") totalAmountRange(amountRange);
     this.totalAmountRange = amountRange;
@@ -153,8 +153,8 @@ export class SearchData extends Utility implements Static<IUtility, typeof Searc
   }
 
   public setInvoiceDateRange(invoiceDateRange: DateRange): this;
-  public setInvoiceDateRange(invoiceDateRange: (dateRange: DateRange) => void): this;
-  public setInvoiceDateRange(invoiceDateRange: DateRange | ((dateRange: DateRange) => void)) {
+  public setInvoiceDateRange(invoiceDateRange: (dateRange: OnlySetters<DateRange>) => void): this;
+  public setInvoiceDateRange(invoiceDateRange: DateRange | ((dateRange: OnlySetters<DateRange>) => void)) {
     const dateRange = invoiceDateRange instanceof DateRange ? invoiceDateRange : new DateRange();
     if (typeof invoiceDateRange === "function") invoiceDateRange(dateRange);
     this.invoiceDateRange = dateRange;
@@ -165,8 +165,8 @@ export class SearchData extends Utility implements Static<IUtility, typeof Searc
   }
 
   public setDueDateRange(dueDateRange: DateRange): this;
-  public setDueDateRange(dueDateRange: (dateRange: DateRange) => void): this;
-  public setDueDateRange(dueDateRange: DateRange | ((dateRange: DateRange) => void)) {
+  public setDueDateRange(dueDateRange: (dateRange: OnlySetters<DateRange>) => void): this;
+  public setDueDateRange(dueDateRange: DateRange | ((dateRange: OnlySetters<DateRange>) => void)) {
     const dateRange = dueDateRange instanceof DateRange ? dueDateRange : new DateRange();
     if (typeof dueDateRange === "function") dueDateRange(dateRange);
     this.dueDateRange = dateRange;
@@ -177,8 +177,8 @@ export class SearchData extends Utility implements Static<IUtility, typeof Searc
   }
 
   public setCreationDateRange(creationDateRange: DateRange): this;
-  public setCreationDateRange(creationDateRange: (dateRange: DateRange) => void): this;
-  public setCreationDateRange(creationDateRange: DateRange | ((dateRange: DateRange) => void)) {
+  public setCreationDateRange(creationDateRange: (dateRange: OnlySetters<DateRange>) => void): this;
+  public setCreationDateRange(creationDateRange: DateRange | ((dateRange: OnlySetters<DateRange>) => void)) {
     const dateRange = creationDateRange instanceof DateRange ? creationDateRange : new DateRange();
     if (typeof creationDateRange === "function") creationDateRange(dateRange);
     this.creationDateRange = dateRange;

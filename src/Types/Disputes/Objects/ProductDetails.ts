@@ -1,4 +1,4 @@
-import { IUtility, Static, Utility } from "../../Utility.js";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility.js";
 import { ProductDetailedProductReceived } from "../Enums/ProductDetailsProductReceived.js";
 import { ReturnDetails, TReturnDetails } from "./ReturnDetails.js";
 
@@ -71,8 +71,8 @@ export class ProductDetails extends Utility implements Static<IUtility, typeof P
   }
 
   public setReturnDetails(returnDetails: ReturnDetails): this;
-  public setReturnDetails(returnDetails: (returnDetails: ReturnDetails) => void): this;
-  public setReturnDetails(returnDetails: ReturnDetails | ((returnDetails: ReturnDetails) => void)) {
+  public setReturnDetails(returnDetails: (returnDetails: OnlySetters<ReturnDetails>) => void): this;
+  public setReturnDetails(returnDetails: ReturnDetails | ((returnDetails: OnlySetters<ReturnDetails>) => void)) {
     if (returnDetails instanceof ReturnDetails) this.returnDetails = returnDetails;
     else returnDetails((this.returnDetails = new ReturnDetails()));
     return this;

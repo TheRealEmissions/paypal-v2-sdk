@@ -1,6 +1,6 @@
 import PayPal from "../../../PayPal.js";
 import { InvoiceStatus } from "../Enums/InvoiceStatus.js";
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { AmountSummaryDetail, TAmountSummaryDetail } from "./AmountSummaryDetail.js";
 import { Configuration, TConfiguration } from "./Configuration.js";
 import { InvoiceDetail, TInvoiceDetail } from "./InvoiceDetail.js";
@@ -127,8 +127,10 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
   }
 
   public async recordPayment(paymentDetail: PaymentDetail): Promise<string | Invoice>;
-  public async recordPayment(paymentDetail: (paymentDetail: PaymentDetail) => void): Promise<string | Invoice>;
-  public async recordPayment(paymentDetail: PaymentDetail | ((paymentDetail: PaymentDetail) => void)) {
+  public async recordPayment(
+    paymentDetail: (paymentDetail: OnlySetters<PaymentDetail>) => void
+  ): Promise<string | Invoice>;
+  public async recordPayment(paymentDetail: PaymentDetail | ((paymentDetail: OnlySetters<PaymentDetail>) => void)) {
     if (!this.PayPal)
       throw new Error("To use in-built methods, please provide PayPal instance when initialising the invoice");
     if (!this.id) {
@@ -153,8 +155,8 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
   }
 
   public async recordRefund(refundDetail: RefundDetail): Promise<string | Invoice>;
-  public async recordRefund(refundDetail: (refundDetail: RefundDetail) => void): Promise<string | Invoice>;
-  public async recordRefund(refundDetail: RefundDetail | ((refundDetail: RefundDetail) => void)) {
+  public async recordRefund(refundDetail: (refundDetail: OnlySetters<RefundDetail>) => void): Promise<string | Invoice>;
+  public async recordRefund(refundDetail: RefundDetail | ((refundDetail: OnlySetters<RefundDetail>) => void)) {
     if (!this.PayPal)
       throw new Error("To use in-built methods, please provide PayPal instance when initialising the invoice");
     if (!this.id) {
@@ -216,8 +218,8 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
   }
 
   public setDetail(detail: InvoiceDetail): this;
-  public setDetail(detail: (detail: InvoiceDetail) => void): this;
-  public setDetail(detail: InvoiceDetail | ((detail: InvoiceDetail) => void)): this {
+  public setDetail(detail: (detail: OnlySetters<InvoiceDetail>) => void): this;
+  public setDetail(detail: InvoiceDetail | ((detail: OnlySetters<InvoiceDetail>) => void)): this {
     if (detail instanceof InvoiceDetail) {
       this.detail = detail;
     } else {
@@ -240,8 +242,8 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
   }
 
   public setAmount(amount: AmountSummaryDetail): this;
-  public setAmount(amount: (amount: AmountSummaryDetail) => void): this;
-  public setAmount(amount: AmountSummaryDetail | ((amount: AmountSummaryDetail) => void)) {
+  public setAmount(amount: (amount: OnlySetters<AmountSummaryDetail>) => void): this;
+  public setAmount(amount: AmountSummaryDetail | ((amount: OnlySetters<AmountSummaryDetail>) => void)) {
     if (amount instanceof AmountSummaryDetail) {
       this.amount = amount;
     } else {
@@ -256,8 +258,8 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
   }
 
   public setConfiguration(configuration: Configuration): this;
-  public setConfiguration(configuration: (configuration: Configuration) => void): this;
-  public setConfiguration(configuration: Configuration | ((configuration: Configuration) => void)): this {
+  public setConfiguration(configuration: (configuration: OnlySetters<Configuration>) => void): this;
+  public setConfiguration(configuration: Configuration | ((configuration: OnlySetters<Configuration>) => void)): this {
     if (configuration instanceof Configuration) {
       this.configuration = configuration;
     } else {
@@ -272,8 +274,8 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
   }
 
   public setDueAmount(dueAmount: Money): this;
-  public setDueAmount(dueAmount: (dueAmount: Money) => void): this;
-  public setDueAmount(dueAmount: Money | ((dueAmount: Money) => void)) {
+  public setDueAmount(dueAmount: (dueAmount: OnlySetters<Money>) => void): this;
+  public setDueAmount(dueAmount: Money | ((dueAmount: OnlySetters<Money>) => void)) {
     if (dueAmount instanceof Money) {
       this.dueAmount = dueAmount;
     } else {
@@ -288,8 +290,8 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
   }
 
   public setGratuity(gratuity: Money): this;
-  public setGratuity(gratuity: (gratuity: Money) => void): this;
-  public setGratuity(gratuity: Money | ((gratuity: Money) => void)) {
+  public setGratuity(gratuity: (gratuity: OnlySetters<Money>) => void): this;
+  public setGratuity(gratuity: Money | ((gratuity: OnlySetters<Money>) => void)) {
     if (gratuity instanceof Money) {
       this.gratuity = gratuity;
     } else {
@@ -312,8 +314,8 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
   }
 
   public setInvoicer(invoicer: InvoicerInfo): this;
-  public setInvoicer(invoicer: (invoicer: InvoicerInfo) => void): this;
-  public setInvoicer(invoicer: InvoicerInfo | ((invoicer: InvoicerInfo) => void)) {
+  public setInvoicer(invoicer: (invoicer: OnlySetters<InvoicerInfo>) => void): this;
+  public setInvoicer(invoicer: InvoicerInfo | ((invoicer: OnlySetters<InvoicerInfo>) => void)) {
     if (invoicer instanceof InvoicerInfo) {
       this.invoicer = invoicer;
     } else {
@@ -328,8 +330,8 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
   }
 
   public setItems(...items: Item[]): this;
-  public setItems(...items: ((item: Item) => void)[]): this;
-  public setItems(...items: (Item | ((item: Item) => void))[]) {
+  public setItems(...items: ((item: OnlySetters<Item>) => void)[]): this;
+  public setItems(...items: (Item | ((item: OnlySetters<Item>) => void))[]) {
     this.items = items.map((item) => {
       if (item instanceof Item) {
         return item;
@@ -346,8 +348,8 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
   }
 
   public setLinks(...links: LinkDescription[]): this;
-  public setLinks(...links: ((link: LinkDescription) => void)[]): this;
-  public setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
+  public setLinks(...links: ((link: OnlySetters<LinkDescription>) => void)[]): this;
+  public setLinks(...links: (LinkDescription | ((link: OnlySetters<LinkDescription>) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) {
         return link;
@@ -372,8 +374,8 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
   }
 
   public setPayments(payments: Payments): this;
-  public setPayments(payments: (payments: Payments) => void): this;
-  public setPayments(payments: Payments | ((payments: Payments) => void)) {
+  public setPayments(payments: (payments: OnlySetters<Payments>) => void): this;
+  public setPayments(payments: Payments | ((payments: OnlySetters<Payments>) => void)) {
     if (payments instanceof Payments) {
       this.payments = payments;
     } else {
@@ -388,8 +390,10 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
   }
 
   public setPrimaryRecipients(...primaryRecipients: RecipientInfo[]): this;
-  public setPrimaryRecipients(...primaryRecipients: ((recipient: RecipientInfo) => void)[]): this;
-  public setPrimaryRecipients(...primaryRecipients: (RecipientInfo | ((recipient: RecipientInfo) => void))[]) {
+  public setPrimaryRecipients(...primaryRecipients: ((recipient: OnlySetters<RecipientInfo>) => void)[]): this;
+  public setPrimaryRecipients(
+    ...primaryRecipients: (RecipientInfo | ((recipient: OnlySetters<RecipientInfo>) => void))[]
+  ) {
     this.primaryRecipients = primaryRecipients.map((recipient) => {
       if (recipient instanceof RecipientInfo) {
         return recipient;
@@ -406,8 +410,8 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
   }
 
   public setRefunds(refunds: Refunds): this;
-  public setRefunds(refunds: (refunds: Refunds) => void): this;
-  public setRefunds(refunds: Refunds | ((refunds: Refunds) => void)) {
+  public setRefunds(refunds: (refunds: OnlySetters<Refunds>) => void): this;
+  public setRefunds(refunds: Refunds | ((refunds: OnlySetters<Refunds>) => void)) {
     if (refunds instanceof Refunds) {
       this.refunds = refunds;
     } else {

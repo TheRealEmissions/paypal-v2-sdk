@@ -1,4 +1,4 @@
-import { IUtility, Static, Utility } from "../../Utility";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility";
 import { LinkDescription, TLinkDescription } from "./LinkDescription";
 
 export type TTrackerIdentifier = {
@@ -29,8 +29,8 @@ export class TrackerIdentifier extends Utility implements Static<IUtility, typeo
   }
 
   public setLinks(...links: LinkDescription[]): this;
-  public setLinks(...links: ((links: LinkDescription) => void)[]): this;
-  public setLinks(...links: (LinkDescription | ((links: LinkDescription) => void))[]) {
+  public setLinks(...links: ((links: OnlySetters<LinkDescription>) => void)[]): this;
+  public setLinks(...links: (LinkDescription | ((links: OnlySetters<LinkDescription>) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) {
         return link;

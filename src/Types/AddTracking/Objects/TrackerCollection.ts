@@ -1,4 +1,4 @@
-import { IUtility, Static, Utility } from "../../Utility";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility";
 import { LinkDescription, TLinkDescription } from "./LinkDescription";
 import { TTracker, Tracker } from "./Tracker";
 
@@ -12,8 +12,8 @@ export class TrackerCollection extends Utility implements Static<IUtility, typeo
   private links?: LinkDescription[];
 
   public setTrackers(...trackers: Tracker[]): this;
-  public setTrackers(...trackers: ((tracker: Tracker) => void)[]): this;
-  public setTrackers(...trackers: (Tracker | ((tracker: Tracker) => void))[]) {
+  public setTrackers(...trackers: ((tracker: OnlySetters<Tracker>) => void)[]): this;
+  public setTrackers(...trackers: (Tracker | ((tracker: OnlySetters<Tracker>) => void))[]) {
     this.trackers = trackers.map((tracker) => {
       if (tracker instanceof Tracker) {
         return tracker;
@@ -30,8 +30,8 @@ export class TrackerCollection extends Utility implements Static<IUtility, typeo
   }
 
   public setLinks(...links: LinkDescription[]): this;
-  public setLinks(...links: ((links: LinkDescription) => void)[]): this;
-  public setLinks(...links: (LinkDescription | ((links: LinkDescription) => void))[]) {
+  public setLinks(...links: ((links: OnlySetters<LinkDescription>) => void)[]): this;
+  public setLinks(...links: (LinkDescription | ((links: OnlySetters<LinkDescription>) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) {
         return link;

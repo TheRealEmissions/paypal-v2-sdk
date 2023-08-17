@@ -1,4 +1,4 @@
-import { IUtility, Static, Utility } from "../../Utility.js";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility.js";
 import { Money, TMoney } from "./Money.js";
 
 export type TResponseRefundDetails = {
@@ -9,8 +9,8 @@ export class ResponseRefundDetails extends Utility implements Static<IUtility, t
   private allowedRefundAmount?: Money;
 
   public setAllowedRefundAmount(allowedRefundAmount: Money): this;
-  public setAllowedRefundAmount(allowedRefundAmount: (type: Money) => void): this;
-  public setAllowedRefundAmount(allowedRefundAmount: Money | ((type: Money) => void)) {
+  public setAllowedRefundAmount(allowedRefundAmount: (type: OnlySetters<Money>) => void): this;
+  public setAllowedRefundAmount(allowedRefundAmount: Money | ((type: OnlySetters<Money>) => void)) {
     if (allowedRefundAmount instanceof Money) this.allowedRefundAmount = allowedRefundAmount;
     else allowedRefundAmount((this.allowedRefundAmount = new Money()));
     return this;

@@ -1,4 +1,4 @@
-import { IUtility, Static, Utility } from "../../Utility.js";
+import { IUtility, Static, Utility, OnlySetters } from "../../Utility.js";
 import { Dispute, TDispute } from "./Dispute.js";
 import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
 
@@ -12,8 +12,8 @@ export class DisputeSearch extends Utility implements Static<IUtility, typeof Di
   private links?: LinkDescription[];
 
   public setItems(...items: Dispute[]): this;
-  public setItems(...items: ((dispute: Dispute) => void)[]): this;
-  public setItems(...items: (Dispute | ((dispute: Dispute) => void))[]) {
+  public setItems(...items: ((dispute: OnlySetters<Dispute>) => void)[]): this;
+  public setItems(...items: (Dispute | ((dispute: OnlySetters<Dispute>) => void))[]) {
     this.items = items.map((item) => {
       if (item instanceof Dispute) return item;
       const itemInstance = new Dispute();
@@ -27,8 +27,8 @@ export class DisputeSearch extends Utility implements Static<IUtility, typeof Di
   }
 
   public setLinks(...links: LinkDescription[]): this;
-  public setLinks(...links: ((link: LinkDescription) => void)[]): this;
-  public setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
+  public setLinks(...links: ((link: OnlySetters<LinkDescription>) => void)[]): this;
+  public setLinks(...links: (LinkDescription | ((link: OnlySetters<LinkDescription>) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) return link;
       const linkInstance = new LinkDescription();

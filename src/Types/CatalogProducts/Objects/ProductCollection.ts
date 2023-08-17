@@ -1,4 +1,4 @@
-import { IUtility, Static, Utility } from "../../Utility.js";
+import { IUtility, Static, Utility, OnlySetters } from "../../Utility.js";
 import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
 import { Product, TProduct } from "./Product.js";
 
@@ -16,8 +16,8 @@ export class ProductCollection extends Utility implements Static<IUtility, typeo
   private links?: LinkDescription[];
 
   public setProducts(...products: Product[]): this;
-  public setProducts(...products: ((product: Product) => void)[]): this;
-  public setProducts(...products: (Product | ((product: Product) => void))[]) {
+  public setProducts(...products: ((product: OnlySetters<Product>) => void)[]): this;
+  public setProducts(...products: (Product | ((product: OnlySetters<Product>) => void))[]) {
     this.products = products.map((product) => {
       if (product instanceof Product) return product;
       const productInstance = new Product();
@@ -47,8 +47,8 @@ export class ProductCollection extends Utility implements Static<IUtility, typeo
   }
 
   public setLinks(...links: LinkDescription[]): this;
-  public setLinks(...links: ((link: LinkDescription) => void)[]): this;
-  public setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
+  public setLinks(...links: ((link: OnlySetters<LinkDescription>) => void)[]): this;
+  public setLinks(...links: (LinkDescription | ((link: OnlySetters<LinkDescription>) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) return link;
       const linkInstance = new LinkDescription();

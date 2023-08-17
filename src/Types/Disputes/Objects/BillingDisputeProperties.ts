@@ -1,4 +1,4 @@
-import { IUtility, Static, Utility } from "../../Utility.js";
+import { IUtility, Static, Utility, OnlySetters } from "../../Utility.js";
 import { CanceledRecurringBilling, TCanceledRecurringBilling } from "./CanceledRecurringBilling.js";
 import { CreditNotProcessed, TCreditNotProcessed } from "./CreditNotProcessed.js";
 import { DuplicationTransaction, TDuplicationTransaction } from "./DuplicationTransaction.js";
@@ -22,10 +22,12 @@ export class BillingDisputeProperties extends Utility implements Static<IUtility
 
   public setCanceledRecurringBilling(canceledRecurringBilling: CanceledRecurringBilling): this;
   public setCanceledRecurringBilling(
-    canceledRecurringBilling: (canceledRecurringBilling: CanceledRecurringBilling) => void
+    canceledRecurringBilling: (canceledRecurringBilling: OnlySetters<CanceledRecurringBilling>) => void
   ): this;
   public setCanceledRecurringBilling(
-    canceledRecurringBilling: CanceledRecurringBilling | ((canceledRecurringBilling: CanceledRecurringBilling) => void)
+    canceledRecurringBilling:
+      | CanceledRecurringBilling
+      | ((canceledRecurringBilling: OnlySetters<CanceledRecurringBilling>) => void)
   ) {
     if (canceledRecurringBilling instanceof CanceledRecurringBilling)
       this.canceledRecurringBilling = canceledRecurringBilling;
@@ -37,9 +39,9 @@ export class BillingDisputeProperties extends Utility implements Static<IUtility
   }
 
   public setCreditNotProcessed(creditNotProcessed: CreditNotProcessed): this;
-  public setCreditNotProcessed(creditNotProcessed: (creditNotProcessed: CreditNotProcessed) => void): this;
+  public setCreditNotProcessed(creditNotProcessed: (creditNotProcessed: OnlySetters<CreditNotProcessed>) => void): this;
   public setCreditNotProcessed(
-    creditNotProcessed: CreditNotProcessed | ((creditNotProcessed: CreditNotProcessed) => void)
+    creditNotProcessed: CreditNotProcessed | ((creditNotProcessed: OnlySetters<CreditNotProcessed>) => void)
   ) {
     if (creditNotProcessed instanceof CreditNotProcessed) this.creditNotProcessed = creditNotProcessed;
     else creditNotProcessed((this.creditNotProcessed = new CreditNotProcessed()));
@@ -50,9 +52,11 @@ export class BillingDisputeProperties extends Utility implements Static<IUtility
   }
 
   public setDuplicateTransaction(duplicateTransaction: DuplicationTransaction): this;
-  public setDuplicateTransaction(duplicateTransaction: (duplicateTransaction: DuplicationTransaction) => void): this;
   public setDuplicateTransaction(
-    duplicateTransaction: DuplicationTransaction | ((duplicateTransaction: DuplicationTransaction) => void)
+    duplicateTransaction: (duplicateTransaction: OnlySetters<DuplicationTransaction>) => void
+  ): this;
+  public setDuplicateTransaction(
+    duplicateTransaction: DuplicationTransaction | ((duplicateTransaction: OnlySetters<DuplicationTransaction>) => void)
   ) {
     if (duplicateTransaction instanceof DuplicationTransaction) this.duplicateTransaction = duplicateTransaction;
     else duplicateTransaction((this.duplicateTransaction = new DuplicationTransaction()));
@@ -64,12 +68,12 @@ export class BillingDisputeProperties extends Utility implements Static<IUtility
 
   public setIncorrectTransactionAmount(incorrectTransactionAmount: IncorrectTransactionAmount): this;
   public setIncorrectTransactionAmount(
-    incorrectTransactionAmount: (incorrectTransactionAmount: IncorrectTransactionAmount) => void
+    incorrectTransactionAmount: (incorrectTransactionAmount: OnlySetters<IncorrectTransactionAmount>) => void
   ): this;
   public setIncorrectTransactionAmount(
     incorrectTransactionAmount:
       | IncorrectTransactionAmount
-      | ((incorrectTransactionAmount: IncorrectTransactionAmount) => void)
+      | ((incorrectTransactionAmount: OnlySetters<IncorrectTransactionAmount>) => void)
   ) {
     if (incorrectTransactionAmount instanceof IncorrectTransactionAmount)
       this.incorrectTransactionAmount = incorrectTransactionAmount;
@@ -81,9 +85,11 @@ export class BillingDisputeProperties extends Utility implements Static<IUtility
   }
 
   public setPaymentByOtherMeans(paymentByOtherMeans: PaymentByOtherMeans): this;
-  public setPaymentByOtherMeans(paymentByOtherMeans: (paymentByOtherMeans: PaymentByOtherMeans) => void): this;
   public setPaymentByOtherMeans(
-    paymentByOtherMeans: PaymentByOtherMeans | ((paymentByOtherMeans: PaymentByOtherMeans) => void)
+    paymentByOtherMeans: (paymentByOtherMeans: OnlySetters<PaymentByOtherMeans>) => void
+  ): this;
+  public setPaymentByOtherMeans(
+    paymentByOtherMeans: PaymentByOtherMeans | ((paymentByOtherMeans: OnlySetters<PaymentByOtherMeans>) => void)
   ) {
     if (paymentByOtherMeans instanceof PaymentByOtherMeans) this.paymentByOtherMeans = paymentByOtherMeans;
     else paymentByOtherMeans((this.paymentByOtherMeans = new PaymentByOtherMeans()));

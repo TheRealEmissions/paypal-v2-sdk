@@ -1,4 +1,4 @@
-import { IUtility, Static, Utility } from "../../Utility.js";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility.js";
 import { ResponseTrackingInfo, TResponseTrackingInfo } from "./ResponseTrackingInfo.js";
 
 export type TEvidenceInfo = {
@@ -18,8 +18,10 @@ export class EvidenceInfo extends Utility implements Static<IUtility, typeof Evi
   }
 
   public setTrackingInfo(...trackingInfo: ResponseTrackingInfo[]): this;
-  public setTrackingInfo(...trackingInfo: ((trackingInfo: ResponseTrackingInfo) => void)[]): this;
-  public setTrackingInfo(...trackingInfo: (ResponseTrackingInfo | ((trackingInfo: ResponseTrackingInfo) => void))[]) {
+  public setTrackingInfo(...trackingInfo: ((trackingInfo: OnlySetters<ResponseTrackingInfo>) => void)[]): this;
+  public setTrackingInfo(
+    ...trackingInfo: (ResponseTrackingInfo | ((trackingInfo: OnlySetters<ResponseTrackingInfo>) => void))[]
+  ) {
     this.trackingInfo = trackingInfo.map((trackingInfo) => {
       if (trackingInfo instanceof ResponseTrackingInfo) return trackingInfo;
       else {

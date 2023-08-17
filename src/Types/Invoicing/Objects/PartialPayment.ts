@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { Money, TMoney } from "./Money.js";
 
 export type TPartialPayment = {
@@ -19,8 +19,8 @@ export class PartialPayment extends Utility implements Static<IUtility, typeof P
   }
 
   public setMinimumAmountDue(minimumAmountDue: Money): this;
-  public setMinimumAmountDue(minimumAmountDue: (money: Money) => void): this;
-  public setMinimumAmountDue(minimumAmountDue: Money | ((money: Money) => void)) {
+  public setMinimumAmountDue(minimumAmountDue: (money: OnlySetters<Money>) => void): this;
+  public setMinimumAmountDue(minimumAmountDue: Money | ((money: OnlySetters<Money>) => void)) {
     if (minimumAmountDue instanceof Money) this.minimumAmountDue = minimumAmountDue;
     else {
       const money = new Money();

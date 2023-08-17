@@ -1,6 +1,6 @@
 import { PaymentMethod } from "../Enums/PaymentMethod.js";
 import { PaymentType } from "../Enums/PaymentType.js";
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { ContactInformation, TContactInformation } from "./ContactInformation.js";
 import { Money, TMoney } from "./Money.js";
 
@@ -35,8 +35,8 @@ export class PaymentDetail extends Utility implements Static<IUtility, typeof Pa
   }
 
   public setAmount(amount: Money): this;
-  public setAmount(amount: (money: Money) => void): this;
-  public setAmount(amount: Money | ((money: Money) => void)) {
+  public setAmount(amount: (money: OnlySetters<Money>) => void): this;
+  public setAmount(amount: Money | ((money: OnlySetters<Money>) => void)) {
     if (amount instanceof Money) this.amount = amount;
     else {
       const money = new Money();
@@ -74,8 +74,10 @@ export class PaymentDetail extends Utility implements Static<IUtility, typeof Pa
   }
 
   public setShippingInfo(shippingInfo: ContactInformation): this;
-  public setShippingInfo(shippingInfo: (contactInformation: ContactInformation) => void): this;
-  public setShippingInfo(shippingInfo: ContactInformation | ((contactInformation: ContactInformation) => void)) {
+  public setShippingInfo(shippingInfo: (contactInformation: OnlySetters<ContactInformation>) => void): this;
+  public setShippingInfo(
+    shippingInfo: ContactInformation | ((contactInformation: OnlySetters<ContactInformation>) => void)
+  ) {
     if (shippingInfo instanceof ContactInformation) this.shippingInfo = shippingInfo;
     else {
       const contactInformation = new ContactInformation();

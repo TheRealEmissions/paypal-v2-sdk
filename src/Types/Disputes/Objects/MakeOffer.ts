@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility";
 import { OfferType } from "../Enums/OfferType";
 import { Money, TMoney } from "./Money";
 import { PortablePostalAddress, TPortablePostalAddress } from "./PortablePostalAddress";
@@ -76,9 +76,9 @@ export class MakeOffer extends Utility implements Static<IUtility, typeof MakeOf
   }
 
   public setReturnShippingAddress(returnShippingAddress: PortablePostalAddress): this;
-  public setReturnShippingAddress(returnShippingAddress: (address: PortablePostalAddress) => void): this;
+  public setReturnShippingAddress(returnShippingAddress: (address: OnlySetters<PortablePostalAddress>) => void): this;
   public setReturnShippingAddress(
-    returnShippingAddress: PortablePostalAddress | ((address: PortablePostalAddress) => void)
+    returnShippingAddress: PortablePostalAddress | ((address: OnlySetters<PortablePostalAddress>) => void)
   ) {
     if (returnShippingAddress instanceof PortablePostalAddress) this.returnShippingAddress = returnShippingAddress;
     else {

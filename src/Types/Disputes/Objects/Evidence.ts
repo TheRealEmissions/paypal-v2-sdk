@@ -1,6 +1,6 @@
 import { DisputeLifecycleStage } from "../Enums/DisputeLifecycleStage.js";
 import { ItemType } from "../Enums/ItemType.js";
-import { IUtility, Static, Utility } from "../../Utility.js";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility.js";
 import { ActionInfo, TActionInfo } from "./ActionInfo.js";
 import { Document, TDocument } from "./Document.js";
 import { EvidenceInfo, TEvidenceInfo } from "./EvidenceInfo.js";
@@ -33,8 +33,8 @@ export class Evidence extends Utility implements Static<IUtility, typeof Evidenc
   private source?: EvidenceSource;
 
   public setActionInfo(actionInfo: ActionInfo): this;
-  public setActionInfo(actionInfo: (type: ActionInfo) => void): this;
-  public setActionInfo(actionInfo: ActionInfo | ((type: ActionInfo) => void)) {
+  public setActionInfo(actionInfo: (type: OnlySetters<ActionInfo>) => void): this;
+  public setActionInfo(actionInfo: ActionInfo | ((type: OnlySetters<ActionInfo>) => void)) {
     if (actionInfo instanceof ActionInfo) this.actionInfo = actionInfo;
     else actionInfo((this.actionInfo = new ActionInfo()));
     return this;
@@ -68,8 +68,8 @@ export class Evidence extends Utility implements Static<IUtility, typeof Evidenc
   }
 
   public setDocuments(...documents: Document[]): this;
-  public setDocuments(...documents: ((document: Document) => void)[]): this;
-  public setDocuments(...documents: (Document | ((document: Document) => void))[]) {
+  public setDocuments(...documents: ((document: OnlySetters<Document>) => void)[]): this;
+  public setDocuments(...documents: (Document | ((document: OnlySetters<Document>) => void))[]) {
     this.documents = documents.map((document) => {
       if (document instanceof Document) return document;
       else {
@@ -85,8 +85,8 @@ export class Evidence extends Utility implements Static<IUtility, typeof Evidenc
   }
 
   public setEvidenceInfo(evidenceInfo: EvidenceInfo): this;
-  public setEvidenceInfo(evidenceInfo: (type: EvidenceInfo) => void): this;
-  public setEvidenceInfo(evidenceInfo: EvidenceInfo | ((type: EvidenceInfo) => void)) {
+  public setEvidenceInfo(evidenceInfo: (type: OnlySetters<EvidenceInfo>) => void): this;
+  public setEvidenceInfo(evidenceInfo: EvidenceInfo | ((type: OnlySetters<EvidenceInfo>) => void)) {
     if (evidenceInfo instanceof EvidenceInfo) this.evidenceInfo = evidenceInfo;
     else evidenceInfo((this.evidenceInfo = new EvidenceInfo()));
     return this;

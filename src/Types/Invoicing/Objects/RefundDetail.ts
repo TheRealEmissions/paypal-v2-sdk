@@ -1,6 +1,6 @@
 import { PaymentMethod } from "../Enums/PaymentMethod.js";
 import { PaymentType } from "../Enums/PaymentType.js";
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { Money, TMoney } from "./Money.js";
 
 export type TRefundDetail = {
@@ -30,8 +30,8 @@ export class RefundDetail extends Utility implements Static<IUtility, typeof Ref
   }
 
   public setAmount(amount: Money): this;
-  public setAmount(amount: (money: Money) => void): this;
-  public setAmount(amount: Money | ((money: Money) => void)) {
+  public setAmount(amount: (money: OnlySetters<Money>) => void): this;
+  public setAmount(amount: Money | ((money: OnlySetters<Money>) => void)) {
     if (amount instanceof Money) this.amount = amount;
     else {
       const money = new Money();

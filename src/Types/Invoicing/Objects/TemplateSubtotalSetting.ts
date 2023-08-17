@@ -1,5 +1,5 @@
 import { TemplateItemField } from "../Enums/TemplateItemField.js";
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { TemplateDisplayPreference, TTemplateDisplayPreference } from "./TemplateDisplayPreference.js";
 
 export type TTemplateSubtotalSetting = {
@@ -12,9 +12,11 @@ export class TemplateSubtotalSetting extends Utility implements Static<IUtility,
   private fieldName?: TemplateItemField;
 
   public setDisplayPreference(displayPreference: TemplateDisplayPreference): this;
-  public setDisplayPreference(displayPreference: (displayPreference: TemplateDisplayPreference) => void): this;
   public setDisplayPreference(
-    displayPreference: TemplateDisplayPreference | ((displayPreference: TemplateDisplayPreference) => void)
+    displayPreference: (displayPreference: OnlySetters<TemplateDisplayPreference>) => void
+  ): this;
+  public setDisplayPreference(
+    displayPreference: TemplateDisplayPreference | ((displayPreference: OnlySetters<TemplateDisplayPreference>) => void)
   ) {
     if (displayPreference instanceof TemplateDisplayPreference) {
       this.displayPreference = displayPreference;

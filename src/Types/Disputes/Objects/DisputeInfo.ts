@@ -1,4 +1,4 @@
-import { IUtility, Static, Utility } from "../../Utility";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility";
 import { DisputeChannel } from "../Enums/DisputeChannel";
 import { DisputeLifecycleStage } from "../Enums/DisputeLifecycleStage";
 import { DisputeState } from "../Enums/DisputeState";
@@ -56,8 +56,8 @@ export class DisputeInfo extends Utility implements Static<IUtility, typeof Disp
   }
 
   public setDisputeAmount(disputeAmount: Money): this;
-  public setDisputeAmount(disputeAmount: (type: Money) => void): this;
-  public setDisputeAmount(disputeAmount: Money | ((type: Money) => void)) {
+  public setDisputeAmount(disputeAmount: (type: OnlySetters<Money>) => void): this;
+  public setDisputeAmount(disputeAmount: Money | ((type: OnlySetters<Money>) => void)) {
     if (typeof disputeAmount === "function") disputeAmount((this.disputeAmount = new Money()));
     else this.disputeAmount = disputeAmount;
     return this;
@@ -67,8 +67,8 @@ export class DisputeInfo extends Utility implements Static<IUtility, typeof Disp
   }
 
   public setDisputeAsset(disputeAsset: Cryptocurrency): this;
-  public setDisputeAsset(disputeAsset: (type: Cryptocurrency) => void): this;
-  public setDisputeAsset(disputeAsset: Cryptocurrency | ((type: Cryptocurrency) => void)) {
+  public setDisputeAsset(disputeAsset: (type: OnlySetters<Cryptocurrency>) => void): this;
+  public setDisputeAsset(disputeAsset: Cryptocurrency | ((type: OnlySetters<Cryptocurrency>) => void)) {
     if (typeof disputeAsset === "function") disputeAsset((this.disputeAsset = new Cryptocurrency()));
     else this.disputeAsset = disputeAsset;
     return this;
@@ -124,8 +124,8 @@ export class DisputeInfo extends Utility implements Static<IUtility, typeof Disp
   }
 
   public setLinks(...links: LinkDescription[]): this;
-  public setLinks(...links: ((link: LinkDescription) => void)[]): this;
-  public setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
+  public setLinks(...links: ((link: OnlySetters<LinkDescription>) => void)[]): this;
+  public setLinks(...links: (LinkDescription | ((link: OnlySetters<LinkDescription>) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) return link;
       const linkDescription = new LinkDescription();

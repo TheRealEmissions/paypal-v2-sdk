@@ -1,4 +1,4 @@
-import { IUtility, Static, Utility } from "../../Utility";
+import { IUtility, Static, Utility, OnlySetters } from "../../Utility";
 import { LinkDescription, TLinkDescription } from "./LinkDescription";
 
 export type TSubsequentAction = {
@@ -9,8 +9,8 @@ export class SubsequentAction extends Utility implements Static<IUtility, typeof
   private links?: LinkDescription[];
 
   public setLinks(...links: LinkDescription[]): this;
-  public setLinks(...links: ((link: LinkDescription) => void)[]): this;
-  public setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
+  public setLinks(...links: ((link: OnlySetters<LinkDescription>) => void)[]): this;
+  public setLinks(...links: (LinkDescription | ((link: OnlySetters<LinkDescription>) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) {
         return link;

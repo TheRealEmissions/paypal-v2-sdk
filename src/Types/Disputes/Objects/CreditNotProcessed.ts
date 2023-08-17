@@ -1,4 +1,4 @@
-import { IUtility, Static, Utility } from "../../Utility.js";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility.js";
 import { ItemType } from "../Enums/ItemType.js";
 import { AgreedRefundDetails, TAgreedRefundDetails } from "./AgreedRefundDetails.js";
 import { CancellationDetails, TCancellationDetails } from "./CancellationDetails.js";
@@ -24,9 +24,11 @@ export class CreditNotProcessed extends Utility implements Static<IUtility, type
   private serviceDetails?: ServiceDetails;
 
   public setAgreedRefundDetails(agreedRefundDetails: AgreedRefundDetails): this;
-  public setAgreedRefundDetails(agreedRefundDetails: (agreedRefundDetails: AgreedRefundDetails) => void): this;
   public setAgreedRefundDetails(
-    agreedRefundDetails: AgreedRefundDetails | ((agreedRefundDetails: AgreedRefundDetails) => void)
+    agreedRefundDetails: (agreedRefundDetails: OnlySetters<AgreedRefundDetails>) => void
+  ): this;
+  public setAgreedRefundDetails(
+    agreedRefundDetails: AgreedRefundDetails | ((agreedRefundDetails: OnlySetters<AgreedRefundDetails>) => void)
   ) {
     if (agreedRefundDetails instanceof AgreedRefundDetails) this.agreedRefundDetails = agreedRefundDetails;
     else agreedRefundDetails((this.agreedRefundDetails = new AgreedRefundDetails()));
@@ -37,9 +39,11 @@ export class CreditNotProcessed extends Utility implements Static<IUtility, type
   }
 
   public setCancellationDetails(cancellationDetails: CancellationDetails): this;
-  public setCancellationDetails(cancellationDetails: (cancellationDetails: CancellationDetails) => void): this;
   public setCancellationDetails(
-    cancellationDetails: CancellationDetails | ((cancellationDetails: CancellationDetails) => void)
+    cancellationDetails: (cancellationDetails: OnlySetters<CancellationDetails>) => void
+  ): this;
+  public setCancellationDetails(
+    cancellationDetails: CancellationDetails | ((cancellationDetails: OnlySetters<CancellationDetails>) => void)
   ) {
     if (cancellationDetails instanceof CancellationDetails) this.cancellationDetails = cancellationDetails;
     else cancellationDetails((this.cancellationDetails = new CancellationDetails()));
@@ -50,8 +54,8 @@ export class CreditNotProcessed extends Utility implements Static<IUtility, type
   }
 
   public setExpectedRefund(expectedRefund: Money): this;
-  public setExpectedRefund(expectedRefund: (expectedRefund: Money) => void): this;
-  public setExpectedRefund(expectedRefund: Money | ((expectedRefund: Money) => void)) {
+  public setExpectedRefund(expectedRefund: (expectedRefund: OnlySetters<Money>) => void): this;
+  public setExpectedRefund(expectedRefund: Money | ((expectedRefund: OnlySetters<Money>) => void)) {
     if (expectedRefund instanceof Money) this.expectedRefund = expectedRefund;
     else expectedRefund((this.expectedRefund = new Money()));
     return this;
@@ -72,8 +76,8 @@ export class CreditNotProcessed extends Utility implements Static<IUtility, type
   }
 
   public setProductDetails(productDetails: ProductDetails): this;
-  public setProductDetails(productDetails: (productDetails: ProductDetails) => void): this;
-  public setProductDetails(productDetails: ProductDetails | ((productDetails: ProductDetails) => void)) {
+  public setProductDetails(productDetails: (productDetails: OnlySetters<ProductDetails>) => void): this;
+  public setProductDetails(productDetails: ProductDetails | ((productDetails: OnlySetters<ProductDetails>) => void)) {
     if (productDetails instanceof ProductDetails) this.productDetails = productDetails;
     else productDetails((this.productDetails = new ProductDetails()));
     return this;
@@ -83,8 +87,8 @@ export class CreditNotProcessed extends Utility implements Static<IUtility, type
   }
 
   public setServiceDetails(serviceDetails: ServiceDetails): this;
-  public setServiceDetails(serviceDetails: (serviceDetails: ServiceDetails) => void): this;
-  public setServiceDetails(serviceDetails: ServiceDetails | ((serviceDetails: ServiceDetails) => void)) {
+  public setServiceDetails(serviceDetails: (serviceDetails: OnlySetters<ServiceDetails>) => void): this;
+  public setServiceDetails(serviceDetails: ServiceDetails | ((serviceDetails: OnlySetters<ServiceDetails>) => void)) {
     if (serviceDetails instanceof ServiceDetails) this.serviceDetails = serviceDetails;
     else serviceDetails((this.serviceDetails = new ServiceDetails()));
     return this;

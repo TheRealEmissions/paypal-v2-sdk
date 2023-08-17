@@ -1,5 +1,5 @@
 import { MoneyMovementReason } from "../Enums/MoneyMovementReason.js";
-import { IUtility, Static, Utility } from "../../Utility.js";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility.js";
 import { Cryptocurrency, TCryptocurrency } from "./Cryptocurrency.js";
 import { Money, TMoney } from "./Money.js";
 import { MoneyMovementAffectedParty } from "../Enums/MoneyMovementAffectedParty.js";
@@ -40,8 +40,8 @@ export class MoneyMovement extends Utility implements Static<IUtility, typeof Mo
   }
 
   public setAmount(amount: Money): this;
-  public setAmount(amount: (amount: Money) => void): this;
-  public setAmount(amount: Money | ((amount: Money) => void)) {
+  public setAmount(amount: (amount: OnlySetters<Money>) => void): this;
+  public setAmount(amount: Money | ((amount: OnlySetters<Money>) => void)) {
     if (amount instanceof Money) this.amount = amount;
     else amount((this.amount = new Money()));
     return this;
@@ -51,8 +51,8 @@ export class MoneyMovement extends Utility implements Static<IUtility, typeof Mo
   }
 
   public setAsset(asset: Cryptocurrency): this;
-  public setAsset(asset: (asset: Cryptocurrency) => void): this;
-  public setAsset(asset: Cryptocurrency | ((asset: Cryptocurrency) => void)) {
+  public setAsset(asset: (asset: OnlySetters<Cryptocurrency>) => void): this;
+  public setAsset(asset: Cryptocurrency | ((asset: OnlySetters<Cryptocurrency>) => void)) {
     if (asset instanceof Cryptocurrency) this.asset = asset;
     else asset((this.asset = new Cryptocurrency()));
     return this;

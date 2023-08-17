@@ -1,7 +1,7 @@
 import { ItemType } from "../Enums/ItemType.js";
 import { Money, TMoney } from "./Money.js";
 import { Reason } from "../Enums/Reason.js";
-import { IUtility, Static, Utility } from "../../Utility.js";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility.js";
 
 export type TItemInfo = {
   dispute_amount?: TMoney;
@@ -27,8 +27,8 @@ export class ItemInfo extends Utility implements Static<IUtility, typeof ItemInf
   private reason?: Reason;
 
   public setDisputeAmount(disputeAmount: Money): this;
-  public setDisputeAmount(disputeAmount: (type: Money) => void): this;
-  public setDisputeAmount(disputeAmount: Money | ((type: Money) => void)) {
+  public setDisputeAmount(disputeAmount: (type: OnlySetters<Money>) => void): this;
+  public setDisputeAmount(disputeAmount: Money | ((type: OnlySetters<Money>) => void)) {
     if (disputeAmount instanceof Money) this.disputeAmount = disputeAmount;
     else disputeAmount((this.disputeAmount = new Money()));
     return this;

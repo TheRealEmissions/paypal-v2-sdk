@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { AmountWithBreakdown, TAmountWithBreakdown } from "./AmountWithBreakdown.js";
 
 export type TAmountSummaryDetail = {
@@ -13,8 +13,8 @@ export class AmountSummaryDetail extends Utility implements Static<IUtility, typ
   private value?: string;
 
   public setBreakdown(breakdown: AmountWithBreakdown): this;
-  public setBreakdown(breakdown: (breakdown: AmountWithBreakdown) => void): this;
-  public setBreakdown(breakdown: AmountWithBreakdown | ((breakdown: AmountWithBreakdown) => void)): this {
+  public setBreakdown(breakdown: (breakdown: OnlySetters<AmountWithBreakdown>) => void): this;
+  public setBreakdown(breakdown: AmountWithBreakdown | ((breakdown: OnlySetters<AmountWithBreakdown>) => void)): this {
     if (breakdown instanceof AmountWithBreakdown) {
       this.breakdown = breakdown;
     } else {

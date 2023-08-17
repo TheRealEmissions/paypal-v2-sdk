@@ -1,5 +1,5 @@
 import { MerchantContactedOutcomeMethod } from "../Enums/MerchantContactedOutcomeMethod.js";
-import { IUtility, Static, Utility } from "../../Utility.js";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility.js";
 import { BillingDisputeProperties, TBillingDisputeProperties } from "./BillingDisputeProperties.js";
 import { MerchandiseDisputeProperties, TMerchandiseDisputeProperties } from "./MerchandiseDisputeProperties.js";
 import { MerchantContactedOutcome } from "../Enums/MerchantContactedOutcome.js";
@@ -27,10 +27,10 @@ export class Extensions extends Utility implements Static<IUtility, typeof Exten
 
   public setBillingDisputeProperties(billingDisputeProperties: BillingDisputeProperties): this;
   public setBillingDisputeProperties(
-    billingDisputeProperties: (billingDisputeProperties: BillingDisputeProperties) => void
+    billingDisputeProperties: (billingDisputeProperties: OnlySetters<BillingDisputeProperties>) => void
   ): this;
   public setBillingDisputeProperties(
-    billingDisputeProperties: BillingDisputeProperties | ((x: BillingDisputeProperties) => void)
+    billingDisputeProperties: BillingDisputeProperties | ((x: OnlySetters<BillingDisputeProperties>) => void)
   ) {
     if (billingDisputeProperties instanceof BillingDisputeProperties)
       this.billingDisputeProperties = billingDisputeProperties;
@@ -59,10 +59,12 @@ export class Extensions extends Utility implements Static<IUtility, typeof Exten
 
   public setMerchandizeDisputeProperties(merchandizeDisputeProperties: MerchandiseDisputeProperties): this;
   public setMerchandizeDisputeProperties(
-    merchandizeDisputeProperties: (merchandizeDisputeProperties: MerchandiseDisputeProperties) => void
+    merchandizeDisputeProperties: (merchandizeDisputeProperties: OnlySetters<MerchandiseDisputeProperties>) => void
   ): this;
   public setMerchandizeDisputeProperties(
-    merchandizeDisputeProperties: MerchandiseDisputeProperties | ((x: MerchandiseDisputeProperties) => void)
+    merchandizeDisputeProperties:
+      | MerchandiseDisputeProperties
+      | ((x: OnlySetters<MerchandiseDisputeProperties>) => void)
   ) {
     if (merchandizeDisputeProperties instanceof MerchandiseDisputeProperties)
       this.merchandizeDisputeProperties = merchandizeDisputeProperties;

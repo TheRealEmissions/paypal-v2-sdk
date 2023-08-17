@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { PhoneDetail, TPhoneDetail } from "./PhoneDetail.js";
 
 export type TBillingInfo = {
@@ -39,8 +39,8 @@ export class BillingInfo extends Utility implements Static<IUtility, typeof Bill
   }
 
   public setPhones(...phones: PhoneDetail[]): this;
-  public setPhones(...phones: ((phone: PhoneDetail) => void)[]): this;
-  public setPhones(...phones: (PhoneDetail | ((phone: PhoneDetail) => void))[]) {
+  public setPhones(...phones: ((phone: OnlySetters<PhoneDetail>) => void)[]): this;
+  public setPhones(...phones: (PhoneDetail | ((phone: OnlySetters<PhoneDetail>) => void))[]) {
     this.phones = phones.map((phone) => {
       if (phone instanceof PhoneDetail) {
         return phone;

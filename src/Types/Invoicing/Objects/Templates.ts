@@ -1,4 +1,4 @@
-import { IUtility, Static, Utility } from "../../Utility";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility";
 import { PortablePostalAddress, TPortablePostalAddress } from "./PortablePostalAddress";
 import { PhoneDetail, TPhoneDetail } from "./PhoneDetail";
 import { TTemplate, Template } from "./Template";
@@ -20,8 +20,10 @@ export class Templates extends Utility implements Static<IUtility, typeof Templa
   private emails?: string[];
 
   public setAddresses(...addresses: PortablePostalAddress[]): this;
-  public setAddresses(...addresses: ((address: PortablePostalAddress) => void)[]): this;
-  public setAddresses(...addresses: (PortablePostalAddress | ((address: PortablePostalAddress) => void))[]) {
+  public setAddresses(...addresses: ((address: OnlySetters<PortablePostalAddress>) => void)[]): this;
+  public setAddresses(
+    ...addresses: (PortablePostalAddress | ((address: OnlySetters<PortablePostalAddress>) => void))[]
+  ) {
     this.addresses = addresses.map((address) => {
       if (address instanceof PortablePostalAddress) return address;
       const addressInstance = new PortablePostalAddress();
@@ -35,8 +37,8 @@ export class Templates extends Utility implements Static<IUtility, typeof Templa
   }
 
   public setPhones(...phones: PhoneDetail[]): this;
-  public setPhones(...phones: ((phone: PhoneDetail) => void)[]): this;
-  public setPhones(...phones: (PhoneDetail | ((phone: PhoneDetail) => void))[]) {
+  public setPhones(...phones: ((phone: OnlySetters<PhoneDetail>) => void)[]): this;
+  public setPhones(...phones: (PhoneDetail | ((phone: OnlySetters<PhoneDetail>) => void))[]) {
     this.phones = phones.map((phone) => {
       if (phone instanceof PhoneDetail) return phone;
       const phoneInstance = new PhoneDetail();
@@ -50,8 +52,8 @@ export class Templates extends Utility implements Static<IUtility, typeof Templa
   }
 
   public setTemplates(...templates: Template[]): this;
-  public setTemplates(...templates: ((template: Template) => void)[]): this;
-  public setTemplates(...templates: (Template | ((template: Template) => void))[]) {
+  public setTemplates(...templates: ((template: OnlySetters<Template>) => void)[]): this;
+  public setTemplates(...templates: (Template | ((template: OnlySetters<Template>) => void))[]) {
     this.templates = templates.map((template) => {
       if (template instanceof Template) return template;
       const templateInstance = new Template();
@@ -65,8 +67,8 @@ export class Templates extends Utility implements Static<IUtility, typeof Templa
   }
 
   public setLinks(...links: LinkDescription[]): this;
-  public setLinks(...links: ((link: LinkDescription) => void)[]): this;
-  public setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
+  public setLinks(...links: ((link: OnlySetters<LinkDescription>) => void)[]): this;
+  public setLinks(...links: (LinkDescription | ((link: OnlySetters<LinkDescription>) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) return link;
       const linkInstance = new LinkDescription();

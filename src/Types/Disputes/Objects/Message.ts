@@ -1,4 +1,4 @@
-import { IUtility, Static, Utility } from "../../Utility.js";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility.js";
 import { MessagePostedBy } from "../Enums/MessagePostedBy.js";
 import { Document, TDocument } from "./Document.js";
 
@@ -24,8 +24,8 @@ export class Message extends Utility implements Static<IUtility, typeof Message>
   }
 
   public setDocuments(...documents: Document[]): this;
-  public setDocuments(...documents: ((document: Document) => void)[]): this;
-  public setDocuments(...documents: (Document | ((document: Document) => void))[]) {
+  public setDocuments(...documents: ((document: OnlySetters<Document>) => void)[]): this;
+  public setDocuments(...documents: (Document | ((document: OnlySetters<Document>) => void))[]) {
     this.documents = documents.map((document) => {
       if (document instanceof Document) return document;
       else {

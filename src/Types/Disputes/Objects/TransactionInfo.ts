@@ -1,4 +1,4 @@
-import { IUtility, Static, Utility } from "../../Utility.js";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility.js";
 import { TransactionInfoTransactionStatus } from "../Enums/TransactionInfoTransactionStatus.js";
 import { Buyer, TBuyer } from "./Buyer.js";
 import { Cryptocurrency, TCryptocurrency } from "./Cryptocurrency.js";
@@ -36,8 +36,8 @@ export class TransactionInfo extends Utility implements Static<IUtility, typeof 
   private transactionStatus?: TransactionInfoTransactionStatus;
 
   public setBuyer(buyer: Buyer): this;
-  public setBuyer(buyer: (buyer: Buyer) => void): this;
-  public setBuyer(buyer: Buyer | ((buyer: Buyer) => void)) {
+  public setBuyer(buyer: (buyer: OnlySetters<Buyer>) => void): this;
+  public setBuyer(buyer: Buyer | ((buyer: OnlySetters<Buyer>) => void)) {
     if (buyer instanceof Buyer) this.buyer = buyer;
     else buyer((this.buyer = new Buyer()));
     return this;
@@ -71,8 +71,8 @@ export class TransactionInfo extends Utility implements Static<IUtility, typeof 
   }
 
   public setGrossAmount(grossAmount: Money): this;
-  public setGrossAmount(grossAmount: (grossAmount: Money) => void): this;
-  public setGrossAmount(grossAmount: Money | ((grossAmount: Money) => void)) {
+  public setGrossAmount(grossAmount: (grossAmount: OnlySetters<Money>) => void): this;
+  public setGrossAmount(grossAmount: Money | ((grossAmount: OnlySetters<Money>) => void)) {
     if (grossAmount instanceof Money) this.grossAmount = grossAmount;
     else grossAmount((this.grossAmount = new Money()));
     return this;
@@ -82,8 +82,8 @@ export class TransactionInfo extends Utility implements Static<IUtility, typeof 
   }
 
   public setGrossAsset(grossAsset: Cryptocurrency): this;
-  public setGrossAsset(grossAsset: (grossAsset: Cryptocurrency) => void): this;
-  public setGrossAsset(grossAsset: Cryptocurrency | ((grossAsset: Cryptocurrency) => void)) {
+  public setGrossAsset(grossAsset: (grossAsset: OnlySetters<Cryptocurrency>) => void): this;
+  public setGrossAsset(grossAsset: Cryptocurrency | ((grossAsset: OnlySetters<Cryptocurrency>) => void)) {
     if (grossAsset instanceof Cryptocurrency) this.grossAsset = grossAsset;
     else grossAsset((this.grossAsset = new Cryptocurrency()));
     return this;
@@ -101,8 +101,8 @@ export class TransactionInfo extends Utility implements Static<IUtility, typeof 
   }
 
   public setItems(...items: ItemInfo[]): this;
-  public setItems(...items: ((item: ItemInfo) => void)[]): this;
-  public setItems(...items: (ItemInfo | ((item: ItemInfo) => void))[]) {
+  public setItems(...items: ((item: OnlySetters<ItemInfo>) => void)[]): this;
+  public setItems(...items: (ItemInfo | ((item: OnlySetters<ItemInfo>) => void))[]) {
     this.items = items.map((item) => {
       if (item instanceof ItemInfo) return item;
       else {
@@ -126,8 +126,8 @@ export class TransactionInfo extends Utility implements Static<IUtility, typeof 
   }
 
   public setSeller(seller: Seller): this;
-  public setSeller(seller: (seller: Seller) => void): this;
-  public setSeller(seller: Seller | ((seller: Seller) => void)) {
+  public setSeller(seller: (seller: OnlySetters<Seller>) => void): this;
+  public setSeller(seller: Seller | ((seller: OnlySetters<Seller>) => void)) {
     if (seller instanceof Seller) this.seller = seller;
     else seller((this.seller = new Seller()));
     return this;

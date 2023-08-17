@@ -1,4 +1,4 @@
-import { IUtility, Static, Utility } from "../../Utility.js";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility.js";
 import { TransactionInfo, TTransactionInfo } from "./TransactionInfo.js";
 
 export type TDuplicationTransaction = {
@@ -11,8 +11,8 @@ export class DuplicationTransaction extends Utility implements Static<IUtility, 
   private receivedDuplicate?: boolean;
 
   public setOriginalTransaction(originalTransaction: TransactionInfo): this;
-  public setOriginalTransaction(originalTransaction: (t: TransactionInfo) => void): this;
-  public setOriginalTransaction(originalTransaction: TransactionInfo | ((t: TransactionInfo) => void)) {
+  public setOriginalTransaction(originalTransaction: (t: OnlySetters<TransactionInfo>) => void): this;
+  public setOriginalTransaction(originalTransaction: TransactionInfo | ((t: OnlySetters<TransactionInfo>) => void)) {
     if (originalTransaction instanceof TransactionInfo) this.originalTransaction = originalTransaction;
     else originalTransaction((this.originalTransaction = new TransactionInfo()));
     return this;

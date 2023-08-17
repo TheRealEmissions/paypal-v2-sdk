@@ -1,4 +1,4 @@
-import { IUtility, Static, Utility } from "../../Utility";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility";
 import { AcknowledgementType } from "../Enums/AcknowledgementType";
 import { AcknowledgeReturnItemEvidence, TAcknowledgeReturnItemEvidence } from "./AcknowledgeReturnItemEvidence";
 
@@ -27,9 +27,9 @@ export class AcknowledgeReturnItem extends Utility implements Static<IUtility, t
   }
 
   public setEvidences(...evidences: AcknowledgeReturnItemEvidence[]): this;
-  public setEvidences(...evidences: ((evidence: AcknowledgeReturnItemEvidence) => void)[]): this;
+  public setEvidences(...evidences: ((evidence: OnlySetters<AcknowledgeReturnItemEvidence>) => void)[]): this;
   public setEvidences(
-    ...evidences: (AcknowledgeReturnItemEvidence | ((evidence: AcknowledgeReturnItemEvidence) => void))[]
+    ...evidences: (AcknowledgeReturnItemEvidence | ((evidence: OnlySetters<AcknowledgeReturnItemEvidence>) => void))[]
   ) {
     this.evidences = evidences.map((evidence) => {
       if (evidence instanceof AcknowledgeReturnItemEvidence) return evidence;

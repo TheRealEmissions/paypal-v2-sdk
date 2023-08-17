@@ -1,4 +1,4 @@
-import { IUtility, Static, Utility } from "../../Utility.js";
+import { IUtility, Static, Utility, OnlySetters } from "../../Utility.js";
 import { IssueType } from "../Enums/IssueType.js";
 import { CancellationDetails, TCancellationDetails } from "./CancellationDetails.js";
 import { PortablePostalAddress, TPortablePostalAddress } from "./PortablePostalAddress.js";
@@ -24,9 +24,11 @@ export class MerchandiseDisputeProperties
   private serviceDetails?: ServiceDetails;
 
   public setCancellationDetails(cancellationDetails: CancellationDetails): this;
-  public setCancellationDetails(cancellationDetails: (cancellationDetails: CancellationDetails) => void): this;
   public setCancellationDetails(
-    cancellationDetails: CancellationDetails | ((cancellationDetails: CancellationDetails) => void)
+    cancellationDetails: (cancellationDetails: OnlySetters<CancellationDetails>) => void
+  ): this;
+  public setCancellationDetails(
+    cancellationDetails: CancellationDetails | ((cancellationDetails: OnlySetters<CancellationDetails>) => void)
   ) {
     if (cancellationDetails instanceof CancellationDetails) this.cancellationDetails = cancellationDetails;
     else cancellationDetails((this.cancellationDetails = new CancellationDetails()));
@@ -48,8 +50,8 @@ export class MerchandiseDisputeProperties
   }
 
   public setProductDetails(productDetails: ProductDetails): this;
-  public setProductDetails(productDetails: (productDetails: ProductDetails) => void): this;
-  public setProductDetails(productDetails: ProductDetails | ((productDetails: ProductDetails) => void)) {
+  public setProductDetails(productDetails: (productDetails: OnlySetters<ProductDetails>) => void): this;
+  public setProductDetails(productDetails: ProductDetails | ((productDetails: OnlySetters<ProductDetails>) => void)) {
     if (productDetails instanceof ProductDetails) this.productDetails = productDetails;
     else productDetails((this.productDetails = new ProductDetails()));
     return this;
@@ -59,9 +61,11 @@ export class MerchandiseDisputeProperties
   }
 
   public setReturnShippingAddress(returnShippingAddress: PortablePostalAddress): this;
-  public setReturnShippingAddress(returnShippingAddress: (returnShippingAddress: PortablePostalAddress) => void): this;
   public setReturnShippingAddress(
-    returnShippingAddress: PortablePostalAddress | ((returnShippingAddress: PortablePostalAddress) => void)
+    returnShippingAddress: (returnShippingAddress: OnlySetters<PortablePostalAddress>) => void
+  ): this;
+  public setReturnShippingAddress(
+    returnShippingAddress: PortablePostalAddress | ((returnShippingAddress: OnlySetters<PortablePostalAddress>) => void)
   ) {
     if (returnShippingAddress instanceof PortablePostalAddress) this.returnShippingAddress = returnShippingAddress;
     else returnShippingAddress((this.returnShippingAddress = new PortablePostalAddress()));
@@ -72,8 +76,8 @@ export class MerchandiseDisputeProperties
   }
 
   public setServiceDetails(serviceDetails: ServiceDetails): this;
-  public setServiceDetails(serviceDetails: (serviceDetails: ServiceDetails) => void): this;
-  public setServiceDetails(serviceDetails: ServiceDetails | ((serviceDetails: ServiceDetails) => void)) {
+  public setServiceDetails(serviceDetails: (serviceDetails: OnlySetters<ServiceDetails>) => void): this;
+  public setServiceDetails(serviceDetails: ServiceDetails | ((serviceDetails: OnlySetters<ServiceDetails>) => void)) {
     if (serviceDetails instanceof ServiceDetails) this.serviceDetails = serviceDetails;
     else serviceDetails((this.serviceDetails = new ServiceDetails()));
     return this;

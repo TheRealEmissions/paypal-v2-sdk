@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { Discount, TDiscount } from "./Discount.js";
 import { Money, TMoney } from "./Money.js";
 
@@ -12,8 +12,8 @@ export class AggregatedDiscount extends Utility implements Static<IUtility, type
   private itemDiscount?: Money;
 
   public setInvoiceDiscount(invoiceDiscount: Discount): this;
-  public setInvoiceDiscount(invoiceDiscount: (invoiceDiscount: Discount) => void): this;
-  public setInvoiceDiscount(invoiceDiscount: Discount | ((invoiceDiscount: Discount) => void)) {
+  public setInvoiceDiscount(invoiceDiscount: (invoiceDiscount: OnlySetters<Discount>) => void): this;
+  public setInvoiceDiscount(invoiceDiscount: Discount | ((invoiceDiscount: OnlySetters<Discount>) => void)) {
     if (invoiceDiscount instanceof Discount) {
       this.invoiceDiscount = invoiceDiscount;
     } else {
@@ -28,8 +28,8 @@ export class AggregatedDiscount extends Utility implements Static<IUtility, type
   }
 
   public setItemDiscount(itemDiscount: Money): this;
-  public setItemDiscount(itemDiscount: (itemDiscount: Money) => void): this;
-  public setItemDiscount(itemDiscount: Money | ((itemDiscount: Money) => void)): this {
+  public setItemDiscount(itemDiscount: (itemDiscount: OnlySetters<Money>) => void): this;
+  public setItemDiscount(itemDiscount: Money | ((itemDiscount: OnlySetters<Money>) => void)): this {
     if (itemDiscount instanceof Money) {
       this.itemDiscount = itemDiscount;
     } else {

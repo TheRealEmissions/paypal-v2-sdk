@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { EvidenceType } from "../Enums/EvidenceType.js";
 import { Document, TDocument } from "./Document.js";
 
@@ -15,8 +15,8 @@ export class AcknowledgeReturnItemEvidence
   private evidenceType?: EvidenceType;
 
   public setDocuments(...documents: Document[]): this;
-  public setDocuments(...documents: ((document: Document) => void)[]): this;
-  public setDocuments(...documents: (Document | ((document: Document) => void))[]) {
+  public setDocuments(...documents: ((document: OnlySetters<Document>) => void)[]): this;
+  public setDocuments(...documents: (Document | ((document: OnlySetters<Document>) => void))[]) {
     this.documents = documents.map((document) => {
       if (document instanceof Document) return document;
       const doc = new Document();

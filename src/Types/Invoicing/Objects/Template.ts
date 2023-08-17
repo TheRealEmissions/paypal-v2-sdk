@@ -1,6 +1,6 @@
 import PayPal from "../../../PayPal.js";
 import { UnitOfMeasure } from "../Enums/UnitOfMeasure.js";
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { TemplateInfo, TTemplateInfo } from "./TemplateInfo.js";
 import { TemplateSettings, TTemplateSettings } from "./TemplateSettings.js";
 import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
@@ -87,8 +87,8 @@ export class Template extends Utility implements Static<IUtility, typeof Templat
   }
 
   public setLinks(...links: LinkDescription[]): this;
-  public setLinks(...links: ((link: LinkDescription) => void)[]): this;
-  public setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
+  public setLinks(...links: ((link: OnlySetters<LinkDescription>) => void)[]): this;
+  public setLinks(...links: (LinkDescription | ((link: OnlySetters<LinkDescription>) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) return link;
       const linkDesc = new LinkDescription();
@@ -110,8 +110,8 @@ export class Template extends Utility implements Static<IUtility, typeof Templat
   }
 
   public setSettings(settings: TemplateSettings): this;
-  public setSettings(settings: (settings: TemplateSettings) => void): this;
-  public setSettings(settings: TemplateSettings | ((settings: TemplateSettings) => void)) {
+  public setSettings(settings: (settings: OnlySetters<TemplateSettings>) => void): this;
+  public setSettings(settings: TemplateSettings | ((settings: OnlySetters<TemplateSettings>) => void)) {
     if (settings instanceof TemplateSettings) {
       this.settings = settings;
     } else {
@@ -134,8 +134,8 @@ export class Template extends Utility implements Static<IUtility, typeof Templat
   }
 
   public setTemplateInfo(templateInfo: TemplateInfo): this;
-  public setTemplateInfo(templateInfo: (templateInfo: TemplateInfo) => void): this;
-  public setTemplateInfo(templateInfo: TemplateInfo | ((templateInfo: TemplateInfo) => void)) {
+  public setTemplateInfo(templateInfo: (templateInfo: OnlySetters<TemplateInfo>) => void): this;
+  public setTemplateInfo(templateInfo: TemplateInfo | ((templateInfo: OnlySetters<TemplateInfo>) => void)) {
     if (templateInfo instanceof TemplateInfo) {
       this.templateInfo = templateInfo;
     } else {

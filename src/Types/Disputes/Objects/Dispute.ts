@@ -1,4 +1,4 @@
-import { IUtility, Static, Utility } from "../../Utility";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility";
 import { DisputeChannel } from "../Enums/DisputeChannel";
 import { DisputeLifecycleStage } from "../Enums/DisputeLifecycleStage";
 import { Reason } from "../Enums/Reason";
@@ -82,8 +82,8 @@ export class Dispute extends Utility implements Static<IUtility, typeof Dispute>
   private updateTime?: string;
 
   public setAdjudications(...adjudications: Adjudication[]): this;
-  public setAdjudications(...adjudications: ((adjudication: Adjudication) => void)[]): this;
-  public setAdjudications(...adjudications: (Adjudication | ((adjudication: Adjudication) => void))[]) {
+  public setAdjudications(...adjudications: ((adjudication: OnlySetters<Adjudication>) => void)[]): this;
+  public setAdjudications(...adjudications: (Adjudication | ((adjudication: OnlySetters<Adjudication>) => void))[]) {
     this.adjudications = adjudications.map((adjudication) => {
       if (adjudication instanceof Adjudication) return adjudication;
       else {
@@ -100,10 +100,12 @@ export class Dispute extends Utility implements Static<IUtility, typeof Dispute>
 
   public setAllowedResponseOptions(allowedResponseOptions: AllowedResponseOptions): this;
   public setAllowedResponseOptions(
-    allowedResponseOptions: (allowedResponseOptions: AllowedResponseOptions) => void
+    allowedResponseOptions: (allowedResponseOptions: OnlySetters<AllowedResponseOptions>) => void
   ): this;
   public setAllowedResponseOptions(
-    allowedResponseOptions: AllowedResponseOptions | ((allowedResponseOptions: AllowedResponseOptions) => void)
+    allowedResponseOptions:
+      | AllowedResponseOptions
+      | ((allowedResponseOptions: OnlySetters<AllowedResponseOptions>) => void)
   ) {
     if (allowedResponseOptions instanceof AllowedResponseOptions) this.allowedResponseOptions = allowedResponseOptions;
     else allowedResponseOptions((this.allowedResponseOptions = new AllowedResponseOptions()));
@@ -122,9 +124,11 @@ export class Dispute extends Utility implements Static<IUtility, typeof Dispute>
   }
 
   public setCommunicationDetails(communicationDetails: CommunicationDetails): this;
-  public setCommunicationDetails(communicationDetails: (communicationDetails: CommunicationDetails) => void): this;
   public setCommunicationDetails(
-    communicationDetails: CommunicationDetails | ((communicationDetails: CommunicationDetails) => void)
+    communicationDetails: (communicationDetails: OnlySetters<CommunicationDetails>) => void
+  ): this;
+  public setCommunicationDetails(
+    communicationDetails: CommunicationDetails | ((communicationDetails: OnlySetters<CommunicationDetails>) => void)
   ) {
     if (communicationDetails instanceof CommunicationDetails) this.communicationDetails = communicationDetails;
     else communicationDetails((this.communicationDetails = new CommunicationDetails()));
@@ -143,8 +147,8 @@ export class Dispute extends Utility implements Static<IUtility, typeof Dispute>
   }
 
   public setDisputeAmount(disputeAmount: Money): this;
-  public setDisputeAmount(disputeAmount: (disputeAmount: Money) => void): this;
-  public setDisputeAmount(disputeAmount: Money | ((disputeAmount: Money) => void)) {
+  public setDisputeAmount(disputeAmount: (disputeAmount: OnlySetters<Money>) => void): this;
+  public setDisputeAmount(disputeAmount: Money | ((disputeAmount: OnlySetters<Money>) => void)) {
     if (disputeAmount instanceof Money) this.disputeAmount = disputeAmount;
     else disputeAmount((this.disputeAmount = new Money()));
     return this;
@@ -154,8 +158,8 @@ export class Dispute extends Utility implements Static<IUtility, typeof Dispute>
   }
 
   public setDisputeAsset(disputeAsset: Cryptocurrency): this;
-  public setDisputeAsset(disputeAsset: (disputeAsset: Cryptocurrency) => void): this;
-  public setDisputeAsset(disputeAsset: Cryptocurrency | ((disputeAsset: Cryptocurrency) => void)) {
+  public setDisputeAsset(disputeAsset: (disputeAsset: OnlySetters<Cryptocurrency>) => void): this;
+  public setDisputeAsset(disputeAsset: Cryptocurrency | ((disputeAsset: OnlySetters<Cryptocurrency>) => void)) {
     if (disputeAsset instanceof Cryptocurrency) this.disputeAsset = disputeAsset;
     else disputeAsset((this.disputeAsset = new Cryptocurrency()));
     return this;
@@ -204,8 +208,8 @@ export class Dispute extends Utility implements Static<IUtility, typeof Dispute>
   }
 
   public setDisputeOutcome(disputeOutcome: DisputeOutcome): this;
-  public setDisputeOutcome(disputeOutcome: (disputeOutcome: DisputeOutcome) => void): this;
-  public setDisputeOutcome(disputeOutcome: DisputeOutcome | ((disputeOutcome: DisputeOutcome) => void)) {
+  public setDisputeOutcome(disputeOutcome: (disputeOutcome: OnlySetters<DisputeOutcome>) => void): this;
+  public setDisputeOutcome(disputeOutcome: DisputeOutcome | ((disputeOutcome: OnlySetters<DisputeOutcome>) => void)) {
     if (disputeOutcome instanceof DisputeOutcome) this.disputeOutcome = disputeOutcome;
     else disputeOutcome((this.disputeOutcome = new DisputeOutcome()));
     return this;
@@ -215,9 +219,11 @@ export class Dispute extends Utility implements Static<IUtility, typeof Dispute>
   }
 
   public setDisputedTransactions(...disputedTransactions: TransactionInfo[]): this;
-  public setDisputedTransactions(...disputedTransactions: ((transactionInfo: TransactionInfo) => void)[]): this;
   public setDisputedTransactions(
-    ...disputedTransactions: (TransactionInfo | ((transactionInfo: TransactionInfo) => void))[]
+    ...disputedTransactions: ((transactionInfo: OnlySetters<TransactionInfo>) => void)[]
+  ): this;
+  public setDisputedTransactions(
+    ...disputedTransactions: (TransactionInfo | ((transactionInfo: OnlySetters<TransactionInfo>) => void))[]
   ) {
     this.disputedTransactions = disputedTransactions.map((transactionInfo) => {
       if (transactionInfo instanceof TransactionInfo) return transactionInfo;
@@ -234,8 +240,8 @@ export class Dispute extends Utility implements Static<IUtility, typeof Dispute>
   }
 
   public setEvidences(...evidences: Evidence[]): this;
-  public setEvidences(...evidences: ((evidence: Evidence) => void)[]): this;
-  public setEvidences(...evidences: (Evidence | ((evidence: Evidence) => void))[]) {
+  public setEvidences(...evidences: ((evidence: OnlySetters<Evidence>) => void)[]): this;
+  public setEvidences(...evidences: (Evidence | ((evidence: OnlySetters<Evidence>) => void))[]) {
     this.evidences = evidences.map((evidence) => {
       if (evidence instanceof Evidence) return evidence;
       else {
@@ -251,8 +257,8 @@ export class Dispute extends Utility implements Static<IUtility, typeof Dispute>
   }
 
   public setExtensions(extensions: Extensions): this;
-  public setExtensions(extensions: (extensions: Extensions) => void): this;
-  public setExtensions(extensions: Extensions | ((extensions: Extensions) => void)) {
+  public setExtensions(extensions: (extensions: OnlySetters<Extensions>) => void): this;
+  public setExtensions(extensions: Extensions | ((extensions: OnlySetters<Extensions>) => void)) {
     if (extensions instanceof Extensions) this.extensions = extensions;
     else extensions((this.extensions = new Extensions()));
     return this;
@@ -278,8 +284,8 @@ export class Dispute extends Utility implements Static<IUtility, typeof Dispute>
   }
 
   public setLinks(...links: LinkDescription[]): this;
-  public setLinks(...links: ((link: LinkDescription) => void)[]): this;
-  public setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
+  public setLinks(...links: ((link: OnlySetters<LinkDescription>) => void)[]): this;
+  public setLinks(...links: (LinkDescription | ((link: OnlySetters<LinkDescription>) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) return link;
       else {
@@ -295,8 +301,8 @@ export class Dispute extends Utility implements Static<IUtility, typeof Dispute>
   }
 
   public setMessages(...messages: Message[]): this;
-  public setMessages(...messages: ((message: Message) => void)[]): this;
-  public setMessages(...messages: (Message | ((message: Message) => void))[]) {
+  public setMessages(...messages: ((message: OnlySetters<Message>) => void)[]): this;
+  public setMessages(...messages: (Message | ((message: OnlySetters<Message>) => void))[]) {
     this.messages = messages.map((message) => {
       if (message instanceof Message) return message;
       else {
@@ -312,8 +318,10 @@ export class Dispute extends Utility implements Static<IUtility, typeof Dispute>
   }
 
   public setMoneyMovements(...moneyMovements: MoneyMovement[]): this;
-  public setMoneyMovements(...moneyMovements: ((moneyMovement: MoneyMovement) => void)[]): this;
-  public setMoneyMovements(...moneyMovements: (MoneyMovement | ((moneyMovement: MoneyMovement) => void))[]) {
+  public setMoneyMovements(...moneyMovements: ((moneyMovement: OnlySetters<MoneyMovement>) => void)[]): this;
+  public setMoneyMovements(
+    ...moneyMovements: (MoneyMovement | ((moneyMovement: OnlySetters<MoneyMovement>) => void))[]
+  ) {
     this.moneyMovements = moneyMovements.map((moneyMovement) => {
       if (moneyMovement instanceof MoneyMovement) return moneyMovement;
       else {
@@ -329,8 +337,8 @@ export class Dispute extends Utility implements Static<IUtility, typeof Dispute>
   }
 
   public setOffer(offer: Offer): this;
-  public setOffer(offer: (offer: Offer) => void): this;
-  public setOffer(offer: Offer | ((offer: Offer) => void)) {
+  public setOffer(offer: (offer: OnlySetters<Offer>) => void): this;
+  public setOffer(offer: Offer | ((offer: OnlySetters<Offer>) => void)) {
     if (offer instanceof Offer) this.offer = offer;
     else offer((this.offer = new Offer()));
     return this;
@@ -351,8 +359,10 @@ export class Dispute extends Utility implements Static<IUtility, typeof Dispute>
   }
 
   public setRefundDetails(refundDetails: ResponseRefundDetails): this;
-  public setRefundDetails(refundDetails: (refundDetails: ResponseRefundDetails) => void): this;
-  public setRefundDetails(refundDetails: ResponseRefundDetails | ((refundDetails: ResponseRefundDetails) => void)) {
+  public setRefundDetails(refundDetails: (refundDetails: OnlySetters<ResponseRefundDetails>) => void): this;
+  public setRefundDetails(
+    refundDetails: ResponseRefundDetails | ((refundDetails: OnlySetters<ResponseRefundDetails>) => void)
+  ) {
     if (refundDetails instanceof ResponseRefundDetails) this.refundDetails = refundDetails;
     else refundDetails((this.refundDetails = new ResponseRefundDetails()));
     return this;
@@ -381,8 +391,10 @@ export class Dispute extends Utility implements Static<IUtility, typeof Dispute>
   }
 
   public setSupportingInfo(...supportingInfo: SupportingInfo[]): this;
-  public setSupportingInfo(...supportingInfo: ((supportingInfo: SupportingInfo) => void)[]): this;
-  public setSupportingInfo(...supportingInfo: (SupportingInfo | ((supportingInfo: SupportingInfo) => void))[]) {
+  public setSupportingInfo(...supportingInfo: ((supportingInfo: OnlySetters<SupportingInfo>) => void)[]): this;
+  public setSupportingInfo(
+    ...supportingInfo: (SupportingInfo | ((supportingInfo: OnlySetters<SupportingInfo>) => void))[]
+  ) {
     this.supportingInfo = supportingInfo.map((supportingInfo) => {
       if (supportingInfo instanceof SupportingInfo) return supportingInfo;
       else {

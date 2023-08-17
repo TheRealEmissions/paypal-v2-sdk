@@ -1,4 +1,4 @@
-import { IUtility, Integer, Static, Utility } from "../../Utility";
+import { IUtility, Integer, OnlySetters, Static, Utility } from "../../Utility";
 import { Invoice, TInvoice } from "./Invoice";
 import { LinkDescription, TLinkDescription } from "./LinkDescription";
 
@@ -31,7 +31,7 @@ export class Invoices extends Utility implements Static<IUtility, typeof Invoice
     return this.totalItems;
   }
 
-  setItems(...items: (Invoice | ((invoice: Invoice) => void))[]) {
+  setItems(...items: (Invoice | ((invoice: OnlySetters<Invoice>) => void))[]) {
     this.items = items.map((item) => {
       if (item instanceof Invoice) return item;
       const itemInstance = new Invoice();
@@ -44,7 +44,7 @@ export class Invoices extends Utility implements Static<IUtility, typeof Invoice
     return this.items;
   }
 
-  setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
+  setLinks(...links: (LinkDescription | ((link: OnlySetters<LinkDescription>) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) return link;
       const linkInstance = new LinkDescription();

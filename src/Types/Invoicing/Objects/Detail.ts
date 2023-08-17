@@ -1,5 +1,5 @@
 import { FileReference, TFileReference } from "./FileReference";
-import { IUtility, Static, Utility } from "../../Utility";
+import { IUtility, Static, Utility, OnlySetters } from "../../Utility";
 
 export type TDetail = {
   reference?: string;
@@ -51,8 +51,8 @@ export class Detail extends Utility implements Static<IUtility, typeof Detail> {
   }
 
   public setAttachments(...attachments: FileReference[]): this;
-  public setAttachments(...attachments: ((file: FileReference) => void)[]): this;
-  public setAttachments(...attachments: (FileReference | ((file: FileReference) => void))[]) {
+  public setAttachments(...attachments: ((file: OnlySetters<FileReference>) => void)[]): this;
+  public setAttachments(...attachments: (FileReference | ((file: OnlySetters<FileReference>) => void))[]) {
     this.attachments = attachments.map((attachment) => {
       if (attachment instanceof FileReference) {
         return attachment;

@@ -1,5 +1,3 @@
-import { Invoice } from "./Invoicing/Objects/Invoice";
-
 export interface IUtility {
   new (...args: any[]): Utility;
   fromObject(obj: object): Utility;

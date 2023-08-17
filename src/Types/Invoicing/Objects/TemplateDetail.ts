@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { FileReference, TFileReference } from "./FileReference.js";
 import { PaymentTerm, TPaymentTerm } from "./PaymentTerm.js";
 import { TemplateMetadata, TTemplateMetadata } from "./TemplateMetadata.js";
@@ -33,8 +33,8 @@ export class TemplateDetail extends Utility implements Static<IUtility, typeof T
   }
 
   public setAttachments(...attachments: FileReference[]): this;
-  public setAttachments(...attachments: ((fileReference: FileReference) => void)[]): this;
-  public setAttachments(...attachments: (FileReference | ((fileReference: FileReference) => void))[]) {
+  public setAttachments(...attachments: ((fileReference: OnlySetters<FileReference>) => void)[]): this;
+  public setAttachments(...attachments: (FileReference | ((fileReference: OnlySetters<FileReference>) => void))[]) {
     this.attachments = attachments.map((attachment) => {
       if (attachment instanceof FileReference) return attachment;
       else {
@@ -82,8 +82,8 @@ export class TemplateDetail extends Utility implements Static<IUtility, typeof T
   }
 
   public setMetadata(metadata: TemplateMetadata): this;
-  public setMetadata(metadata: (metadata: TemplateMetadata) => void): this;
-  public setMetadata(metadata: TemplateMetadata | ((metadata: TemplateMetadata) => void)) {
+  public setMetadata(metadata: (metadata: OnlySetters<TemplateMetadata>) => void): this;
+  public setMetadata(metadata: TemplateMetadata | ((metadata: OnlySetters<TemplateMetadata>) => void)) {
     if (metadata instanceof TemplateMetadata) this.metadata = metadata;
     else {
       const m = new TemplateMetadata();
@@ -97,8 +97,8 @@ export class TemplateDetail extends Utility implements Static<IUtility, typeof T
   }
 
   public setPaymentTerm(paymentTerm: PaymentTerm): this;
-  public setPaymentTerm(paymentTerm: (paymentTerm: PaymentTerm) => void): this;
-  public setPaymentTerm(paymentTerm: PaymentTerm | ((paymentTerm: PaymentTerm) => void)) {
+  public setPaymentTerm(paymentTerm: (paymentTerm: OnlySetters<PaymentTerm>) => void): this;
+  public setPaymentTerm(paymentTerm: PaymentTerm | ((paymentTerm: OnlySetters<PaymentTerm>) => void)) {
     if (paymentTerm instanceof PaymentTerm) this.paymentTerm = paymentTerm;
     else {
       const p = new PaymentTerm();

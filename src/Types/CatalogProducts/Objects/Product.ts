@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import PayPal from "../../../PayPal.js";
 import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
 import { ProductCategory } from "../Enums/ProductCategory.js";
@@ -49,8 +49,8 @@ export class Product extends Utility implements Static<IUtility, typeof Product>
   }
 
   public update(patchRequest: PatchRequest): Promise<Product>;
-  public update(patchRequest: (patchRequest: PatchRequest) => void): Promise<Product>;
-  public update(patchRequest: PatchRequest | ((patchRequest: PatchRequest) => void)) {
+  public update(patchRequest: (patchRequest: OnlySetters<PatchRequest>) => void): Promise<Product>;
+  public update(patchRequest: PatchRequest | ((patchRequest: OnlySetters<PatchRequest>) => void)) {
     if (!this.PayPal) {
       throw new Error("To use in-built methods, you must pass PayPal instance to the constructor");
     }
@@ -119,8 +119,8 @@ export class Product extends Utility implements Static<IUtility, typeof Product>
   }
 
   public setLinks(...links: LinkDescription[]): this;
-  public setLinks(...links: ((link: LinkDescription) => void)[]): this;
-  public setLinks(...links: (LinkDescription | ((link: LinkDescription) => void))[]) {
+  public setLinks(...links: ((link: OnlySetters<LinkDescription>) => void)[]): this;
+  public setLinks(...links: (LinkDescription | ((link: OnlySetters<LinkDescription>) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) return link;
       const linkDesc = new LinkDescription();

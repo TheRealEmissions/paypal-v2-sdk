@@ -1,4 +1,4 @@
-import { IUtility, Static, Utility } from "../../Utility";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility";
 import { AcceptClaimReason } from "../Enums/AcceptClaimReason";
 import { AcceptClaimType } from "../Enums/AcceptClaimType";
 import { Money, TMoney } from "./Money";
@@ -67,8 +67,8 @@ export class AcceptClaim extends Utility implements Static<IUtility, typeof Acce
   }
 
   public setRefundAmount(refundAmount: Money): this;
-  public setRefundAmount(refundAmount: (money: Money) => void): this;
-  public setRefundAmount(refundAmount: Money | ((money: Money) => void)) {
+  public setRefundAmount(refundAmount: (money: OnlySetters<Money>) => void): this;
+  public setRefundAmount(refundAmount: Money | ((money: OnlySetters<Money>) => void)) {
     if (refundAmount instanceof Money) this.refundAmount = refundAmount;
     else {
       const money = new Money();
@@ -82,8 +82,10 @@ export class AcceptClaim extends Utility implements Static<IUtility, typeof Acce
   }
 
   public setReturnShipmentInfo(...returnShipmentInfo: ResponseShipmentInfo[]): this;
-  public setReturnShipmentInfo(...returnShipmentInfo: ((x: ResponseShipmentInfo) => void)[]): this;
-  public setReturnShipmentInfo(...returnShipmentInfo: (ResponseShipmentInfo | ((x: ResponseShipmentInfo) => void))[]) {
+  public setReturnShipmentInfo(...returnShipmentInfo: ((x: OnlySetters<ResponseShipmentInfo>) => void)[]): this;
+  public setReturnShipmentInfo(
+    ...returnShipmentInfo: (ResponseShipmentInfo | ((x: OnlySetters<ResponseShipmentInfo>) => void))[]
+  ) {
     this.returnShipmentInfo = returnShipmentInfo.map((returnShipmentInfo) => {
       if (returnShipmentInfo instanceof ResponseShipmentInfo) return returnShipmentInfo;
       const response = new ResponseShipmentInfo();
@@ -97,8 +99,10 @@ export class AcceptClaim extends Utility implements Static<IUtility, typeof Acce
   }
 
   public setReturnShippingAddress(returnShippingAddress: PortablePostalAddress): this;
-  public setReturnShippingAddress(returnShippingAddress: (x: PortablePostalAddress) => void): this;
-  public setReturnShippingAddress(returnShippingAddress: PortablePostalAddress | ((x: PortablePostalAddress) => void)) {
+  public setReturnShippingAddress(returnShippingAddress: (x: OnlySetters<PortablePostalAddress>) => void): this;
+  public setReturnShippingAddress(
+    returnShippingAddress: PortablePostalAddress | ((x: OnlySetters<PortablePostalAddress>) => void)
+  ) {
     if (returnShippingAddress instanceof PortablePostalAddress) this.returnShippingAddress = returnShippingAddress;
     else {
       const addressPortable = new PortablePostalAddress();

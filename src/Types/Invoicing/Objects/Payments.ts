@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { Money, TMoney } from "./Money.js";
 import { PaymentDetail, TPaymentDetail } from "./PaymentDetail.js";
 
@@ -12,8 +12,8 @@ export class Payments extends Utility implements Static<IUtility, typeof Payment
   private transactions?: PaymentDetail[];
 
   public setPaidAmount(paidAmount: Money): this;
-  public setPaidAmount(paidAmount: (money: Money) => void): this;
-  public setPaidAmount(paidAmount: Money | ((money: Money) => void)) {
+  public setPaidAmount(paidAmount: (money: OnlySetters<Money>) => void): this;
+  public setPaidAmount(paidAmount: Money | ((money: OnlySetters<Money>) => void)) {
     if (paidAmount instanceof Money) this.paidAmount = paidAmount;
     else {
       const money = new Money();
@@ -27,8 +27,8 @@ export class Payments extends Utility implements Static<IUtility, typeof Payment
   }
 
   public setTransactions(...transactions: PaymentDetail[]): this;
-  public setTransactions(...transactions: ((paymentDetail: PaymentDetail) => void)[]): this;
-  public setTransactions(...transactions: (PaymentDetail | ((paymentDetail: PaymentDetail) => void))[]) {
+  public setTransactions(...transactions: ((paymentDetail: OnlySetters<PaymentDetail>) => void)[]): this;
+  public setTransactions(...transactions: (PaymentDetail | ((paymentDetail: OnlySetters<PaymentDetail>) => void))[]) {
     this.transactions = transactions.map((x) => {
       if (x instanceof PaymentDetail) return x;
       else {

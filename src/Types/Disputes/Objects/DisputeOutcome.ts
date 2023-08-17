@@ -1,4 +1,4 @@
-import { IUtility, Static, Utility } from "../../Utility";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility";
 import { OutcomeCode } from "../Enums/OutcomeCode";
 import { Cryptocurrency, TCryptocurrency } from "./Cryptocurrency";
 import { Money, TMoney } from "./Money";
@@ -15,8 +15,8 @@ export class DisputeOutcome extends Utility implements Static<IUtility, typeof D
   private outcomeCode!: OutcomeCode;
 
   public setAmountRefunded(amountRefunded: Money): this;
-  public setAmountRefunded(amountRefunded: (type: Money) => void): this;
-  public setAmountRefunded(amountRefunded: Money | ((type: Money) => void)) {
+  public setAmountRefunded(amountRefunded: (type: OnlySetters<Money>) => void): this;
+  public setAmountRefunded(amountRefunded: Money | ((type: OnlySetters<Money>) => void)) {
     if (amountRefunded instanceof Money) this.amountRefunded = amountRefunded;
     else amountRefunded((this.amountRefunded = new Money()));
     return this;
@@ -26,8 +26,8 @@ export class DisputeOutcome extends Utility implements Static<IUtility, typeof D
   }
 
   public setAssetRefunded(assetRefunded: Cryptocurrency): this;
-  public setAssetRefunded(assetRefunded: (type: Cryptocurrency) => void): this;
-  public setAssetRefunded(assetRefunded: Cryptocurrency | ((type: Cryptocurrency) => void)) {
+  public setAssetRefunded(assetRefunded: (type: OnlySetters<Cryptocurrency>) => void): this;
+  public setAssetRefunded(assetRefunded: Cryptocurrency | ((type: OnlySetters<Cryptocurrency>) => void)) {
     if (assetRefunded instanceof Cryptocurrency) this.assetRefunded = assetRefunded;
     else assetRefunded((this.assetRefunded = new Cryptocurrency()));
     return this;

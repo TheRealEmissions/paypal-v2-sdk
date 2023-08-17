@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { Money, TMoney } from "./Money.js";
 import { Tax, TTax } from "./Tax.js";
 
@@ -16,8 +16,8 @@ export class ShippingCost extends Utility implements Static<IUtility, typeof Shi
    * @param amount - Value must be between 0 and 1,000,000
    */
   public setAmount(amount: Money): this;
-  public setAmount(amount: (money: Money) => void): this;
-  public setAmount(amount: Money | ((money: Money) => void)): this {
+  public setAmount(amount: (money: OnlySetters<Money>) => void): this;
+  public setAmount(amount: Money | ((money: OnlySetters<Money>) => void)): this {
     const MAX_AMOUNT = 1_000_000;
     if (amount instanceof Money) {
       if (parseFloat(amount.getValue() as string) < 0 || parseFloat(amount.getValue() as string) > MAX_AMOUNT) {
@@ -39,8 +39,8 @@ export class ShippingCost extends Utility implements Static<IUtility, typeof Shi
   }
 
   public setTax(tax: Tax): this;
-  public setTax(tax: (tax: Tax) => void): this;
-  public setTax(tax: Tax | ((tax: Tax) => void)) {
+  public setTax(tax: (tax: OnlySetters<Tax>) => void): this;
+  public setTax(tax: Tax | ((tax: OnlySetters<Tax>) => void)) {
     if (tax instanceof Tax) this.tax = tax;
     else {
       const taxObj = new Tax();

@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { Document, TDocument } from "./Document.js";
 import { ResponseTrackingInfo, TResponseTrackingInfo } from "./ResponseTrackingInfo.js";
 
@@ -12,8 +12,8 @@ export class ResponseShipmentInfo extends Utility implements Static<IUtility, ty
   private trackingInfo?: ResponseTrackingInfo;
 
   public setShipmentLabel(shipmentLabel: Document): this;
-  public setShipmentLabel(shipmentLabel: (shipmentLabel: Document) => void): this;
-  public setShipmentLabel(shipmentLabel: Document | ((shipmentLabel: Document) => void)) {
+  public setShipmentLabel(shipmentLabel: (shipmentLabel: OnlySetters<Document>) => void): this;
+  public setShipmentLabel(shipmentLabel: Document | ((shipmentLabel: OnlySetters<Document>) => void)) {
     if (shipmentLabel instanceof Document) this.shipmentLabel = shipmentLabel;
     else {
       const label = new Document();
@@ -27,8 +27,10 @@ export class ResponseShipmentInfo extends Utility implements Static<IUtility, ty
   }
 
   public setTrackingInfo(trackingInfo: ResponseTrackingInfo): this;
-  public setTrackingInfo(trackingInfo: (trackingInfo: ResponseTrackingInfo) => void): this;
-  public setTrackingInfo(trackingInfo: ResponseTrackingInfo | ((trackingInfo: ResponseTrackingInfo) => void)) {
+  public setTrackingInfo(trackingInfo: (trackingInfo: OnlySetters<ResponseTrackingInfo>) => void): this;
+  public setTrackingInfo(
+    trackingInfo: ResponseTrackingInfo | ((trackingInfo: OnlySetters<ResponseTrackingInfo>) => void)
+  ) {
     if (trackingInfo instanceof ResponseTrackingInfo) this.trackingInfo = trackingInfo;
     else {
       const info = new ResponseTrackingInfo();

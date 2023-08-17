@@ -1,4 +1,4 @@
-import { IUtility, Static, Utility } from "../../Utility.js";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility.js";
 import { CancellationDetails, TCancellationDetails } from "./CancellationDetails.js";
 import { Money, TMoney } from "./Money.js";
 
@@ -12,9 +12,11 @@ export class CanceledRecurringBilling extends Utility implements Static<IUtility
   private expectedRefund?: Money;
 
   public setCancellationDetails(cancellationDetails: CancellationDetails): this;
-  public setCancellationDetails(cancellationDetails: (cancellationDetails: CancellationDetails) => void): this;
   public setCancellationDetails(
-    cancellationDetails: CancellationDetails | ((cancellationDetails: CancellationDetails) => void)
+    cancellationDetails: (cancellationDetails: OnlySetters<CancellationDetails>) => void
+  ): this;
+  public setCancellationDetails(
+    cancellationDetails: CancellationDetails | ((cancellationDetails: OnlySetters<CancellationDetails>) => void)
   ) {
     if (cancellationDetails instanceof CancellationDetails) this.cancellationDetails = cancellationDetails;
     else cancellationDetails((this.cancellationDetails = new CancellationDetails()));
@@ -25,8 +27,8 @@ export class CanceledRecurringBilling extends Utility implements Static<IUtility
   }
 
   public setExpectedRefund(expectedRefund: Money): this;
-  public setExpectedRefund(expectedRefund: (expectedRefund: Money) => void): this;
-  public setExpectedRefund(expectedRefund: Money | ((expectedRefund: Money) => void)) {
+  public setExpectedRefund(expectedRefund: (expectedRefund: OnlySetters<Money>) => void): this;
+  public setExpectedRefund(expectedRefund: Money | ((expectedRefund: OnlySetters<Money>) => void)) {
     if (expectedRefund instanceof Money) this.expectedRefund = expectedRefund;
     else expectedRefund((this.expectedRefund = new Money()));
     return this;

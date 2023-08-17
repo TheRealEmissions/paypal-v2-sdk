@@ -1,5 +1,5 @@
 import { DisputeLifecycleStage } from "../Enums/DisputeLifecycleStage.js";
-import { IUtility, Static, Utility } from "../../Utility.js";
+import { IUtility, Static, Utility, OnlySetters } from "../../Utility.js";
 import { Document, TDocument } from "./Document.js";
 import { EvidenceSource } from "../Enums/EvidenceSource.js";
 
@@ -35,8 +35,8 @@ export class SupportingInfo extends Utility implements Static<IUtility, typeof S
   }
 
   public setDocuments(...documents: Document[]): this;
-  public setDocuments(...documents: ((document: Document) => void)[]): this;
-  public setDocuments(...documents: (Document | ((document: Document) => void))[]) {
+  public setDocuments(...documents: ((document: OnlySetters<Document>) => void)[]): this;
+  public setDocuments(...documents: (Document | ((document: OnlySetters<Document>) => void))[]) {
     this.documents = documents.map((document) => {
       if (document instanceof Document) return document;
       else {

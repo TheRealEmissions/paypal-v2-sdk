@@ -1,5 +1,5 @@
 import { UnitOfMeasure } from "../Enums/UnitOfMeasure.js";
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { Discount, TDiscount } from "./Discount.js";
 import { Tax, TTax } from "./Tax.js";
 import { Money, TMoney } from "./Money.js";
@@ -44,8 +44,8 @@ export class Item extends Utility implements Static<IUtility, typeof Item> {
   }
 
   public setItemUnitAmount(unitAmount: Money): this;
-  public setItemUnitAmount(unitAmount: (unitAmount: Money) => void): this;
-  public setItemUnitAmount(unitAmount: Money | ((unitAmount: Money) => void)): this {
+  public setItemUnitAmount(unitAmount: (unitAmount: OnlySetters<Money>) => void): this;
+  public setItemUnitAmount(unitAmount: Money | ((unitAmount: OnlySetters<Money>) => void)): this {
     if (unitAmount instanceof Money) {
       this.unitAmount = unitAmount;
     } else {
@@ -68,8 +68,8 @@ export class Item extends Utility implements Static<IUtility, typeof Item> {
   }
 
   public setItemDiscount(discount: Discount): this;
-  public setItemDiscount(discount: (discount: Discount) => void): this;
-  public setItemDiscount(discount: Discount | ((discount: Discount) => void)): this {
+  public setItemDiscount(discount: (discount: OnlySetters<Discount>) => void): this;
+  public setItemDiscount(discount: Discount | ((discount: OnlySetters<Discount>) => void)): this {
     if (discount instanceof Discount) {
       this.discount = discount;
     } else {
@@ -100,8 +100,8 @@ export class Item extends Utility implements Static<IUtility, typeof Item> {
   }
 
   public setItemTax(tax: Tax): this;
-  public setItemTax(tax: (tax: Tax) => void): this;
-  public setItemTax(tax: Tax | ((tax: Tax) => void)): this {
+  public setItemTax(tax: (tax: OnlySetters<Tax>) => void): this;
+  public setItemTax(tax: Tax | ((tax: OnlySetters<Tax>) => void)): this {
     if (tax instanceof Tax) {
       this.tax = tax;
     } else {

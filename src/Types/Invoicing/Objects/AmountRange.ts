@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { Money, TMoney } from "./Money.js";
 
 export type TAmountRange = {
@@ -11,8 +11,8 @@ export class AmountRange extends Utility implements Static<IUtility, typeof Amou
   private upperAmount?: Money;
 
   public setLowerAmount(lowerAmount: Money): this;
-  public setLowerAmount(lowerAmount: (lowerAmount: Money) => void): this;
-  public setLowerAmount(lowerAmount: Money | ((lowerAmount: Money) => void)): this {
+  public setLowerAmount(lowerAmount: (lowerAmount: OnlySetters<Money>) => void): this;
+  public setLowerAmount(lowerAmount: Money | ((lowerAmount: OnlySetters<Money>) => void)): this {
     if (lowerAmount instanceof Money) {
       this.lowerAmount = lowerAmount;
     } else {
@@ -27,8 +27,8 @@ export class AmountRange extends Utility implements Static<IUtility, typeof Amou
   }
 
   public setUpperAmount(upperAmount: Money): this;
-  public setUpperAmount(upperAmount: (upperAmount: Money) => void): this;
-  public setUpperAmount(upperAmount: Money | ((upperAmount: Money) => void)): this {
+  public setUpperAmount(upperAmount: (upperAmount: OnlySetters<Money>) => void): this;
+  public setUpperAmount(upperAmount: Money | ((upperAmount: OnlySetters<Money>) => void)): this {
     if (upperAmount instanceof Money) {
       this.upperAmount = upperAmount;
     } else {

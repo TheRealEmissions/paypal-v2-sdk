@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility";
 import { AcceptClaim, TAcceptClaim } from "./AcceptClaim";
 import { AcknowledgeReturnItem, TAcknowledgeReturnItem } from "./AcknowledgeReturnItem";
 import { MakeOffer, TMakeOffer } from "./MakeOffer";
@@ -15,8 +15,8 @@ export class AllowedResponseOptions extends Utility implements Static<IUtility, 
   private makeOffer?: MakeOffer;
 
   public setAcceptClaim(acceptClaim: AcceptClaim): this;
-  public setAcceptClaim(acceptClaim: (claim: AcceptClaim) => void): this;
-  public setAcceptClaim(acceptClaim: AcceptClaim | ((claim: AcceptClaim) => void)) {
+  public setAcceptClaim(acceptClaim: (claim: OnlySetters<AcceptClaim>) => void): this;
+  public setAcceptClaim(acceptClaim: AcceptClaim | ((claim: OnlySetters<AcceptClaim>) => void)) {
     if (acceptClaim instanceof AcceptClaim) this.acceptClaim = acceptClaim;
     else {
       const claim = new AcceptClaim();
@@ -30,9 +30,9 @@ export class AllowedResponseOptions extends Utility implements Static<IUtility, 
   }
 
   public setAcknowledgeReturnItem(acknowledgeReturnItem: AcknowledgeReturnItem): this;
-  public setAcknowledgeReturnItem(acknowledgeReturnItem: (item: AcknowledgeReturnItem) => void): this;
+  public setAcknowledgeReturnItem(acknowledgeReturnItem: (item: OnlySetters<AcknowledgeReturnItem>) => void): this;
   public setAcknowledgeReturnItem(
-    acknowledgeReturnItem: AcknowledgeReturnItem | ((item: AcknowledgeReturnItem) => void)
+    acknowledgeReturnItem: AcknowledgeReturnItem | ((item: OnlySetters<AcknowledgeReturnItem>) => void)
   ) {
     if (acknowledgeReturnItem instanceof AcknowledgeReturnItem) this.acknowledgeReturnItem = acknowledgeReturnItem;
     else {
@@ -47,8 +47,8 @@ export class AllowedResponseOptions extends Utility implements Static<IUtility, 
   }
 
   public setMakeOffer(makeOffer: MakeOffer): this;
-  public setMakeOffer(makeOffer: (offer: MakeOffer) => void): this;
-  public setMakeOffer(makeOffer: MakeOffer | ((offer: MakeOffer) => void)) {
+  public setMakeOffer(makeOffer: (offer: OnlySetters<MakeOffer>) => void): this;
+  public setMakeOffer(makeOffer: MakeOffer | ((offer: OnlySetters<MakeOffer>) => void)) {
     if (makeOffer instanceof MakeOffer) this.makeOffer = makeOffer;
     else {
       const offer = new MakeOffer();

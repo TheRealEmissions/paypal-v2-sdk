@@ -1,4 +1,4 @@
-import { IUtility, Static, Utility } from "../../Utility";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility";
 import { LinkDescription, TLinkDescription } from "./LinkDescription";
 import { TTrackerIdentifier, TrackerIdentifier } from "./TrackerIdentifier";
 
@@ -15,9 +15,11 @@ export class TrackerIdentifierCollection
   private links?: LinkDescription[];
 
   public setTrackerIdentifiers(...trackerIdentifiers: TrackerIdentifier[]): this;
-  public setTrackerIdentifiers(...trackerIdentifiers: ((trackerIdentifier: TrackerIdentifier) => void)[]): this;
   public setTrackerIdentifiers(
-    ...trackerIdentifiers: (TrackerIdentifier | ((trackerIdentifier: TrackerIdentifier) => void))[]
+    ...trackerIdentifiers: ((trackerIdentifier: OnlySetters<TrackerIdentifier>) => void)[]
+  ): this;
+  public setTrackerIdentifiers(
+    ...trackerIdentifiers: (TrackerIdentifier | ((trackerIdentifier: OnlySetters<TrackerIdentifier>) => void))[]
   ) {
     this.trackerIdentifiers = trackerIdentifiers.map((trackerIdentifier) => {
       if (trackerIdentifier instanceof TrackerIdentifier) {
@@ -35,8 +37,8 @@ export class TrackerIdentifierCollection
   }
 
   public setLinks(...links: LinkDescription[]): this;
-  public setLinks(...links: ((links: LinkDescription) => void)[]): this;
-  public setLinks(...links: (LinkDescription | ((links: LinkDescription) => void))[]) {
+  public setLinks(...links: ((links: OnlySetters<LinkDescription>) => void)[]): this;
+  public setLinks(...links: (LinkDescription | ((links: OnlySetters<LinkDescription>) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) {
         return link;

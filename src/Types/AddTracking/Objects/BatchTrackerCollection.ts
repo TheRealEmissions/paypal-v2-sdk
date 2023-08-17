@@ -1,3 +1,4 @@
+import { OnlySetters } from "./../../Utility.js";
 import { PayPalError, TError } from "../../Objects/Error.js";
 import { Utility, IUtility, Static } from "../../Utility.js";
 import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
@@ -15,8 +16,8 @@ export class BatchTrackerCollection extends Utility implements Static<IUtility, 
   private trackerIdentifiers?: TrackerIdentifier[];
 
   public setErrors(...errors: PayPalError[]): this;
-  public setErrors(...errors: ((error: PayPalError) => void)[]): this;
-  public setErrors(...errors: (PayPalError | ((error: PayPalError) => void))[]) {
+  public setErrors(...errors: ((error: OnlySetters<PayPalError>) => void)[]): this;
+  public setErrors(...errors: (PayPalError | ((error: OnlySetters<PayPalError>) => void))[]) {
     this.errors = errors.map((error) => {
       if (error instanceof PayPalError) {
         return error;
@@ -33,8 +34,8 @@ export class BatchTrackerCollection extends Utility implements Static<IUtility, 
   }
 
   public setLinks(...links: LinkDescription[]): this;
-  public setLinks(...links: ((links: LinkDescription) => void)[]): this;
-  public setLinks(...links: (LinkDescription | ((links: LinkDescription) => void))[]) {
+  public setLinks(...links: ((links: OnlySetters<LinkDescription>) => void)[]): this;
+  public setLinks(...links: (LinkDescription | ((links: OnlySetters<LinkDescription>) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) {
         return link;
@@ -51,9 +52,11 @@ export class BatchTrackerCollection extends Utility implements Static<IUtility, 
   }
 
   public setTrackerIdentifiers(...trackerIdentifiers: TrackerIdentifier[]): this;
-  public setTrackerIdentifiers(...trackerIdentifiers: ((trackerIdentifiers: TrackerIdentifier) => void)[]): this;
   public setTrackerIdentifiers(
-    ...trackerIdentifiers: (TrackerIdentifier | ((trackerIdentifiers: TrackerIdentifier) => void))[]
+    ...trackerIdentifiers: ((trackerIdentifiers: OnlySetters<TrackerIdentifier>) => void)[]
+  ): this;
+  public setTrackerIdentifiers(
+    ...trackerIdentifiers: (TrackerIdentifier | ((trackerIdentifiers: OnlySetters<TrackerIdentifier>) => void))[]
   ) {
     this.trackerIdentifiers = trackerIdentifiers.map((trackerIdentifier) => {
       if (trackerIdentifier instanceof TrackerIdentifier) {

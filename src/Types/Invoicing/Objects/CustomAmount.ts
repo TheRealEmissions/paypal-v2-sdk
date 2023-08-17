@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { Money, TMoney } from "./Money.js";
 
 export type TCustomAmount = {
@@ -19,8 +19,8 @@ export class CustomAmount extends Utility implements Static<IUtility, typeof Cus
   }
 
   public setAmount(amount: Money): this;
-  public setAmount(amount: (amount: Money) => void): this;
-  public setAmount(amount: Money | ((amount: Money) => void)): this {
+  public setAmount(amount: (amount: OnlySetters<Money>) => void): this;
+  public setAmount(amount: Money | ((amount: OnlySetters<Money>) => void)): this {
     const MAX_AMOUNT = 1_000_000;
     if (amount instanceof Money) {
       if (Math.abs(parseFloat(amount.getValue() as string)) > MAX_AMOUNT) {

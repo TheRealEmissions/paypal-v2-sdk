@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { BillingInfo, TBillingInfo } from "./BillingInfo.js";
 import { ContactInformation, TContactInformation } from "./ContactInformation.js";
 
@@ -12,8 +12,8 @@ export class RecipientInfo extends Utility implements Static<IUtility, typeof Re
   private shippingInfo?: ContactInformation;
 
   public setBillingInfo(billingInfo: BillingInfo): this;
-  public setBillingInfo(billingInfo: (billingInfo: BillingInfo) => void): this;
-  public setBillingInfo(billingInfo: BillingInfo | ((billingInfo: BillingInfo) => void)) {
+  public setBillingInfo(billingInfo: (billingInfo: OnlySetters<BillingInfo>) => void): this;
+  public setBillingInfo(billingInfo: BillingInfo | ((billingInfo: OnlySetters<BillingInfo>) => void)) {
     if (billingInfo instanceof BillingInfo) this.billingInfo = billingInfo;
     else {
       const info = new BillingInfo();
@@ -27,8 +27,10 @@ export class RecipientInfo extends Utility implements Static<IUtility, typeof Re
   }
 
   public setShippingInfo(shippingInfo: ContactInformation): this;
-  public setShippingInfo(shippingInfo: (contactInformation: ContactInformation) => void): this;
-  public setShippingInfo(shippingInfo: ContactInformation | ((contactInformation: ContactInformation) => void)) {
+  public setShippingInfo(shippingInfo: (contactInformation: OnlySetters<ContactInformation>) => void): this;
+  public setShippingInfo(
+    shippingInfo: ContactInformation | ((contactInformation: OnlySetters<ContactInformation>) => void)
+  ) {
     if (shippingInfo instanceof ContactInformation) this.shippingInfo = shippingInfo;
     else {
       const info = new ContactInformation();

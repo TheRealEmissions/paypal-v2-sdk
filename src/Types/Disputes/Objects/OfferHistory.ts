@@ -1,6 +1,6 @@
 import { DisputeLifecycleStage } from "../Enums/DisputeLifecycleStage.js";
 import { OfferType } from "../Enums/OfferType.js";
-import { IUtility, Static, Utility } from "../../Utility.js";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility.js";
 import { Money, TMoney } from "./Money.js";
 import { OfferHistoryActor } from "../Enums/OfferHistoryActor.js";
 import { OfferHistoryEventType } from "../Enums/OfferHistoryEventType.js";
@@ -73,8 +73,8 @@ export class OfferHistory extends Utility implements Static<IUtility, typeof Off
   }
 
   public setOfferAmount(offerAmount: Money): this;
-  public setOfferAmount(offerAmount: (type: Money) => void): this;
-  public setOfferAmount(offerAmount: Money | ((type: Money) => void)) {
+  public setOfferAmount(offerAmount: (type: OnlySetters<Money>) => void): this;
+  public setOfferAmount(offerAmount: Money | ((type: OnlySetters<Money>) => void)) {
     if (offerAmount instanceof Money) this.offerAmount = offerAmount;
     else offerAmount((this.offerAmount = new Money()));
     return this;

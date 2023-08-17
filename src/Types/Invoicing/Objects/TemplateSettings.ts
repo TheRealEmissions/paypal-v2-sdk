@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { TemplateItemSetting, TTemplateItemSetting } from "./TemplateItemSetting.js";
 import { TemplateSubtotalSetting, TTemplateSubtotalSetting } from "./TemplateSubtotalSetting.js";
 
@@ -12,9 +12,11 @@ export class TemplateSettings extends Utility implements Static<IUtility, typeof
   private templateSubtotalSettings?: TemplateSubtotalSetting[];
 
   public setTemplateItemSettings(...templateItemSettings: TemplateItemSetting[]): this;
-  public setTemplateItemSettings(...templateItemSettings: ((setting: TemplateItemSetting) => void)[]): this;
   public setTemplateItemSettings(
-    ...templateItemSettings: (TemplateItemSetting | ((setting: TemplateItemSetting) => void))[]
+    ...templateItemSettings: ((setting: OnlySetters<TemplateItemSetting>) => void)[]
+  ): this;
+  public setTemplateItemSettings(
+    ...templateItemSettings: (TemplateItemSetting | ((setting: OnlySetters<TemplateItemSetting>) => void))[]
   ) {
     this.templateItemSettings = templateItemSettings.map((templateItemSetting) => {
       if (templateItemSetting instanceof TemplateItemSetting) return templateItemSetting;
@@ -31,9 +33,11 @@ export class TemplateSettings extends Utility implements Static<IUtility, typeof
   }
 
   public setTemplateSubtotalSettings(...templateSubtotalSettings: TemplateSubtotalSetting[]): this;
-  public setTemplateSubtotalSettings(...templateSubtotalSettings: ((setting: TemplateSubtotalSetting) => void)[]): this;
   public setTemplateSubtotalSettings(
-    ...templateSubtotalSettings: (TemplateSubtotalSetting | ((setting: TemplateSubtotalSetting) => void))[]
+    ...templateSubtotalSettings: ((setting: OnlySetters<TemplateSubtotalSetting>) => void)[]
+  ): this;
+  public setTemplateSubtotalSettings(
+    ...templateSubtotalSettings: (TemplateSubtotalSetting | ((setting: OnlySetters<TemplateSubtotalSetting>) => void))[]
   ) {
     this.templateSubtotalSettings = templateSubtotalSettings.map((templateSubtotalSetting) => {
       if (templateSubtotalSetting instanceof TemplateSubtotalSetting) return templateSubtotalSetting;

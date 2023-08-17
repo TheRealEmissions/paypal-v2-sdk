@@ -1,4 +1,4 @@
-import { IUtility, Utility, Static } from "../../Utility.js";
+import { IUtility, Utility, Static, OnlySetters } from "../../Utility.js";
 import { Cryptocurrency, TCryptocurrency } from "./Cryptocurrency.js";
 import { Money, TMoney } from "./Money.js";
 
@@ -14,8 +14,12 @@ export class IncorrectTransactionAmount extends Utility implements Static<IUtili
   private correctTransactionTime?: string;
 
   public setCorrectTransactionAmount(correctTransactionAmount: Money): this;
-  public setCorrectTransactionAmount(correctTransactionAmount: (correctTransactionAmount: Money) => void): this;
-  public setCorrectTransactionAmount(correctTransactionAmount: Money | ((correctTransactionAmount: Money) => void)) {
+  public setCorrectTransactionAmount(
+    correctTransactionAmount: (correctTransactionAmount: OnlySetters<Money>) => void
+  ): this;
+  public setCorrectTransactionAmount(
+    correctTransactionAmount: Money | ((correctTransactionAmount: OnlySetters<Money>) => void)
+  ) {
     if (correctTransactionAmount instanceof Money) this.correctTransactionAmount = correctTransactionAmount;
     else correctTransactionAmount((this.correctTransactionAmount = new Money()));
     return this;
@@ -25,9 +29,11 @@ export class IncorrectTransactionAmount extends Utility implements Static<IUtili
   }
 
   public setCorrectTransactionAsset(correctTransactionAsset: Cryptocurrency): this;
-  public setCorrectTransactionAsset(correctTransactionAsset: (correctTransactionAsset: Cryptocurrency) => void): this;
   public setCorrectTransactionAsset(
-    correctTransactionAsset: Cryptocurrency | ((correctTransactionAsset: Cryptocurrency) => void)
+    correctTransactionAsset: (correctTransactionAsset: OnlySetters<Cryptocurrency>) => void
+  ): this;
+  public setCorrectTransactionAsset(
+    correctTransactionAsset: Cryptocurrency | ((correctTransactionAsset: OnlySetters<Cryptocurrency>) => void)
   ) {
     if (correctTransactionAsset instanceof Cryptocurrency) this.correctTransactionAsset = correctTransactionAsset;
     else correctTransactionAsset((this.correctTransactionAsset = new Cryptocurrency()));

@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { LinkDescription, TLinkDescription } from "./LinkDescription.js";
 
 export type TAcceptedResponse = {
@@ -9,8 +9,8 @@ export class AcceptedResponse extends Utility implements Static<IUtility, typeof
   private links?: LinkDescription[];
 
   public setLinks(...links: LinkDescription[]): this;
-  public setLinks(...links: ((links: LinkDescription) => void)[]): this;
-  public setLinks(...links: (LinkDescription | ((links: LinkDescription) => void))[]) {
+  public setLinks(...links: ((links: OnlySetters<LinkDescription>) => void)[]): this;
+  public setLinks(...links: (LinkDescription | ((links: OnlySetters<LinkDescription>) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) {
         return link;

@@ -1,5 +1,5 @@
 import { OfferType } from "../Enums/OfferType.js";
-import { IUtility, Static, Utility } from "../../Utility.js";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility.js";
 import { Money, TMoney } from "./Money.js";
 import { OfferHistory, TOfferHistory } from "./OfferHistory.js";
 
@@ -17,8 +17,8 @@ export class Offer extends Utility implements Static<IUtility, typeof Offer> {
   private sellerOfferedAmount?: Money;
 
   public setBuyerRequestedAmount(buyerRequestedAmount: Money): this;
-  public setBuyerRequestedAmount(buyerRequestedAmount: (type: Money) => void): this;
-  public setBuyerRequestedAmount(buyerRequestedAmount: Money | ((type: Money) => void)) {
+  public setBuyerRequestedAmount(buyerRequestedAmount: (type: OnlySetters<Money>) => void): this;
+  public setBuyerRequestedAmount(buyerRequestedAmount: Money | ((type: OnlySetters<Money>) => void)) {
     if (buyerRequestedAmount instanceof Money) this.buyerRequestedAmount = buyerRequestedAmount;
     else buyerRequestedAmount((this.buyerRequestedAmount = new Money()));
     return this;
@@ -28,8 +28,8 @@ export class Offer extends Utility implements Static<IUtility, typeof Offer> {
   }
 
   public setHistory(...history: OfferHistory[]): this;
-  public setHistory(...history: ((type: OfferHistory) => void)[]): this;
-  public setHistory(...history: (OfferHistory | ((type: OfferHistory) => void))[]) {
+  public setHistory(...history: ((type: OnlySetters<OfferHistory>) => void)[]): this;
+  public setHistory(...history: (OfferHistory | ((type: OnlySetters<OfferHistory>) => void))[]) {
     this.history = history.map((item) => {
       if (item instanceof OfferHistory) return item;
       else {
@@ -56,8 +56,8 @@ export class Offer extends Utility implements Static<IUtility, typeof Offer> {
   }
 
   public setSellerOfferedAmount(sellerOfferedAmount: Money): this;
-  public setSellerOfferedAmount(sellerOfferedAmount: (type: Money) => void): this;
-  public setSellerOfferedAmount(sellerOfferedAmount: Money | ((type: Money) => void)) {
+  public setSellerOfferedAmount(sellerOfferedAmount: (type: OnlySetters<Money>) => void): this;
+  public setSellerOfferedAmount(sellerOfferedAmount: Money | ((type: OnlySetters<Money>) => void)) {
     if (sellerOfferedAmount instanceof Money) this.sellerOfferedAmount = sellerOfferedAmount;
     else sellerOfferedAmount((this.sellerOfferedAmount = new Money()));
     return this;

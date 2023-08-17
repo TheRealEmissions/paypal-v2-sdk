@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { PartialPayment, TPartialPayment } from "./PartialPayment.js";
 
 export type TConfiguration = {
@@ -25,8 +25,10 @@ export class Configuration extends Utility implements Static<IUtility, typeof Co
   }
 
   public setPartialPayment(partialPayment: PartialPayment): this;
-  public setPartialPayment(partialPayment: (partialPayment: PartialPayment) => void): this;
-  public setPartialPayment(partialPayment: PartialPayment | ((partialPayment: PartialPayment) => void)): this {
+  public setPartialPayment(partialPayment: (partialPayment: OnlySetters<PartialPayment>) => void): this;
+  public setPartialPayment(
+    partialPayment: PartialPayment | ((partialPayment: OnlySetters<PartialPayment>) => void)
+  ): this {
     if (partialPayment instanceof PartialPayment) {
       this.partialPayment = partialPayment;
     } else {

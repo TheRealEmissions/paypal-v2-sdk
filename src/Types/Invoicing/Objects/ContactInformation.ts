@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { PortablePostalAddress, TPortablePostalAddress } from "./PortablePostalAddress.js";
 import { Name, TName } from "./Name.js";
 
@@ -22,8 +22,8 @@ export class ContactInformation extends Utility implements Static<IUtility, type
   }
 
   public setAddress(address: PortablePostalAddress): this;
-  public setAddress(address: (address: PortablePostalAddress) => void): this;
-  public setAddress(address: PortablePostalAddress | ((address: PortablePostalAddress) => void)) {
+  public setAddress(address: (address: OnlySetters<PortablePostalAddress>) => void): this;
+  public setAddress(address: PortablePostalAddress | ((address: OnlySetters<PortablePostalAddress>) => void)) {
     if (address instanceof PortablePostalAddress) {
       this.address = address;
     } else {
@@ -38,8 +38,8 @@ export class ContactInformation extends Utility implements Static<IUtility, type
   }
 
   public setName(name: Name): this;
-  public setName(name: (name: Name) => void): this;
-  public setName(name: Name | ((name: Name) => void)): this {
+  public setName(name: (name: OnlySetters<Name>) => void): this;
+  public setName(name: Name | ((name: OnlySetters<Name>) => void)): this {
     if (name instanceof Name) {
       this.name = name;
     } else {

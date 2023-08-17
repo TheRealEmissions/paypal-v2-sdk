@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { Money, TMoney } from "./Money.js";
 
 export type TDiscount = {
@@ -11,8 +11,8 @@ export class Discount extends Utility implements Static<IUtility, typeof Discoun
   private percent?: string;
 
   public setAmount(amount: Money): this;
-  public setAmount(amount: (amount: Money) => void): this;
-  public setAmount(amount: Money | ((amount: Money) => void)): this {
+  public setAmount(amount: (amount: OnlySetters<Money>) => void): this;
+  public setAmount(amount: Money | ((amount: OnlySetters<Money>) => void)): this {
     if (amount instanceof Money) {
       this.amount = amount;
     } else {
