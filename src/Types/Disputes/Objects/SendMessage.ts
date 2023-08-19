@@ -4,6 +4,10 @@ export type TSendMessage = {
   message: string;
 };
 
+type SendMessageFields = {
+  readonly message: string;
+};
+
 export class SendMessage extends Utility implements Static<IUtility, typeof SendMessage> {
   private message!: string;
 
@@ -15,8 +19,8 @@ export class SendMessage extends Utility implements Static<IUtility, typeof Send
     return this.message;
   }
 
-  public override getFields<T extends Partial<TSendMessage>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<SendMessageFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TSendMessage) {

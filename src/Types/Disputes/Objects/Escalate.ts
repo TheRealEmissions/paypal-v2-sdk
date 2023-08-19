@@ -4,6 +4,10 @@ export type TEscalate = {
   note: string;
 };
 
+type EscalateFields = {
+  readonly note: string;
+};
+
 export class Escalate extends Utility implements Static<IUtility, typeof Escalate> {
   private note!: string;
 
@@ -15,8 +19,8 @@ export class Escalate extends Utility implements Static<IUtility, typeof Escalat
     return this.note;
   }
 
-  public override getFields<T extends Partial<TEscalate>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<EscalateFields>>() {
+    return super._getFields<T>();
   }
 
   static fromObject(obj: TEscalate) {

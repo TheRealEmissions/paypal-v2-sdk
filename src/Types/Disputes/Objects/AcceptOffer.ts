@@ -1,13 +1,17 @@
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 
 export type TAcceptOffer = {
   note?: string;
 };
 
+type AcceptOfferFields = {
+  readonly note?: string;
+};
+
 export class AcceptOffer extends Utility implements Static<IUtility, typeof AcceptOffer> {
   private note?: string;
 
-  public setNote(note: string) {
+  public setNote(note: string): OnlySetters<this> {
     this.note = note;
     return this;
   }
@@ -15,8 +19,8 @@ export class AcceptOffer extends Utility implements Static<IUtility, typeof Acce
     return this.note;
   }
 
-  public override getFields<T extends TAcceptOffer>() {
-    return super.getFields<T>();
+  public override getFields<T extends AcceptOfferFields>() {
+    return super._getFields<T>();
   }
 
   static fromObject(obj: TAcceptOffer) {

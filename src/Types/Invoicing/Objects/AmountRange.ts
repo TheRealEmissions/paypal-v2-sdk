@@ -6,6 +6,11 @@ export type TAmountRange = {
   upper_amount: TMoney;
 };
 
+type AmountRangeFields = {
+  readonly lowerAmount: Money;
+  readonly upperAmount: Money;
+};
+
 export class AmountRange extends Utility implements Static<IUtility, typeof AmountRange> {
   private lowerAmount?: Money;
   private upperAmount?: Money;
@@ -42,8 +47,8 @@ export class AmountRange extends Utility implements Static<IUtility, typeof Amou
     return this.upperAmount;
   }
 
-  public override getFields<T extends Partial<TAmountRange>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<AmountRangeFields>>() {
+    return super._getFields<T>();
   }
 
   static fromObject(obj: TAmountRange) {

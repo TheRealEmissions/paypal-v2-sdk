@@ -12,6 +12,16 @@ export type TProductDetails = {
   sub_reasons?: string[];
 };
 
+type ProductDetailsFields = {
+  readonly description?: string;
+  readonly expectedDeliveryDate?: string;
+  readonly productReceived?: ProductDetailedProductReceived;
+  readonly productReceivedTime?: string;
+  readonly purchaseUrl?: string;
+  readonly returnDetails?: ReturnDetails;
+  readonly subReasons?: string[];
+};
+
 export class ProductDetails extends Utility implements Static<IUtility, typeof ProductDetails> {
   private description?: string;
   private expectedDeliveryDate?: string;
@@ -89,8 +99,8 @@ export class ProductDetails extends Utility implements Static<IUtility, typeof P
     return this.subReasons;
   }
 
-  public override getFields<T extends TProductDetails>() {
-    return super.getFields<T>();
+  public override getFields<T extends ProductDetailsFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TProductDetails) {

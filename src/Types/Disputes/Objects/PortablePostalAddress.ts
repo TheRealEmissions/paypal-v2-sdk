@@ -14,6 +14,19 @@ export type TPortablePostalAddress = {
   address_details?: TAddressDetails;
 };
 
+type PortablePostalAddressFields = {
+  readonly addressLine1?: string;
+  readonly addressLine2?: string;
+  readonly addressLine3?: string;
+  readonly adminArea4?: string;
+  readonly adminArea3?: string;
+  readonly adminArea2?: string;
+  readonly adminArea1?: string;
+  readonly postalCode?: string;
+  readonly countryCode: string;
+  readonly addressDetails?: AddressDetails;
+};
+
 export class PortablePostalAddress extends Utility implements Static<IUtility, typeof PortablePostalAddress> {
   private addressLine1?: string;
   private addressLine2?: string;
@@ -114,8 +127,8 @@ export class PortablePostalAddress extends Utility implements Static<IUtility, t
     return this.addressDetails;
   }
 
-  public override getFields<T extends Partial<TPortablePostalAddress>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<PortablePostalAddressFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TPortablePostalAddress): PortablePostalAddress {

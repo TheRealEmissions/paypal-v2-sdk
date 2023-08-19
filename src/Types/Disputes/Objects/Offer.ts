@@ -10,6 +10,13 @@ export type TOffer = {
   seller_offered_amount?: TMoney;
 };
 
+type OfferFields = {
+  readonly buyerRequestedAmount?: Money;
+  readonly history?: OfferHistory[];
+  readonly offerType?: OfferType;
+  readonly sellerOfferedAmount?: Money;
+};
+
 export class Offer extends Utility implements Static<IUtility, typeof Offer> {
   private buyerRequestedAmount?: Money;
   private history?: OfferHistory[];
@@ -66,8 +73,8 @@ export class Offer extends Utility implements Static<IUtility, typeof Offer> {
     return this.sellerOfferedAmount;
   }
 
-  public override getFields<T extends TOffer>() {
-    return super.getFields<T>();
+  public override getFields<T extends OfferFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TOffer) {

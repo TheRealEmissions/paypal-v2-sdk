@@ -10,6 +10,16 @@ export type TName = {
   surname?: string;
 };
 
+type NameFields = {
+  readonly alternateFullName?: string;
+  readonly fullName?: string;
+  readonly givenName?: string;
+  readonly middleName?: string;
+  readonly prefix?: string;
+  readonly suffix?: string;
+  readonly surname?: string;
+};
+
 export class Name extends Utility implements Static<IUtility, typeof Name> {
   private alternateFullName?: string;
   private fullName?: string;
@@ -81,8 +91,8 @@ export class Name extends Utility implements Static<IUtility, typeof Name> {
     return this.surname;
   }
 
-  public override getFields<T extends Partial<TName>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<NameFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TName) {

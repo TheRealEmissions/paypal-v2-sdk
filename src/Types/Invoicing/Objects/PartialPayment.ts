@@ -6,6 +6,11 @@ export type TPartialPayment = {
   minimum_amount_due?: TMoney;
 };
 
+type PartialPaymentFields = {
+  readonly allowPartialPayment?: boolean;
+  readonly minimumAmountDue?: Money;
+};
+
 export class PartialPayment extends Utility implements Static<IUtility, typeof PartialPayment> {
   private allowPartialPayment?: boolean;
   private minimumAmountDue?: Money;
@@ -33,8 +38,8 @@ export class PartialPayment extends Utility implements Static<IUtility, typeof P
     return this.minimumAmountDue;
   }
 
-  public override getFields<T extends Partial<TPartialPayment>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<PartialPaymentFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TPartialPayment) {

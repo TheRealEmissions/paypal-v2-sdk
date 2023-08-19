@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 import { PatchOperation } from "../Enums/PatchOperation.js";
 
 type PatchValue = number | string | boolean | null | any[] | object;
@@ -10,15 +10,22 @@ export type TPatch = {
   value?: PatchValue;
 };
 
+type PatchFields = {
+  readonly op?: PatchOperation;
+  readonly from?: string;
+  readonly path?: string;
+  readonly value?: PatchValue;
+};
+
 export class Patch extends Utility implements Static<IUtility, typeof Patch> {
   private op?: PatchOperation;
   private from?: string;
   private path?: string;
   private value?: PatchValue;
 
-  public setOp(op: PatchOperation): this;
-  public setOp(op: (op: typeof PatchOperation) => PatchOperation): this;
-  public setOp(op: PatchOperation | ((op: typeof PatchOperation) => PatchOperation)) {
+  public setOp(op: PatchOperation): OnlySetters<this>;
+  public setOp(op: (op: typeof PatchOperation) => PatchOperation): OnlySetters<this>;
+  public setOp(op: PatchOperation | ((op: typeof PatchOperation) => PatchOperation)): OnlySetters<this> {
     if (typeof op === "function") this.op = op(PatchOperation);
     else this.op = op;
     return this;
@@ -27,7 +34,7 @@ export class Patch extends Utility implements Static<IUtility, typeof Patch> {
     return this.op;
   }
 
-  public setFrom(from: string) {
+  public setFrom(from: string): OnlySetters<this> {
     this.from = from;
     return this;
   }
@@ -35,7 +42,7 @@ export class Patch extends Utility implements Static<IUtility, typeof Patch> {
     return this.from;
   }
 
-  public setPath(path: string) {
+  public setPath(path: string): OnlySetters<this> {
     this.path = path;
     return this;
   }
@@ -43,7 +50,7 @@ export class Patch extends Utility implements Static<IUtility, typeof Patch> {
     return this.path;
   }
 
-  public setValue(value: PatchValue) {
+  public setValue(value: PatchValue): OnlySetters<this> {
     this.value = value;
     return this;
   }
@@ -51,8 +58,8 @@ export class Patch extends Utility implements Static<IUtility, typeof Patch> {
     return this.value;
   }
 
-  public override getFields<T extends Partial<TPatch>>() {
-    return super.getFields<T>();
+  public override getFields<T extends PatchFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TPatch) {

@@ -5,6 +5,10 @@ export type TResponseRefundDetails = {
   allowed_refund_amount?: TMoney;
 };
 
+type ResponseRefundDetailsFields = {
+  readonly allowedRefundAmount?: Money;
+};
+
 export class ResponseRefundDetails extends Utility implements Static<IUtility, typeof ResponseRefundDetails> {
   private allowedRefundAmount?: Money;
 
@@ -19,8 +23,8 @@ export class ResponseRefundDetails extends Utility implements Static<IUtility, t
     return this.allowedRefundAmount;
   }
 
-  public override getFields<T extends TResponseRefundDetails>() {
-    return super.getFields<T>();
+  public override getFields<T extends ResponseRefundDetailsFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TResponseRefundDetails) {

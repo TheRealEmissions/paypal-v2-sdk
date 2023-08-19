@@ -6,6 +6,12 @@ export type TSeller = {
   name?: string;
 };
 
+type SellerFields = {
+  readonly email?: string;
+  readonly merchantId?: string;
+  readonly name?: string;
+};
+
 export class Seller extends Utility implements Static<IUtility, typeof Seller> {
   private email?: string;
   private merchantId?: string;
@@ -35,8 +41,8 @@ export class Seller extends Utility implements Static<IUtility, typeof Seller> {
     return this.name;
   }
 
-  public override getFields<T extends TSeller>() {
-    return super.getFields<T>();
+  public override getFields<T extends SellerFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TSeller) {

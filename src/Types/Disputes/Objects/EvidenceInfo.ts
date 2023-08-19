@@ -6,6 +6,11 @@ export type TEvidenceInfo = {
   tracking_info?: TResponseTrackingInfo[];
 };
 
+type EvidenceInfoFields = {
+  readonly refundIds?: string[];
+  readonly trackingInfo?: ResponseTrackingInfo[];
+};
+
 export class EvidenceInfo extends Utility implements Static<IUtility, typeof EvidenceInfo> {
   private refundIds?: string[];
   private trackingInfo?: ResponseTrackingInfo[];
@@ -36,8 +41,8 @@ export class EvidenceInfo extends Utility implements Static<IUtility, typeof Evi
     return this.trackingInfo;
   }
 
-  public override getFields<T extends TEvidenceInfo>() {
-    return super.getFields<T>();
+  public override getFields<T extends EvidenceInfoFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TEvidenceInfo) {

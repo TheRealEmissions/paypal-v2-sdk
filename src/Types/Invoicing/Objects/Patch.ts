@@ -10,6 +10,13 @@ export type TPatch = {
   value?: PatchValue;
 };
 
+type PatchFields = {
+  readonly op?: PatchOperation;
+  readonly from?: string;
+  readonly path?: string;
+  readonly value?: PatchValue;
+};
+
 export class Patch extends Utility implements Static<IUtility, typeof Patch> {
   private op?: PatchOperation;
   private from?: string;
@@ -51,8 +58,8 @@ export class Patch extends Utility implements Static<IUtility, typeof Patch> {
     return this.value;
   }
 
-  public override getFields<T extends Partial<TPatch>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<PatchFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TPatch) {

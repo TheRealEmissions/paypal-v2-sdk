@@ -9,14 +9,20 @@ export type TAllowedResponseOptions = {
   make_offer?: TMakeOffer;
 };
 
+type AllowedResponseOptionsFields = {
+  readonly acceptClaim?: AcceptClaim;
+  readonly acknowledgeReturnItem?: AcknowledgeReturnItem;
+  readonly makeOffer?: MakeOffer;
+};
+
 export class AllowedResponseOptions extends Utility implements Static<IUtility, typeof AllowedResponseOptions> {
   private acceptClaim?: AcceptClaim;
   private acknowledgeReturnItem?: AcknowledgeReturnItem;
   private makeOffer?: MakeOffer;
 
-  public setAcceptClaim(acceptClaim: AcceptClaim): this;
-  public setAcceptClaim(acceptClaim: (claim: OnlySetters<AcceptClaim>) => void): this;
-  public setAcceptClaim(acceptClaim: AcceptClaim | ((claim: OnlySetters<AcceptClaim>) => void)) {
+  public setAcceptClaim(acceptClaim: AcceptClaim): OnlySetters<this>;
+  public setAcceptClaim(acceptClaim: (claim: OnlySetters<AcceptClaim>) => void): OnlySetters<this>;
+  public setAcceptClaim(acceptClaim: AcceptClaim | ((claim: OnlySetters<AcceptClaim>) => void)): OnlySetters<this> {
     if (acceptClaim instanceof AcceptClaim) this.acceptClaim = acceptClaim;
     else {
       const claim = new AcceptClaim();
@@ -29,11 +35,13 @@ export class AllowedResponseOptions extends Utility implements Static<IUtility, 
     return this.acceptClaim;
   }
 
-  public setAcknowledgeReturnItem(acknowledgeReturnItem: AcknowledgeReturnItem): this;
-  public setAcknowledgeReturnItem(acknowledgeReturnItem: (item: OnlySetters<AcknowledgeReturnItem>) => void): this;
+  public setAcknowledgeReturnItem(acknowledgeReturnItem: AcknowledgeReturnItem): OnlySetters<this>;
+  public setAcknowledgeReturnItem(
+    acknowledgeReturnItem: (item: OnlySetters<AcknowledgeReturnItem>) => void
+  ): OnlySetters<this>;
   public setAcknowledgeReturnItem(
     acknowledgeReturnItem: AcknowledgeReturnItem | ((item: OnlySetters<AcknowledgeReturnItem>) => void)
-  ) {
+  ): OnlySetters<this> {
     if (acknowledgeReturnItem instanceof AcknowledgeReturnItem) this.acknowledgeReturnItem = acknowledgeReturnItem;
     else {
       const item = new AcknowledgeReturnItem();
@@ -46,9 +54,9 @@ export class AllowedResponseOptions extends Utility implements Static<IUtility, 
     return this.acknowledgeReturnItem;
   }
 
-  public setMakeOffer(makeOffer: MakeOffer): this;
-  public setMakeOffer(makeOffer: (offer: OnlySetters<MakeOffer>) => void): this;
-  public setMakeOffer(makeOffer: MakeOffer | ((offer: OnlySetters<MakeOffer>) => void)) {
+  public setMakeOffer(makeOffer: MakeOffer): OnlySetters<this>;
+  public setMakeOffer(makeOffer: (offer: OnlySetters<MakeOffer>) => void): OnlySetters<this>;
+  public setMakeOffer(makeOffer: MakeOffer | ((offer: OnlySetters<MakeOffer>) => void)): OnlySetters<this> {
     if (makeOffer instanceof MakeOffer) this.makeOffer = makeOffer;
     else {
       const offer = new MakeOffer();
@@ -61,8 +69,8 @@ export class AllowedResponseOptions extends Utility implements Static<IUtility, 
     return this.makeOffer;
   }
 
-  public override getFields<T extends TAllowedResponseOptions>() {
-    return super.getFields<T>();
+  public override getFields<T extends AllowedResponseOptionsFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TAllowedResponseOptions) {

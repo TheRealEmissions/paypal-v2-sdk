@@ -20,6 +20,19 @@ export type TEvidence = {
   source?: keyof typeof EvidenceSource;
 };
 
+type EvidenceFields = {
+  readonly actionInfo?: ActionInfo;
+  readonly date?: string;
+  readonly disputeLifeCycleStage?: DisputeLifecycleStage;
+  readonly documents?: Document[];
+  readonly evidenceInfo?: EvidenceInfo;
+  readonly evidenceType?: EvidenceType;
+  readonly itemId?: string;
+  readonly itemType?: ItemType;
+  readonly notes?: string;
+  readonly source?: EvidenceSource;
+};
+
 export class Evidence extends Utility implements Static<IUtility, typeof Evidence> {
   private actionInfo?: ActionInfo;
   private date?: string;
@@ -144,8 +157,8 @@ export class Evidence extends Utility implements Static<IUtility, typeof Evidenc
     return this.source;
   }
 
-  public override getFields<T extends TEvidence>() {
-    return super.getFields<T>();
+  public override getFields<T extends EvidenceFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TEvidence) {

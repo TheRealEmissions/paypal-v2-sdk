@@ -9,6 +9,13 @@ export type TMessage = {
   time_posted?: string;
 };
 
+type MessageFields = {
+  readonly content?: string;
+  readonly documents?: Document[];
+  readonly postedBy?: MessagePostedBy;
+  readonly timePosted?: string;
+};
+
 export class Message extends Utility implements Static<IUtility, typeof Message> {
   private content?: string;
   private documents?: Document[];
@@ -59,8 +66,8 @@ export class Message extends Utility implements Static<IUtility, typeof Message>
     return this.timePosted;
   }
 
-  public override getFields<T extends TMessage>() {
-    return super.getFields<T>();
+  public override getFields<T extends MessageFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TMessage) {

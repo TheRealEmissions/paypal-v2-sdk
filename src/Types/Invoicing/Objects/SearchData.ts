@@ -22,6 +22,25 @@ export type TSearchData = {
   creation_date_range?: TDateRange;
 };
 
+type SearchDataFields = {
+  readonly recipientEmail?: string;
+  readonly recipientFirstName?: string;
+  readonly recipientLastName?: string;
+  readonly recipientBusinessName?: string;
+  readonly invoiceNumber?: string;
+  readonly status?: InvoiceStatus;
+  readonly reference?: string;
+  readonly memo?: string;
+  readonly paymentDateRange?: DateRange;
+  readonly archived?: boolean;
+  readonly fields?: string[];
+  readonly currencyCode?: string;
+  readonly totalAmountRange?: AmountRange;
+  readonly invoiceDateRange?: DateRange;
+  readonly dueDateRange?: DateRange;
+  readonly creationDateRange?: DateRange;
+};
+
 export class SearchData extends Utility implements Static<IUtility, typeof SearchData> {
   private recipientEmail?: string;
   private recipientFirstName?: string;
@@ -188,8 +207,8 @@ export class SearchData extends Utility implements Static<IUtility, typeof Searc
     return this.creationDateRange;
   }
 
-  public override getFields<T extends Partial<TSearchData>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<SearchDataFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TSearchData) {

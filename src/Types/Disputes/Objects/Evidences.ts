@@ -7,6 +7,11 @@ export type TEvidences = {
   return_shipping_address?: TPortablePostalAddress;
 };
 
+type EvidencesFields = {
+  readonly evidences?: Evidence[];
+  readonly returnShippingAddress?: PortablePostalAddress;
+};
+
 export class Evidences extends Utility implements Static<IUtility, typeof Evidences> {
   private evidences?: Evidence[];
   private returnShippingAddress?: PortablePostalAddress;
@@ -48,8 +53,8 @@ export class Evidences extends Utility implements Static<IUtility, typeof Eviden
     return this.returnShippingAddress;
   }
 
-  public override getFields<T extends TEvidences>() {
-    return super.getFields<T>();
+  public override getFields<T extends EvidencesFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TEvidences) {

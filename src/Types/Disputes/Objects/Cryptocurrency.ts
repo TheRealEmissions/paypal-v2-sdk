@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility";
 import { CryptocurrencySymbol } from "../Enums/CryptocurrencySymbol";
 
 export type TCryptocurrency = {
@@ -6,15 +6,22 @@ export type TCryptocurrency = {
   quantity: string;
 };
 
+type CryptocurrencyFields = {
+  readonly assetSymbol?: CryptocurrencySymbol;
+  readonly quantity?: string;
+};
+
 export class Cryptocurrency extends Utility implements Static<IUtility, typeof Cryptocurrency> {
   private assetSymbol!: CryptocurrencySymbol;
   private quantity!: string;
 
-  public setAssetSymbol(assetSymbol: CryptocurrencySymbol): this;
-  public setAssetSymbol(assetSymbol: (assetSymbol: typeof CryptocurrencySymbol) => CryptocurrencySymbol): this;
+  public setAssetSymbol(assetSymbol: CryptocurrencySymbol): OnlySetters<this>;
+  public setAssetSymbol(
+    assetSymbol: (assetSymbol: typeof CryptocurrencySymbol) => CryptocurrencySymbol
+  ): OnlySetters<this>;
   public setAssetSymbol(
     assetSymbol: CryptocurrencySymbol | ((assetSymbol: typeof CryptocurrencySymbol) => CryptocurrencySymbol)
-  ) {
+  ): OnlySetters<this> {
     if (typeof assetSymbol === "function") this.assetSymbol = assetSymbol(CryptocurrencySymbol);
     else this.assetSymbol = assetSymbol;
     return this;
@@ -23,7 +30,7 @@ export class Cryptocurrency extends Utility implements Static<IUtility, typeof C
     return this.assetSymbol;
   }
 
-  public setQuantity(quantity: string) {
+  public setQuantity(quantity: string): OnlySetters<this> {
     this.quantity = quantity;
     return this;
   }
@@ -31,8 +38,8 @@ export class Cryptocurrency extends Utility implements Static<IUtility, typeof C
     return this.quantity;
   }
 
-  public override getFields<T extends Partial<TCryptocurrency>>() {
-    return super.getFields<T>();
+  public override getFields<T extends CryptocurrencyFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TCryptocurrency) {

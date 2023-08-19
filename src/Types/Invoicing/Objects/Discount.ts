@@ -6,6 +6,11 @@ export type TDiscount = {
   percent?: string;
 };
 
+type DiscountFields = {
+  readonly amount?: Money;
+  readonly percent?: string;
+};
+
 export class Discount extends Utility implements Static<IUtility, typeof Discount> {
   private amount?: Money;
   private percent?: string;
@@ -34,8 +39,8 @@ export class Discount extends Utility implements Static<IUtility, typeof Discoun
     return this.percent;
   }
 
-  public override getFields<T extends TDiscount>() {
-    return super.getFields<T>();
+  public override getFields<T extends DiscountFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TDiscount) {

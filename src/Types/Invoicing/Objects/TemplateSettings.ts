@@ -7,6 +7,11 @@ export type TTemplateSettings = {
   template_subtotal_settings?: TTemplateSubtotalSetting[];
 };
 
+type TemplateSettingsFields = {
+  readonly templateItemSettings?: TemplateItemSetting[];
+  readonly templateSubtotalSettings?: TemplateSubtotalSetting[];
+};
+
 export class TemplateSettings extends Utility implements Static<IUtility, typeof TemplateSettings> {
   private templateItemSettings?: TemplateItemSetting[];
   private templateSubtotalSettings?: TemplateSubtotalSetting[];
@@ -53,8 +58,8 @@ export class TemplateSettings extends Utility implements Static<IUtility, typeof
     return this.templateSubtotalSettings;
   }
 
-  public override getFields<T extends TTemplateSettings>() {
-    return super.getFields<T>();
+  public override getFields<T extends TemplateSettingsFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TTemplateSettings) {

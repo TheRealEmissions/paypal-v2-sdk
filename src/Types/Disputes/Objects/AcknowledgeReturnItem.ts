@@ -8,16 +8,24 @@ export type TAcknowledgeReturnItem = {
   note?: string;
 };
 
+type AcknowledgeReturnItemFields = {
+  readonly acknowledgementType?: AcknowledgementType;
+  readonly evidences?: AcknowledgeReturnItemEvidence[];
+  readonly note?: string;
+};
+
 export class AcknowledgeReturnItem extends Utility implements Static<IUtility, typeof AcknowledgeReturnItem> {
   private acknowledgementType?: AcknowledgementType;
   private evidences?: AcknowledgeReturnItemEvidence[];
   private note?: string;
 
-  public setAcknowledgementType(acknowledgementType: AcknowledgementType): this;
-  public setAcknowledgementType(acknowledgementType: (type: typeof AcknowledgementType) => AcknowledgementType): this;
+  public setAcknowledgementType(acknowledgementType: AcknowledgementType): OnlySetters<this>;
+  public setAcknowledgementType(
+    acknowledgementType: (type: typeof AcknowledgementType) => AcknowledgementType
+  ): OnlySetters<this>;
   public setAcknowledgementType(
     acknowledgementType: AcknowledgementType | ((type: typeof AcknowledgementType) => AcknowledgementType)
-  ) {
+  ): OnlySetters<this> {
     if (typeof acknowledgementType === "function") this.acknowledgementType = acknowledgementType(AcknowledgementType);
     else this.acknowledgementType = acknowledgementType;
     return this;
@@ -26,11 +34,13 @@ export class AcknowledgeReturnItem extends Utility implements Static<IUtility, t
     return this.acknowledgementType;
   }
 
-  public setEvidences(...evidences: AcknowledgeReturnItemEvidence[]): this;
-  public setEvidences(...evidences: ((evidence: OnlySetters<AcknowledgeReturnItemEvidence>) => void)[]): this;
+  public setEvidences(...evidences: AcknowledgeReturnItemEvidence[]): OnlySetters<this>;
+  public setEvidences(
+    ...evidences: ((evidence: OnlySetters<AcknowledgeReturnItemEvidence>) => void)[]
+  ): OnlySetters<this>;
   public setEvidences(
     ...evidences: (AcknowledgeReturnItemEvidence | ((evidence: OnlySetters<AcknowledgeReturnItemEvidence>) => void))[]
-  ) {
+  ): OnlySetters<this> {
     this.evidences = evidences.map((evidence) => {
       if (evidence instanceof AcknowledgeReturnItemEvidence) return evidence;
       const itemEvidence = new AcknowledgeReturnItemEvidence();
@@ -43,7 +53,7 @@ export class AcknowledgeReturnItem extends Utility implements Static<IUtility, t
     return this.evidences;
   }
 
-  public setNote(note: string) {
+  public setNote(note: string): OnlySetters<this> {
     this.note = note;
     return this;
   }
@@ -51,8 +61,8 @@ export class AcknowledgeReturnItem extends Utility implements Static<IUtility, t
     return this.note;
   }
 
-  public override getFields<T extends TAcknowledgeReturnItem>() {
-    return super.getFields<T>();
+  public override getFields<T extends AcknowledgeReturnItemFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TAcknowledgeReturnItem) {

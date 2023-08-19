@@ -5,6 +5,10 @@ export type TPaymentTerm = {
   term_type?: keyof typeof PaymentTermType;
 };
 
+type PaymentTermFields = {
+  readonly termType?: PaymentTermType;
+};
+
 export class PaymentTerm extends Utility implements Static<IUtility, typeof PaymentTerm> {
   private termType?: PaymentTermType;
 
@@ -19,8 +23,8 @@ export class PaymentTerm extends Utility implements Static<IUtility, typeof Paym
     return this.termType;
   }
 
-  public override getFields<T extends TPaymentTerm>() {
-    return super.getFields<T>();
+  public override getFields<T extends PaymentTermFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TPaymentTerm) {

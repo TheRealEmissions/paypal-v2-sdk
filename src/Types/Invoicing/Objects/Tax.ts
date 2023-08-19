@@ -7,6 +7,12 @@ export type TTax = {
   readonly amount?: TMoney;
 };
 
+type TaxFields = {
+  readonly name?: string;
+  readonly percent?: string;
+  readonly amount?: Money;
+};
+
 export class Tax extends Utility implements Static<IUtility, typeof Tax> {
   private name?: string;
   private percent?: string;
@@ -52,8 +58,8 @@ export class Tax extends Utility implements Static<IUtility, typeof Tax> {
     return this.amount;
   }
 
-  public override getFields<T extends Partial<TTax>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<TaxFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TTax) {

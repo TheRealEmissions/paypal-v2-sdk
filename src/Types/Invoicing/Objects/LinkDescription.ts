@@ -7,6 +7,12 @@ export type TLinkDescription = {
   method?: keyof typeof HTTPMethod;
 };
 
+type LinkDescriptionFields = {
+  readonly href?: string;
+  readonly rel?: string;
+  readonly method?: HTTPMethod;
+};
+
 export class LinkDescription extends Utility implements Static<IUtility, typeof LinkDescription> {
   private href?: string;
   private rel?: string;
@@ -39,8 +45,8 @@ export class LinkDescription extends Utility implements Static<IUtility, typeof 
     return this.method;
   }
 
-  public override getFields<T extends Partial<TLinkDescription>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<LinkDescriptionFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TLinkDescription) {

@@ -5,6 +5,10 @@ export type TAcceptedResponse = {
   readonly links?: TLinkDescription[];
 };
 
+type AcceptedResponseFields = {
+  readonly links?: LinkDescription[];
+};
+
 export class AcceptedResponse extends Utility implements Static<IUtility, typeof AcceptedResponse> {
   private links?: LinkDescription[];
 
@@ -26,8 +30,8 @@ export class AcceptedResponse extends Utility implements Static<IUtility, typeof
     return this.links;
   }
 
-  public override getFields<T extends TAcceptedResponse>() {
-    return super.getFields<T>();
+  public override getFields<T extends AcceptedResponseFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TAcceptedResponse) {

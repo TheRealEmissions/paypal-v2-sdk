@@ -8,6 +8,14 @@ export type TFileReference = {
   size?: string;
 };
 
+type FileReferenceFields = {
+  readonly contentType?: string;
+  readonly createTime?: string;
+  readonly id?: string;
+  readonly referenceUrl?: string;
+  readonly size?: string;
+};
+
 export class FileReference extends Utility implements Static<IUtility, typeof FileReference> {
   private contentType?: string;
   private createTime?: string;
@@ -55,8 +63,8 @@ export class FileReference extends Utility implements Static<IUtility, typeof Fi
     return this.size;
   }
 
-  public override getFields<T extends TFileReference>() {
-    return super.getFields<T>();
+  public override getFields<T extends FileReferenceFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TFileReference) {

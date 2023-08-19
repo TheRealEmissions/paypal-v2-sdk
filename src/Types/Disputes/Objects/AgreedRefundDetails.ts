@@ -1,15 +1,20 @@
-import { IUtility, Static, Utility } from "../../Utility";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility";
 
 export type TAgreedRefundDetails = {
   merchant_agreed_refund?: boolean;
   merchant_agreed_refund_time?: string;
 };
 
+type AgreedRefundDetailsFields = {
+  readonly merchantAgreedRefund?: boolean;
+  readonly merchantAgreedRefundTime?: string;
+};
+
 export class AgreedRefundDetails extends Utility implements Static<IUtility, typeof AgreedRefundDetails> {
   private merchantAgreedRefund?: boolean;
   private merchantAgreedRefundTime?: string;
 
-  public setMerchantAgreedRefund(merchantAgreedRefund: boolean) {
+  public setMerchantAgreedRefund(merchantAgreedRefund: boolean): OnlySetters<this> {
     this.merchantAgreedRefund = merchantAgreedRefund;
     return this;
   }
@@ -17,7 +22,7 @@ export class AgreedRefundDetails extends Utility implements Static<IUtility, typ
     return this.merchantAgreedRefund;
   }
 
-  public setMerchantAgreedRefundTime(merchantAgreedRefundTime: string) {
+  public setMerchantAgreedRefundTime(merchantAgreedRefundTime: string): OnlySetters<this> {
     this.merchantAgreedRefundTime = merchantAgreedRefundTime;
     return this;
   }
@@ -25,8 +30,8 @@ export class AgreedRefundDetails extends Utility implements Static<IUtility, typ
     return this.merchantAgreedRefundTime;
   }
 
-  public override getFields<T extends TAgreedRefundDetails>() {
-    return super.getFields<T>();
+  public override getFields<T extends AgreedRefundDetailsFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TAgreedRefundDetails) {

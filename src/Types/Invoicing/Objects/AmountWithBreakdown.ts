@@ -12,6 +12,14 @@ export type TAmountWithBreakdown = {
   tax_total?: TMoney;
 };
 
+type AmountWithBreakdownFields = {
+  readonly custom?: CustomAmount;
+  readonly discount?: AggregatedDiscount;
+  readonly itemTotal?: Money;
+  readonly shipping?: ShippingCost;
+  readonly taxTotal?: Money;
+};
+
 export class AmountWithBreakdown extends Utility implements Static<IUtility, typeof AmountWithBreakdown> {
   private custom?: CustomAmount;
   private discount?: AggregatedDiscount;
@@ -99,8 +107,8 @@ export class AmountWithBreakdown extends Utility implements Static<IUtility, typ
     return this.taxTotal;
   }
 
-  public override getFields<T extends Partial<TAmountWithBreakdown>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<AmountWithBreakdownFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TAmountWithBreakdown) {

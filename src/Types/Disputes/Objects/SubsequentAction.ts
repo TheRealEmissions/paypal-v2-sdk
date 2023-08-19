@@ -5,6 +5,10 @@ export type TSubsequentAction = {
   links: TLinkDescription[];
 };
 
+type SubsequentActionFields = {
+  readonly links?: LinkDescription[];
+};
+
 export class SubsequentAction extends Utility implements Static<IUtility, typeof SubsequentAction> {
   private links?: LinkDescription[];
 
@@ -26,8 +30,8 @@ export class SubsequentAction extends Utility implements Static<IUtility, typeof
     return this.links;
   }
 
-  public override getFields<T extends Partial<TSubsequentAction>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<SubsequentActionFields>>() {
+    return super._getFields<T>();
   }
 
   static fromObject(obj: TSubsequentAction) {

@@ -9,6 +9,14 @@ export type TServiceDetails = {
   sub_reasons?: string[];
 };
 
+type ServiceDetailsFields = {
+  readonly description?: string;
+  readonly note?: string;
+  readonly purchaseUrl?: string;
+  readonly serviceStarted?: ServiceDetailsServiceStarted;
+  readonly subReasons?: string[];
+};
+
 export class ServiceDetails extends Utility implements Static<IUtility, typeof ServiceDetails> {
   private description?: string;
   private note?: string;
@@ -65,8 +73,8 @@ export class ServiceDetails extends Utility implements Static<IUtility, typeof S
     return this.subReasons;
   }
 
-  public override getFields<T extends TServiceDetails>() {
-    return super.getFields<T>();
+  public override getFields<T extends ServiceDetailsFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TServiceDetails) {

@@ -1,5 +1,5 @@
 import { HTTPMethod } from "../Enums/HTTPMethod.js";
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 
 export type TLinkDescription = {
   href: string;
@@ -7,12 +7,18 @@ export type TLinkDescription = {
   method?: keyof typeof HTTPMethod;
 };
 
+type LinkDescriptionFields = {
+  readonly href?: string;
+  readonly rel?: string;
+  readonly method?: HTTPMethod;
+};
+
 export class LinkDescription extends Utility implements Static<IUtility, typeof LinkDescription> {
   private href?: string;
   private rel?: string;
   private method?: HTTPMethod;
 
-  public setHref(href: string) {
+  public setHref(href: string): OnlySetters<this> {
     this.href = href;
     return this;
   }
@@ -20,7 +26,7 @@ export class LinkDescription extends Utility implements Static<IUtility, typeof 
     return this.href;
   }
 
-  public setRel(rel: string) {
+  public setRel(rel: string): OnlySetters<this> {
     this.rel = rel;
     return this;
   }
@@ -28,9 +34,9 @@ export class LinkDescription extends Utility implements Static<IUtility, typeof 
     return this.rel;
   }
 
-  public setMethod(method: HTTPMethod): this;
-  public setMethod(method: (method: typeof HTTPMethod) => HTTPMethod): this;
-  public setMethod(method: HTTPMethod | ((method: typeof HTTPMethod) => HTTPMethod)) {
+  public setMethod(method: HTTPMethod): OnlySetters<this>;
+  public setMethod(method: (method: typeof HTTPMethod) => HTTPMethod): OnlySetters<this>;
+  public setMethod(method: HTTPMethod | ((method: typeof HTTPMethod) => HTTPMethod)): OnlySetters<this> {
     if (typeof method === "function") this.method = method(HTTPMethod);
     else this.method = method;
     return this;
@@ -39,8 +45,8 @@ export class LinkDescription extends Utility implements Static<IUtility, typeof 
     return this.method;
   }
 
-  public override getFields<T extends Partial<TLinkDescription>>() {
-    return super.getFields<T>();
+  public override getFields<T extends LinkDescriptionFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TLinkDescription) {

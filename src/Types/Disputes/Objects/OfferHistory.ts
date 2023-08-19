@@ -15,6 +15,16 @@ export type TOfferHistory = {
   offer_type?: keyof typeof OfferType;
 };
 
+type OfferHistoryFields = {
+  readonly actor?: OfferHistoryActor;
+  readonly disputeLifeCycleStage?: DisputeLifecycleStage;
+  readonly eventType?: OfferHistoryEventType;
+  readonly notes?: string;
+  readonly offerAmount?: Money;
+  readonly offerTime?: string;
+  readonly offerType?: OfferType;
+};
+
 export class OfferHistory extends Utility implements Static<IUtility, typeof OfferHistory> {
   private actor?: OfferHistoryActor;
   private disputeLifeCycleStage?: DisputeLifecycleStage;
@@ -102,8 +112,8 @@ export class OfferHistory extends Utility implements Static<IUtility, typeof Off
     return this.offerType;
   }
 
-  public override getFields<T extends TOfferHistory>() {
-    return super.getFields<T>();
+  public override getFields<T extends OfferHistoryFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TOfferHistory) {

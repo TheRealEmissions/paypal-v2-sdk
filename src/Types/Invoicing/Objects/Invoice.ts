@@ -33,6 +33,24 @@ export type TInvoice = {
   readonly status: keyof typeof InvoiceStatus;
 };
 
+type InvoiceFields = {
+  readonly detail?: InvoiceDetail;
+  readonly additionalRecipients?: string[];
+  readonly amount?: AmountSummaryDetail;
+  readonly configuration?: Configuration;
+  readonly dueAmount?: Money;
+  readonly gratuity?: Money;
+  readonly id?: string;
+  readonly invoicer?: InvoicerInfo;
+  readonly items?: Item[];
+  readonly links?: LinkDescription[];
+  readonly parentId?: string;
+  readonly payments?: Payments;
+  readonly primaryRecipients?: RecipientInfo[];
+  readonly refunds?: Refunds;
+  readonly status?: InvoiceStatus;
+};
+
 export class Invoice extends Utility implements Static<IUtility, typeof Invoice> {
   private detail?: InvoiceDetail;
   private additionalRecipients?: string[];
@@ -436,8 +454,8 @@ export class Invoice extends Utility implements Static<IUtility, typeof Invoice>
     return this.status;
   }
 
-  public override getFields<T extends Partial<TInvoice>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<InvoiceFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TInvoice) {

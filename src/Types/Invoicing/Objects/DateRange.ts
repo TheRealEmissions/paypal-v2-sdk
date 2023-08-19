@@ -5,6 +5,11 @@ export type TDateRange = {
   start: string;
 };
 
+type DateRangeFields = {
+  readonly end?: string;
+  readonly start?: string;
+};
+
 export class DateRange extends Utility implements Static<IUtility, typeof DateRange> {
   private end?: string;
   private start?: string;
@@ -25,8 +30,8 @@ export class DateRange extends Utility implements Static<IUtility, typeof DateRa
     return this.start;
   }
 
-  public override getFields<T extends Partial<TDateRange>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<DateRangeFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TDateRange) {

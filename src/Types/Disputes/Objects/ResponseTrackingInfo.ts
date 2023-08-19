@@ -8,6 +8,13 @@ export type TResponseTrackingInfo = {
   tracking_url?: string;
 };
 
+type ResponseTrackingInfoFields = {
+  readonly carrierName?: ResponseTrackingInfoCarrierName;
+  readonly trackingNumber?: string;
+  readonly carrierNameOther?: string;
+  readonly trackingUrl?: string;
+};
+
 export class ResponseTrackingInfo extends Utility implements Static<IUtility, typeof ResponseTrackingInfo> {
   private carrierName?: ResponseTrackingInfoCarrierName;
   private trackingNumber?: string;
@@ -55,8 +62,8 @@ export class ResponseTrackingInfo extends Utility implements Static<IUtility, ty
     return this.trackingUrl;
   }
 
-  public override getFields<T extends TResponseTrackingInfo>() {
-    return super.getFields<T>();
+  public override getFields<T extends ResponseTrackingInfoFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TResponseTrackingInfo) {

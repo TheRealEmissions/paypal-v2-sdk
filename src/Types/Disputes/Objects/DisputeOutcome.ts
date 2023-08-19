@@ -9,6 +9,12 @@ export type TDisputeOutcome = {
   outcome_code?: keyof typeof OutcomeCode;
 };
 
+type DisputeOutcomeFields = {
+  readonly amountRefunded?: Money;
+  readonly assetRefunded?: Cryptocurrency;
+  readonly outcomeCode: OutcomeCode;
+};
+
 export class DisputeOutcome extends Utility implements Static<IUtility, typeof DisputeOutcome> {
   private amountRefunded?: Money;
   private assetRefunded?: Cryptocurrency;
@@ -47,8 +53,8 @@ export class DisputeOutcome extends Utility implements Static<IUtility, typeof D
     return this.outcomeCode;
   }
 
-  public override getFields<T extends TDisputeOutcome>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<DisputeOutcomeFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TDisputeOutcome) {

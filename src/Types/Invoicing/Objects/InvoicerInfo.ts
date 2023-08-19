@@ -10,6 +10,15 @@ export type TInvoicerInfo = {
   website?: string;
 };
 
+type InvoicerInfoFields = {
+  readonly additionalNotes?: string;
+  readonly emailAddress?: string;
+  readonly logoUrl?: string;
+  readonly phones?: PhoneDetail[];
+  readonly taxId?: string;
+  readonly website?: string;
+};
+
 export class InvoicerInfo extends Utility implements Static<IUtility, typeof InvoicerInfo> {
   private additionalNotes?: string;
   private emailAddress?: string;
@@ -76,8 +85,8 @@ export class InvoicerInfo extends Utility implements Static<IUtility, typeof Inv
     return this.website;
   }
 
-  public override getFields<T extends TInvoicerInfo>() {
-    return super.getFields<T>();
+  public override getFields<T extends InvoicerInfoFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TInvoicerInfo) {

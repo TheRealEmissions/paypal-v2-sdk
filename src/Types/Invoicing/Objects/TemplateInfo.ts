@@ -18,6 +18,17 @@ export type TTemplateInfo = {
   primary_recipients?: TRecipientInfo[];
 };
 
+type TemplateInfoFields = {
+  readonly additionalRecipients?: string[];
+  readonly amount?: AmountSummaryDetail;
+  readonly configuration?: Configuration;
+  readonly detail?: TemplateDetail;
+  readonly dueAmount?: Money;
+  readonly invoicer?: InvoicerInfo;
+  readonly items?: Item[];
+  readonly primaryRecipients?: RecipientInfo[];
+};
+
 export class TemplateInfo extends Utility implements Static<IUtility, typeof TemplateInfo> {
   private additionalRecipients?: string[];
   private amount?: AmountSummaryDetail;
@@ -147,8 +158,8 @@ export class TemplateInfo extends Utility implements Static<IUtility, typeof Tem
     return this.primaryRecipients;
   }
 
-  public override getFields<T extends TTemplateInfo>() {
-    return super.getFields<T>();
+  public override getFields<T extends TemplateInfoFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TTemplateInfo) {

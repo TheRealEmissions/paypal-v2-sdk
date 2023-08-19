@@ -16,6 +16,18 @@ export type TItem = {
   unit_of_measure?: keyof typeof UnitOfMeasure;
 };
 
+type ItemFields = {
+  readonly name?: string;
+  readonly quantity?: string;
+  readonly unitAmount?: Money;
+  readonly description?: string;
+  readonly discount?: Discount;
+  readonly id?: string;
+  readonly itemDate?: string;
+  readonly tax?: Tax;
+  readonly unitOfMeasure?: UnitOfMeasure;
+};
+
 export class Item extends Utility implements Static<IUtility, typeof Item> {
   private name?: string;
   private quantity?: string;
@@ -131,8 +143,8 @@ export class Item extends Utility implements Static<IUtility, typeof Item> {
     return this.unitOfMeasure;
   }
 
-  public override getFields<T extends Partial<TItem>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<ItemFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TItem): Item {

@@ -6,6 +6,11 @@ export type TCustomAmount = {
   amount?: TMoney;
 };
 
+type CustomAmountFields = {
+  readonly label: string;
+  readonly amount?: Money;
+};
+
 export class CustomAmount extends Utility implements Static<IUtility, typeof CustomAmount> {
   private label?: string;
   private amount?: Money;
@@ -41,8 +46,8 @@ export class CustomAmount extends Utility implements Static<IUtility, typeof Cus
     return this.amount;
   }
 
-  public override getFields<T extends Partial<TCustomAmount>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<CustomAmountFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TCustomAmount) {

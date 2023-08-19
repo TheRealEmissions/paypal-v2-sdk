@@ -9,6 +9,14 @@ export type TConfiguration = {
   template_id?: string;
 };
 
+type ConfigurationFields = {
+  readonly allowTip?: boolean;
+  readonly partialPayment?: PartialPayment;
+  readonly taxCalculatedAfterDiscount?: boolean;
+  readonly taxInclusive?: boolean;
+  readonly templateId?: string;
+};
+
 export class Configuration extends Utility implements Static<IUtility, typeof Configuration> {
   private allowTip?: boolean;
   private partialPayment?: PartialPayment;
@@ -66,8 +74,8 @@ export class Configuration extends Utility implements Static<IUtility, typeof Co
     return this.templateId;
   }
 
-  public override getFields<T extends TConfiguration>() {
-    return super.getFields<T>();
+  public override getFields<T extends ConfigurationFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TConfiguration) {

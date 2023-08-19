@@ -9,6 +9,14 @@ export type TProductCollectionElement = {
   name?: string;
 };
 
+type ProductCollectionElementFields = {
+  readonly createTime?: string;
+  readonly description?: string;
+  readonly id?: string;
+  readonly links?: LinkDescription[];
+  readonly name?: string;
+};
+
 export class ProductCollectionElement extends Utility implements Static<IUtility, typeof ProductCollectionElement> {
   private createTime?: string;
   private description?: string;
@@ -16,7 +24,7 @@ export class ProductCollectionElement extends Utility implements Static<IUtility
   private links?: LinkDescription[];
   private name?: string;
 
-  public setCreateTime(createTime: string) {
+  public setCreateTime(createTime: string): OnlySetters<this> {
     this.createTime = createTime;
     return this;
   }
@@ -24,7 +32,7 @@ export class ProductCollectionElement extends Utility implements Static<IUtility
     return this.createTime;
   }
 
-  public setDescription(description: string) {
+  public setDescription(description: string): OnlySetters<this> {
     this.description = description;
     return this;
   }
@@ -32,7 +40,7 @@ export class ProductCollectionElement extends Utility implements Static<IUtility
     return this.description;
   }
 
-  public setId(id: string) {
+  public setId(id: string): OnlySetters<this> {
     this.id = id;
     return this;
   }
@@ -40,9 +48,9 @@ export class ProductCollectionElement extends Utility implements Static<IUtility
     return this.id;
   }
 
-  public setLinks(...links: LinkDescription[]): this;
-  public setLinks(...links: ((link: OnlySetters<LinkDescription>) => void)[]): this;
-  public setLinks(...links: (LinkDescription | ((link: OnlySetters<LinkDescription>) => void))[]) {
+  public setLinks(...links: LinkDescription[]): OnlySetters<this>;
+  public setLinks(...links: ((link: OnlySetters<LinkDescription>) => void)[]): OnlySetters<this>;
+  public setLinks(...links: (LinkDescription | ((link: OnlySetters<LinkDescription>) => void))[]): OnlySetters<this> {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) return link;
       const linkDesc = new LinkDescription();
@@ -55,7 +63,7 @@ export class ProductCollectionElement extends Utility implements Static<IUtility
     return this.links;
   }
 
-  public setName(name: string) {
+  public setName(name: string): OnlySetters<this> {
     this.name = name;
     return this;
   }
@@ -63,8 +71,8 @@ export class ProductCollectionElement extends Utility implements Static<IUtility
     return this.name;
   }
 
-  public override getFields<T extends TProductCollectionElement>() {
-    return super.getFields<T>();
+  public override getFields<T extends ProductCollectionElementFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TProductCollectionElement) {

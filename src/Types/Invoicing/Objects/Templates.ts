@@ -12,6 +12,14 @@ export type TTemplates = {
   emails?: string[];
 };
 
+type TemplatesFields = {
+  readonly addresses?: PortablePostalAddress[];
+  readonly phones?: PhoneDetail[];
+  readonly templates?: Template[];
+  readonly links?: LinkDescription[];
+  readonly emails?: string[];
+};
+
 export class Templates extends Utility implements Static<IUtility, typeof Templates> {
   private addresses?: PortablePostalAddress[];
   private phones?: PhoneDetail[];
@@ -89,8 +97,8 @@ export class Templates extends Utility implements Static<IUtility, typeof Templa
     return this.emails;
   }
 
-  public override getFields<T extends Partial<TTemplates>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<TemplatesFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TTemplates) {

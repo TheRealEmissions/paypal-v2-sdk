@@ -9,7 +9,7 @@
     "noUnusedParameters": true,
     "noImplicitOverride": true,
     "declaration": true,
-    "outDir": "./dist",
+    "outDir": "./dist"
   },
-  "exclude": ["node_modules", "out", "dist", ".vs/**/*"]
+  "exclude": ["node_modules", "out", "dist", ".vs/**/*", "samples"]
 }

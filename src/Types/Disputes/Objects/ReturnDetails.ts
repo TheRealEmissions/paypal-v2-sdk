@@ -9,6 +9,14 @@ export type TReturnDetails = {
   returned?: boolean;
 };
 
+type ReturnDetailsFields = {
+  readonly mode?: ReturnDetailsMode;
+  readonly receipt?: boolean;
+  readonly returnConfirmationNumber?: string;
+  readonly returnTime?: string;
+  readonly returned?: boolean;
+};
+
 export class ReturnDetails extends Utility implements Static<IUtility, typeof ReturnDetails> {
   private mode?: ReturnDetailsMode;
   private receipt?: boolean;
@@ -59,8 +67,8 @@ export class ReturnDetails extends Utility implements Static<IUtility, typeof Re
     return this.returned;
   }
 
-  public override getFields<T extends TReturnDetails>() {
-    return super.getFields<T>();
+  public override getFields<T extends ReturnDetailsFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TReturnDetails) {

@@ -7,6 +7,12 @@ export type TAmountSummaryDetail = {
   value?: string;
 };
 
+type AmountSummaryDetailFields = {
+  readonly breakdown?: AmountWithBreakdown;
+  readonly currencyCode?: string;
+  readonly value?: string;
+};
+
 export class AmountSummaryDetail extends Utility implements Static<IUtility, typeof AmountSummaryDetail> {
   private breakdown?: AmountWithBreakdown;
   private currencyCode?: string;
@@ -49,8 +55,8 @@ export class AmountSummaryDetail extends Utility implements Static<IUtility, typ
     return this.value;
   }
 
-  public override getFields<T extends Partial<TAmountSummaryDetail>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<AmountSummaryDetailFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TAmountSummaryDetail) {

@@ -5,6 +5,11 @@ export type TMoney = {
   value: string;
 };
 
+type MoneyFields = {
+  readonly currencyCode?: string;
+  readonly value?: string;
+};
+
 export class Money extends Utility implements Static<IUtility, typeof Money> {
   private currencyCode?: string;
   private value?: string;
@@ -30,8 +35,8 @@ export class Money extends Utility implements Static<IUtility, typeof Money> {
     return this.value;
   }
 
-  public override getFields<T extends Partial<TMoney>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<MoneyFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TMoney) {

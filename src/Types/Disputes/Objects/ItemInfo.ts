@@ -15,6 +15,18 @@ export type TItemInfo = {
   reason?: keyof typeof Reason;
 };
 
+type ItemInfoFields = {
+  readonly disputeAmount?: Money;
+  readonly itemDescription?: string;
+  readonly itemId?: string;
+  readonly itemName?: string;
+  readonly itemQuantity?: string;
+  readonly itemType?: ItemType;
+  readonly notes?: string;
+  readonly partnerTransactionId?: string;
+  readonly reason?: Reason;
+};
+
 export class ItemInfo extends Utility implements Static<IUtility, typeof ItemInfo> {
   private disputeAmount?: Money;
   private itemDescription?: string;
@@ -107,8 +119,8 @@ export class ItemInfo extends Utility implements Static<IUtility, typeof ItemInf
     return this.reason;
   }
 
-  public override getFields<T extends Partial<TItemInfo>>() {
-    return super.getFields<T>();
+  public override getFields<T extends ItemInfoFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TItemInfo) {

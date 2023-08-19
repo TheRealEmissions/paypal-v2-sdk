@@ -5,6 +5,11 @@ export type TDocument = {
   url?: string;
 };
 
+type DocumentFields = {
+  readonly name?: string;
+  readonly url?: string;
+};
+
 export class Document extends Utility implements Static<IUtility, typeof Document> {
   private name?: string;
   private url?: string;
@@ -25,8 +30,8 @@ export class Document extends Utility implements Static<IUtility, typeof Documen
     return this.url;
   }
 
-  public override getFields<T extends TDocument>() {
-    return super.getFields<T>();
+  public override getFields<T extends DocumentFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TDocument) {

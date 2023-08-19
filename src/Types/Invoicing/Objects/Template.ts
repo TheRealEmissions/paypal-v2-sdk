@@ -16,6 +16,17 @@ export type TTemplate = {
   unit_of_measure?: keyof typeof UnitOfMeasure;
 };
 
+type TemplateFields = {
+  readonly defaultTemplate?: boolean;
+  readonly id?: string;
+  readonly links?: LinkDescription[];
+  readonly name?: string;
+  readonly settings?: TemplateSettings;
+  readonly standardTemplate?: boolean;
+  readonly templateInfo?: TemplateInfo;
+  readonly unitOfMeasure?: UnitOfMeasure;
+};
+
 export class Template extends Utility implements Static<IUtility, typeof Template> {
   private defaultTemplate?: boolean;
   private id?: string;
@@ -163,8 +174,8 @@ export class Template extends Utility implements Static<IUtility, typeof Templat
     return this.unitOfMeasure;
   }
 
-  public override getFields<T extends TTemplate>() {
-    return super.getFields<T>();
+  public override getFields<T extends TemplateFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TTemplate) {

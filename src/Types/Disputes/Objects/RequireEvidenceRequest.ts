@@ -5,6 +5,10 @@ export type TRequireEvidenceRequest = {
   action: keyof typeof RequireEvidenceRequestEnum;
 };
 
+type RequireEvidenceRequestFields = {
+  readonly action: RequireEvidenceRequestEnum;
+};
+
 export class RequireEvidenceRequest extends Utility implements Static<IUtility, typeof RequireEvidenceRequest> {
   private action!: RequireEvidenceRequestEnum;
 
@@ -22,8 +26,8 @@ export class RequireEvidenceRequest extends Utility implements Static<IUtility, 
     return this.action;
   }
 
-  public override getFields<T extends Partial<TRequireEvidenceRequest>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<RequireEvidenceRequestFields>>() {
+    return super._getFields<T>();
   }
 
   static fromObject(obj: TRequireEvidenceRequest) {

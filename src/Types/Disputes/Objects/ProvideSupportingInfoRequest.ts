@@ -4,6 +4,10 @@ export type TProvideSupportingInfoRequest = {
   notes: string;
 };
 
+type ProvideSupportingInfoRequestFields = {
+  readonly notes?: string;
+};
+
 export class ProvideSupportingInfoRequest
   extends Utility
   implements Static<IUtility, typeof ProvideSupportingInfoRequest>
@@ -18,8 +22,8 @@ export class ProvideSupportingInfoRequest
     return this.notes;
   }
 
-  public override getFields<T extends Partial<TProvideSupportingInfoRequest>>() {
-    return super.getFields<T>();
+  public override getFields<T extends ProvideSupportingInfoRequestFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TProvideSupportingInfoRequest) {

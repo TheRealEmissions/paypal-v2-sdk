@@ -4,6 +4,10 @@ export type TInvoiceNumber = {
   invoice_number: string;
 };
 
+type InvoiceNumberFields = {
+  readonly invoiceNumber?: string;
+};
+
 export class InvoiceNumber extends Utility implements Static<IUtility, typeof InvoiceNumber> {
   private invoiceNumber?: string;
 
@@ -15,8 +19,8 @@ export class InvoiceNumber extends Utility implements Static<IUtility, typeof In
     return this.invoiceNumber;
   }
 
-  public override getFields<T extends Partial<TInvoiceNumber>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<InvoiceNumberFields>>() {
+    return super._getFields<T>();
   }
 
   static fromObject(obj: TInvoiceNumber) {

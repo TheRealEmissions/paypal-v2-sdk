@@ -15,6 +15,21 @@ export type TMetadata = {
   recipient_view_url?: string;
 };
 
+type MetadataFields = {
+  readonly createTime?: string;
+  readonly createdBy?: string;
+  readonly lastUpdateTime?: string;
+  readonly lastUpdatedBy?: string;
+  readonly cancelTime?: string;
+  readonly cancelledBy?: string;
+  readonly createdByFlow?: string;
+  readonly firstSentTime?: string;
+  readonly invoicerViewUrl?: string;
+  readonly lastSentBy?: string;
+  readonly lastSentTime?: string;
+  readonly recipientViewUrl?: string;
+};
+
 export class Metadata extends Utility implements Static<IUtility, typeof Metadata> {
   private createTime?: string;
   private createdBy?: string;
@@ -125,8 +140,8 @@ export class Metadata extends Utility implements Static<IUtility, typeof Metadat
     return this.recipientViewUrl;
   }
 
-  public override getFields<T extends Partial<TMetadata>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<MetadataFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TMetadata) {

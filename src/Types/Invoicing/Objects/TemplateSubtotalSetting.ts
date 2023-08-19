@@ -7,6 +7,11 @@ export type TTemplateSubtotalSetting = {
   field_name?: keyof typeof TemplateItemField;
 };
 
+type TemplateSubtotalSettingFields = {
+  readonly displayPreference?: TemplateDisplayPreference;
+  readonly fieldName?: TemplateItemField;
+};
+
 export class TemplateSubtotalSetting extends Utility implements Static<IUtility, typeof TemplateSubtotalSetting> {
   private displayPreference?: TemplateDisplayPreference;
   private fieldName?: TemplateItemField;
@@ -42,8 +47,8 @@ export class TemplateSubtotalSetting extends Utility implements Static<IUtility,
     return this.fieldName;
   }
 
-  public override getFields<T extends TTemplateSubtotalSetting>() {
-    return super.getFields<T>();
+  public override getFields<T extends TemplateSubtotalSettingFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TTemplateSubtotalSetting) {

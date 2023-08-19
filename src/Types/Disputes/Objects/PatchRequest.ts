@@ -5,6 +5,10 @@ export type TPatchRequest = {
   patch_request: TPatch[];
 };
 
+type PatchRequestFields = {
+  readonly patchRequest?: TPatch[];
+};
+
 export class PatchRequest extends Utility implements Static<IUtility, typeof PatchRequest> {
   private patchRequest?: Patch[];
 
@@ -25,8 +29,8 @@ export class PatchRequest extends Utility implements Static<IUtility, typeof Pat
     return this.patchRequest;
   }
 
-  public override getFields<T extends Partial<TPatchRequest>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<PatchRequestFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TPatchRequest) {

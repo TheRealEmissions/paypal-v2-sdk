@@ -10,6 +10,15 @@ export type TDetail = {
   currency_code: string;
 };
 
+type DetailFields = {
+  readonly reference?: string;
+  readonly note?: string;
+  readonly termsAndConditions?: string;
+  readonly memo?: string;
+  readonly attachments?: FileReference[];
+  readonly currencyCode: string;
+};
+
 export class Detail extends Utility implements Static<IUtility, typeof Detail> {
   private reference?: string;
   private note?: string;
@@ -75,8 +84,8 @@ export class Detail extends Utility implements Static<IUtility, typeof Detail> {
     return this.currencyCode;
   }
 
-  public override getFields<T extends Partial<TDetail>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<DetailFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TDetail) {

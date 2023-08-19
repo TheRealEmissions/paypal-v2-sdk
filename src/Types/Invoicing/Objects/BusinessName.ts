@@ -4,6 +4,10 @@ export type TBusinessName = {
   business_name?: string;
 };
 
+type BusinessNameFields = {
+  readonly businessName?: string;
+};
+
 export class BusinessName extends Utility implements Static<IUtility, typeof BusinessName> {
   private businessName?: string;
 
@@ -15,8 +19,8 @@ export class BusinessName extends Utility implements Static<IUtility, typeof Bus
     return this.businessName;
   }
 
-  public override getFields<T extends TBusinessName>() {
-    return super.getFields<T>();
+  public override getFields<T extends BusinessNameFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TBusinessName) {

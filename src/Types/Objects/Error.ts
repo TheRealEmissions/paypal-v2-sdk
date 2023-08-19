@@ -11,6 +11,15 @@ export type TError = {
   readonly links?: TLinkDescription[];
 };
 
+type ErrorFields = {
+  readonly debugId?: string;
+  readonly message?: string;
+  readonly name?: string;
+  readonly details?: ErrorDetails[];
+  readonly informationLink?: string;
+  readonly links?: LinkDescription[];
+};
+
 export class PayPalError extends Utility implements Static<IUtility, typeof PayPalError> {
   private debugId?: string;
   private message?: string;
@@ -87,8 +96,8 @@ export class PayPalError extends Utility implements Static<IUtility, typeof PayP
     return this.links;
   }
 
-  public override getFields<T extends Partial<TError>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<ErrorFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TError): PayPalError {

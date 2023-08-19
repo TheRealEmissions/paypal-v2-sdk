@@ -15,6 +15,17 @@ export type TExtensions = {
   merchant_contacted_time?: string;
 };
 
+type ExtensionsFields = {
+  readonly billingDisputeProperties?: BillingDisputeProperties;
+  readonly buyerContactedChannel?: string;
+  readonly buyerContactedTime?: string;
+  readonly merchandizeDisputeProperties?: MerchandiseDisputeProperties;
+  readonly merchantContacted?: boolean;
+  readonly merchantContactedMode?: MerchantContactedOutcomeMethod;
+  readonly merchantContactedOutcome?: MerchantContactedOutcome;
+  readonly merchantContactedTime?: string;
+};
+
 export class Extensions extends Utility implements Static<IUtility, typeof Extensions> {
   private billingDisputeProperties?: BillingDisputeProperties;
   private buyerContactedChannel?: string;
@@ -129,8 +140,8 @@ export class Extensions extends Utility implements Static<IUtility, typeof Exten
     return this.merchantContactedTime;
   }
 
-  public override getFields<T extends TExtensions>() {
-    return super.getFields<T>();
+  public override getFields<T extends ExtensionsFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TExtensions) {

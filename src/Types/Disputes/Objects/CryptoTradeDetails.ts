@@ -1,13 +1,17 @@
-import { IUtility, Static, Utility } from "../../Utility";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility";
 
 export type TCryptoTradeDetails = {
   trade_id?: string;
 };
 
+type CryptoTradeDetailsFields = {
+  readonly tradeId?: string;
+};
+
 export class CryptoTradeDetails extends Utility implements Static<IUtility, typeof CryptoTradeDetails> {
   private tradeId?: string;
 
-  public setTradeId(tradeId: string) {
+  public setTradeId(tradeId: string): OnlySetters<this> {
     this.tradeId = tradeId;
     return this;
   }
@@ -15,8 +19,8 @@ export class CryptoTradeDetails extends Utility implements Static<IUtility, type
     return this.tradeId;
   }
 
-  public override getFields<T extends TCryptoTradeDetails>() {
-    return super.getFields<T>();
+  public override getFields<T extends CryptoTradeDetailsFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TCryptoTradeDetails) {

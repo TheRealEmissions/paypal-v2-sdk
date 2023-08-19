@@ -1,4 +1,4 @@
-import { Utility, Static, IUtility } from "../../Utility.js";
+import { Utility, Static, IUtility, OnlySetters } from "../../Utility.js";
 
 export type TCommunicationDetails = {
   email?: string;
@@ -6,12 +6,18 @@ export type TCommunicationDetails = {
   time_posted?: string;
 };
 
+type CommunicationDetailsFields = {
+  readonly email?: string;
+  readonly note?: string;
+  readonly timePosted?: string;
+};
+
 export class CommunicationDetails extends Utility implements Static<IUtility, typeof CommunicationDetails> {
   private email?: string;
   private note?: string;
   private timePosted?: string;
 
-  public setEmail(email: string) {
+  public setEmail(email: string): OnlySetters<this> {
     this.email = email;
     return this;
   }
@@ -19,7 +25,7 @@ export class CommunicationDetails extends Utility implements Static<IUtility, ty
     return this.email;
   }
 
-  public setNote(note: string) {
+  public setNote(note: string): OnlySetters<this> {
     this.note = note;
     return this;
   }
@@ -27,7 +33,7 @@ export class CommunicationDetails extends Utility implements Static<IUtility, ty
     return this.note;
   }
 
-  public setTimePosted(timePosted: string) {
+  public setTimePosted(timePosted: string): OnlySetters<this> {
     this.timePosted = timePosted;
     return this;
   }
@@ -35,8 +41,8 @@ export class CommunicationDetails extends Utility implements Static<IUtility, ty
     return this.timePosted;
   }
 
-  public override getFields<T extends TCommunicationDetails>() {
-    return super.getFields<T>();
+  public override getFields<T extends CommunicationDetailsFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TCommunicationDetails) {

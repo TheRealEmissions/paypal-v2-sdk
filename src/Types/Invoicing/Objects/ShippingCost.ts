@@ -7,6 +7,11 @@ export type TShippingCost = {
   tax?: TTax;
 };
 
+type ShippingCostFields = {
+  readonly amount?: Money;
+  readonly tax?: Tax;
+};
+
 export class ShippingCost extends Utility implements Static<IUtility, typeof ShippingCost> {
   private amount?: Money;
   private tax?: Tax;
@@ -53,8 +58,8 @@ export class ShippingCost extends Utility implements Static<IUtility, typeof Shi
     return this.tax;
   }
 
-  public override getFields<T extends TShippingCost>() {
-    return super.getFields<T>();
+  public override getFields<T extends ShippingCostFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TShippingCost) {

@@ -7,17 +7,22 @@ export type TCanceledRecurringBilling = {
   expected_refund?: TMoney;
 };
 
+type CanceledRecurringBillingFields = {
+  readonly cancellationDetails?: CancellationDetails;
+  readonly expectedRefund?: Money;
+};
+
 export class CanceledRecurringBilling extends Utility implements Static<IUtility, typeof CanceledRecurringBilling> {
   private cancellationDetails?: CancellationDetails;
   private expectedRefund?: Money;
 
-  public setCancellationDetails(cancellationDetails: CancellationDetails): this;
+  public setCancellationDetails(cancellationDetails: CancellationDetails): OnlySetters<this>;
   public setCancellationDetails(
     cancellationDetails: (cancellationDetails: OnlySetters<CancellationDetails>) => void
-  ): this;
+  ): OnlySetters<this>;
   public setCancellationDetails(
     cancellationDetails: CancellationDetails | ((cancellationDetails: OnlySetters<CancellationDetails>) => void)
-  ) {
+  ): OnlySetters<this> {
     if (cancellationDetails instanceof CancellationDetails) this.cancellationDetails = cancellationDetails;
     else cancellationDetails((this.cancellationDetails = new CancellationDetails()));
     return this;
@@ -26,9 +31,9 @@ export class CanceledRecurringBilling extends Utility implements Static<IUtility
     return this.cancellationDetails;
   }
 
-  public setExpectedRefund(expectedRefund: Money): this;
-  public setExpectedRefund(expectedRefund: (expectedRefund: OnlySetters<Money>) => void): this;
-  public setExpectedRefund(expectedRefund: Money | ((expectedRefund: OnlySetters<Money>) => void)) {
+  public setExpectedRefund(expectedRefund: Money): OnlySetters<this>;
+  public setExpectedRefund(expectedRefund: (expectedRefund: OnlySetters<Money>) => void): OnlySetters<this>;
+  public setExpectedRefund(expectedRefund: Money | ((expectedRefund: OnlySetters<Money>) => void)): OnlySetters<this> {
     if (expectedRefund instanceof Money) this.expectedRefund = expectedRefund;
     else expectedRefund((this.expectedRefund = new Money()));
     return this;
@@ -37,8 +42,8 @@ export class CanceledRecurringBilling extends Utility implements Static<IUtility
     return this.expectedRefund;
   }
 
-  public override getFields<T extends TCanceledRecurringBilling>() {
-    return super.getFields<T>();
+  public override getFields<T extends CanceledRecurringBillingFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TCanceledRecurringBilling) {

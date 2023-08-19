@@ -7,6 +7,11 @@ export type TDisputeSearch = {
   links: TLinkDescription[];
 };
 
+type DisputeSearchFields = {
+  readonly items?: Dispute[];
+  readonly links?: LinkDescription[];
+};
+
 export class DisputeSearch extends Utility implements Static<IUtility, typeof DisputeSearch> {
   private items?: Dispute[];
   private links?: LinkDescription[];
@@ -41,8 +46,8 @@ export class DisputeSearch extends Utility implements Static<IUtility, typeof Di
     return this.links;
   }
 
-  public override getFields<T extends Partial<TDisputeSearch>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<DisputeSearchFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TDisputeSearch) {

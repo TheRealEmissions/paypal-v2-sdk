@@ -13,6 +13,14 @@ export type TMerchandiseDisputeProperties = {
   service_details?: TServiceDetails;
 };
 
+type MerchandiseDisputePropertiesFields = {
+  readonly cancellationDetails?: CancellationDetails;
+  readonly issueType?: IssueType;
+  readonly productDetails?: ProductDetails;
+  readonly returnShippingAddress?: PortablePostalAddress;
+  readonly serviceDetails?: ServiceDetails;
+};
+
 export class MerchandiseDisputeProperties
   extends Utility
   implements Static<IUtility, typeof MerchandiseDisputeProperties>
@@ -86,8 +94,8 @@ export class MerchandiseDisputeProperties
     return this.serviceDetails;
   }
 
-  public override getFields<T extends TMerchandiseDisputeProperties>() {
-    return super.getFields<T>();
+  public override getFields<T extends MerchandiseDisputePropertiesFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TMerchandiseDisputeProperties) {

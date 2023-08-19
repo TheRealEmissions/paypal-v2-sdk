@@ -21,6 +21,21 @@ export type TTransactionInfo = {
   transaction_status?: keyof typeof TransactionInfoTransactionStatus;
 };
 
+type TransactionInfoFields = {
+  readonly buyer?: Buyer;
+  readonly buyerTransactionId?: string;
+  readonly createTime?: string;
+  readonly custom?: string;
+  readonly grossAmount?: Money;
+  readonly grossAsset?: Cryptocurrency;
+  readonly invoiceNumber?: string;
+  readonly items?: ItemInfo[];
+  readonly referenceId?: string;
+  readonly seller?: Seller;
+  readonly sellerTransactionId?: string;
+  readonly transactionStatus?: TransactionInfoTransactionStatus;
+};
+
 export class TransactionInfo extends Utility implements Static<IUtility, typeof TransactionInfo> {
   private buyer!: Buyer;
   private buyerTransactionId?: string;
@@ -162,8 +177,8 @@ export class TransactionInfo extends Utility implements Static<IUtility, typeof 
     return this.transactionStatus;
   }
 
-  public override getFields<T extends TTransactionInfo>() {
-    return super.getFields<T>();
+  public override getFields<T extends TransactionInfoFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TTransactionInfo) {

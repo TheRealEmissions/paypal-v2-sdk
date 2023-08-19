@@ -7,6 +7,11 @@ export type TTemplateItemSetting = {
   field_name?: keyof typeof TemplateItemField;
 };
 
+type TemplateItemSettingFields = {
+  readonly displayPreference?: TemplateDisplayPreference;
+  readonly fieldName?: TemplateItemField;
+};
+
 export class TemplateItemSetting extends Utility implements Static<IUtility, typeof TemplateItemSetting> {
   private displayPreference?: TemplateDisplayPreference;
   private fieldName?: TemplateItemField;
@@ -42,8 +47,8 @@ export class TemplateItemSetting extends Utility implements Static<IUtility, typ
     return this.fieldName;
   }
 
-  public override getFields<T extends TTemplateItemSetting>() {
-    return super.getFields<T>();
+  public override getFields<T extends TemplateItemSettingFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TTemplateItemSetting) {

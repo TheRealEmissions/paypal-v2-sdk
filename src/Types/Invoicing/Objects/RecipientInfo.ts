@@ -7,6 +7,11 @@ export type TRecipientInfo = {
   shipping_info?: TContactInformation;
 };
 
+type RecipientInfoFields = {
+  readonly billingInfo?: BillingInfo;
+  readonly shippingInfo?: ContactInformation;
+};
+
 export class RecipientInfo extends Utility implements Static<IUtility, typeof RecipientInfo> {
   private billingInfo?: BillingInfo;
   private shippingInfo?: ContactInformation;
@@ -43,8 +48,8 @@ export class RecipientInfo extends Utility implements Static<IUtility, typeof Re
     return this.shippingInfo;
   }
 
-  public override getFields<T extends TRecipientInfo>() {
-    return super.getFields<T>();
+  public override getFields<T extends RecipientInfoFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TRecipientInfo) {

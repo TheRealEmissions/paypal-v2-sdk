@@ -8,6 +8,13 @@ export type TBillingInfo = {
   phones?: TPhoneDetail[];
 };
 
+type BillingInfoFields = {
+  readonly additionalInfo?: string;
+  readonly emailAddress?: string;
+  readonly language?: string;
+  readonly phones?: PhoneDetail[];
+};
+
 export class BillingInfo extends Utility implements Static<IUtility, typeof BillingInfo> {
   private additionalInfo?: string;
   private emailAddress?: string;
@@ -56,8 +63,8 @@ export class BillingInfo extends Utility implements Static<IUtility, typeof Bill
     return this.phones;
   }
 
-  public override getFields<T extends TBillingInfo>() {
-    return super.getFields<T>();
+  public override getFields<T extends BillingInfoFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TBillingInfo) {

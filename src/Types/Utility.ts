@@ -22,13 +22,13 @@ export abstract class Utility {
     return obj as T;
   }
 
-  protected getFields<T extends object>() {
+  protected _getFields<T>() {
     const obj = {};
     for (const entry of Object.getOwnPropertyNames(this)) {
       if (typeof this[entry as keyof this] === "function") continue;
       Object.defineProperty(
         obj,
-        entry.replaceAll(/[A-Z]/g, (letter) => `_${letter.toLowerCase()}`),
+        entry.replaceAll(/_[a-z]/g, (letter) => `${letter.toUpperCase()}`),
         {
           value: this[entry as keyof this],
           writable: false,
@@ -39,6 +39,8 @@ export abstract class Utility {
 
     return obj as T;
   }
+
+  abstract getFields<T extends object>(): T;
 
   protected isValid(regex: RegExp, value: string) {
     return regex.test(value);

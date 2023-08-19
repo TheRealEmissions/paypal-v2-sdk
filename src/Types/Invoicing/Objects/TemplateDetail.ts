@@ -14,6 +14,17 @@ export type TTemplateDetail = {
   payment_term?: TPaymentTerm;
 };
 
+type TemplateDetailFields = {
+  readonly currencyCode: string;
+  readonly attachments?: FileReference[];
+  readonly memo?: string;
+  readonly note?: string;
+  readonly reference?: string;
+  readonly termsAndConditions?: string;
+  readonly metadata?: TemplateMetadata;
+  readonly paymentTerm?: PaymentTerm;
+};
+
 export class TemplateDetail extends Utility implements Static<IUtility, typeof TemplateDetail> {
   private currencyCode?: string;
   private attachments?: FileReference[];
@@ -111,8 +122,8 @@ export class TemplateDetail extends Utility implements Static<IUtility, typeof T
     return this.paymentTerm;
   }
 
-  public override getFields<T extends Partial<TTemplateDetail>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<TemplateDetailFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TTemplateDetail) {

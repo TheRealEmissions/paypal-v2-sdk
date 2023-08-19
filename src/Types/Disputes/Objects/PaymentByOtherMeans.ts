@@ -8,6 +8,13 @@ export type TPaymentByOtherMeans = {
   received_duplicate?: boolean;
 };
 
+type PaymentByOtherMeansFields = {
+  readonly chargeDifferentFromOriginal?: boolean;
+  readonly paymentInstrumentSuffix?: string;
+  readonly paymentMethod?: PaymentByOtherMeansPaymentMethod;
+  readonly receivedDuplicate?: boolean;
+};
+
 export class PaymentByOtherMeans extends Utility implements Static<IUtility, typeof PaymentByOtherMeans> {
   private chargeDifferentFromOriginal?: boolean;
   private paymentInstrumentSuffix?: string;
@@ -55,8 +62,8 @@ export class PaymentByOtherMeans extends Utility implements Static<IUtility, typ
     return this.receivedDuplicate;
   }
 
-  public override getFields<T extends TPaymentByOtherMeans>() {
-    return super.getFields<T>();
+  public override getFields<T extends PaymentByOtherMeansFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TPaymentByOtherMeans) {

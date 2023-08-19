@@ -8,6 +8,12 @@ export type TContactInformation = {
   name?: TName;
 };
 
+type ContactInformationFields = {
+  readonly businessName?: string;
+  readonly address?: PortablePostalAddress;
+  readonly name?: Name;
+};
+
 export class ContactInformation extends Utility implements Static<IUtility, typeof ContactInformation> {
   private businessName?: string;
   private address?: PortablePostalAddress;
@@ -53,8 +59,8 @@ export class ContactInformation extends Utility implements Static<IUtility, type
     return this.name;
   }
 
-  public override getFields<T extends TContactInformation>() {
-    return super.getFields<T>();
+  public override getFields<T extends ContactInformationFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TContactInformation) {

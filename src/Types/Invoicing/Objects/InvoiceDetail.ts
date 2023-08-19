@@ -16,6 +16,19 @@ export type TInvoiceDetail = {
   payment_term?: TInvoicePaymentTerm;
 };
 
+type InvoiceDetailFields = {
+  readonly currencyCode: string;
+  readonly attachments?: FileReference[];
+  readonly memo?: string;
+  readonly note?: string;
+  readonly reference?: string;
+  readonly termsAndConditions?: string;
+  readonly invoiceDate?: string;
+  readonly invoiceNumber?: string;
+  readonly metadata?: Metadata;
+  readonly paymentTerm?: InvoicePaymentTerm;
+};
+
 export class InvoiceDetail extends Utility implements Static<IUtility, typeof InvoiceDetail> {
   private currencyCode?: string;
   private attachments?: FileReference[];
@@ -134,8 +147,8 @@ export class InvoiceDetail extends Utility implements Static<IUtility, typeof In
     return this.paymentTerm;
   }
 
-  public override getFields<T extends Partial<TInvoiceDetail>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<InvoiceDetailFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TInvoiceDetail) {

@@ -9,6 +9,13 @@ export type TInvoices = {
   links: TLinkDescription[];
 };
 
+type InvoicesFields = {
+  readonly totalPages?: number;
+  readonly totalItems?: number;
+  readonly items?: Invoice[];
+  readonly links?: LinkDescription[];
+};
+
 export class Invoices extends Utility implements Static<IUtility, typeof Invoices> {
   private totalPages?: number;
   private totalItems?: number;
@@ -57,8 +64,8 @@ export class Invoices extends Utility implements Static<IUtility, typeof Invoice
     return this.links;
   }
 
-  public override getFields<T extends Partial<TInvoices>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<InvoicesFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TInvoices) {

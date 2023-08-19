@@ -9,6 +9,15 @@ export type TAddressDetails = {
   sub_building?: string;
 };
 
+type AddressDetailsFields = {
+  readonly streetNumber?: string;
+  readonly streetName?: string;
+  readonly streetType?: string;
+  readonly deliveryService?: string;
+  readonly buildingName?: string;
+  readonly subBuilding?: string;
+};
+
 export class AddressDetails extends Utility implements Static<IUtility, typeof AddressDetails> {
   private streetNumber?: string;
   private streetName?: string;
@@ -65,8 +74,8 @@ export class AddressDetails extends Utility implements Static<IUtility, typeof A
     return this.subBuilding;
   }
 
-  public override getFields<T extends TAddressDetails>() {
-    return super.getFields<T>();
+  public override getFields<T extends AddressDetailsFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TAddressDetails): AddressDetails {

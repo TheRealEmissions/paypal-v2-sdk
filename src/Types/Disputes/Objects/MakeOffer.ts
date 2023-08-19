@@ -12,6 +12,15 @@ export type TMakeOffer = {
   return_shipping_address?: TPortablePostalAddress;
 };
 
+type MakeOfferFields = {
+  readonly offerTypes?: OfferType[];
+  readonly note: string;
+  readonly offerType: OfferType;
+  readonly invoiceId?: string;
+  readonly offerAmount?: Money;
+  readonly returnShippingAddress?: PortablePostalAddress;
+};
+
 export class MakeOffer extends Utility implements Static<IUtility, typeof MakeOffer> {
   private offerTypes?: OfferType[];
   private note!: string;
@@ -92,8 +101,8 @@ export class MakeOffer extends Utility implements Static<IUtility, typeof MakeOf
     return this.returnShippingAddress;
   }
 
-  public override getFields<T extends TMakeOffer>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<MakeOfferFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TMakeOffer) {

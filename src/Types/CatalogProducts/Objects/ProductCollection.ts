@@ -9,15 +9,22 @@ export type TProductCollection = {
   links: TLinkDescription[];
 };
 
+type ProductCollectionFields = {
+  readonly products?: Product[];
+  readonly totalItems?: number;
+  readonly totalPages?: number;
+  readonly links?: LinkDescription[];
+};
+
 export class ProductCollection extends Utility implements Static<IUtility, typeof ProductCollection> {
   private products?: Product[];
   private totalItems?: number;
   private totalPages?: number;
   private links?: LinkDescription[];
 
-  public setProducts(...products: Product[]): this;
-  public setProducts(...products: ((product: OnlySetters<Product>) => void)[]): this;
-  public setProducts(...products: (Product | ((product: OnlySetters<Product>) => void))[]) {
+  public setProducts(...products: Product[]): OnlySetters<this>;
+  public setProducts(...products: ((product: OnlySetters<Product>) => void)[]): OnlySetters<this>;
+  public setProducts(...products: (Product | ((product: OnlySetters<Product>) => void))[]): OnlySetters<this> {
     this.products = products.map((product) => {
       if (product instanceof Product) return product;
       const productInstance = new Product();
@@ -30,7 +37,7 @@ export class ProductCollection extends Utility implements Static<IUtility, typeo
     return this.products;
   }
 
-  public setTotalItems(totalItems: number) {
+  public setTotalItems(totalItems: number): OnlySetters<this> {
     this.totalItems = totalItems;
     return this;
   }
@@ -38,7 +45,7 @@ export class ProductCollection extends Utility implements Static<IUtility, typeo
     return this.totalItems;
   }
 
-  public setTotalPages(totalPages: number) {
+  public setTotalPages(totalPages: number): OnlySetters<this> {
     this.totalPages = totalPages;
     return this;
   }
@@ -46,9 +53,9 @@ export class ProductCollection extends Utility implements Static<IUtility, typeo
     return this.totalPages;
   }
 
-  public setLinks(...links: LinkDescription[]): this;
-  public setLinks(...links: ((link: OnlySetters<LinkDescription>) => void)[]): this;
-  public setLinks(...links: (LinkDescription | ((link: OnlySetters<LinkDescription>) => void))[]) {
+  public setLinks(...links: LinkDescription[]): OnlySetters<this>;
+  public setLinks(...links: ((link: OnlySetters<LinkDescription>) => void)[]): OnlySetters<this>;
+  public setLinks(...links: (LinkDescription | ((link: OnlySetters<LinkDescription>) => void))[]): OnlySetters<this> {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) return link;
       const linkInstance = new LinkDescription();
@@ -61,8 +68,8 @@ export class ProductCollection extends Utility implements Static<IUtility, typeo
     return this.links;
   }
 
-  public override getFields<T extends Partial<TProductCollection>>() {
-    return super.getFields<T>();
+  public override getFields<T extends ProductCollectionFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TProductCollection) {

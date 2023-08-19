@@ -7,6 +7,11 @@ export type TResponseShipmentInfo = {
   tracking_info?: TResponseTrackingInfo;
 };
 
+type ResponseShipmentInfoFields = {
+  readonly shipmentLabel?: Document;
+  readonly trackingInfo?: ResponseTrackingInfo;
+};
+
 export class ResponseShipmentInfo extends Utility implements Static<IUtility, typeof ResponseShipmentInfo> {
   private shipmentLabel?: Document;
   private trackingInfo?: ResponseTrackingInfo;
@@ -43,8 +48,8 @@ export class ResponseShipmentInfo extends Utility implements Static<IUtility, ty
     return this.trackingInfo;
   }
 
-  public override getFields<T extends TResponseShipmentInfo>() {
-    return super.getFields<T>();
+  public override getFields<T extends ResponseShipmentInfoFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TResponseShipmentInfo) {

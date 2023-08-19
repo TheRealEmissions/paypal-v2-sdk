@@ -1,4 +1,4 @@
-import { IUtility, Static, Utility } from "../../Utility.js";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility.js";
 import { CancellationMode } from "../Enums/CancellationMode.js";
 
 export type TCancellationDetails = {
@@ -8,13 +8,20 @@ export type TCancellationDetails = {
   cancelled?: boolean;
 };
 
+type CancellationDetailsFields = {
+  readonly cancellationDate?: string;
+  readonly cancellationMode?: CancellationMode;
+  readonly cancellationNumber?: string;
+  readonly cancelled?: boolean;
+};
+
 export class CancellationDetails extends Utility implements Static<IUtility, typeof CancellationDetails> {
   private cancellationDate?: string;
   private cancellationMode?: CancellationMode;
   private cancellationNumber?: string;
   private cancelled?: boolean;
 
-  public setCancellationDate(cancellationDate: string) {
+  public setCancellationDate(cancellationDate: string): OnlySetters<this> {
     this.cancellationDate = cancellationDate;
     return this;
   }
@@ -22,11 +29,13 @@ export class CancellationDetails extends Utility implements Static<IUtility, typ
     return this.cancellationDate;
   }
 
-  public setCancellationMode(cancellationMode: CancellationMode): this;
-  public setCancellationMode(cancellationMode: (cancellationMode: typeof CancellationMode) => CancellationMode): this;
+  public setCancellationMode(cancellationMode: CancellationMode): OnlySetters<this>;
+  public setCancellationMode(
+    cancellationMode: (cancellationMode: typeof CancellationMode) => CancellationMode
+  ): OnlySetters<this>;
   public setCancellationMode(
     cancellationMode: CancellationMode | ((cancellationMode: typeof CancellationMode) => CancellationMode)
-  ) {
+  ): OnlySetters<this> {
     if (typeof cancellationMode === "function") this.cancellationMode = cancellationMode(CancellationMode);
     else this.cancellationMode = cancellationMode;
     return this;
@@ -35,7 +44,7 @@ export class CancellationDetails extends Utility implements Static<IUtility, typ
     return this.cancellationMode;
   }
 
-  public setCancellationNumber(cancellationNumber: string) {
+  public setCancellationNumber(cancellationNumber: string): OnlySetters<this> {
     this.cancellationNumber = cancellationNumber;
     return this;
   }
@@ -43,7 +52,7 @@ export class CancellationDetails extends Utility implements Static<IUtility, typ
     return this.cancellationNumber;
   }
 
-  public setCancelled(cancelled: boolean) {
+  public setCancelled(cancelled: boolean): OnlySetters<this> {
     this.cancelled = cancelled;
     return this;
   }
@@ -51,8 +60,8 @@ export class CancellationDetails extends Utility implements Static<IUtility, typ
     return this.cancelled;
   }
 
-  public override getFields<T extends TCancellationDetails>() {
-    return super.getFields<T>();
+  public override getFields<T extends CancellationDetailsFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TCancellationDetails) {

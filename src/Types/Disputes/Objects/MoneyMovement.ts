@@ -14,6 +14,15 @@ export type TMoneyMovement = {
   type?: keyof typeof MoneyMovementType;
 };
 
+type MoneyMovementFields = {
+  readonly affectedParty?: MoneyMovementAffectedParty;
+  readonly amount?: Money;
+  readonly asset?: Cryptocurrency;
+  readonly initiatedTime?: string;
+  readonly reason?: MoneyMovementReason;
+  readonly type?: MoneyMovementType;
+};
+
 export class MoneyMovement extends Utility implements Static<IUtility, typeof MoneyMovement> {
   private affectedParty?: MoneyMovementAffectedParty;
   private amount?: Money;
@@ -91,8 +100,8 @@ export class MoneyMovement extends Utility implements Static<IUtility, typeof Mo
     return this.type;
   }
 
-  public override getFields<T extends TMoneyMovement>() {
-    return super.getFields<T>();
+  public override getFields<T extends MoneyMovementFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TMoneyMovement) {

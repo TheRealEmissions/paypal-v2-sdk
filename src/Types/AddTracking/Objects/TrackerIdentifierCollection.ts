@@ -7,6 +7,11 @@ export type TTrackerIdentifierCollection = {
   links?: TLinkDescription[];
 };
 
+type TrackerIdentifierCollectionFields = {
+  readonly trackerIdentifiers?: TrackerIdentifier[];
+  readonly links?: LinkDescription[];
+};
+
 export class TrackerIdentifierCollection
   extends Utility
   implements Static<IUtility, typeof TrackerIdentifierCollection>
@@ -14,13 +19,13 @@ export class TrackerIdentifierCollection
   private trackerIdentifiers?: TrackerIdentifier[];
   private links?: LinkDescription[];
 
-  public setTrackerIdentifiers(...trackerIdentifiers: TrackerIdentifier[]): this;
+  public setTrackerIdentifiers(...trackerIdentifiers: TrackerIdentifier[]): OnlySetters<this>;
   public setTrackerIdentifiers(
     ...trackerIdentifiers: ((trackerIdentifier: OnlySetters<TrackerIdentifier>) => void)[]
-  ): this;
+  ): OnlySetters<this>;
   public setTrackerIdentifiers(
     ...trackerIdentifiers: (TrackerIdentifier | ((trackerIdentifier: OnlySetters<TrackerIdentifier>) => void))[]
-  ) {
+  ): OnlySetters<this> {
     this.trackerIdentifiers = trackerIdentifiers.map((trackerIdentifier) => {
       if (trackerIdentifier instanceof TrackerIdentifier) {
         return trackerIdentifier;
@@ -36,9 +41,9 @@ export class TrackerIdentifierCollection
     return this.trackerIdentifiers;
   }
 
-  public setLinks(...links: LinkDescription[]): this;
-  public setLinks(...links: ((links: OnlySetters<LinkDescription>) => void)[]): this;
-  public setLinks(...links: (LinkDescription | ((links: OnlySetters<LinkDescription>) => void))[]) {
+  public setLinks(...links: LinkDescription[]): OnlySetters<this>;
+  public setLinks(...links: ((links: OnlySetters<LinkDescription>) => void)[]): OnlySetters<this>;
+  public setLinks(...links: (LinkDescription | ((links: OnlySetters<LinkDescription>) => void))[]): OnlySetters<this> {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) {
         return link;
@@ -54,8 +59,8 @@ export class TrackerIdentifierCollection
     return this.links;
   }
 
-  public override getFields<T extends Partial<TTrackerIdentifierCollection>>() {
-    return super.getFields<T>();
+  public override getFields<T extends TrackerIdentifierCollectionFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TTrackerIdentifierCollection) {

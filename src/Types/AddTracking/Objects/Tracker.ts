@@ -26,6 +26,24 @@ export type TTracker = {
   last_updated_time?: string;
 };
 
+type TrackerFields = {
+  readonly transactionId?: string;
+  readonly trackingNumber?: string;
+  readonly carrierNameOther?: string;
+  readonly postagePaymentId?: string;
+  readonly notifyBoolean?: boolean;
+  readonly quantity?: number;
+  readonly trackingNumberValided?: boolean;
+  readonly shipmentDirection?: ShipmentDirection;
+  readonly shipmentUploader?: ShipmentUploader;
+  readonly links?: LinkDescription[];
+  readonly trackingNumberType?: TrackingNumberType;
+  readonly status?: TrackingStatus;
+  readonly shipmentDate?: string;
+  readonly carrier?: Carrier;
+  readonly lastUpdatedTime?: string;
+};
+
 export class Tracker extends Utility implements Static<IUtility, typeof Tracker> {
   private transactionId?: string;
   private trackingNumber?: string;
@@ -49,7 +67,7 @@ export class Tracker extends Utility implements Static<IUtility, typeof Tracker>
 
   // TODO: implement instance methods for AddTracking
 
-  public setTransactionId(transactionId: string): this {
+  public setTransactionId(transactionId: string): OnlySetters<this> {
     this.transactionId = transactionId;
     return this;
   }
@@ -57,7 +75,7 @@ export class Tracker extends Utility implements Static<IUtility, typeof Tracker>
     return this.transactionId;
   }
 
-  public setTrackingNumber(trackingNumber: string): this {
+  public setTrackingNumber(trackingNumber: string): OnlySetters<this> {
     this.trackingNumber = trackingNumber;
     return this;
   }
@@ -65,7 +83,7 @@ export class Tracker extends Utility implements Static<IUtility, typeof Tracker>
     return this.trackingNumber;
   }
 
-  public setCarrierNameOther(carrierNameOther: string): this {
+  public setCarrierNameOther(carrierNameOther: string): OnlySetters<this> {
     this.carrierNameOther = carrierNameOther;
     return this;
   }
@@ -73,7 +91,7 @@ export class Tracker extends Utility implements Static<IUtility, typeof Tracker>
     return this.carrierNameOther;
   }
 
-  public setPostagePaymentId(postagePaymentId: string): this {
+  public setPostagePaymentId(postagePaymentId: string): OnlySetters<this> {
     this.postagePaymentId = postagePaymentId;
     return this;
   }
@@ -81,7 +99,7 @@ export class Tracker extends Utility implements Static<IUtility, typeof Tracker>
     return this.postagePaymentId;
   }
 
-  public setNotifyBoolean(notifyBoolean: boolean): this {
+  public setNotifyBoolean(notifyBoolean: boolean): OnlySetters<this> {
     this.notifyBoolean = notifyBoolean;
     return this;
   }
@@ -89,7 +107,7 @@ export class Tracker extends Utility implements Static<IUtility, typeof Tracker>
     return this.notifyBoolean;
   }
 
-  public setQuantity(quantity: number): this {
+  public setQuantity(quantity: number): OnlySetters<this> {
     this.quantity = quantity;
     return this;
   }
@@ -97,7 +115,7 @@ export class Tracker extends Utility implements Static<IUtility, typeof Tracker>
     return this.quantity;
   }
 
-  public setTrackingNumberValided(trackingNumberValided: boolean): this {
+  public setTrackingNumberValided(trackingNumberValided: boolean): OnlySetters<this> {
     this.trackingNumberValided = trackingNumberValided;
     return this;
   }
@@ -105,13 +123,13 @@ export class Tracker extends Utility implements Static<IUtility, typeof Tracker>
     return this.trackingNumberValided;
   }
 
-  public setShipmentDirection(shipmentDirection: ShipmentDirection): this;
+  public setShipmentDirection(shipmentDirection: ShipmentDirection): OnlySetters<this>;
   public setShipmentDirection(
     shipmentDirection: (shipmentDirection: typeof ShipmentDirection) => ShipmentDirection
-  ): this;
+  ): OnlySetters<this>;
   public setShipmentDirection(
     shipmentDirection: ShipmentDirection | ((shipmentDirection: typeof ShipmentDirection) => ShipmentDirection)
-  ): this {
+  ): OnlySetters<this> {
     if (typeof shipmentDirection === "function") this.shipmentDirection = shipmentDirection(ShipmentDirection);
     else this.shipmentDirection = shipmentDirection;
     return this;
@@ -120,11 +138,13 @@ export class Tracker extends Utility implements Static<IUtility, typeof Tracker>
     return this.shipmentDirection;
   }
 
-  public setShipmentUploader(shipmentUploader: ShipmentUploader): this;
-  public setShipmentUploader(shipmentUploader: (shipmentUploader: typeof ShipmentUploader) => ShipmentUploader): this;
+  public setShipmentUploader(shipmentUploader: ShipmentUploader): OnlySetters<this>;
+  public setShipmentUploader(
+    shipmentUploader: (shipmentUploader: typeof ShipmentUploader) => ShipmentUploader
+  ): OnlySetters<this>;
   public setShipmentUploader(
     shipmentUploader: ShipmentUploader | ((shipmentUploader: typeof ShipmentUploader) => ShipmentUploader)
-  ): this {
+  ): OnlySetters<this> {
     if (typeof shipmentUploader === "function") this.shipmentUploader = shipmentUploader(ShipmentUploader);
     else this.shipmentUploader = shipmentUploader;
     return this;
@@ -133,9 +153,9 @@ export class Tracker extends Utility implements Static<IUtility, typeof Tracker>
     return this.shipmentUploader;
   }
 
-  public setLinks(links: LinkDescription[]): this;
-  public setLinks(links: ((links: OnlySetters<LinkDescription>) => void)[]): this;
-  public setLinks(links: (LinkDescription | ((links: OnlySetters<LinkDescription>) => void))[]): this {
+  public setLinks(links: LinkDescription[]): OnlySetters<this>;
+  public setLinks(links: ((links: OnlySetters<LinkDescription>) => void)[]): OnlySetters<this>;
+  public setLinks(links: (LinkDescription | ((links: OnlySetters<LinkDescription>) => void))[]): OnlySetters<this> {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) return link;
       else {
@@ -150,13 +170,13 @@ export class Tracker extends Utility implements Static<IUtility, typeof Tracker>
     return this.links;
   }
 
-  public setTrackingNumberType(trackingNumberType: TrackingNumberType): this;
+  public setTrackingNumberType(trackingNumberType: TrackingNumberType): OnlySetters<this>;
   public setTrackingNumberType(
     trackingNumberType: (trackingNumberType: typeof TrackingNumberType) => TrackingNumberType
-  ): this;
+  ): OnlySetters<this>;
   public setTrackingNumberType(
     trackingNumberType: TrackingNumberType | ((trackingNumberType: typeof TrackingNumberType) => TrackingNumberType)
-  ): this {
+  ): OnlySetters<this> {
     if (typeof trackingNumberType === "function") this.trackingNumberType = trackingNumberType(TrackingNumberType);
     else this.trackingNumberType = trackingNumberType;
     return this;
@@ -165,9 +185,9 @@ export class Tracker extends Utility implements Static<IUtility, typeof Tracker>
     return this.trackingNumberType;
   }
 
-  public setStatus(status: TrackingStatus): this;
-  public setStatus(status: (status: typeof TrackingStatus) => TrackingStatus): this;
-  public setStatus(status: TrackingStatus | ((status: typeof TrackingStatus) => TrackingStatus)): this {
+  public setStatus(status: TrackingStatus): OnlySetters<this>;
+  public setStatus(status: (status: typeof TrackingStatus) => TrackingStatus): OnlySetters<this>;
+  public setStatus(status: TrackingStatus | ((status: typeof TrackingStatus) => TrackingStatus)): OnlySetters<this> {
     if (typeof status === "function") this.status = status(TrackingStatus);
     else this.status = status;
     return this;
@@ -176,7 +196,7 @@ export class Tracker extends Utility implements Static<IUtility, typeof Tracker>
     return this.status;
   }
 
-  public setShipmentDate(shipmentDate: string): this {
+  public setShipmentDate(shipmentDate: string): OnlySetters<this> {
     this.shipmentDate = shipmentDate;
     return this;
   }
@@ -184,9 +204,9 @@ export class Tracker extends Utility implements Static<IUtility, typeof Tracker>
     return this.shipmentDate;
   }
 
-  public setCarrier(carrier: Carrier): this;
-  public setCarrier(carrier: (carrier: typeof Carrier) => Carrier): this;
-  public setCarrier(carrier: Carrier | ((carrier: typeof Carrier) => Carrier)): this {
+  public setCarrier(carrier: Carrier): OnlySetters<this>;
+  public setCarrier(carrier: (carrier: typeof Carrier) => Carrier): OnlySetters<this>;
+  public setCarrier(carrier: Carrier | ((carrier: typeof Carrier) => Carrier)): OnlySetters<this> {
     if (typeof carrier === "function") this.carrier = carrier(Carrier);
     else this.carrier = carrier;
     return this;
@@ -195,7 +215,7 @@ export class Tracker extends Utility implements Static<IUtility, typeof Tracker>
     return this.carrier;
   }
 
-  public setLastUpdatedTime(lastUpdatedTime: string): this {
+  public setLastUpdatedTime(lastUpdatedTime: string): OnlySetters<this> {
     this.lastUpdatedTime = lastUpdatedTime;
     return this;
   }
@@ -203,8 +223,8 @@ export class Tracker extends Utility implements Static<IUtility, typeof Tracker>
     return this.lastUpdatedTime;
   }
 
-  public override getFields<T extends Partial<TTracker>>() {
-    return super.getFields<T>();
+  public override getFields<T extends TrackerFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TTracker): Tracker {

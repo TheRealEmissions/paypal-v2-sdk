@@ -6,6 +6,11 @@ export type TDuplicationTransaction = {
   received_duplicate?: boolean;
 };
 
+type DuplicationTransactionFields = {
+  readonly originalTransaction?: TransactionInfo;
+  readonly receivedDuplicate?: boolean;
+};
+
 export class DuplicationTransaction extends Utility implements Static<IUtility, typeof DuplicationTransaction> {
   private originalTransaction?: TransactionInfo;
   private receivedDuplicate?: boolean;
@@ -29,8 +34,8 @@ export class DuplicationTransaction extends Utility implements Static<IUtility, 
     return this.receivedDuplicate;
   }
 
-  public override getFields<T extends TDuplicationTransaction>() {
-    return super.getFields<T>();
+  public override getFields<T extends DuplicationTransactionFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TDuplicationTransaction) {

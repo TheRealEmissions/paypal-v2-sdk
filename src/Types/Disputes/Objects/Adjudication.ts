@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility";
 import { AdjudicationReason } from "../Enums/AdjudicationReason";
 import { AdjudicationType } from "../Enums/AdjudicationType";
 import { DisputeLifecycleStage } from "../Enums/DisputeLifecycleStage";
@@ -10,13 +10,20 @@ export type TAdjudication = {
   reason?: keyof typeof AdjudicationReason;
 };
 
+type AdjudicationFields = {
+  readonly adjudicationTime: string;
+  readonly type: AdjudicationType;
+  readonly disputeLifeCycleStage?: DisputeLifecycleStage;
+  readonly reason?: AdjudicationReason;
+};
+
 export class Adjudication extends Utility implements Static<IUtility, typeof Adjudication> {
   private adjudicationTime!: string;
   private type!: AdjudicationType;
   private disputeLifeCycleStage?: DisputeLifecycleStage;
   private reason?: AdjudicationReason;
 
-  public setAdjudicationTime(adjudicationTime: string) {
+  public setAdjudicationTime(adjudicationTime: string): OnlySetters<this> {
     this.adjudicationTime = adjudicationTime;
     return this;
   }
@@ -24,9 +31,9 @@ export class Adjudication extends Utility implements Static<IUtility, typeof Adj
     return this.adjudicationTime;
   }
 
-  public setType(type: AdjudicationType): this;
-  public setType(type: (type: typeof AdjudicationType) => AdjudicationType): this;
-  public setType(type: AdjudicationType | ((type: typeof AdjudicationType) => AdjudicationType)) {
+  public setType(type: AdjudicationType): OnlySetters<this>;
+  public setType(type: (type: typeof AdjudicationType) => AdjudicationType): OnlySetters<this>;
+  public setType(type: AdjudicationType | ((type: typeof AdjudicationType) => AdjudicationType)): OnlySetters<this> {
     if (typeof type === "function") this.type = type(AdjudicationType);
     else this.type = type;
     return this;
@@ -35,13 +42,13 @@ export class Adjudication extends Utility implements Static<IUtility, typeof Adj
     return this.type;
   }
 
-  public setDisputeLifeCycleStage(disputeLifeCycleStage: DisputeLifecycleStage): this;
+  public setDisputeLifeCycleStage(disputeLifeCycleStage: DisputeLifecycleStage): OnlySetters<this>;
   public setDisputeLifeCycleStage(
     disputeLifeCycleStage: (type: typeof DisputeLifecycleStage) => DisputeLifecycleStage
-  ): this;
+  ): OnlySetters<this>;
   public setDisputeLifeCycleStage(
     disputeLifeCycleStage: DisputeLifecycleStage | ((type: typeof DisputeLifecycleStage) => DisputeLifecycleStage)
-  ) {
+  ): OnlySetters<this> {
     if (typeof disputeLifeCycleStage === "function")
       this.disputeLifeCycleStage = disputeLifeCycleStage(DisputeLifecycleStage);
     else this.disputeLifeCycleStage = disputeLifeCycleStage;
@@ -51,9 +58,11 @@ export class Adjudication extends Utility implements Static<IUtility, typeof Adj
     return this.disputeLifeCycleStage;
   }
 
-  public setReason(reason: AdjudicationReason): this;
-  public setReason(reason: (type: typeof AdjudicationReason) => AdjudicationReason): this;
-  public setReason(reason: AdjudicationReason | ((type: typeof AdjudicationReason) => AdjudicationReason)) {
+  public setReason(reason: AdjudicationReason): OnlySetters<this>;
+  public setReason(reason: (type: typeof AdjudicationReason) => AdjudicationReason): OnlySetters<this>;
+  public setReason(
+    reason: AdjudicationReason | ((type: typeof AdjudicationReason) => AdjudicationReason)
+  ): OnlySetters<this> {
     if (typeof reason === "function") this.reason = reason(AdjudicationReason);
     else this.reason = reason;
     return this;
@@ -62,8 +71,8 @@ export class Adjudication extends Utility implements Static<IUtility, typeof Adj
     return this.reason;
   }
 
-  public override getFields<T extends Partial<TAdjudication>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<AdjudicationFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TAdjudication) {

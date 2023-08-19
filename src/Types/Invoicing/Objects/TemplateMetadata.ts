@@ -7,6 +7,13 @@ export type TTemplateMetadata = {
   readonly last_updated_by?: string;
 };
 
+type TemplateMetadataFields = {
+  readonly createTime?: string;
+  readonly createdBy?: string;
+  readonly lastUpdateTime?: string;
+  readonly lastUpdatedBy?: string;
+};
+
 export class TemplateMetadata extends Utility implements Static<IUtility, typeof TemplateMetadata> {
   private createTime?: string;
   private createdBy?: string;
@@ -45,8 +52,8 @@ export class TemplateMetadata extends Utility implements Static<IUtility, typeof
     return this.lastUpdatedBy;
   }
 
-  public override getFields<T extends TTemplateMetadata>() {
-    return super.getFields<T>();
+  public override getFields<T extends TemplateMetadataFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TTemplateMetadata) {

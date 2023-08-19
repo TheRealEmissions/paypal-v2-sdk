@@ -24,6 +24,22 @@ export type TDisputeInfo = {
   update_time?: string;
 };
 
+type DisputeInfoFields = {
+  readonly buyerResponseDueDate?: string;
+  readonly createTime?: string;
+  readonly disputeAmount?: Money;
+  readonly disputeAsset?: Cryptocurrency;
+  readonly disputeChannel?: DisputeChannel;
+  readonly disputeId?: string;
+  readonly disputeLifeCycleStage?: DisputeLifecycleStage;
+  readonly disputeState?: DisputeState;
+  readonly links?: LinkDescription[];
+  readonly reason?: Reason;
+  readonly sellerResponseDueDate?: string;
+  readonly status?: Status;
+  readonly updateTime?: string;
+};
+
 export class DisputeInfo extends Utility implements Static<IUtility, typeof DisputeInfo> {
   private buyerResponseDueDate?: string;
   private createTime?: string;
@@ -39,7 +55,7 @@ export class DisputeInfo extends Utility implements Static<IUtility, typeof Disp
   private status?: Status;
   private updateTime?: string;
 
-  public setBuyerResponseDueDate(buyerResponseDueDate: string) {
+  public setBuyerResponseDueDate(buyerResponseDueDate: string): OnlySetters<this> {
     this.buyerResponseDueDate = buyerResponseDueDate;
     return this;
   }
@@ -47,7 +63,7 @@ export class DisputeInfo extends Utility implements Static<IUtility, typeof Disp
     return this.buyerResponseDueDate;
   }
 
-  public setCreateTime(createTime: string) {
+  public setCreateTime(createTime: string): OnlySetters<this> {
     this.createTime = createTime;
     return this;
   }
@@ -55,9 +71,9 @@ export class DisputeInfo extends Utility implements Static<IUtility, typeof Disp
     return this.createTime;
   }
 
-  public setDisputeAmount(disputeAmount: Money): this;
-  public setDisputeAmount(disputeAmount: (type: OnlySetters<Money>) => void): this;
-  public setDisputeAmount(disputeAmount: Money | ((type: OnlySetters<Money>) => void)) {
+  public setDisputeAmount(disputeAmount: Money): OnlySetters<this>;
+  public setDisputeAmount(disputeAmount: (type: OnlySetters<Money>) => void): OnlySetters<this>;
+  public setDisputeAmount(disputeAmount: Money | ((type: OnlySetters<Money>) => void)): OnlySetters<this> {
     if (typeof disputeAmount === "function") disputeAmount((this.disputeAmount = new Money()));
     else this.disputeAmount = disputeAmount;
     return this;
@@ -66,9 +82,11 @@ export class DisputeInfo extends Utility implements Static<IUtility, typeof Disp
     return this.disputeAmount;
   }
 
-  public setDisputeAsset(disputeAsset: Cryptocurrency): this;
-  public setDisputeAsset(disputeAsset: (type: OnlySetters<Cryptocurrency>) => void): this;
-  public setDisputeAsset(disputeAsset: Cryptocurrency | ((type: OnlySetters<Cryptocurrency>) => void)) {
+  public setDisputeAsset(disputeAsset: Cryptocurrency): OnlySetters<this>;
+  public setDisputeAsset(disputeAsset: (type: OnlySetters<Cryptocurrency>) => void): OnlySetters<this>;
+  public setDisputeAsset(
+    disputeAsset: Cryptocurrency | ((type: OnlySetters<Cryptocurrency>) => void)
+  ): OnlySetters<this> {
     if (typeof disputeAsset === "function") disputeAsset((this.disputeAsset = new Cryptocurrency()));
     else this.disputeAsset = disputeAsset;
     return this;
@@ -77,9 +95,11 @@ export class DisputeInfo extends Utility implements Static<IUtility, typeof Disp
     return this.disputeAsset;
   }
 
-  public setDisputeChannel(disputeChannel: DisputeChannel): this;
-  public setDisputeChannel(disputeChannel: (type: typeof DisputeChannel) => DisputeChannel): this;
-  public setDisputeChannel(disputeChannel: DisputeChannel | ((type: typeof DisputeChannel) => DisputeChannel)) {
+  public setDisputeChannel(disputeChannel: DisputeChannel): OnlySetters<this>;
+  public setDisputeChannel(disputeChannel: (type: typeof DisputeChannel) => DisputeChannel): OnlySetters<this>;
+  public setDisputeChannel(
+    disputeChannel: DisputeChannel | ((type: typeof DisputeChannel) => DisputeChannel)
+  ): OnlySetters<this> {
     if (typeof disputeChannel === "function") this.disputeChannel = disputeChannel(DisputeChannel);
     else this.disputeChannel = disputeChannel;
     return this;
@@ -88,7 +108,7 @@ export class DisputeInfo extends Utility implements Static<IUtility, typeof Disp
     return this.disputeChannel;
   }
 
-  public setDisputeId(disputeId: string) {
+  public setDisputeId(disputeId: string): OnlySetters<this> {
     this.disputeId = disputeId;
     return this;
   }
@@ -96,13 +116,13 @@ export class DisputeInfo extends Utility implements Static<IUtility, typeof Disp
     return this.disputeId;
   }
 
-  public setDisputeLifeCycleStage(disputeLifeCycleStage: DisputeLifecycleStage): this;
+  public setDisputeLifeCycleStage(disputeLifeCycleStage: DisputeLifecycleStage): OnlySetters<this>;
   public setDisputeLifeCycleStage(
     disputeLifeCycleStage: (type: typeof DisputeLifecycleStage) => DisputeLifecycleStage
-  ): this;
+  ): OnlySetters<this>;
   public setDisputeLifeCycleStage(
     disputeLifeCycleStage: DisputeLifecycleStage | ((type: typeof DisputeLifecycleStage) => DisputeLifecycleStage)
-  ) {
+  ): OnlySetters<this> {
     if (typeof disputeLifeCycleStage === "function")
       this.disputeLifeCycleStage = disputeLifeCycleStage(DisputeLifecycleStage);
     else this.disputeLifeCycleStage = disputeLifeCycleStage;
@@ -112,9 +132,11 @@ export class DisputeInfo extends Utility implements Static<IUtility, typeof Disp
     return this.disputeLifeCycleStage;
   }
 
-  public setDisputeState(disputeState: DisputeState): this;
-  public setDisputeState(disputeState: (type: typeof DisputeState) => DisputeState): this;
-  public setDisputeState(disputeState: DisputeState | ((type: typeof DisputeState) => DisputeState)) {
+  public setDisputeState(disputeState: DisputeState): OnlySetters<this>;
+  public setDisputeState(disputeState: (type: typeof DisputeState) => DisputeState): OnlySetters<this>;
+  public setDisputeState(
+    disputeState: DisputeState | ((type: typeof DisputeState) => DisputeState)
+  ): OnlySetters<this> {
     if (typeof disputeState === "function") this.disputeState = disputeState(DisputeState);
     else this.disputeState = disputeState;
     return this;
@@ -123,9 +145,9 @@ export class DisputeInfo extends Utility implements Static<IUtility, typeof Disp
     return this.disputeState;
   }
 
-  public setLinks(...links: LinkDescription[]): this;
-  public setLinks(...links: ((link: OnlySetters<LinkDescription>) => void)[]): this;
-  public setLinks(...links: (LinkDescription | ((link: OnlySetters<LinkDescription>) => void))[]) {
+  public setLinks(...links: LinkDescription[]): OnlySetters<this>;
+  public setLinks(...links: ((link: OnlySetters<LinkDescription>) => void)[]): OnlySetters<this>;
+  public setLinks(...links: (LinkDescription | ((link: OnlySetters<LinkDescription>) => void))[]): OnlySetters<this> {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) return link;
       const linkDescription = new LinkDescription();
@@ -138,9 +160,9 @@ export class DisputeInfo extends Utility implements Static<IUtility, typeof Disp
     return this.links;
   }
 
-  public setReason(reason: Reason): this;
-  public setReason(reason: (type: typeof Reason) => Reason): this;
-  public setReason(reason: Reason | ((type: typeof Reason) => Reason)) {
+  public setReason(reason: Reason): OnlySetters<this>;
+  public setReason(reason: (type: typeof Reason) => Reason): OnlySetters<this>;
+  public setReason(reason: Reason | ((type: typeof Reason) => Reason)): OnlySetters<this> {
     if (typeof reason === "function") this.reason = reason(Reason);
     else this.reason = reason;
     return this;
@@ -149,7 +171,7 @@ export class DisputeInfo extends Utility implements Static<IUtility, typeof Disp
     return this.reason;
   }
 
-  public setSellerResponseDueDate(sellerResponseDueDate: string) {
+  public setSellerResponseDueDate(sellerResponseDueDate: string): OnlySetters<this> {
     this.sellerResponseDueDate = sellerResponseDueDate;
     return this;
   }
@@ -157,8 +179,8 @@ export class DisputeInfo extends Utility implements Static<IUtility, typeof Disp
     return this.sellerResponseDueDate;
   }
 
-  public setStatus(status: Status): this;
-  public setStatus(status: (type: typeof Status) => Status): this;
+  public setStatus(status: Status): OnlySetters<this>;
+  public setStatus(status: (type: typeof Status) => Status): OnlySetters<this>;
   public setStatus(status: Status | ((type: typeof Status) => Status)) {
     if (typeof status === "function") this.status = status(Status);
     else this.status = status;
@@ -176,8 +198,8 @@ export class DisputeInfo extends Utility implements Static<IUtility, typeof Disp
     return this.updateTime;
   }
 
-  public override getFields<T extends TDisputeInfo>() {
-    return super.getFields<T>();
+  public override getFields<T extends DisputeInfoFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TDisputeInfo) {

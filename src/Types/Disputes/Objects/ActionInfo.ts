@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility";
 import { Action } from "../Enums/Action";
 
 export type TActionInfo = {
@@ -7,14 +7,20 @@ export type TActionInfo = {
   response_option?: string;
 };
 
+type ActionInfoFields = {
+  readonly action?: Action;
+  readonly mandatory?: boolean;
+  readonly responseOption?: string;
+};
+
 export class ActionInfo extends Utility implements Static<IUtility, typeof ActionInfo> {
   private action?: Action;
   private mandatory?: boolean;
   private responseOption?: string;
 
-  public setAction(action: Action): this;
-  public setAction(action: (action: typeof Action) => Action): this;
-  public setAction(action: Action | ((action: typeof Action) => Action)) {
+  public setAction(action: Action): OnlySetters<this>;
+  public setAction(action: (action: typeof Action) => Action): OnlySetters<this>;
+  public setAction(action: Action | ((action: typeof Action) => Action)): OnlySetters<this> {
     if (typeof action === "function") this.action = action(Action);
     else this.action = action;
     return this;
@@ -23,7 +29,7 @@ export class ActionInfo extends Utility implements Static<IUtility, typeof Actio
     return this.action;
   }
 
-  public setMandatory(mandatory: boolean) {
+  public setMandatory(mandatory: boolean): OnlySetters<this> {
     this.mandatory = mandatory;
     return this;
   }
@@ -31,7 +37,7 @@ export class ActionInfo extends Utility implements Static<IUtility, typeof Actio
     return this.mandatory;
   }
 
-  public setResponseOption(responseOption: string) {
+  public setResponseOption(responseOption: string): OnlySetters<this> {
     this.responseOption = responseOption;
     return this;
   }
@@ -39,8 +45,8 @@ export class ActionInfo extends Utility implements Static<IUtility, typeof Actio
     return this.responseOption;
   }
 
-  public override getFields<T extends TActionInfo>() {
-    return super.getFields<T>();
+  public override getFields<T extends ActionInfoFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TActionInfo) {

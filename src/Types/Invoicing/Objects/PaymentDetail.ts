@@ -14,6 +14,16 @@ export type TPaymentDetail = {
   readonly type?: keyof typeof PaymentType;
 };
 
+type PaymentDetailFields = {
+  readonly method?: PaymentMethod;
+  readonly amount?: Money;
+  readonly note?: string;
+  readonly paymentDate?: string;
+  readonly paymentId?: string;
+  readonly shippingInfo?: ContactInformation;
+  readonly type?: PaymentType;
+};
+
 export class PaymentDetail extends Utility implements Static<IUtility, typeof PaymentDetail> {
   private method?: PaymentMethod;
   private amount?: Money;
@@ -101,8 +111,8 @@ export class PaymentDetail extends Utility implements Static<IUtility, typeof Pa
     return this.type;
   }
 
-  public override getFields<T extends Partial<TPaymentDetail>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<PaymentDetailFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TPaymentDetail) {

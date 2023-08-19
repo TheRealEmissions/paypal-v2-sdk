@@ -4,6 +4,10 @@ export type TTemplateDisplayPreference = {
   hidden?: boolean;
 };
 
+type TemplateDisplayPreferenceFields = {
+  readonly hidden?: boolean;
+};
+
 export class TemplateDisplayPreference extends Utility implements Static<IUtility, typeof TemplateDisplayPreference> {
   private hidden?: boolean;
 
@@ -15,8 +19,8 @@ export class TemplateDisplayPreference extends Utility implements Static<IUtilit
     return this.hidden;
   }
 
-  public override getFields<T extends TTemplateDisplayPreference>() {
-    return super.getFields<T>();
+  public override getFields<T extends TemplateDisplayPreferenceFields>() {
+    return super._getFields<T>();
   }
 
   static fromObject(obj: TTemplateDisplayPreference) {

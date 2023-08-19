@@ -18,6 +18,19 @@ export type TProduct = {
   update_time?: string;
 };
 
+type ProductFields = {
+  readonly category?: ProductCategory;
+  readonly createTime?: string;
+  readonly description?: string;
+  readonly homeUrl?: string;
+  readonly id?: string;
+  readonly imageUrl?: string;
+  readonly links?: LinkDescription[];
+  readonly name?: string;
+  readonly type?: ProductType;
+  readonly updateTime?: string;
+};
+
 export class Product extends Utility implements Static<IUtility, typeof Product> {
   private category?: ProductCategory;
   private createTime?: string;
@@ -67,9 +80,11 @@ export class Product extends Utility implements Static<IUtility, typeof Product>
     return this.PayPal.getCatalogProducts().get(this);
   }
 
-  public setCategory(category: ProductCategory): this;
-  public setCategory(category: (category: typeof ProductCategory) => ProductCategory): this;
-  public setCategory(category: ProductCategory | ((category: typeof ProductCategory) => ProductCategory)) {
+  public setCategory(category: ProductCategory): OnlySetters<this>;
+  public setCategory(category: (category: typeof ProductCategory) => ProductCategory): OnlySetters<this>;
+  public setCategory(
+    category: ProductCategory | ((category: typeof ProductCategory) => ProductCategory)
+  ): OnlySetters<this> {
     if (typeof category === "function") this.category = category(ProductCategory);
     else this.category = category;
     return this;
@@ -78,7 +93,7 @@ export class Product extends Utility implements Static<IUtility, typeof Product>
     return this.category;
   }
 
-  public setCreateTime(createTime: string) {
+  public setCreateTime(createTime: string): OnlySetters<this> {
     this.createTime = createTime;
     return this;
   }
@@ -86,7 +101,7 @@ export class Product extends Utility implements Static<IUtility, typeof Product>
     return this.createTime;
   }
 
-  public setDescription(description: string) {
+  public setDescription(description: string): OnlySetters<this> {
     this.description = description;
     return this;
   }
@@ -94,7 +109,7 @@ export class Product extends Utility implements Static<IUtility, typeof Product>
     return this.description;
   }
 
-  public setHomeUrl(homeUrl: string) {
+  public setHomeUrl(homeUrl: string): OnlySetters<this> {
     this.homeUrl = homeUrl;
     return this;
   }
@@ -102,7 +117,7 @@ export class Product extends Utility implements Static<IUtility, typeof Product>
     return this.homeUrl;
   }
 
-  public setId(id: string) {
+  public setId(id: string): OnlySetters<this> {
     this.id = id;
     return this;
   }
@@ -110,7 +125,7 @@ export class Product extends Utility implements Static<IUtility, typeof Product>
     return this.id;
   }
 
-  public setImageUrl(imageUrl: string) {
+  public setImageUrl(imageUrl: string): OnlySetters<this> {
     this.imageUrl = imageUrl;
     return this;
   }
@@ -118,9 +133,9 @@ export class Product extends Utility implements Static<IUtility, typeof Product>
     return this.imageUrl;
   }
 
-  public setLinks(...links: LinkDescription[]): this;
-  public setLinks(...links: ((link: OnlySetters<LinkDescription>) => void)[]): this;
-  public setLinks(...links: (LinkDescription | ((link: OnlySetters<LinkDescription>) => void))[]) {
+  public setLinks(...links: LinkDescription[]): OnlySetters<this>;
+  public setLinks(...links: ((link: OnlySetters<LinkDescription>) => void)[]): OnlySetters<this>;
+  public setLinks(...links: (LinkDescription | ((link: OnlySetters<LinkDescription>) => void))[]): OnlySetters<this> {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) return link;
       const linkDesc = new LinkDescription();
@@ -133,7 +148,7 @@ export class Product extends Utility implements Static<IUtility, typeof Product>
     return this.links;
   }
 
-  public setName(name: string) {
+  public setName(name: string): OnlySetters<this> {
     this.name = name;
     return this;
   }
@@ -141,9 +156,9 @@ export class Product extends Utility implements Static<IUtility, typeof Product>
     return this.name;
   }
 
-  public setType(type: ProductType): this;
-  public setType(type: (type: typeof ProductType) => ProductType): this;
-  public setType(type: ProductType | ((type: typeof ProductType) => ProductType)) {
+  public setType(type: ProductType): OnlySetters<this>;
+  public setType(type: (type: typeof ProductType) => ProductType): OnlySetters<this>;
+  public setType(type: ProductType | ((type: typeof ProductType) => ProductType)): OnlySetters<this> {
     if (typeof type === "function") this.type = type(ProductType);
     else this.type = type;
     return this;
@@ -152,7 +167,7 @@ export class Product extends Utility implements Static<IUtility, typeof Product>
     return this.type;
   }
 
-  public setUpdateTime(updateTime: string) {
+  public setUpdateTime(updateTime: string): OnlySetters<this> {
     this.updateTime = updateTime;
     return this;
   }
@@ -160,8 +175,8 @@ export class Product extends Utility implements Static<IUtility, typeof Product>
     return this.updateTime;
   }
 
-  public override getFields<T extends TProduct>() {
-    return super.getFields<T>();
+  public override getFields<T extends ProductFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TProduct): Product {

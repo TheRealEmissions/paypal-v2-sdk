@@ -5,6 +5,5 @@ import * as Disputes from "./exports/Disputes.js";
 import * as Invoicing from "./exports/Invoicing.js";
 
 const paypal = new PayPal();
-export default paypal;
 
-export { PayPal, AddTracking, CatalogProducts, Disputes, Invoicing };
+export { paypal as PayPal, AddTracking, CatalogProducts, Disputes, Invoicing };

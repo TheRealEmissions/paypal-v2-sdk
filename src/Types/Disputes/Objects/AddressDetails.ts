@@ -1,4 +1,4 @@
-import { Utility, IUtility, Static } from "../../Utility.js";
+import { Utility, IUtility, Static, OnlySetters } from "../../Utility.js";
 
 export type TAddressDetails = {
   street_number?: string;
@@ -9,6 +9,15 @@ export type TAddressDetails = {
   sub_building?: string;
 };
 
+type AddressDetailsFields = {
+  readonly streetNumber?: string;
+  readonly streetName?: string;
+  readonly streetType?: string;
+  readonly deliveryService?: string;
+  readonly buildingName?: string;
+  readonly subBuilding?: string;
+};
+
 export class AddressDetails extends Utility implements Static<IUtility, typeof AddressDetails> {
   private streetNumber?: string;
   private streetName?: string;
@@ -17,7 +26,7 @@ export class AddressDetails extends Utility implements Static<IUtility, typeof A
   private buildingName?: string;
   private subBuilding?: string;
 
-  public setStreetNumber(number: string) {
+  public setStreetNumber(number: string): OnlySetters<this> {
     this.streetNumber = number;
     return this;
   }
@@ -25,7 +34,7 @@ export class AddressDetails extends Utility implements Static<IUtility, typeof A
     return this.streetNumber;
   }
 
-  public setStreetName(name: string) {
+  public setStreetName(name: string): OnlySetters<this> {
     this.streetName = name;
     return this;
   }
@@ -33,7 +42,7 @@ export class AddressDetails extends Utility implements Static<IUtility, typeof A
     return this.streetName;
   }
 
-  public setStreetType(type: string) {
+  public setStreetType(type: string): OnlySetters<this> {
     this.streetType = type;
     return this;
   }
@@ -41,7 +50,7 @@ export class AddressDetails extends Utility implements Static<IUtility, typeof A
     return this.streetType;
   }
 
-  public setDeliveryService(service: string) {
+  public setDeliveryService(service: string): OnlySetters<this> {
     this.deliveryService = service;
     return this;
   }
@@ -49,7 +58,7 @@ export class AddressDetails extends Utility implements Static<IUtility, typeof A
     return this.deliveryService;
   }
 
-  public setBuildingName(name: string) {
+  public setBuildingName(name: string): OnlySetters<this> {
     this.buildingName = name;
     return this;
   }
@@ -57,7 +66,7 @@ export class AddressDetails extends Utility implements Static<IUtility, typeof A
     return this.buildingName;
   }
 
-  public setSubBuilding(name: string) {
+  public setSubBuilding(name: string): OnlySetters<this> {
     this.subBuilding = name;
     return this;
   }
@@ -65,8 +74,8 @@ export class AddressDetails extends Utility implements Static<IUtility, typeof A
     return this.subBuilding;
   }
 
-  public override getFields<T extends TAddressDetails>() {
-    return super.getFields<T>();
+  public override getFields<T extends AddressDetailsFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TAddressDetails): AddressDetails {

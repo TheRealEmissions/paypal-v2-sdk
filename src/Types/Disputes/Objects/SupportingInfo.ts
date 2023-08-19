@@ -11,6 +11,14 @@ export type TSupportingInfo = {
   source?: Exclude<keyof typeof EvidenceSource, "REQUESTED_FROM_BUYER" | "REQUESTED_FROM_SELLER">;
 };
 
+type SupportingInfoFields = {
+  readonly disputeLifeCycleStage?: DisputeLifecycleStage;
+  readonly documents?: Document[];
+  readonly notes?: string;
+  readonly providedTime?: string;
+  readonly source?: Exclude<EvidenceSource, EvidenceSource.REQUESTED_FROM_BUYER | EvidenceSource.REQUESTED_FROM_SELLER>;
+};
+
 export class SupportingInfo extends Utility implements Static<IUtility, typeof SupportingInfo> {
   private disputeLifeCycleStage?: DisputeLifecycleStage;
   private documents?: Document[];
@@ -93,8 +101,8 @@ export class SupportingInfo extends Utility implements Static<IUtility, typeof S
     return this.source;
   }
 
-  public override getFields<T extends TSupportingInfo>() {
-    return super.getFields<T>();
+  public override getFields<T extends SupportingInfoFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TSupportingInfo) {

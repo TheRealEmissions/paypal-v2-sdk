@@ -7,6 +7,11 @@ export type TAcknowledgeReturnItemEvidence = {
   evidence_type?: keyof typeof EvidenceType;
 };
 
+type AcknowledgeReturnItemEvidenceFields = {
+  readonly documents?: Document[];
+  readonly evidenceType?: EvidenceType;
+};
+
 export class AcknowledgeReturnItemEvidence
   extends Utility
   implements Static<IUtility, typeof AcknowledgeReturnItemEvidence>
@@ -14,9 +19,9 @@ export class AcknowledgeReturnItemEvidence
   private documents?: Document[];
   private evidenceType?: EvidenceType;
 
-  public setDocuments(...documents: Document[]): this;
-  public setDocuments(...documents: ((document: OnlySetters<Document>) => void)[]): this;
-  public setDocuments(...documents: (Document | ((document: OnlySetters<Document>) => void))[]) {
+  public setDocuments(...documents: Document[]): OnlySetters<this>;
+  public setDocuments(...documents: ((document: OnlySetters<Document>) => void)[]): OnlySetters<this>;
+  public setDocuments(...documents: (Document | ((document: OnlySetters<Document>) => void))[]): OnlySetters<this> {
     this.documents = documents.map((document) => {
       if (document instanceof Document) return document;
       const doc = new Document();
@@ -29,9 +34,11 @@ export class AcknowledgeReturnItemEvidence
     return this.documents;
   }
 
-  public setEvidenceType(evidenceType: EvidenceType): this;
-  public setEvidenceType(evidenceType: (type: typeof EvidenceType) => EvidenceType): this;
-  public setEvidenceType(evidenceType: EvidenceType | ((type: typeof EvidenceType) => EvidenceType)) {
+  public setEvidenceType(evidenceType: EvidenceType): OnlySetters<this>;
+  public setEvidenceType(evidenceType: (type: typeof EvidenceType) => EvidenceType): OnlySetters<this>;
+  public setEvidenceType(
+    evidenceType: EvidenceType | ((type: typeof EvidenceType) => EvidenceType)
+  ): OnlySetters<this> {
     if (typeof evidenceType === "function") this.evidenceType = evidenceType(EvidenceType);
     else this.evidenceType = evidenceType;
     return this;
@@ -40,8 +47,8 @@ export class AcknowledgeReturnItemEvidence
     return this.evidenceType;
   }
 
-  public override getFields<T extends TAcknowledgeReturnItemEvidence>() {
-    return super.getFields<T>();
+  public override getFields<T extends AcknowledgeReturnItemEvidenceFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TAcknowledgeReturnItemEvidence) {

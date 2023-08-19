@@ -1,4 +1,4 @@
-import { IUtility, Static, Utility } from "../../Utility";
+import { IUtility, OnlySetters, Static, Utility } from "../../Utility";
 import { ShippingStatus } from "../Enums/ShippingStatus";
 
 export type TShipmentDetails = {
@@ -11,6 +11,16 @@ export type TShipmentDetails = {
   shipment_status?: keyof typeof ShippingStatus;
 };
 
+type ShipmentDetailsFields = {
+  readonly transactionId?: string;
+  readonly trackingId?: string;
+  readonly packageName?: string;
+  readonly estimatedDeliveryDate?: string;
+  readonly deliveryDate?: string;
+  readonly shipDate?: string;
+  readonly shipmentStatus?: ShippingStatus;
+};
+
 export class ShipmentDetails extends Utility implements Static<IUtility, typeof ShipmentDetails> {
   private transactionId?: string;
   private trackingId?: string;
@@ -20,7 +30,7 @@ export class ShipmentDetails extends Utility implements Static<IUtility, typeof 
   private shipDate?: string;
   private shipmentStatus?: ShippingStatus;
 
-  public setTransactionId(transactionId: string): this {
+  public setTransactionId(transactionId: string): OnlySetters<this> {
     this.transactionId = transactionId;
     return this;
   }
@@ -28,7 +38,7 @@ export class ShipmentDetails extends Utility implements Static<IUtility, typeof 
     return this.transactionId;
   }
 
-  public setTrackingId(trackingId: string): this {
+  public setTrackingId(trackingId: string): OnlySetters<this> {
     this.trackingId = trackingId;
     return this;
   }
@@ -36,7 +46,7 @@ export class ShipmentDetails extends Utility implements Static<IUtility, typeof 
     return this.trackingId;
   }
 
-  public setPackageName(packageName: string): this {
+  public setPackageName(packageName: string): OnlySetters<this> {
     this.packageName = packageName;
     return this;
   }
@@ -44,7 +54,7 @@ export class ShipmentDetails extends Utility implements Static<IUtility, typeof 
     return this.packageName;
   }
 
-  public setEstimatedDeliveryDate(estimatedDeliveryDate: string): this {
+  public setEstimatedDeliveryDate(estimatedDeliveryDate: string): OnlySetters<this> {
     this.estimatedDeliveryDate = estimatedDeliveryDate;
     return this;
   }
@@ -52,7 +62,7 @@ export class ShipmentDetails extends Utility implements Static<IUtility, typeof 
     return this.estimatedDeliveryDate;
   }
 
-  public setDeliveryDate(deliveryDate: string): this {
+  public setDeliveryDate(deliveryDate: string): OnlySetters<this> {
     this.deliveryDate = deliveryDate;
     return this;
   }
@@ -60,7 +70,7 @@ export class ShipmentDetails extends Utility implements Static<IUtility, typeof 
     return this.deliveryDate;
   }
 
-  public setShipDate(shipDate: string): this {
+  public setShipDate(shipDate: string): OnlySetters<this> {
     this.shipDate = shipDate;
     return this;
   }
@@ -68,11 +78,13 @@ export class ShipmentDetails extends Utility implements Static<IUtility, typeof 
     return this.shipDate;
   }
 
-  public setShipmentStatus(shipmentStatus: ShippingStatus): this;
-  public setShipmentStatus(shipmentStatus: (shipmentStatus: typeof ShippingStatus) => ShippingStatus): this;
+  public setShipmentStatus(shipmentStatus: ShippingStatus): OnlySetters<this>;
+  public setShipmentStatus(
+    shipmentStatus: (shipmentStatus: typeof ShippingStatus) => ShippingStatus
+  ): OnlySetters<this>;
   public setShipmentStatus(
     shipmentStatus: ShippingStatus | ((shipmentStatus: typeof ShippingStatus) => ShippingStatus)
-  ): this {
+  ): OnlySetters<this> {
     if (typeof shipmentStatus === "function") {
       this.shipmentStatus = shipmentStatus(ShippingStatus);
     } else {
@@ -84,8 +96,8 @@ export class ShipmentDetails extends Utility implements Static<IUtility, typeof 
     return this.shipmentStatus;
   }
 
-  public override getFields<T extends Partial<TShipmentDetails>>() {
-    return super.getFields<T>();
+  public override getFields<T extends ShipmentDetailsFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TShipmentDetails) {

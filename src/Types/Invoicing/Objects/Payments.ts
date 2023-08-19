@@ -7,6 +7,11 @@ export type TPayments = {
   readonly transactions?: TPaymentDetail[];
 };
 
+type PaymentsFields = {
+  readonly paidAmount?: Money;
+  readonly transactions?: PaymentDetail[];
+};
+
 export class Payments extends Utility implements Static<IUtility, typeof Payments> {
   private paidAmount?: Money;
   private transactions?: PaymentDetail[];
@@ -43,8 +48,8 @@ export class Payments extends Utility implements Static<IUtility, typeof Payment
     return this.transactions;
   }
 
-  public override getFields<T extends TPayments>() {
-    return super.getFields<T>();
+  public override getFields<T extends PaymentsFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TPayments) {

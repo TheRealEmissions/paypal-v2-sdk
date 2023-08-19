@@ -7,6 +7,11 @@ export type TRefunds = {
   readonly transactions?: TRefundDetail[];
 };
 
+type RefundsFields = {
+  readonly refundAmount?: Money;
+  readonly transactions?: RefundDetail[];
+};
+
 export class Refunds extends Utility implements Static<IUtility, typeof Refunds> {
   private refundAmount?: Money;
   private transactions?: RefundDetail[];
@@ -43,8 +48,8 @@ export class Refunds extends Utility implements Static<IUtility, typeof Refunds>
     return this.transactions;
   }
 
-  public override getFields<T extends TRefunds>() {
-    return super.getFields<T>();
+  public override getFields<T extends RefundsFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TRefunds) {

@@ -8,6 +8,12 @@ export type TIncorrectTransactionAmount = {
   correct_transaction_time?: string;
 };
 
+type IncorrectTransactionAmountFields = {
+  readonly correctTransactionAmount?: Money;
+  readonly correctTransactionAsset?: Cryptocurrency;
+  readonly correctTransactionTime?: string;
+};
+
 export class IncorrectTransactionAmount extends Utility implements Static<IUtility, typeof IncorrectTransactionAmount> {
   private correctTransactionAmount?: Money;
   private correctTransactionAsset?: Cryptocurrency;
@@ -51,8 +57,8 @@ export class IncorrectTransactionAmount extends Utility implements Static<IUtili
     return this.correctTransactionTime;
   }
 
-  public override getFields<T extends TIncorrectTransactionAmount>() {
-    return super.getFields<T>();
+  public override getFields<T extends IncorrectTransactionAmountFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TIncorrectTransactionAmount) {

@@ -15,6 +15,16 @@ export type TAcceptClaim = {
   return_shipping_address?: TPortablePostalAddress;
 };
 
+type AcceptClaimFields = {
+  note?: string;
+  acceptClaimReason?: AcceptClaimReason;
+  acceptClaimType?: AcceptClaimType;
+  invoiceId?: string;
+  refundAmount?: Money;
+  returnShipmentInfo?: ResponseShipmentInfo[];
+  returnShippingAddress?: PortablePostalAddress;
+};
+
 export class AcceptClaim extends Utility implements Static<IUtility, typeof AcceptClaim> {
   private note?: string;
   private acceptClaimReason?: AcceptClaimReason;
@@ -24,7 +34,7 @@ export class AcceptClaim extends Utility implements Static<IUtility, typeof Acce
   private returnShipmentInfo?: ResponseShipmentInfo[];
   private returnShippingAddress?: PortablePostalAddress;
 
-  public setNote(note: string) {
+  public setNote(note: string): OnlySetters<this> {
     this.note = note;
     return this;
   }
@@ -32,13 +42,13 @@ export class AcceptClaim extends Utility implements Static<IUtility, typeof Acce
     return this.note;
   }
 
-  public setAcceptClaimReason(acceptClaimReason: AcceptClaimReason): this;
+  public setAcceptClaimReason(acceptClaimReason: AcceptClaimReason): OnlySetters<this>;
   public setAcceptClaimReason(
     acceptClaimReason: (acceptClaimReason: typeof AcceptClaimReason) => AcceptClaimReason
-  ): this;
+  ): OnlySetters<this>;
   public setAcceptClaimReason(
     acceptClaimReason: AcceptClaimReason | ((acceptClaimReason: typeof AcceptClaimReason) => AcceptClaimReason)
-  ) {
+  ): OnlySetters<this> {
     if (typeof acceptClaimReason === "function") this.acceptClaimReason = acceptClaimReason(AcceptClaimReason);
     else this.acceptClaimReason = acceptClaimReason;
     return this;
@@ -47,9 +57,13 @@ export class AcceptClaim extends Utility implements Static<IUtility, typeof Acce
     return this.acceptClaimReason;
   }
 
-  public setAcceptClaimType(acceptClaimType: AcceptClaimType): this;
-  public setAcceptClaimType(acceptClaimType: (acceptClaimType: typeof AcceptClaimType) => AcceptClaimType): this;
-  public setAcceptClaimType(acceptClaimType: AcceptClaimType | ((x: typeof AcceptClaimType) => AcceptClaimType)) {
+  public setAcceptClaimType(acceptClaimType: AcceptClaimType): OnlySetters<this>;
+  public setAcceptClaimType(
+    acceptClaimType: (acceptClaimType: typeof AcceptClaimType) => AcceptClaimType
+  ): OnlySetters<this>;
+  public setAcceptClaimType(
+    acceptClaimType: AcceptClaimType | ((x: typeof AcceptClaimType) => AcceptClaimType)
+  ): OnlySetters<this> {
     if (typeof acceptClaimType === "function") this.acceptClaimType = acceptClaimType(AcceptClaimType);
     else this.acceptClaimType = acceptClaimType;
     return this;
@@ -58,7 +72,7 @@ export class AcceptClaim extends Utility implements Static<IUtility, typeof Acce
     return this.acceptClaimType;
   }
 
-  public setInvoiceId(invoiceId: string) {
+  public setInvoiceId(invoiceId: string): OnlySetters<this> {
     this.invoiceId = invoiceId;
     return this;
   }
@@ -66,9 +80,9 @@ export class AcceptClaim extends Utility implements Static<IUtility, typeof Acce
     return this.invoiceId;
   }
 
-  public setRefundAmount(refundAmount: Money): this;
-  public setRefundAmount(refundAmount: (money: OnlySetters<Money>) => void): this;
-  public setRefundAmount(refundAmount: Money | ((money: OnlySetters<Money>) => void)) {
+  public setRefundAmount(refundAmount: Money): OnlySetters<this>;
+  public setRefundAmount(refundAmount: (money: OnlySetters<Money>) => void): OnlySetters<this>;
+  public setRefundAmount(refundAmount: Money | ((money: OnlySetters<Money>) => void)): OnlySetters<this> {
     if (refundAmount instanceof Money) this.refundAmount = refundAmount;
     else {
       const money = new Money();
@@ -81,11 +95,13 @@ export class AcceptClaim extends Utility implements Static<IUtility, typeof Acce
     return this.refundAmount;
   }
 
-  public setReturnShipmentInfo(...returnShipmentInfo: ResponseShipmentInfo[]): this;
-  public setReturnShipmentInfo(...returnShipmentInfo: ((x: OnlySetters<ResponseShipmentInfo>) => void)[]): this;
+  public setReturnShipmentInfo(...returnShipmentInfo: ResponseShipmentInfo[]): OnlySetters<this>;
+  public setReturnShipmentInfo(
+    ...returnShipmentInfo: ((x: OnlySetters<ResponseShipmentInfo>) => void)[]
+  ): OnlySetters<this>;
   public setReturnShipmentInfo(
     ...returnShipmentInfo: (ResponseShipmentInfo | ((x: OnlySetters<ResponseShipmentInfo>) => void))[]
-  ) {
+  ): OnlySetters<this> {
     this.returnShipmentInfo = returnShipmentInfo.map((returnShipmentInfo) => {
       if (returnShipmentInfo instanceof ResponseShipmentInfo) return returnShipmentInfo;
       const response = new ResponseShipmentInfo();
@@ -98,11 +114,13 @@ export class AcceptClaim extends Utility implements Static<IUtility, typeof Acce
     return this.returnShipmentInfo;
   }
 
-  public setReturnShippingAddress(returnShippingAddress: PortablePostalAddress): this;
-  public setReturnShippingAddress(returnShippingAddress: (x: OnlySetters<PortablePostalAddress>) => void): this;
+  public setReturnShippingAddress(returnShippingAddress: PortablePostalAddress): OnlySetters<this>;
+  public setReturnShippingAddress(
+    returnShippingAddress: (x: OnlySetters<PortablePostalAddress>) => void
+  ): OnlySetters<this>;
   public setReturnShippingAddress(
     returnShippingAddress: PortablePostalAddress | ((x: OnlySetters<PortablePostalAddress>) => void)
-  ) {
+  ): OnlySetters<this> {
     if (returnShippingAddress instanceof PortablePostalAddress) this.returnShippingAddress = returnShippingAddress;
     else {
       const addressPortable = new PortablePostalAddress();
@@ -115,8 +133,8 @@ export class AcceptClaim extends Utility implements Static<IUtility, typeof Acce
     return this.returnShippingAddress;
   }
 
-  public override getFields<T extends TAcceptClaim>() {
-    return super.getFields<T>();
+  public override getFields<T extends AcceptClaimFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TAcceptClaim) {

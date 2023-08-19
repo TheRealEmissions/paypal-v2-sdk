@@ -7,6 +7,11 @@ export type TAggregatedDiscount = {
   item_discount?: TMoney;
 };
 
+type AggregatedDiscountFields = {
+  readonly invoiceDiscount?: Discount;
+  readonly itemDiscount?: Money;
+};
+
 export class AggregatedDiscount extends Utility implements Static<IUtility, typeof AggregatedDiscount> {
   private invoiceDiscount?: Discount;
   private itemDiscount?: Money;
@@ -43,8 +48,8 @@ export class AggregatedDiscount extends Utility implements Static<IUtility, type
     return this.itemDiscount;
   }
 
-  public override getFields<T extends Partial<TAggregatedDiscount>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<AggregatedDiscountFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TAggregatedDiscount) {

@@ -7,6 +7,13 @@ export type TPhoneDetail = {
   phone_type?: string;
 };
 
+type PhoneDetailFields = {
+  readonly countryCode?: string;
+  readonly nationalNumber?: string;
+  readonly extensionNumber?: string;
+  readonly phoneType?: string;
+};
+
 export class PhoneDetail extends Utility implements Static<IUtility, typeof PhoneDetail> {
   private countryCode?: string;
   private nationalNumber?: string;
@@ -45,8 +52,8 @@ export class PhoneDetail extends Utility implements Static<IUtility, typeof Phon
     return this.phoneType;
   }
 
-  public override getFields<T extends Partial<TPhoneDetail>>() {
-    return super.getFields<T>();
+  public override getFields<T extends Partial<PhoneDetailFields>>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TPhoneDetail) {

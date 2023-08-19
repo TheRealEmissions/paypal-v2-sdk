@@ -10,14 +10,20 @@ export type TBatchTrackerCollection = {
   tracker_identifiers?: TTrackerIdentifier[];
 };
 
+type BatchTrackerCollectionFields = {
+  readonly errors?: PayPalError[];
+  readonly links?: LinkDescription[];
+  readonly trackerIdentifiers?: TrackerIdentifier[];
+};
+
 export class BatchTrackerCollection extends Utility implements Static<IUtility, typeof BatchTrackerCollection> {
   private errors?: PayPalError[];
   private links?: LinkDescription[];
   private trackerIdentifiers?: TrackerIdentifier[];
 
-  public setErrors(...errors: PayPalError[]): this;
-  public setErrors(...errors: ((error: OnlySetters<PayPalError>) => void)[]): this;
-  public setErrors(...errors: (PayPalError | ((error: OnlySetters<PayPalError>) => void))[]) {
+  public setErrors(...errors: PayPalError[]): OnlySetters<this>;
+  public setErrors(...errors: ((error: OnlySetters<PayPalError>) => void)[]): OnlySetters<this>;
+  public setErrors(...errors: (PayPalError | ((error: OnlySetters<PayPalError>) => void))[]): OnlySetters<this> {
     this.errors = errors.map((error) => {
       if (error instanceof PayPalError) {
         return error;
@@ -27,14 +33,15 @@ export class BatchTrackerCollection extends Utility implements Static<IUtility, 
         return errorInstance;
       }
     });
+
     return this;
   }
   public getErrors() {
     return this.errors;
   }
 
-  public setLinks(...links: LinkDescription[]): this;
-  public setLinks(...links: ((links: OnlySetters<LinkDescription>) => void)[]): this;
+  public setLinks(...links: LinkDescription[]): OnlySetters<this>;
+  public setLinks(...links: ((links: OnlySetters<LinkDescription>) => void)[]): OnlySetters<this>;
   public setLinks(...links: (LinkDescription | ((links: OnlySetters<LinkDescription>) => void))[]) {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) {
@@ -51,13 +58,13 @@ export class BatchTrackerCollection extends Utility implements Static<IUtility, 
     return this.links;
   }
 
-  public setTrackerIdentifiers(...trackerIdentifiers: TrackerIdentifier[]): this;
+  public setTrackerIdentifiers(...trackerIdentifiers: TrackerIdentifier[]): OnlySetters<this>;
   public setTrackerIdentifiers(
     ...trackerIdentifiers: ((trackerIdentifiers: OnlySetters<TrackerIdentifier>) => void)[]
-  ): this;
+  ): OnlySetters<this>;
   public setTrackerIdentifiers(
     ...trackerIdentifiers: (TrackerIdentifier | ((trackerIdentifiers: OnlySetters<TrackerIdentifier>) => void))[]
-  ) {
+  ): OnlySetters<this> {
     this.trackerIdentifiers = trackerIdentifiers.map((trackerIdentifier) => {
       if (trackerIdentifier instanceof TrackerIdentifier) {
         return trackerIdentifier;
@@ -73,8 +80,8 @@ export class BatchTrackerCollection extends Utility implements Static<IUtility, 
     return this.trackerIdentifiers;
   }
 
-  public override getFields<T extends TBatchTrackerCollection>() {
-    return super.getFields<T>();
+  public override getFields<T extends BatchTrackerCollectionFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TBatchTrackerCollection): BatchTrackerCollection {

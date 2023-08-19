@@ -7,12 +7,18 @@ export type TTrackerIdentifier = {
   links?: TLinkDescription[];
 };
 
+type TrackerIdentifierFields = {
+  readonly transactionId?: string;
+  readonly trackingNumber?: string;
+  readonly links?: LinkDescription[];
+};
+
 export class TrackerIdentifier extends Utility implements Static<IUtility, typeof TrackerIdentifier> {
   private transactionId?: string;
   private trackingNumber?: string;
   private links?: LinkDescription[];
 
-  public setTransactionId(transactionId: string) {
+  public setTransactionId(transactionId: string): OnlySetters<this> {
     this.transactionId = transactionId;
     return this;
   }
@@ -20,7 +26,7 @@ export class TrackerIdentifier extends Utility implements Static<IUtility, typeo
     return this.transactionId;
   }
 
-  public setTrackingNumber(trackingNumber: string) {
+  public setTrackingNumber(trackingNumber: string): OnlySetters<this> {
     this.trackingNumber = trackingNumber;
     return this;
   }
@@ -28,9 +34,9 @@ export class TrackerIdentifier extends Utility implements Static<IUtility, typeo
     return this.trackingNumber;
   }
 
-  public setLinks(...links: LinkDescription[]): this;
-  public setLinks(...links: ((links: OnlySetters<LinkDescription>) => void)[]): this;
-  public setLinks(...links: (LinkDescription | ((links: OnlySetters<LinkDescription>) => void))[]) {
+  public setLinks(...links: LinkDescription[]): OnlySetters<this>;
+  public setLinks(...links: ((links: OnlySetters<LinkDescription>) => void)[]): OnlySetters<this>;
+  public setLinks(...links: (LinkDescription | ((links: OnlySetters<LinkDescription>) => void))[]): OnlySetters<this> {
     this.links = links.map((link) => {
       if (link instanceof LinkDescription) {
         return link;
@@ -46,8 +52,8 @@ export class TrackerIdentifier extends Utility implements Static<IUtility, typeo
     return this.links;
   }
 
-  public override getFields<T extends Partial<TTrackerIdentifier>>() {
-    return super.getFields<T>();
+  public override getFields<T extends TrackerIdentifierFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TTrackerIdentifier) {

@@ -5,6 +5,11 @@ export type TInvoicePaymentTerm = {
   due_date?: string;
 };
 
+type InvoicePaymentTermFields = {
+  readonly termType?: string;
+  readonly dueDate?: string;
+};
+
 export class InvoicePaymentTerm extends Utility implements Static<IUtility, typeof InvoicePaymentTerm> {
   private termType?: string;
   private dueDate?: string;
@@ -25,8 +30,8 @@ export class InvoicePaymentTerm extends Utility implements Static<IUtility, type
     return this.dueDate;
   }
 
-  public override getFields<T extends TInvoicePaymentTerm>() {
-    return super.getFields<T>();
+  public override getFields<T extends InvoicePaymentTermFields>() {
+    return super._getFields<T>();
   }
 
   public static fromObject(obj: TInvoicePaymentTerm) {
